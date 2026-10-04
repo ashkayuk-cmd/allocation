@@ -98,8 +98,9 @@ h3{font:600 19px/1.1 var(--display);margin:26px 0 8px}
 .topscroll[hidden]{display:none}
 @media print{.topscroll{display:none!important}}
 .colgrip{position:absolute;top:0;right:-5px;width:11px;height:100%;cursor:col-resize;z-index:2;touch-action:none}
-.colgrip::after{content:"";position:absolute;left:5px;top:18%;bottom:18%;width:1px;background:var(--line)}
-.colgrip:hover::after,body.colresizing .colgrip::after{left:4px;width:3px;background:var(--coll)}
+.colgrip::after{content:"";position:absolute;left:4px;top:20%;bottom:20%;width:3px;border-radius:2px;background:var(--muted);opacity:.35}
+.colgrip:hover::after,body.colresizing .colgrip::after{opacity:1;background:var(--focus,#2a6)}
+thead th:has(>.colgrip){position:relative}
 body.colresizing{cursor:col-resize;user-select:none}
 table.sized td :is(select,input).hook{width:100%}
 @media print{.colgrip{display:none}}
@@ -524,6 +525,36 @@ nav#tabs button[aria-selected=true]:not(.offtab){background:var(--panel);color:v
 .offtbox #offPopBtn[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}
 .offtsep{width:1px;background:var(--line);margin:5px 0}
 .offpophd{display:none}
+#print .pv2{font-family:Arial,Helvetica,sans-serif;color:#000;background:#fff}
+#print .pv2title{display:flex;justify-content:center;gap:50px;font:700 17pt Arial,Helvetica,sans-serif;margin:0 0 6px}
+#print .pv2tab{width:100%;border-collapse:collapse;border:2px solid #000;margin:0;font:10pt Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#print .pv2tab th,#print .pv2tab td{border:1px solid #000;padding:3px 5px;text-align:left;font-weight:400;color:#000;background:#fff}
+#print .pv2tab td[style]{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+#print .pv2tab th{font-size:7pt;text-align:center;vertical-align:bottom}#print .pv2tab th.b{font-weight:700;font-size:7.7pt}
+#print .pv2tab .c{text-align:center}#print .pv2tab td{height:15pt}#print .pv2h{font:700 10pt Arial,Helvetica,sans-serif;text-decoration:underline;margin:16px 0 4px;text-transform:none}
+#print .ptab td[style]{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.v2gap{height:18px}
+html.l2v2 table.v2small th.v2pmh{font-weight:700!important;font-size:12.1px!important}
+table.v2small td.v2blank,table.v2small th.v2blank{min-width:60px}
+/* V2: Layout 2 looks like the printed W2 sheet */
+.v2title{display:flex;justify-content:center;gap:60px;font:700 22px Arial,Helvetica,sans-serif;color:#111;margin:4px 0 8px}
+html.l2v2 table.lay2{--fuel-e:#5fae5f;--fuel-e-ink:#000;--fuel-d:#8fc1e8;--fuel-d-ink:#000;--fuel-p:#cfe8f7;--fuel-p-ink:#000;background:#fff!important;border-collapse:collapse!important;border:2px solid #000!important;font-family:Arial,Helvetica,sans-serif!important;color:#000}
+html.l2v2 table.lay2 th,html.l2v2 table.lay2 td{background:#fff;border:1px solid #000!important;color:#000;font-family:Arial,Helvetica,sans-serif!important;box-shadow:none!important;border-radius:0!important}
+html.l2v2 table.lay2>tbody>tr:nth-child(n)>td:not(.fuelc){background:#fff!important}
+html.l2v2 table.lay2>tbody>tr:hover>td:not(.fuelc){background:#f4f4f4!important}
+html.l2v2 table.lay2 th{font-size:10px!important;font-weight:400!important;color:#000!important;background:#fff!important;padding:2px 3px!important;vertical-align:bottom}
+html.l2v2 table.lay2 td,html.l2v2 table.lay2 td :is(input,select,button,.nmtxt,b){font-weight:400!important;font-size:13px}
+html.l2v2 table.lay2 td input{background:transparent!important;border:0!important;color:#000!important;box-shadow:none!important}
+html.l2v2 table.lay2 :is(.nmph,.chipph,.iniph,.vdbtn,.dhbtn,.nmclr,.hkclr){display:none!important}
+html.l2v2 table.lay2 .colrs{opacity:.25}
+html.l2v2 h3.v2sec{font:700 14px Arial,Helvetica,sans-serif;text-decoration:underline;color:#000;margin:22px 0 6px}
+html.l2v2 table.v2extra{background:#fff!important;border-collapse:collapse!important;border:2px solid #000!important;font-family:Arial,Helvetica,sans-serif!important}
+html.l2v2 table.v2extra th,html.l2v2 table.v2extra td{background:#fff!important;border:1px solid #000!important;color:#000!important;font-family:Arial,Helvetica,sans-serif!important;font-weight:400!important;border-radius:0!important;box-shadow:none!important}
+html.l2v2 table.v2extra th{font-size:11px!important;text-transform:uppercase}
+html.l2v2 table.v2extra td input{background:transparent!important;border:0!important;color:#000!important;font-weight:400!important}
+html.l2v2 table.v2extra :is(.nmph,.chipph,.iniph,.vdbtn,.dhbtn){display:none!important}
+html.l2v2 table.lay2 td input.hook,html.l2v2 table.lay2 td.l2dn,html.l2v2 table.lay2 td.l2reg,html.l2v2 table.lay2 td.l2t{font-weight:400!important;font-size:13px!important}
 html:not(.mob) table.offtbl>tbody>tr>td:has(>.hooktips)>.namecell{width:min(120px,38%)!important;min-width:0!important;vertical-align:middle}
 html:not(.mob) table.offtbl>tbody>tr>td>.hooktips{max-width:calc(100% - min(120px,38%) - 6px);min-width:0;flex-wrap:nowrap;overflow:hidden;vertical-align:middle}
 table.offtbl td>.hooktips>.hooktip{max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1251,7 +1282,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-04.147";
+const BUILD="2026-10-04.160";
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000,STORE_CAP=5000000;
@@ -1723,7 +1754,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let U;
 
-function render(){
+function render(){{const m=$("main");if(m)m.dataset.tabkey=tab+"|"+offLay()}
   if(OFFPOP&&tab!==OFFPOP){tab=OFFPOP;mobBoard=false}
   if(SETWIN&&tab!=="Settings"){tab="Settings";mobBoard=false}
   if(!OFFPOP)setTimeout(postOpt,0);
@@ -1735,7 +1766,12 @@ function render(){
   $("date").value=day; $("dayname").textContent=pretty(day); $("calBtnTxt").textContent=isMob()?parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(/,/g,""):((lookNow().wkFmt||"long")==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:lookNow().wkFmt||"long"})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}); fixCalW(); $("todayBtn").hidden=(day===todayDay()); document.documentElement.classList.toggle("nottoday",day!==todayDay()); if(!$("calPop").hidden)drawCal();
   renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)){setupColResize();setupTopScroll();} renderBoard(a);
 }
-{const _rnd=render;render=function(){const r=_rnd.apply(this,arguments);requestAnimationFrame(placeNS);fitMark();if(window.__dpKeep)window.__dpKeep();return r}}
+{const _rnd=render;render=function(){
+  /* keep each table's sideways scroll where it was when the page redraws (e.g. after resizing a column) */
+  const m=$("main"),sl=m?[...m.querySelectorAll(".tablewrap")].map(w=>w.scrollLeft):[],tk=m?m.dataset.tabkey:"",sx=scrollX,sy=scrollY;
+  const r=_rnd.apply(this,arguments);
+  if(m&&m.dataset.tabkey===tk){const ws=[...m.querySelectorAll(".tablewrap")];ws.forEach((w,i)=>{if(sl[i]){w.scrollLeft=sl[i];const ts=w.previousElementSibling;if(ts&&ts.classList.contains("topscroll"))ts.scrollLeft=sl[i]}});if(scrollX!==sx||scrollY!==sy)scrollTo(sx,sy)}
+  requestAnimationFrame(placeNS);fitMark();if(window.__dpKeep)window.__dpKeep();return r}}
 /* phone: spell out when a driver or sub is on a rest day, A/L, S/L etc. */
 function mobAbsence(){document.querySelectorAll('#main input[data-type="name"]').forEach(el=>{const n=up(el.value.trim());if(!n||!db.drivers.includes(n))return;
   let av=availOn(n,day);const rdw=!av&&worksRD(n,day)&&RDRX.test(availOn0(n,day));if(rdw)av="working rest day";if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
@@ -1750,7 +1786,7 @@ function mobView(a){const o=OFFICES.includes(tab)?tab:"W2",A=a[o];if(!A)return""
   const main=(A.main||[]).filter(r=>r.duty||r.hook||r.driver||r.sub);
   h+=main.length?main.map(r=>`<div class="mvr"><div class="mvd">${T(r.duty)||"No walk"}${r.duty2?" + "+T(r.duty2):""}${r.partner?` <span class="mvp">+ ${T(r.partner)}</span>`:""}</div>${line("Hook",van(r.hook))}${line("Driver",ppl(r.driver,r.sub))}</div>`).join(""):`<p class="mvnone">Nothing allocated.</p>`;
   const sec=(L,title)=>{L=(L||[]).filter(r=>r.hook||r.driver||r.note);if(!L.length)return"";return `<div class="mvh">${title}</div>`+L.map(r=>`<div class="mvr">${line("Hook",van(r.hook))}${line("Driver",T(r.driver))}${line("Note",T(r.note))}</div>`).join("")};
-  h+=sec(A.extra,"Additional vehicles")+sec(A.pm,"1pm vans");
+  h+=sec(A.extra,"ADDITIONAL VEHICLES REQUIRED")+sec(A.pm,"1PM VANS");
   return h+`</div>`}
 {const _rnd2=render;render=function(){if(isMob()){mobBoard=false;if(!OFFICES.includes(tab))tab="W2"}const r=_rnd2.apply(this,arguments);
   if(isMob()){try{mobAbsence()}catch(e){console.error(e)}requestAnimationFrame(()=>{const hd=document.querySelector("header"),st=hd&&getComputedStyle(hd).position;document.documentElement.style.setProperty("--mobhead",(st==="sticky"||st==="fixed"?hd.offsetHeight:0)+"px")})}return r}}
@@ -2254,10 +2290,15 @@ function moveMainRow(a,P,i,j){const rows=a[P].main,A=rows[i];if(!A||i===j||j<0||
     R.splice(y,0,R.splice(x,1)[0]);later.push(d);if(auto)autoMade.set(d,JSON.stringify(D))});
   rows.splice(j,0,rows.splice(i,1)[0]);
   save(`Moved ${A.duty||"row "+(i+1)} to row ${j+1} on ${P}`+(later.length?`, and on ${later.length} later date${later.length===1?"":"s"}`:""))}
+/* Layout 2: ADDITIONAL VEHICLES REQUIRED and 1PM VANS laid out like the paper sheet: Duty, Name, Reason, then an empty column */
+function l2Small(s,o,sec,title){const pm=sec==="pm";let h=`${pm?'<div class="v2gap"></div>':`<h3 class="v2sec">${title}</h3>`}<div class="tablewrap"><table class="offtbl v2extra v2small"><thead><tr><th>Duty</th><th>Name</th><th${pm?' class="v2pmh"':""}>${pm?"1PM VANS":"Reason"}</th><th class="v2blank">Not Used</th></tr></thead><tbody>`;
+  s[sec].forEach((r,i)=>{const p=`${o}.${sec}.${i}`;
+    h+=`<tr><td><input value="${esc(r.duty||"")}" data-path="${p}.duty" aria-label="Duty"></td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Name")}${dhBtn(r.driver)}</div></td><td><input value="${esc(r.note||"")}" data-path="${p}.note" aria-label="${pm?"1PM VANS":"Reason"}"></td><td class="v2blank l2nu"><label class="nuchk" title="Tick if this row isn't used today"><input type="checkbox" data-notused="${p}"${r.notUsed?" checked":""} aria-label="${title} row ${i+1} not used"></label></td></tr>`});
+  return h+`</tbody></table></div><button class="addrow" data-add="${o}.${sec}">Add a row</button>`}
 function officeHTML(a,o){
-  const s=a[o];
+  const s=a[o];document.documentElement.classList.toggle("l2v2",offLay()===2&&!!(db.look&&db.look.l2v2));
   const tOff=!!(db.look&&db.look.offToolsOff);
-  let h=hookDL()+`<h2 class="offh2"><span class="offbadge">${o}</span> DRIVER ALLOCATION ${offVanBadge(a,o)}<span class="offtbox">${isMob()?"":`<button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="The usual layout">Layout 1</button><span class="offtsep" aria-hidden="true"></span><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2}" title="Hook No., Duty No., Reg. No., Usual Driver, Substitute, CDV Partner, Not Used">Layout 2</button><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${o} in its own window. Changes in either window show in the other.">🗗 Pop out ${o}</button><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP?"":`<button type="button" class="offtoolsbtn" data-gosettings title="Open Settings">⚙ Settings</button>`}</span></h2>${offVanLine(a,o)}<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}<div class="offacts">${bulkUndoHTML(o)}<button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from previous day: copies the hooks, drivers and substitutes exactly as they were on an earlier day you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from previous day copies one day as it was.">Import from previous day</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button><button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${walkList(o)}`;
+  let h=hookDL()+`<h2 class="offh2"><span class="offbadge">${o}</span> DRIVER ALLOCATION ${offVanBadge(a,o)}<span class="offtbox">${isMob()?"":`<button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="The usual layout">Layout 1</button><span class="offtsep" aria-hidden="true"></span><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2}" title="Hook No., Duty No., Reg. No., Usual Driver, Substitute, CDV Partner, Not Used">Layout 2</button>${offLay()===2?`<span class="offtsep" aria-hidden="true"></span><button type="button" class="offtoolsbtn laybtn" data-v2 aria-pressed="${!!(db.look&&db.look.l2v2)}" title="V2: make Layout 2 look like the printed paper sheet (white page, black grid lines, plain text). Tap again to go back">V2</button>`:""}<span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${o} in its own window. Changes in either window show in the other.">🗗 Pop out ${o}</button><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP?"":`<button type="button" class="offtoolsbtn" data-gosettings title="Open Settings">⚙ Settings</button>`}</span></h2>${offVanLine(a,o)}<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}<div class="offacts">${bulkUndoHTML(o)}<button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from previous day: copies the hooks, drivers and substitutes exactly as they were on an earlier day you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from previous day copies one day as it was.">Import from previous day</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button><button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${walkList(o)}`;
   const SC=k=>selMode?` class="selcol" data-selcol="${k}" title="Highlight this whole column"`:"",FM=`<button type="button" class="fitmid" data-fitall title="Fit every column to its longest entry" aria-label="Fit every column to its longest entry">↔</button>`,CO=mainCols(),FO=(()=>{const f=CO.slice();f.splice(numPos(),0,"num");return f})(),FA=FO.indexOf("hook")===FO.indexOf("num")-1?"num":"hook",
     CH={hook:["Hook. Reg.",SC("hook")],driver:["Driver",SC("driver")],sub:["Substitute",SC("sub")],duty:["Duty",' title="Changing a duty also changes it on every later date"'],partner:["Partner",' title="Changing a partner also changes it on every later date"']},
     mvH=(k,ci)=>moveMode?`<span class="grip gcol" data-dragcol="${ci}" title="Drag to move this column">⠿</span>`:"";
@@ -2266,6 +2307,7 @@ function officeHTML(a,o){
   const L2K=[["l2hook","Hook No.",CH.hook[1]],["l2dn","Duty No.",""],["l2reg","Reg. No.",""],["l2drv","Usual Driver",CH.driver[1]],["l2sub","Substitute (If any)",CH.sub[1]],["l2cdv","CDV Partner",' title="Duty and partner come from Layout 1"'],["l2nu","Not Used",""]],L2F=L2K.some(([k])=>CW[k])||!!cw0,l2w=k=>k==="l2reg"?(CW[k]||Math.max(cw0||0,150)):CW[k]||cw0||120,
     rsH=k=>`<span class="colrs${CW[k]?" set":""}" data-colrs="${k}" title="Drag to resize this column. Double-click to fit the longest entry (double-click again to put it back)"></span>`;
   h+=`<div class="fitrow">${FM}</div>`;
+  if(L2&&db.look&&db.look.l2v2)h+=`<div class="v2title"><span>Driver Allocation for ${o}</span><span>Date: ${esc(pretty(day))}</span></div>`;
   if(L2)h+=`<div class="tablewrap"><table class="offtbl lay2${L2F?" colfix":""}${L2F&&cw0&&cw0<=80?" colslim":""}"${L2F?` style="--tw:${L2K.reduce((t,[k])=>t+l2w(k),40)}px"`:""}>${L2F?`<colgroup>${L2K.map(([k])=>`<col data-colk="${k}" style="width:${l2w(k)}px">`).join("")}<col style="width:40px"></colgroup>`:""}<thead><tr>${L2K.map(([k,t,at])=>`<th${at}${k==="l2dn"?" data-fitanchor":""}>${t}${rsH(k)}</th>`).join("")}<th></th></tr></thead><tbody>`;else
   h+=`<div class="tablewrap"><table class="offtbl${cw?" colfix":""}${cw&&cw<=80?" colslim":""}"${cw?` style="--tw:${CO.reduce((t,k)=>t+wOf(k),40+NW)}px"`:""}>${cw?`<colgroup>${FO.map(k=>k==="num"?`<col data-colk="num" style="width:${NW}px">`:`<col data-colk="${k}" style="width:${wOf(k)}px">`).join("")}<col style="width:40px"></colgroup>`:""}<thead><tr>${FO.map((k,ci)=>k==="num"?`<th${FA==="num"?" data-fitanchor":""} class="fitth numth" style="width:${NW}px;min-width:${NW}px;max-width:${NW}px;box-sizing:border-box"><span class="numlab">Row</span>${mvH(k,ci)}<span class="colrs${CW.num?" set":""}" data-colrs="num" title="Drag to change how wide the Row column is. Double-click to put it back"></span></th>`:`<th${CH[k][1]}${k===FA?" data-fitanchor":""}>${CH[k][0]}${mvH(k,ci)}<span class="colrs${CW[k]?" set":""}" data-colrs="${k}" title="Drag to resize this column. Double-click to fit the longest entry (double-click again to put it back)"></span></th>`).join("")}<th></th></tr></thead><tbody>`;
   s.main.forEach((r,i)=>{const p=`${o}.main.${i}`;
@@ -2275,14 +2317,16 @@ function officeHTML(a,o){
     C.num=`<td class="n" style="text-align:center;padding-right:0;width:${NW}px;min-width:${NW}px;max-width:${NW}px;box-sizing:border-box">${mvR(p,i,s.main.length)}</td>`;
     h+=`<tr${r.notUsed?' class="nurow" title="Not used today (ticked in Layout 2)"':""}>${FO.map(k=>C[k]).join("")}<td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.main">Add a row</button>`;
-  h+=`<h3>Additional vehicles required</h3><div class="tablewrap"><table class="offtbl"><thead><tr><th></th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th>Reason</th><th></th></tr></thead><tbody>`;
+  if(offLay()!==2){
+  h+=`<h3 class="v2sec">ADDITIONAL VEHICLES REQUIRED</h3><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th>Reason</th><th></th></tr></thead><tbody>`;
   s.extra.forEach((r,i)=>{const p=`${o}.extra.${i}`;
     h+=`<tr><td class="n">${mvR(p,i,s.extra.length)}</td><td><div class="hookcell">${hookSelect(r.hook,p+".hook",new Set(hookTips(r,"x").map(t=>t.h)))}${vdBtn(r.hook)}</div>${hookTipHTML(r,p,"x")}</td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Driver")}${dhBtn(r.driver)}</div>${drvSugHTML(r,p)}</td><td><input value="${esc(r.note)}" data-path="${p}.note" aria-label="Reason"></td><td class="x"><button data-del="${p}" aria-label="Remove row">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.extra">Add a row</button>`;
-  h+=`<h3>1pm vans</h3><div class="tablewrap"><table class="offtbl"><thead><tr><th></th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th></th></tr></thead><tbody>`;
+  h+=`<h3 class="v2sec">1PM VANS</h3><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th></th></tr></thead><tbody>`;
   s.pm.forEach((r,i)=>{const p=`${o}.pm.${i}`;
     h+=`<tr><td class="n">${mvR(p,i,s.pm.length)}</td><td><div class="hookcell">${hookSelect(r.hook,p+".hook",new Set(hookTips(r,"x").map(t=>t.h)))}${vdBtn(r.hook)}</div>${hookTipHTML(r,p,"x")}</td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Driver")}${dhBtn(r.driver)}</div>${drvSugHTML(r,p)}</td><td class="x"><button data-del="${p}" aria-label="Remove row">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.pm">Add a row</button>`;
+  }else h+=l2Small(s,o,"extra","ADDITIONAL VEHICLES REQUIRED")+l2Small(s,o,"pm","1PM VANS");
   return h;
 }
 function oosHTML(a){
@@ -2727,6 +2771,7 @@ function wire(m,a){
   if(tab==="Vans")wireVans(a);
   if(!OFFICES.includes(tab))m.style.removeProperty("--offz");
   if(OFFICES.includes(tab)||tab==="Settings")wireSelect(m,a);
+  m.querySelectorAll("[data-v2]").forEach(b=>b.onclick=()=>{db.look=db.look||{};db.look.l2v2=!db.look.l2v2;save(db.look.l2v2?"Layout 2: paper sheet look (V2) on":"Layout 2: paper sheet look (V2) off");render()});
   m.querySelectorAll("[data-bulkundo]").forEach(b=>b.onclick=()=>{if(!lastBulk||lastBulk.hp!==hp)return;const w=lastBulk.what;lastBulk=null;undo();toast("Undone the "+w)});
   m.querySelectorAll("[data-gosettings]").forEach(b=>b.onclick=()=>{tab="Settings";mobBoard=false;render();scrollTo(0,0)});
   {const sp=m.querySelector("#setPopBtn");if(sp)sp.onclick=openSetWin}
@@ -2754,7 +2799,7 @@ function wireSelect(m,a){
        hd.onpointerup=()=>{hd.onpointermove=null}}}}
   optLayApply(m);colAlignApply(m);
   requestAnimationFrame(()=>{placeFits();syncShort()});
-  m.querySelectorAll("[data-notused]").forEach(cb=>cb.onchange=()=>{const [P,,I]=cb.dataset.notused.split("."),r=a[P]&&a[P].main[+I];if(!r)return;if(cb.checked)r.notUsed=true;else delete r.notUsed;save(cb.checked?`Marked ${P} row ${+I+1} not used${r.hook?" (hook "+nameOf(r.hook)+" freed)":""}`:`${P} row ${+I+1} back in use`);render();toast(cb.checked?`Row ${+I+1} not used — its van and driver are free to use elsewhere`:`Row ${+I+1} back in use`)});
+  m.querySelectorAll("[data-notused]").forEach(cb=>cb.onchange=()=>{const [P,S,I]=cb.dataset.notused.split("."),r=a[P]&&a[P][S]&&a[P][S][+I];if(!r)return;if(cb.checked)r.notUsed=true;else delete r.notUsed;save(cb.checked?`Marked ${P} row ${+I+1} not used${r.hook?" (hook "+nameOf(r.hook)+" freed)":""}`:`${P} row ${+I+1} back in use`);render();toast(cb.checked?`Row ${+I+1} not used — its van and driver are free to use elsewhere`:`Row ${+I+1} back in use`)});
   m.querySelectorAll("[data-offwin]").forEach(b=>b.onclick=()=>openOffWin(b.dataset.offwin));
   m.querySelectorAll("[data-offlay]").forEach(b=>b.onclick=()=>{const v=+b.dataset.offlay;if(offLay()===v)return;db.look=db.look||{};db.look.offLayout=v;applyLook();save("Switched to layout "+v);render()});
   {const b=m.querySelector("#offToolsBtn");if(b)b.onclick=()=>{db.look=db.look||{};db.look.offToolsOff=!db.look.offToolsOff;save(db.look.offToolsOff?"Hid the office options":"Showed the office options");render()}}
@@ -2965,9 +3010,12 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-fitall]");
     if(!tbl){tmp=document.createElement("div");tmp.style.cssText="position:absolute;left:-99999px;top:0;visibility:hidden";tmp.innerHTML=officeHTML(cur(),lastOff||"W2");$("main").appendChild(tmp);tbl=tmp.querySelector("table.offtbl")}
     if(tbl)M=measureCols(tbl);if(tmp)tmp.remove();if(!Object.keys(M).length)return}
   const W=colWsEdit(),U=db.look.fitUndo;
-  if(U&&U.prev){Object.keys(U.prev).forEach(k=>{if(U.prev[k]==null)delete W[k];else W[k]=U.prev[k]});delete db.look.fitUndo;
+  if(U&&U.prev){Object.keys(U.prev).forEach(k=>{if(U.prev[k]==null)delete W[k];else W[k]=U.prev[k]});if(U.sm){db.colW=db.colW||{};Object.keys(U.sm).forEach(k=>{if(U.sm[k]==null)delete db.colW[k];else db.colW[k]=U.sm[k]})}delete db.look.fitUndo;
     save("Put the column widths back from before fitting");render();toast("Column widths put back");return}
-  const prev={};Object.keys(M).forEach(k=>prev[k]=k in W?W[k]:null);Object.assign(W,M);db.look.fitUndo={prev};
+  const prev={};Object.keys(M).forEach(k=>prev[k]=k in W?W[k]:null);Object.assign(W,M);
+  const sm={};db.colW=db.colW||{};$("main").querySelectorAll(".tablewrap>table:not(.offtbl.lay2):not(.offtbl:has(th [data-colrs]))").forEach(tb=>{const ths=[...tb.querySelectorAll("thead th")];if(ths.length<3)return;const key=ths.map(t=>t.textContent.trim()).join("|");
+    sm[key]=db.colW[key]?db.colW[key].slice():null;db.colW[key]=ths.map((t,i)=>t.textContent.trim()?smallNeed(tb,i):Math.round(t.getBoundingClientRect().width))});
+  db.look.fitUndo={prev,sm};
   save("Fitted all columns to the longest entry");render();toast("All columns fitted. Tap ↔ again to undo")});
 let lastOff="";
 function fitMark(){if(OFFICES.includes(tab))lastOff=tab;const on=!!(db.look&&db.look.fitUndo);document.querySelectorAll("[data-fitall]").forEach(b=>{b.setAttribute("aria-pressed",on);b.title=on?"Tap to put the column widths back to how they were":"Fit every column to its longest entry";if(b.classList.contains("fitbtn"))b.textContent=on?"↩ Undo fit":"↔ Fit columns"})}
@@ -3203,18 +3251,27 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 function printSheet(){
   const a=cur();const cell=h=>h?esc(hookLabel(h)):"";
   const head=(t,o)=>`<div class="phead"${o&&lookNow().offOn!==false?` style="border-color:${offCol(o)}"`:""}><span class="poff">${esc(t)}</span><span class="pdate">DRIVER ALLOCATION · ${esc(pretty(day))}</span></div>`;
-  let h="";
+  let h="";const V2=offLay()===2&&!!(db.look&&db.look.l2v2);
+  const fuelBg=v=>{if(!v||!v.fuel||lookNow().fuelColOff)return "";const L=lookNow(),c=v.fuel==="E"?(V2?"#5fae5f":L.fuelE||"#2e7d32"):v.fuel==="P"?(V2?"#cfe8f7":L.fuelP||"#81d4fa"):(V2?"#8fc1e8":L.fuelD||"#1565c0");return ` style="background:${c};color:${V2?"#000":contrastInk(c)}"`};
   OFFICES.forEach(o=>{const s=a[o];
+    if(V2){const vb=x=>x!==""&&x!=null?(vanBy(x)||db.vans.find(v=>String(v.h)===String(x))):null;
+      h+=`<section class="ppage pv2"><div class="pv2title"><span>Driver Allocation for ${esc(o)}</span><span>Date: ${esc(pretty(day))}</span></div><table class="pv2tab"><thead><tr><th>Hook<br>No.</th><th>Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
+      s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td${fuelBg(v)}>${v?esc(vname(v)):""}</td><td class="c">${esc(dlgDutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td>${esc(r.driver||"")}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td>${esc(r.sub||"")}</td><td>${esc(cdvTxt(r))}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`});
+      h+=`</tbody></table>`;
+      const sm=(sec,t,h3)=>{const R=s[sec];return `${h3?`<h5 class="pv2h">${t}</h5>`:'<div style="height:14px"></div>'}<table class="pv2tab"><thead><tr><th>Duty</th><th>Name</th><th${h3?"":' class="b"'}>${h3?"Reason":t}</th><th>Not Used</th></tr></thead><tbody>${(R.length?R:[{},{},{}]).map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`).join("")}</tbody></table>`};
+      h+=sm("extra","ADDITIONAL VEHICLES REQUIRED",true)+sm("pm","1PM VANS",false)+`</section>`;return}
     if(offLay()===2){const vb=x=>x!==""&&x!=null?(vanBy(x)||db.vans.find(v=>String(v.h)===String(x))):null;
-      h+=`<section class="ppage">${head(o,o)}<table class="ptab"><thead><tr><th>Hook<br>No.</th><th style="text-align:center">Duty<br>No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
-      s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td class="ph">${v?esc(vname(v)):""}</td><td style="text-align:center">${esc(dutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td class="pdrv">${boldHTML(r.driver)}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td class="psub">${boldHTML(r.sub)}</td><td>${esc(cdvTxt(r))}</td><td style="text-align:center">${r.notUsed?"✓":""}</td></tr>`});
+      h+=`<section class="ppage">${head(o,o)}<table class="ptab"><thead><tr><th>Hook No.</th><th style="text-align:center">Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
+      s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td class="ph"${fuelBg(v)}>${v?esc(vname(v)):""}</td><td style="text-align:center">${esc(dlgDutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td class="pdrv">${boldHTML(r.driver)}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td class="psub">${boldHTML(r.sub)}</td><td>${esc(cdvTxt(r))}</td><td style="text-align:center">${r.notUsed?"✓":""}</td></tr>`});
     }else{
     h+=`<section class="ppage">${head(o,o)}<table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th><th>Substitute</th><th>Duty</th><th>Partner</th></tr></thead><tbody>`;
     s.main.forEach((r,i)=>{h+=`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td class="pdrv">${boldHTML(r.driver)}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td class="psub">${boldHTML(r.sub)}</td><td>${esc(r.duty)}${r.two&&r.duty2?" + "+esc(r.duty2):""}</td><td>${r.two?"":esc(r.partner)}</td></tr>`});}
     h+=`</tbody></table>`;
-    const ex=s.extra.filter(r=>r.hook||r.driver||r.note),pm=s.pm.filter(r=>r.hook||r.driver);
-    if(ex.length){h+=`<h5>Additional vehicles required</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th><th>Reason</th></tr></thead><tbody>${ex.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td><td>${esc(r.note)}</td></tr>`).join("")}</tbody></table>`}
-    if(pm.length){h+=`<h5>1pm vans</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th></tr></thead><tbody>${pm.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td></tr>`).join("")}</tbody></table>`}
+    const ex=s.extra.filter(r=>r.hook||r.driver||r.note||r.duty),pm=s.pm.filter(r=>r.hook||r.driver||r.note||r.duty);
+    if(offLay()===2){const sm=(R,t,third)=>`<h5>${t}</h5><table class="ptab"><thead><tr><th>Duty</th><th>Name</th><th>${third}</th><th>Not Used</th></tr></thead><tbody>${R.map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td><td style="text-align:center">${r.notUsed?"✓":""}</td></tr>`).join("")}</tbody></table>`;
+      if(ex.length)h+=sm(ex,"ADDITIONAL VEHICLES REQUIRED","Reason");if(pm.length)h+=sm(pm,"1PM VANS","1PM VANS");h+=`</section>`;return}
+    if(ex.length){h+=`<h5>ADDITIONAL VEHICLES REQUIRED</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th><th>Reason</th></tr></thead><tbody>${ex.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td><td>${esc(r.note)}</td></tr>`).join("")}</tbody></table>`}
+    if(pm.length){h+=`<h5>1PM VANS</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th></tr></thead><tbody>${pm.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td></tr>`).join("")}</tbody></table>`}
     h+=`</section>`;});
   const oos=a.oos.filter(r=>r.hook),chg=(a.chg||[]).filter(r=>r.hook),coll=a.coll.filter(Boolean),oth=(a.oth||[]).filter(r=>r.hook);
   h+=`<section class="ppage">${head("OOS, Change Over & Collections")}<h5>OOS (out of service)</h5><table class="ptab"><thead><tr><th>Hook</th><th>Reason</th><th>Note</th></tr></thead><tbody>${oos.map(r=>`<tr><td class="ph">${cell(r.hook)}</td><td>${esc(r.reason)}</td><td>${esc(r.note)}</td></tr>`).join("")||'<tr><td colspan="3">None</td></tr>'}</tbody></table>
@@ -3459,22 +3516,38 @@ new MutationObserver(ms=>{if(ms.some(x=>![...x.addedNodes,...x.removedNodes].eve
 document.addEventListener("DOMContentLoaded",setupTopScroll);setupTopScroll();
 
 /* drag column edges to resize on the office tabs; widths shared by W2-W12 and remembered */
+/* width a column of the small tables (ADDITIONAL VEHICLES REQUIRED, 1PM VANS…) needs to show its longest entry */
+function smallNeed(tb,i){const cv=smallNeed.c||(smallNeed.c=document.createElement("canvas").getContext("2d"));let w=0;
+  [...tb.rows].forEach(tr=>{const c=tr.cells[i];if(!c)return;const cs=getComputedStyle(c);let t=0;
+    c.querySelectorAll("input,select").forEach(el=>{const s=getComputedStyle(el);cv.font=`${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;const v=el.tagName==="SELECT"?((el.options[el.selectedIndex]||{}).text||""):(el.value||el.placeholder||"");t+=cv.measureText(v).width+parseFloat(s.paddingLeft)+parseFloat(s.paddingRight)+(el.tagName==="SELECT"?26:12)});
+    c.querySelectorAll("button:not(.colgrip),.nmtag,.vdbtn,.dhbtn").forEach(el=>{t+=el.getBoundingClientRect().width+4});
+    if(!c.querySelector("input,select")){cv.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;t=Math.max(t,cv.measureText(c.textContent.trim()).width)}
+    w=Math.max(w,t+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+4)});
+  return Math.max(40,Math.ceil(w))}
 function setupColResize(){
   const CW=db.colW||{};
   $("main").querySelectorAll(".tablewrap>table").forEach(tb=>{
     const ths=[...tb.querySelectorAll("thead th")];if(ths.length<3)return;
+    /* the main W2–W12 tables have their own column sizing (the bars in each heading); leave them alone or they'd get a second set of columns */
+    if(tb.querySelector("thead [data-colrs]"))return;
     const key=ths.map(t=>t.textContent.trim()).join("|");
-    const apply=ws=>{tb.classList.add("sized");tb.style.tableLayout="fixed";tb.style.minWidth="0";tb.style.width=ws.reduce((x,y)=>x+y,0)+"px";ths.forEach((t,i)=>t.style.width=ws[i]+"px")};
-    const clear=()=>{tb.classList.remove("sized");tb.style.tableLayout=tb.style.minWidth=tb.style.width="";ths.forEach(t=>t.style.width="")};
+    /* widths go on <col> elements (like the main table), so dragging only changes one column and stays smooth */
+    let cg=null;const cols=()=>{if(!cg){cg=document.createElement("colgroup");ths.forEach(()=>cg.appendChild(document.createElement("col")));tb.insertBefore(cg,tb.firstChild)}return [...cg.children]};
+    const apply=ws=>{const C=cols();tb.classList.add("sized");tb.style.tableLayout="fixed";tb.style.minWidth="0";tb.style.maxWidth="none";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px";C.forEach((c,i)=>c.style.width=Math.round(ws[i])+"px")};
+    const clear=()=>{tb.classList.remove("sized");tb.style.tableLayout=tb.style.minWidth=tb.style.width=tb.style.maxWidth="";if(cg){cg.remove();cg=null}};
     if(CW[key]&&CW[key].length===ths.length)apply(CW[key]);
     ths.forEach((th,i)=>{if(!th.textContent.trim())return;
       const g=document.createElement("span");g.className="colgrip";g.title="Drag to make wider or narrower. Double-click to reset.";th.appendChild(g);
       g.onpointerdown=e=>{e.preventDefault();e.stopPropagation();
-        const ws=ths.map(t=>Math.round(t.getBoundingClientRect().width));apply(ws);
+        const ws=ths.map(t=>t.getBoundingClientRect().width);let moved=false;
         const x0=e.clientX,w0=ws[i];try{g.setPointerCapture(e.pointerId)}catch(_){}document.body.classList.add("colresizing");
-        g.onpointermove=ev=>{ws[i]=Math.max(40,Math.round(w0+ev.clientX-x0));apply(ws)};
-        g.onpointerup=g.onpointercancel=()=>{g.onpointermove=g.onpointerup=g.onpointercancel=null;document.body.classList.remove("colresizing");db.colW=db.colW||{};db.colW[key]=ws.slice();save()};};
-      g.ondblclick=e=>{e.stopPropagation();if(db.colW)delete db.colW[key];save();clear();toast("Column widths reset")};
+        let raf=0,xs=x0;g.onpointermove=ev=>{if(!moved){if(Math.abs(ev.clientX-x0)<3)return;moved=true;xs=ev.clientX;apply(ws);return}ws[i]=Math.max(40,w0+ev.clientX-xs);
+          if(!raf)raf=requestAnimationFrame(()=>{raf=0;const C=cols();C[i].style.width=Math.round(ws[i])+"px";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px"})};
+        g.onpointerup=g.onpointercancel=()=>{g.onpointermove=g.onpointerup=g.onpointercancel=null;document.body.classList.remove("colresizing");if(!moved)return;db.colW=db.colW||{};db.colW[key]=ws.map(Math.round);save()};};
+      /* double-click: fit this column to its longest entry; double-click again to put it back */
+      g.ondblclick=e=>{e.stopPropagation();db.colW=db.colW||{};const ws=ths.map(t=>Math.round(t.getBoundingClientRect().width)),fit=smallNeed(tb,i);
+        const prevK=key+"#prev"+i;if(db.colW[prevK]!=null&&Math.abs(ws[i]-fit)<=2){ws[i]=db.colW[prevK];delete db.colW[prevK];toast("Column put back")}else{db.colW[prevK]=ws[i];ws[i]=fit;toast("Column fitted. Double-click again to put it back")}
+        db.colW[key]=ws;apply(ws);save()};
     });
   });
 }
