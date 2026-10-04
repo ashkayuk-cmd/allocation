@@ -321,6 +321,8 @@ tr.flash td{animation:flash 2.2s ease-out}
 
 /* print */
 #print{display:none}
+#print.pf-one :is(td,th){white-space:nowrap!important;overflow:hidden}
+#print.pf-wrap :is(td,th){white-space:normal!important;overflow-wrap:anywhere;word-break:break-word}
 @media print{
   @page{size:A4 portrait;margin:10mm}
   #print .ppage{break-after:page;page-break-after:always}
@@ -3261,38 +3263,65 @@ function printOffVans(which){
   const h=sep?G.map(o=>`<section class="ppage">${sec(o)}</section>`).join(""):`<section class="ppage ovcompact">${G.map(o=>`<div class="ovblk">${sec(o)}</div>`).join("")}</section>`;
   $("print").innerHTML=h;window.print()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ovprint]");if(!b)return;e.preventDefault();printOffVans(b.dataset.ovprint)});
-function printSheet(){
+/* Print: Layout 2 columns keep the widths set on screen, scaled to fit the page (Ash, 4 Oct 2026) */
+function l2ColG(){const cw0=COLW[colWIdx()][2],CW=colWsNow()||{},w=k=>k==="l2reg"?(CW[k]||Math.max(cw0||0,150)):CW[k]||cw0||120,
+  K=["l2hook","l2dn","l2reg","l2drv","l2sub","l2cdv","l2nu"],W=K.map(w),T=W.reduce((x,y)=>x+y,0)||1;
+  return `<colgroup data-l2w="${T}">${W.map(v=>`<col style="width:${v}px">`).join("")}</colgroup>`}
+/* Print choice (Ash, 4 Oct 2026): "One line" shrinks the text of each table until no row wraps;
+   "Two lines" lets long text wrap onto a second line so nothing is cut off. The choice is remembered. */
+function printSheet(){const L=db.look||{},cur=L.printFit==="wrap"?"wrap":"one";let sel=OFFICES.includes(tab)?tab:"ALL";
+  const chip=v=>`<button type="button" data-poff="${v}" aria-pressed="${sel===v}" style="margin:3px;padding:8px 12px;border-radius:8px;font:inherit;font-weight:700;cursor:pointer;border:2px solid ${sel===v?"var(--elec)":"var(--line)"};background:${sel===v?"var(--elec)":"var(--field)"};color:${sel===v?"#fff":"var(--text)"}">${v==="ALL"?"All offices":v}</button>`,
+    B=(v,t,sub)=>`<button type="button" data-pfit="${v}" style="display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border-radius:10px;border:2px solid ${cur===v?"var(--elec)":"var(--line)"};background:var(--field);color:var(--text);cursor:pointer;font:inherit"><b style="font-size:16px">${t}</b>${cur===v?" ✓ (last used)":""}<br><span style="font-size:13px;opacity:.8">${sub}</span></button>`;
+  walkDlg("Print",`<p style="margin:0 0 4px"><b>1. What to print</b></p><div data-poffs>${["ALL",...OFFICES].map(chip).join("")}</div><label style="display:flex;align-items:center;gap:8px;margin:12px 0 0;padding:10px 12px;border:2px solid var(--line);border-radius:10px;cursor:pointer;font-weight:700"><input type="checkbox" data-p1page style="width:22px;height:22px"${L.printOnePage?" checked":""}> Fit each office on one sheet of paper</label><p style="margin:12px 0 0"><b>2. Tap how to print it</b></p>`+B("one","One line","Shrink the text so every row fits on one line")+B("wrap","Two lines","Normal text size; long text goes onto a second line so nothing is cut off"),"Print as last used",()=>printSheetGo(cur,sel),null);
+  const d=$("walkDlg");if(!d)return;const box=d.querySelector("[data-poffs]");const pg=d.querySelector("[data-p1page]");if(pg)pg.onchange=()=>{db.look=db.look||{};db.look.printOnePage=pg.checked;save()};
+  const wire=()=>box.querySelectorAll("[data-poff]").forEach(b=>b.onclick=()=>{sel=b.dataset.poff;box.innerHTML=["ALL",...OFFICES].map(chip).join("");wire()});wire();
+  d.querySelectorAll("[data-pfit]").forEach(b=>b.onclick=()=>{const v=b.dataset.pfit;const x=d.querySelector("[data-x]");if(x)x.click();else d.remove();db.look=db.look||{};if(db.look.printFit!==v){db.look.printFit=v;save()}printSheetGo(v,sel)})}
+function printFitApply(mode,onePage){const P=$("print");if(!P)return;P.classList.toggle("pf-one",mode==="one");P.classList.toggle("pf-wrap",mode!=="one");
+  const st=P.getAttribute("style");P.setAttribute("style","display:block;position:absolute;left:-10000px;top:0;width:190mm;visibility:hidden");
+  /* Layout 2: print the columns at the exact widths set on screen, then scale the whole sheet to fit the paper width,
+     so widening a column on screen gives it more room on paper too (Ash, 4 Oct 2026) */
+  const pw=document.createElement("div");pw.style.width="190mm";P.appendChild(pw);const PW=pw.offsetWidth;pw.remove();
+  P.querySelectorAll("colgroup[data-l2w]").forEach(cg=>{const t=cg.closest("table"),T=+cg.dataset.l2w;t.style.width=T+"px";t.style.maxWidth="none";
+    const sec=t.closest("section.ppage");if(sec){sec.style.width=T+"px";sec.querySelectorAll("table").forEach(x=>{if(x!==t){x.style.width=T+"px";x.style.maxWidth="none"}});if(T>PW)sec.style.zoom=(Math.floor(PW/T*1000)/1000).toString()}});
+  if(mode==="one")P.querySelectorAll("table").forEach(t=>{const cells=[...t.querySelectorAll("td,th")];const over=()=>cells.some(c=>c.scrollWidth>c.clientWidth+1);
+    let fs=parseFloat(getComputedStyle(t).fontSize)||13,n=0;while(over()&&fs>5&&n++<60){fs-=0.5;t.style.fontSize=fs+"px";cells.forEach(c=>c.style.fontSize=fs+"px")}});
+  if(onePage){const mm=document.createElement("div");mm.style.height="270mm";P.appendChild(mm);const H=mm.offsetHeight;mm.remove();
+    P.querySelectorAll("section.ppage").forEach(sec=>{const z=parseFloat(sec.style.zoom)||1,h=sec.getBoundingClientRect().height;if(h>H){sec.style.zoom=(Math.floor(z*H/h*1000)/1000).toString()}})}
+  if(st==null)P.removeAttribute("style");else P.setAttribute("style",st)}
+function printSheetGo(pfMode,only){only=only&&only!=="ALL"?only:null;
   const a=cur();const cell=h=>h?esc(hookLabel(h)):"";
   const head=(t,o)=>`<div class="phead"${o&&lookNow().offOn!==false?` style="border-color:${offCol(o)}"`:""}><span class="poff">${esc(t)}</span><span class="pdate">DRIVER ALLOCATION · ${esc(pretty(day))}</span></div>`;
   let h="";const V2=offLay()===2&&!!(db.look&&db.look.l2v2);
   const fuelBg=v=>{if(!v||!v.fuel||lookNow().fuelColOff)return "";const L=lookNow(),c=v.fuel==="E"?(V2?"#5fae5f":L.fuelE||"#2e7d32"):v.fuel==="P"?(V2?"#cfe8f7":L.fuelP||"#81d4fa"):(V2?"#8fc1e8":L.fuelD||"#1565c0");return ` style="background:${c};color:${V2?"#000":contrastInk(c)}"`};
-  OFFICES.forEach(o=>{const s=a[o];
+  (only?[only]:OFFICES).forEach(o=>{const s=a[o];
     if(V2){const vb=x=>x!==""&&x!=null?(vanBy(x)||db.vans.find(v=>String(v.h)===String(x))):null;
-      h+=`<section class="ppage pv2"><div class="pv2title"><span>Driver Allocation for ${esc(o)}</span><span>Date: ${esc(pretty(day))}</span></div><table class="pv2tab"><thead><tr><th>Hook<br>No.</th><th>Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
+      h+=`<section class="ppage pv2"><div class="pv2title"><span>Driver Allocation for ${esc(o)}</span><span>Date: ${esc(pretty(day))}</span></div><table class="pv2tab" style="table-layout:fixed">${l2ColG()}<thead><tr><th>Hook<br>No.</th><th>Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
       s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td${fuelBg(v)}>${v?esc(vname(v)):""}</td><td class="c">${esc(dlgDutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td>${esc(r.driver||"")}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td>${esc(r.sub||"")}</td><td>${esc(cdvTxt(r))}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`});
       h+=`</tbody></table>`;
       const sm=(sec,t,h3)=>{const R=s[sec];return `${h3?`<h5 class="pv2h">${t}</h5>`:'<div style="height:14px"></div>'}<table class="pv2tab"><thead><tr><th>Duty</th><th>Name</th><th${h3?"":' class="b"'}>${h3?"Reason":t}</th><th>Not Used</th></tr></thead><tbody>${(R.length?R:[{},{},{}]).map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`).join("")}</tbody></table>`};
       h+=sm("extra","ADDITIONAL VEHICLES REQUIRED",true)+sm("pm","1PM VANS",false)+`</section>`;return}
     if(offLay()===2){const vb=x=>x!==""&&x!=null?(vanBy(x)||db.vans.find(v=>String(v.h)===String(x))):null;
-      h+=`<section class="ppage">${head(o,o)}<table class="ptab"><thead><tr><th>Hook No.</th><th style="text-align:center">Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
+      h+=`<section class="ppage">${head(o,o)}<table class="ptab" style="table-layout:fixed">${l2ColG()}<thead><tr><th>Hook No.</th><th style="text-align:center">Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
       s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td class="ph"${fuelBg(v)}>${v?esc(vname(v)):""}</td><td style="text-align:center">${esc(dlgDutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td class="pdrv">${boldHTML(r.driver)}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td class="psub">${boldHTML(r.sub)}</td><td>${esc(cdvTxt(r))}</td><td style="text-align:center">${r.notUsed?"✓":""}</td></tr>`});
     }else{
     h+=`<section class="ppage">${head(o,o)}<table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th><th>Substitute</th><th>Duty</th><th>Partner</th></tr></thead><tbody>`;
     s.main.forEach((r,i)=>{h+=`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td class="pdrv">${boldHTML(r.driver)}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td class="psub">${boldHTML(r.sub)}</td><td>${esc(r.duty)}${r.two&&r.duty2?" + "+esc(r.duty2):""}</td><td>${r.two?"":esc(r.partner)}</td></tr>`});}
     h+=`</tbody></table>`;
-    const ex=s.extra.filter(r=>r.hook||r.driver||r.note||r.duty),pm=s.pm.filter(r=>r.hook||r.driver||r.note||r.duty);
+    /* Always print ADDITIONAL VEHICLES REQUIRED and 1PM VANS, even when empty (Ash, 4 Oct 2026) */
+    const fill=R=>{const f=(R||[]).filter(r=>r.hook||r.driver||r.note||r.duty);return f.length?f:((R||[]).length?R:[{}])},ex=fill(s.extra),pm=fill(s.pm);
     if(offLay()===2){const sm=(R,t,third)=>`<h5>${t}</h5><table class="ptab"><thead><tr><th>Duty</th><th>Name</th><th>${third}</th><th>Not Used</th></tr></thead><tbody>${R.map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td><td style="text-align:center">${r.notUsed?"✓":""}</td></tr>`).join("")}</tbody></table>`;
       if(ex.length)h+=sm(ex,"ADDITIONAL VEHICLES REQUIRED","Reason");if(pm.length)h+=sm(pm,"1PM VANS","1PM VANS");h+=`</section>`;return}
     if(ex.length){h+=`<h5>ADDITIONAL VEHICLES REQUIRED</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th><th>Reason</th></tr></thead><tbody>${ex.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td><td>${esc(r.note)}</td></tr>`).join("")}</tbody></table>`}
     if(pm.length){h+=`<h5>1PM VANS</h5><table class="ptab"><thead><tr><th class="pn">#</th><th>Hook</th><th>Driver</th></tr></thead><tbody>${pm.map((r,i)=>`<tr><td class="pn">${i+1}</td><td class="ph">${cell(r.hook)}</td><td>${esc(r.driver)}</td></tr>`).join("")}</tbody></table>`}
     h+=`</section>`;});
-  const oos=a.oos.filter(r=>r.hook),chg=(a.chg||[]).filter(r=>r.hook),coll=a.coll.filter(Boolean),oth=(a.oth||[]).filter(r=>r.hook);
+  if(!only){  const oos=a.oos.filter(r=>r.hook),chg=(a.chg||[]).filter(r=>r.hook),coll=a.coll.filter(Boolean),oth=(a.oth||[]).filter(r=>r.hook);
   h+=`<section class="ppage">${head("OOS, Change Over & Collections")}<h5>OOS (out of service)</h5><table class="ptab"><thead><tr><th>Hook</th><th>Reason</th><th>Note</th></tr></thead><tbody>${oos.map(r=>`<tr><td class="ph">${cell(r.hook)}</td><td>${esc(r.reason)}</td><td>${esc(r.note)}</td></tr>`).join("")||'<tr><td colspan="3">None</td></tr>'}</tbody></table>
   <h5>Change over</h5><table class="ptab"><thead><tr><th>Hook</th><th>Note</th></tr></thead><tbody>${chg.map(r=>`<tr><td class="ph">${cell(r.hook)}</td><td>${esc(r.note)}</td></tr>`).join("")||'<tr><td colspan="2">None</td></tr>'}</tbody></table>
   <h5>Reserved for collections</h5><table class="ptab"><tbody>${coll.map(x=>`<tr><td class="ph">${cell(x)}</td></tr>`).join("")||"<tr><td>None</td></tr>"}</tbody></table>
   <h5>Reserved - Other</h5><table class="ptab"><thead><tr><th>Hook</th><th>What for</th></tr></thead><tbody>${oth.map(r=>`<tr><td class="ph">${cell(r.hook)}</td><td>${esc(r.note)}</td></tr>`).join("")||'<tr><td colspan="2">None</td></tr>'}</tbody></table>
   </section>`;
-  $("print").innerHTML=h;window.print();
+  }
+  $("print").innerHTML=h;printFitApply(pfMode,!!(db.look&&db.look.printOnePage));window.print();
 }
 
 /* ---------- backup ---------- */
