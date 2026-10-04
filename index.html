@@ -1092,7 +1092,7 @@ html.mob #tabs button[data-tab]{flex:1 1 0;min-width:0;padding-left:2px;padding-
 html.mob #main table.mcard tbody tr:nth-child(even),html.mob #main table.mcard tbody tr:nth-child(even) td{background:#d3d8dc!important}
 html.mob #main table.mcard tbody tr:nth-child(even){border-color:#b4bcc2!important}
 html.mob #main .mc-main td:nth-child(5),html.mob #main .mc-extra td:nth-child(2),html.mob #main .mc-pm td:nth-child(2){grid-column:1/-1!important}
-html.mob #main>.offh2,html.mob #main>p.sub,html.mob #main>.offtools,html.mob #main>.addrow,html.mob #main .vdbtn,html.mob #main .dhbtn,html.mob #main .dutyadd,html.mob #main td.x,html.mob #main img.nmph,html.mob #main td.n,html.mob #main .tabprint,html.mob #main .offvlim{display:none!important}
+html.mob #main>.offh2,html.mob #main>p.sub,html.mob #main>.offtools,html.mob #main .vdbtn,html.mob #main .dhbtn,html.mob #main .dutyadd,html.mob #main td.x,html.mob #main img.nmph,html.mob #main td.n,html.mob #main .tabprint,html.mob #main .offvlim{display:none!important}
 /* phone: compact duty cards */
 html.mob #main table.mcard tr{align-items:start!important;gap:2px 6px!important;padding:4px 6px 6px!important;margin:0 0 4px!important;border-radius:6px}
 html.mob #main table.mcard td[data-label]::before{font-size:10.5px!important;line-height:14px!important;margin:0 0 1px 2px!important;text-transform:uppercase;letter-spacing:.03em}
@@ -1106,6 +1106,9 @@ html.mob #main .mabs-rd{color:var(--ab-rd-tx,#1e4fbf);background:var(--ab-rd-bg,
 html.mob #main .mabs-al{color:var(--ab-al-tx,#1d6b3a);background:var(--ab-al-bg,#d9f2e2)}
 html.mob #main .mabs-sl{color:var(--ab-sl-tx,#b00);background:var(--ab-sl-bg,#f6dbdb)}
 html.mob #main .mabs-oa,html.mob #main .mabs-oth{color:var(--warn);background:var(--warn-bg)}
+html.mob #main>.addrow{display:block!important;width:100%;height:38px;margin:2px 0 12px;border-radius:8px;border:1px dashed var(--muted);background:var(--field);color:var(--text);font-weight:700;font-size:14px}
+html.mob #main>.addrow::before{content:"+ "}
+html.mob #main>h3{margin:14px 4px 6px;font-size:14px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 /* phone read-only view */
 html.mob #helpBtn,html.mob #moreBtn,html.mob #printBtn,html.mob #exportBtn,html.mob #importBtn,html.mob #mobPages,html.mob header h1,html.mob #status,html.mob #copybar,html.mob #board,html.mob #kcShow,html.mob #barCtl,html.mob #saveWarn,html.mob .datebox .calclr{display:none!important}
 html.mob header,html.mob header.hmore{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px;padding:6px 8px!important}
@@ -1142,6 +1145,9 @@ html.mob #main{padding:0}
 .wslist{overflow:auto;display:grid;gap:6px}
 .wsi{text-align:left;padding:12px;border-radius:8px;border:1px solid var(--line);background:var(--field);color:var(--text);font-weight:600;font-size:16px}
 .wsi.on{border-color:var(--head);background:color-mix(in srgb,var(--head) 12%,var(--field))}
+.abstag.ab-rdw{color:#1d6b3a;background:#d9f2e2;border-color:#1d6b3a}
+html.mob #main .mabs-rdw{color:#1d6b3a;background:#d9f2e2}
+.absmenu [data-rdw].on{background:#d9f2e2;color:#1d6b3a}
 </style>
 </head>
 <body>
@@ -1202,7 +1208,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-03.123";
+const BUILD="2026-10-03.125";
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000,STORE_CAP=5000000;
@@ -1539,8 +1545,8 @@ function render(){
 {const _rnd=render;render=function(){const r=_rnd.apply(this,arguments);requestAnimationFrame(placeNS);return r}}
 /* phone: spell out when a driver or sub is on a rest day, A/L, S/L etc. */
 function mobAbsence(){document.querySelectorAll('#main input[data-type="name"]').forEach(el=>{const n=up(el.value.trim());if(!n||!db.drivers.includes(n))return;
-  const av=availOn(n,day);if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
-  const ab=absOn(n,day),cls=ab==="SL"?"sl":ab==="AL"?"al":ab?"oa":/rest day|day off|week off/.test(av)?"rd":"oth";
+  let av=availOn(n,day);const rdw=!av&&worksRD(n,day)&&RDRX.test(availOn0(n,day));if(rdw)av="working rest day";if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
+  const ab=absOn(n,day),cls=rdw?"rdw":ab==="SL"?"sl":ab==="AL"?"al":ab?"oa":/rest day|day off|week off/.test(av)?"rd":"oth";
   const d=document.createElement("div");d.className="mabs mabs-"+cls;d.textContent=av.charAt(0).toUpperCase()+av.slice(1)+" today";td.appendChild(d);td.closest("tr")&&td.closest("tr").classList.add("mhasabs")})}
 /* ---------- phone: read-only view. Office tabs only, each walk as plain text ---------- */
 function mobView(a){const o=OFFICES.includes(tab)?tab:"W2",A=a[o];if(!A)return"";
@@ -1836,6 +1842,7 @@ function absMenu(t){let m=document.getElementById("absMenu");if(m&&m.dataset.for
   const n=up(t.value.trim());if(!n)return;const cur=absOn(n,day);
   m=document.createElement("div");m.id="absMenu";m.className="absmenu";m.dataset.for=t.dataset.path;
   m.innerHTML=`<div class="abshd">${esc(n)} <span>${esc(dayShort(day))}</span></div>`+(()=>{const t=nextRestTag(n);return t?`<div class="absrest">Next ${t}</div>`:`<div class="absrest absrest0">Next rest: not set up</div>`})()+
+    (!cur&&RDRX.test(availOn0(n,day))?(worksRD(n,day)?`<button type="button" data-rdw="0" class="on">✓ Working on rest day <small>(tap to undo)</small></button>`:`<button type="button" data-rdw="1">Working on rest day</button>`):"")+
     [["SL","S/L  Sick leave"],["AL","A/L  Annual leave"],["OA","O/A  Other absence"]].map(([v,l])=>`<button type="button" data-abs="${v}"${cur===v?' class="on"':""}>${l}${cur===v?" ✓":""}</button>`).join("")+
     (cur?`<label class="absback">Back at work on <input type="date" data-absback min="${day}" value="${esc(absBack(n))}"></label><div class="absnote">${absBack(n)?`Clears itself on ${esc(dayShort(absBack(n)))}`:"Pick a date and it clears itself that day"}</div><button type="button" data-abs="">Clear (back at work)</button>`:"")+`<button type="button" data-absedit>Change name…</button>`;
   document.body.appendChild(m);const r=t.getBoundingClientRect();m.style.left=Math.max(4,Math.min(r.left,innerWidth-m.offsetWidth-4))+"px";
@@ -1843,6 +1850,9 @@ function absMenu(t){let m=document.getElementById("absMenu");if(m&&m.dataset.for
   const shut=()=>{m.remove();document.removeEventListener("pointerdown",out,true);document.removeEventListener("keydown",esc1,true)};
   const out=e=>{if(!m.contains(e.target)&&e.target!==t)shut()};const esc1=e=>{if(e.key==="Escape")shut()};
   setTimeout(()=>{document.addEventListener("pointerdown",out,true);document.addEventListener("keydown",esc1,true)},0);
+  {const rb=m.querySelector("[data-rdw]");if(rb)rb.onclick=()=>{const on=rb.dataset.rdw==="1";db.rdWork=db.rdWork||{};const D=db.rdWork[day]=db.rdWork[day]||{};
+    if(on)D[n]=1;else delete D[n];if(!Object.keys(D).length)delete db.rdWork[day];shut();
+    save(on?`${n} working on their rest day ${dayShort(day)}`:`${n} not working rest day ${dayShort(day)}`);render();toast(on?`${n}: working rest day`:`${n}: back to rest day`)}}
   m.querySelectorAll("[data-abs]").forEach(b=>b.onclick=()=>{const v=b.dataset.abs;db.absence=db.absence||{};const D=db.absence[day]=db.absence[day]||{};
     const R=(db.absRange||{})[n];
     if(v){D[n]=v;if(R&&R.back&&day<R.back)R.v=v}
@@ -1861,7 +1871,7 @@ function absMenu(t){let m=document.getElementById("absMenu");if(m&&m.dataset.for
 }
 function nameInput(val,path,label){
   const k=up(val);const known=!k||db.drivers.includes(k);
-  let bt="",bn="",rdx="";if(k){const ab=absOn(k,day);if(ab){bt=absTag(ab);bn=absName(ab);if(known&&(ab==="SL"||ab==="OA")){const rd=restOn(k,day);if(rd)rdx=rd}}else if(known){const av=availOn(k,day);if(/^(rest day|day off|week off)$/.test(av)){bt="R/D";bn=av}}}
+  let bt="",bn="",rdx="";if(k){const ab=absOn(k,day);if(ab){bt=absTag(ab);bn=absName(ab);if(known&&(ab==="SL"||ab==="OA")){const rd=restOn(k,day);if(rd)rdx=rd}}else if(known){const av=availOn(k,day);if(/^(rest day|day off|week off)$/.test(av)){bt="R/D";bn=av}else if(!av&&worksRD(k,day)&&RDRX.test(availOn0(k,day))){bt="RDW";bn="working on their rest day"}}}
   return `<input value="${esc(val)}" data-path="${path}" data-type="name" class="${clashCls(U.drivers,k,known?"":"unknown")}${k&&known&&availOn(k,day)?" offday":""}" aria-label="${label}" autocomplete="off"${known?(k&&availOn(k,day)?` title="${esc(k+": "+availOn(k,day)+" on "+dayShort(day))}"`:""):' title="Not on the driver list"'}>`.replace(/^/,`<span class="nmwrap${bt?" hasabs":""}${rdx?" hasabs2":""}${known&&nsDot(k)?" hasns":""}">`)+(known?nsDot(k):"")+(bt?`<span class="abstag ab-${bt.replace("/","").toLowerCase()}${rdx?" abs2":""}" title="${esc(bn)} on ${esc(dayShort(day))}">${bt}</span>`:"")+(rdx?`<span class="abstag ab-rd" title="Also their ${esc(rdx)} on ${esc(dayShort(day))}">R/D</span>`:"")+(val?`<button type="button" class="nmclr" data-nmclr="${path}" title="Tap 3 times to remove ${esc(val)}" aria-label="Tap 3 times to remove ${esc(label.toLowerCase())} ${esc(val)}">×</button>`:"")+`</span>`;
 }
 /* walk colours: Blue, Yellow, White, Pink or N/A, set on the Walks tab */
@@ -3549,7 +3559,11 @@ function absName(v){return v==="SL"?"sick leave":v==="AL"?"annual leave":v==="OA
 /* their own rest day (fixed days off or rota), ignoring any absence mark */
 function restOn(n,k){const I=DI(n),w=WEEK[(parse(k).getDay()+6)%7];if(I.daysOff&&I.daysOff.includes(w))return "day off";
   const r=rotaOffDays(n,k);return r&&r.includes(w)?(r.length>=6?"week off":"rest day"):""}
-function availOn(n,k){const I=DI(n);{const ab=absOn(n,k);if(ab)return absName(ab)}if(I.absent==="Yes")return "absent";
+/* working on their rest day (overtime): ticked per person per date, so they don't show as off */
+const RDRX=/^(rest day|day off|week off)$/;
+function worksRD(n,k){return !!(((db.rdWork||{})[k]||{})[up(n||"")])}
+function availOn(n,k){const a=availOn0(n,k);return a&&RDRX.test(a)&&worksRD(n,k)?"":a}
+function availOn0(n,k){const I=DI(n);{const ab=absOn(n,k);if(ab)return absName(ab)}if(I.absent==="Yes")return "absent";
   {const c=coveredOn(n,k);if(c)return "covered by a sub"}
   if((I.leave||[]).some(r=>r.from&&k>=r.from&&k<=(r.to||r.from)))return "on leave";
   if(I.daysOff&&I.daysOff.length){const w=WEEK[(parse(k).getDay()+6)%7];if(I.daysOff.includes(w))return "day off"}
