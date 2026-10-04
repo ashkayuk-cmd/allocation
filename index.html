@@ -524,7 +524,13 @@ nav#tabs button[aria-selected=true]:not(.offtab){background:var(--panel);color:v
 .offtbox #offPopBtn[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}
 .offtsep{width:1px;background:var(--line);margin:5px 0}
 .offpophd{display:none}
-table.offtbl th.alth{cursor:pointer}table.offtbl th.al-c{text-align:center}table.offtbl th.al-r{text-align:right}
+table.lay2>tbody>tr>td.fuelc{background:var(--fuel-d)!important;color:var(--fuel-d-ink)}
+table.lay2>tbody>tr>td.fuel-e{background:var(--fuel-e)!important;color:var(--fuel-e-ink)}
+table.lay2>tbody>tr>td.fuel-p{background:var(--fuel-p)!important;color:var(--fuel-p-ink)}
+table.lay2>tbody>tr>td.fuel-e input{color:var(--fuel-e-ink)!important}table.lay2>tbody>tr>td.fuel-d input{color:var(--fuel-d-ink)!important}table.lay2>tbody>tr>td.fuel-p input{color:var(--fuel-p-ink)!important}
+table.lay2>tbody>tr>td.fuelc input{background:transparent!important}
+table.lay2>tbody>tr>td.fuel-e :is(.nmclr,.hkclr){color:var(--fuel-e-ink)}table.lay2>tbody>tr>td.fuel-d :is(.nmclr,.hkclr){color:var(--fuel-d-ink)}table.lay2>tbody>tr>td.fuel-p :is(.nmclr,.hkclr){color:var(--fuel-p-ink)}
+table.offtbl th.alth{cursor:pointer}table.offtbl th.al-c,table.offtbl th.al-r{text-align:left}
 table.offtbl td.al-c,table.offtbl td.al-c :is(input,select){text-align:center!important;text-align-last:center}
 table.offtbl td.al-r,table.offtbl td.al-r :is(input,select){text-align:right!important;text-align-last:right}
 table.offtbl td.al-c :is(.hookcell,.namecell,.dutycell,.nmwrap,.hooktips){justify-content:center}
@@ -667,11 +673,11 @@ html.mob .colrs{display:none}
 .vduse ul{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto}
 .dhgo.today{background:color-mix(in srgb,var(--elec) 10%,transparent)}
 .dhfut,.dhnow{display:block;font-size:11px;font-weight:600;color:var(--coll)}.dhnow{color:var(--elec)}
-.drvpick{position:fixed;z-index:9700;overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:4px 0;font-size:14px}
+.drvpick{resize:both;min-width:200px;min-height:120px;position:fixed;z-index:9700;overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:4px 0;font-size:14px}
 .drvpick .dpg{position:sticky;top:-4px;display:flex;align-items:center;gap:6px;padding:5px 10px 3px;background:var(--panel);font:700 14px var(--display);border-top:1px solid var(--line)}
 .drvpick .dpg:first-child{border-top:0}
 .drvpick .dpsw{width:10px;height:10px;border-radius:3px;background:var(--oc,var(--muted))}
-.drvpick .dpi{padding:4px 10px 4px 26px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drvpick .dpi{padding:4px 10px 4px 26px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.drvpick .dpg,.drvpick .dpsort{white-space:nowrap}
 .drvpick .dpi:hover{background:var(--field)}
 .drvpick .dpi.on{background:var(--coll);color:var(--on-coll)}
 .drvpick .dpi.on .vdmut{color:inherit}
@@ -1230,7 +1236,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-04.131";
+const BUILD="2026-10-04.134";
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000,STORE_CAP=5000000;
@@ -1291,6 +1297,7 @@ function colAlignApply(m){const t=m.querySelector("table.offtbl");if(!t||!t.tHea
     if(!selMode&&!moveMode){th.classList.add("alth");th.title=`Lined up ${ALNW[v]}. Tap to change (left, centre, right)`;
       th.onclick=e=>{if(e.target.closest("[data-colrs],button,.grip,input,select"))return;const n=ALN[(ALN.indexOf(v)+1)%3];db.look=db.look||{};const C=Object.assign({},db.look.colAlign);if(n)C[key]=n;else delete C[key];db.look.colAlign=C;
         save(`Lined up ${th.textContent.trim()} ${ALNW[n]} (layout ${lay})`);render();toast(`${th.textContent.trim()}: ${ALNW[n]}`)}}})}
+function fuelCls(h){const L=lookNow();if(L.fuelColOff)return "";const v=h&&vanBy(h);if(!v||!v.fuel)return "";return ` class="fuelc fuel-${v.fuel==="E"?"e":v.fuel==="P"?"p":"d"}"`}
 function optBlock(e){if(!optEdit||e.target.closest(".optbar,.optarr"))return;e.preventDefault();e.stopPropagation()}
 function optLayApply(m){const box=m.querySelector(".offtools");if(!box)return;box.querySelectorAll(":scope>.optbar,:scope>.optarr,:scope>.optdiv,:scope>.optbr").forEach(e=>e.remove());if(box.dataset.optwired)box.removeEventListener("click",optBlock,true);const L=optLay(),items=new Map(),nat=[];
   [...box.children].forEach(el=>{if(el.classList.contains("offpophd"))return;const k=optKey(el);if(!k)return;el.dataset.optkey=k;items.set(k,el);nat.push(k)});
@@ -1646,7 +1653,7 @@ function render(){
   $("date").value=day; $("dayname").textContent=pretty(day); $("calBtnTxt").textContent=isMob()?parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(/,/g,""):((lookNow().wkFmt||"long")==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:lookNow().wkFmt||"long"})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}); fixCalW(); $("todayBtn").hidden=(day===todayDay()); document.documentElement.classList.toggle("nottoday",day!==todayDay()); if(!$("calPop").hidden)drawCal();
   renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)){setupColResize();setupTopScroll();} renderBoard(a);
 }
-{const _rnd=render;render=function(){const r=_rnd.apply(this,arguments);requestAnimationFrame(placeNS);return r}}
+{const _rnd=render;render=function(){const r=_rnd.apply(this,arguments);requestAnimationFrame(placeNS);if(window.__dpKeep)window.__dpKeep();return r}}
 /* phone: spell out when a driver or sub is on a rest day, A/L, S/L etc. */
 function mobAbsence(){document.querySelectorAll('#main input[data-type="name"]').forEach(el=>{const n=up(el.value.trim());if(!n||!db.drivers.includes(n))return;
   let av=availOn(n,day);const rdw=!av&&worksRD(n,day)&&RDRX.test(availOn0(n,day));if(rdw)av="working rest day";if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
@@ -2181,7 +2188,7 @@ function officeHTML(a,o){
   s.main.forEach((r,i)=>{const p=`${o}.main.${i}`;
     const C={hook:`<td><div class="hookcell">${hookSelect(r.hook,p+".hook",new Set(hookTips(r,"main").map(t=>t.h)))}${vdBtn(r.hook)}</div>${hookTipHTML(r,p,"main","drv")}</td>`,driver:`<td><div class="namecell${awayOf(r)?" covered":""}">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Driver")}${awaySel(r,p)}${dhBtn(r.driver)}</div>${drvSugHTML(r,p)}</td>`,sub:`<td><div class="namecell">${nameExtra(r.sub)}${nameInput(r.sub,p+".sub","Substitute")}${r.sub&&db.look&&db.look.subInfoInI&&!db.look.subInfoOff?dhBtn(r.sub).replace("<button ",`<button data-subinfo="${esc(subInfoHTML(r,p))}" `):dhBtn(r.sub)}</div>${r.sub&&db.look&&db.look.subInfoInI&&!(db.look&&db.look.dhOff)?"":subInfoHTML(r,p)}</td>`,duty:`<td><div class="dutycell">${walkInput(r.duty,p+".duty",o,"Duty")}${r.two?"":`<button type="button" class="dutyadd" data-duty2="${p}" title="Add a second duty — this driver covers 2 duties (removes the partner)" aria-label="Add a second duty to row ${i+1}">+</button>`}</div></td>`,partner:r.two?`<td class="d2col" title="Second duty — this driver covers 2 duties, so there is no partner"><div class="dutycell duty2"><span class="d2tag" aria-hidden="true">2nd<br>duty</span>${walkInput(r.duty2||"",p+".duty2",o,"Second duty")}<button type="button" class="dutyadd dutyrm" data-duty2rm="${p}" title="Tap 3 times to remove the second duty" aria-label="Remove the second duty from row ${i+1}">−</button></div></td>`:`<td>${walkInput(r.partner,p+".partner",o,"Partner")}</td>`};
     if(L2){const v=r.hook!==""&&r.hook!=null?(vanBy(r.hook)||db.vans.find(x=>String(x.h)===String(r.hook))):null;
-      h+=`<tr${r.notUsed?' class="nurow"':""}><td><div class="hookcell">${hookInput(r.hook,p+".hook",false,true)}${vdBtn(r.hook)}</div></td><td class="l2dn">${moveMode?`<span class="grip" data-dragrow="${p}" title="Drag to move this row">⠿</span> `:""}${esc(dutyNo(r.duty)||(/^\s*(DPR|FIRMS)/i.test(r.duty||"")?String(r.duty).trim().toUpperCase():""))}</td><td class="l2reg">${hookInput(r.hook,p+".hook",true)}</td>${C.driver}${C.sub}<td class="l2t">${esc(cdvTxt(r))}</td><td class="l2nu"><label class="nuchk" title="Tick if this row isn't used today. Its van can then be used in another row, and its driver shows in the driver list with a warning."><input type="checkbox" data-notused="${o}.main.${i}"${r.notUsed?" checked":""} aria-label="Row ${i+1} not used"></label></td><td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;return}
+      h+=`<tr${r.notUsed?' class="nurow"':""}><td${fuelCls(r.hook)}><div class="hookcell">${hookInput(r.hook,p+".hook",false,true)}${vdBtn(r.hook)}</div></td><td class="l2dn">${moveMode?`<span class="grip" data-dragrow="${p}" title="Drag to move this row">⠿</span> `:""}${esc(dutyNo(r.duty)||(/^\s*(DPR|FIRMS)/i.test(r.duty||"")?String(r.duty).trim().toUpperCase():""))}</td><td class="l2reg">${hookInput(r.hook,p+".hook",true)}</td>${C.driver}${C.sub}<td class="l2t">${esc(cdvTxt(r))}</td><td class="l2nu"><label class="nuchk" title="Tick if this row isn't used today. Its van can then be used in another row, and its driver shows in the driver list with a warning."><input type="checkbox" data-notused="${o}.main.${i}"${r.notUsed?" checked":""} aria-label="Row ${i+1} not used"></label></td><td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;return}
     C.num=`<td class="n" style="text-align:center;padding-right:0;width:${NW}px;min-width:${NW}px;max-width:${NW}px;box-sizing:border-box">${mvR(p,i,s.main.length)}</td>`;
     h+=`<tr${r.notUsed?' class="nurow" title="Not used today (ticked in Layout 2)"':""}>${FO.map(k=>C[k]).join("")}<td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.main">Add a row</button>`;
@@ -2869,7 +2876,7 @@ function applyLook(){
   [["--head","head"],["--steel","steel"],["--panel","panel"],["--field","field"],["--side","side"],["--bar","bar"],["--tabbg","tabbg"],["--text","text"],["--muted","muted"],["--line","line"],["--ink","ink"],["--rowline","rowline"],["--tag","tag"],["--clash","clash"],["--elec","elec"],["--coll","coll"],["--oth","oth"],["--used","used"],["--used-ink","usedInk"],["--warn","warn"],["--warn-bg","warnBg"]].forEach(([v,k])=>set(v,L[k]));
   ["W2","W8","W9","W10","W11","W12"].forEach(o=>set("--off-"+o,L.offOn===false?L.used:L["off"+o]));
   document.documentElement.classList.toggle("nooffcol",L.offOn===false);document.documentElement.classList.toggle("bolddrv",!!L.boldDrv);document.documentElement.classList.toggle("boldsub",!!L.boldSub);set("--drvw",String(nameW(L.boldDrv)));set("--subw",String(nameW(L.boldSub)));
-  {const pk=(k,d)=>(L[k]&&L[k]!=="auto")?L[k]:d;const nh=pk("ntHead","#e57373");set("--nt-head",nh);set("--nt-ink",pk("ntInk","#000000"));const tb=pk("tdBtn",L.head);set("--td-btn",tb);set("--td-ink",pk("tdInk","#ff4d4d"));set("--due-dot",pk("dueDot",L.tag));
+  {const pk=(k,d)=>(L[k]&&L[k]!=="auto")?L[k]:d;const nh=pk("ntHead","#e57373");[["e","fuelE","#2e7d32"],["d","fuelD","#1565c0"],["p","fuelP","#81d4fa"]].forEach(([x,k,d])=>{const c=pk(k,d);set("--fuel-"+x,c);set("--fuel-"+x+"-ink",contrastInk(c))});set("--nt-head",nh);set("--nt-ink",pk("ntInk","#000000"));const tb=pk("tdBtn",L.head);set("--td-btn",tb);set("--td-ink",pk("tdInk","#ff4d4d"));set("--due-dot",pk("dueDot",L.tag));
    set("--hb-bg",pk("hbBg","color-mix(in srgb,"+contrastInk(L.head)+" 10%,"+L.head+")"));set("--hb-ink",pk("hbInk",contrastInk(L.head)));set("--h1-ink",pk("h1Ink",contrastInk(L.head)));set("--nt-h1",pk("ntH1",pk("ntInk","#000000")));
    set("--cb-bg",pk("cbBg",L.warnBg));set("--cb-ink",pk("cbInk",L.text));set("--cb-btn",pk("cbBtn",L.ink));set("--cb-btn-ink",pk("cbBtnInk",contrastInk(pk("cbBtn",L.ink))));
    document.documentElement.classList.toggle("nored",L.ntOff===true);document.documentElement.classList.toggle("notdbtn",L.tdOff===true);set("--bar-btn",pk("barBtnBg",L.panel));set("--bar-btn-ink",pk("barBtnInk",L.text));}
@@ -2922,6 +2929,7 @@ function lookHTML(){
   h+=`<div class="looksub">Other top bar bits</div>`+colA("barBtnBg","Bars Setting button",L.panel)+colA("barBtnInk","Bars Setting text",L.text)+colA("dueDot","Backup due dot",L.tag);
   h+=`<div class="looksub">Calendar</div>`+colA("calData","Days with data",L.elec)+colA("calToday","Today ring",L.tag)+colA("calSel","Day you're viewing",L.head);
   h+=`<div class="looksub">Driver badges (S/L, R/D, A/L, O/A)</div>`+[["SL","S/L sick leave"],["RD","R/D rest day"],["AL","A/L annual leave"],["OA","O/A other absence"]].map(([k,t])=>col(`ab${k}Tx`,t+" letters")+col(`ab${k}Bg`,t+" background")+col(`ab${k}Ln`,t+" outline")).join("");
+  h+=`<div class="looksub">Hook No. colours (Layout 2)</div>`+chk("fuelColOff","Don't colour Hook No. by fuel")+colA("fuelE","Electric","#2e7d32")+colA("fuelD","Diesel","#1565c0")+colA("fuelP","Petrol","#81d4fa");
   h+=`<div class="looksub">Office colours</div>`+chk("offOn","Show office colours")+["W2","W8","W9","W10","W11","W12"].map(o=>col("off"+o,o)).join("");
   h+=`<div class="looksub">Text</div>`;
   h+=`<label><span>Text size</span><span class="ctl"><input type="range" min="11" max="24" step="1" data-look="fs" value="${L.fs}"> <b id="fsOut">${L.fs}</b></span></label>`;
@@ -3468,7 +3476,7 @@ function vdBtn(h){return h&&!(db.look&&db.look.vdOff)?`<button class="vdbtn" dat
     try{build0()}finally{USED_OV=null;USED_OV_LAB=""}};
   const build0=()=>{
     if(!pk){pk=document.createElement("div");pk.className="drvpick";pk.hidden=true;document.body.appendChild(pk);
-      pk.addEventListener("mousedown",e=>{e.preventDefault();if(e.target.closest("[data-pkx]")){const el=inp;if(el&&el.dataset.orig!=null)el.value=el.dataset.orig;close();if(el)el.blur();return}const ns=e.target.closest("[data-nsort]");if(ns){setNameSort(ns.dataset.nsort);if(inp)build();return}if(e.target.closest("[data-full]")){const el=inp;close();if(el){el.blur();openDriverList(el)}return}const it=e.target.closest("[data-pick]");if(it)pick(+it.dataset.pick)})}
+      pk.addEventListener("mousedown",e=>{if(e.target===pk){const b=pk.getBoundingClientRect();if(e.clientX>b.right-22&&e.clientY>b.bottom-22)return}e.preventDefault();if(e.target.closest("[data-pkx]")){const el=inp;if(el&&el.dataset.orig!=null)el.value=el.dataset.orig;close();if(el)el.blur();return}const ns=e.target.closest("[data-nsort]");if(ns){setNameSort(ns.dataset.nsort);if(inp)build();return}if(e.target.closest("[data-full]")){const el=inp;close();if(el){el.blur();openDriverList(el)}return}const it=e.target.closest("[data-pick]");if(it)pick(+it.dataset.pick)})}
     let q=up(inp.value).replace(/\s+/g," "),only=null;const own=up(inp.dataset.orig||"");
     {const m=q.match(/^(W\s?\d{1,2})(?:\s+(.*))?$/);if(m){const c=m[1].replace(/\s/g,"");
       const hit=OFFICES.includes(c)?[c]:m[2]==null?OFFICES.filter(o=>o.startsWith(c)):[];
@@ -3492,10 +3500,22 @@ function vdBtn(h){return h&&!(db.look&&db.look.vdOff)?`<button class="vdbtn" dat
     if(hidden)h+=`<div class="dpe">${hidden} already used today ${hidden===1?"is":"are"} not shown</div>`;
     pk.innerHTML=`<div class="pkbar"><button type="button" class="dpfull" data-full title="Open every driver in a pop-up box">☰ Show full driver list</button><button type="button" class="pkx" data-pkx title="Close this list" aria-label="Close list">×</button></div><div class="dpsort" role="group" aria-label="Sort names"><span>Sort</span>${nameSortBar("data-nsort")}</div>`+h;hi=items.length&&(q||only)?0:-1;mark();place()};
   const mark=()=>{pk.querySelectorAll(".dpi").forEach((x,i)=>x.classList.toggle("on",i===hi));const on=pk.querySelector(".dpi.on");if(on)on.scrollIntoView({block:"nearest"})};
-  const place=()=>{const r=inp.getBoundingClientRect(),w=isMob()?Math.min(innerWidth-16,Math.max(r.width,340)):Math.max(r.width,240);pk.hidden=false;pk.style.width=w+"px";
-    pk.style.left=Math.min(r.left,innerWidth-w-8)+"px";const below=innerHeight-r.bottom-10,above=r.top-10;
-    if(below>=200||below>=above){pk.style.top=r.bottom+2+"px";pk.style.bottom="";pk.style.maxHeight=Math.min(340,below)+"px"}
-    else{pk.style.top="";pk.style.bottom=(innerHeight-r.top+2)+"px";pk.style.maxHeight=Math.min(340,above)+"px"}};
+  /* opens in full: as wide as the longest name and as tall as the list (up to the screen), unless you've resized it */
+  const DPK="driver-allocation-picker-size",dpSz=()=>{try{const v=JSON.parse(localStorage.getItem(DPK)||"null");return v&&v.w>0&&v.h>0?v:null}catch(e){return null}};
+  let setSz=null,openAt=0;
+  const place=()=>{const r=inp.getBoundingClientRect(),S=dpSz(),M=8;pk.hidden=false;
+    pk.style.maxHeight="";pk.style.bottom="";
+    let w;if(S)w=S.w;else{pk.style.width="max-content";w=Math.max(r.width,isMob()?340:260,pk.scrollWidth+18)}
+    w=Math.min(w,innerWidth-2*M);pk.style.width=w+"px";
+    pk.style.height="auto";let h=S?S.h:pk.scrollHeight+2;h=Math.min(h,innerHeight-2*M);pk.style.height=h+"px";
+    pk.style.left=Math.max(M,Math.min(r.left,innerWidth-w-M))+"px";
+    let top=r.bottom+2;if(top+h>innerHeight-M){top=r.top-h-2;if(top<M)top=Math.max(M,innerHeight-M-h)}
+    pk.style.top=top+"px";setSz={w:pk.offsetWidth,h:pk.offsetHeight};openAt=Date.now()};
+  /* remember the size when you drag the corner */
+  addEventListener("mouseup",()=>{if(!pk||pk.hidden||!setSz)return;const w=pk.offsetWidth,h=pk.offsetHeight;if(Math.abs(w-setSz.w)>2||Math.abs(h-setSz.h)>2){try{localStorage.setItem(DPK,JSON.stringify({w,h}))}catch(e){}setSz={w,h}}});
+  /* the table redraws (e.g. after leaving a hook box): keep the list open on the new box */
+  window.__dpKeep=()=>{if(!pk||pk.hidden||!inp||inp.isConnected)return;const nb=document.querySelector(`#main input[data-type="name"][data-path="${inp.dataset.path}"]`);if(!nb){close();return}
+    const o=inp.dataset.orig;inp=nb;if(o!=null)nb.dataset.orig=o;try{nb.focus({preventScroll:true})}catch(e){}place()};
   const pick=i=>{const el=inp,n=items[i];if(!el||n==null)return;el.value=n;close();el.dispatchEvent(new Event("change",{bubbles:true}))};
   const open=el=>{inp=el;if(el.dataset.orig==null)el.dataset.orig=el.value;build()};
   const ok=el=>el&&el.matches&&el.matches('#main input[data-type="name"]')&&!el.classList.contains("selpick");
@@ -3511,11 +3531,12 @@ function vdBtn(h){return h&&!(db.look&&db.look.vdOff)?`<button class="vdbtn" dat
     else if(e.key==="ArrowUp"){e.preventDefault();hi=Math.max(0,hi-1);mark()}
     else if(e.key==="Enter"&&hi>=0){e.preventDefault();pick(hi)}
     else if(e.key==="Escape"||e.key==="Tab")close()},true);
-  document.addEventListener("focusout",e=>{if(e.target===inp)setTimeout(()=>{if(inp&&inp.dataset.kboff)return;if(document.activeElement!==inp)close()},0)});
+  document.addEventListener("focusout",e=>{if(e.target===inp)setTimeout(()=>{if(inp&&inp.dataset.kboff)return;if(inp&&!inp.isConnected){window.__dpKeep();return}if(document.activeElement!==inp)close()},0)});
   const kbMove=()=>Date.now()-kbAt<1200&&pk&&!pk.hidden;
+  document.addEventListener("pointerdown",e=>{if(pk&&!pk.hidden&&!pk.contains(e.target)&&e.target!==inp&&!(inp&&inp.dataset.kboff))close()},true);
   document.addEventListener("pointerdown",e=>{if(pk&&!pk.hidden&&inp&&inp.dataset.kboff&&!pk.contains(e.target)&&e.target!==inp){delete inp.dataset.kboff;close()}},true);
-  addEventListener("scroll",e=>{if(pk&&!pk.hidden&&!pk.contains(e.target)){if(kbMove()){place();return}close()}},true);
-  addEventListener("resize",()=>{if(kbMove()){place();return}close()});
+  addEventListener("scroll",e=>{if(pk&&!pk.hidden&&!pk.contains(e.target)){if(kbMove()||Date.now()-openAt<600||(inp&&!inp.isConnected)){window.__dpKeep();if(inp&&inp.isConnected)place();return}close()}},true);
+  addEventListener("resize",()=>{if(kbMove()||(pk&&!pk.hidden&&inp)){place();return}close()});
 })();
 /* ---------- advanced driver details ---------- */
 let drvAdv=false,advSort={k:"name",d:1},advQ="",advOff="",advFlagOnly=false;
