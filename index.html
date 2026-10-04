@@ -635,6 +635,8 @@ html.rowmicro:not(.mob) table.offtbl>tbody>tr>td .abstag{font-size:8px;padding:0
 html.rowmicro:not(.mob) table.offtbl>tbody>tr>td :is(img,.nmph){display:none}
 /* Tiny / Smallest row heights: squeeze the boxes inside each row so they fit */
 html.rowtiny:not(.mob) table.offtbl>tbody>tr>td :is(input,select,button){padding-top:0!important;padding-bottom:0!important;min-height:0!important;height:calc(var(--rowh) - 2px)!important;line-height:1.1;font-size:.92em}
+html:not(.mob):not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){height:min(calc(var(--rowh) - 2px),22px)!important;width:22px!important;align-self:center}
+html:not(.mob) table.offtbl>tbody>tr>td button:not(.vdbtn):not(.dhbtn){max-height:30px}
 html.rowtiny:not(.mob) table.offtbl>tbody>tr>td .abstag{font-size:9px;padding:1px 4px}
 html.rowtiny:not(.mob) table.offtbl>tbody>tr>td :is(img,.nmph){width:calc(var(--rowh) - 4px);height:calc(var(--rowh) - 4px)}
 /* narrower columns: every column fixed to the chosen width, boxes shrink to fit and long names are cut with … */
@@ -686,11 +688,17 @@ html.bolddrv table.offtbl input[data-path$=".driver"]{font-weight:var(--drvw,400
 .nwsel{display:inline-flex;align-items:center;gap:4px;font-size:13px;margin:0 6px 0 0;white-space:nowrap}.nwsel select{width:auto;padding:2px 4px;font-size:13px}
 .fitth{padding:0!important;text-align:center}.numth{padding:2px 4px!important;white-space:nowrap;text-align:center!important}.fitrow{position:relative;height:30px;margin-top:4px}.fitmid{position:absolute;left:0;top:0;transform:translateX(-50%);visibility:hidden;z-index:5;display:flex;align-items:center;justify-content:center;width:26px;height:22px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font:700 15px/1 var(--body);cursor:pointer}.fitmid::before{content:"";position:absolute;left:50%;top:100%;height:8px;width:2px;margin-left:-1px;background:var(--line);z-index:-1}.fitmid:hover{background:var(--ink);color:var(--ink-text)}html.mob .fitmid{display:none}@media print{.fitmid{display:none}}html.mob .fitrow{display:none}@media print{.fitrow{display:none}}.numth .numlab{display:block;font-size:12px;line-height:1.2}.numth .fitall{margin-top:2px}.rdqwrap{position:relative;display:inline-flex;align-items:center;flex:1;min-width:0}.rdqwrap input{width:100%;padding-right:34px!important}.rdqwrap input::-webkit-search-cancel-button{display:none}.rdqx{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;border:0;background:var(--line);color:var(--text);font:700 15px/24px var(--body);padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}.rdqx[hidden]{display:none}.fitall{font:700 13px var(--body);width:auto;min-width:26px;height:24px;padding:0 4px;border:1px solid var(--ink);border-radius:5px;background:color-mix(in srgb,var(--ink) 10%,var(--field));color:var(--text);cursor:pointer}
 @media print{.fitall{display:none}}
-.colrs{position:absolute;top:0;right:-4px;width:9px;height:100%;cursor:col-resize;z-index:3;touch-action:none}
-.colrs::after{content:"";position:absolute;top:20%;bottom:20%;left:3px;width:3px;border-radius:2px;background:var(--muted);opacity:.35}
+.colrs{position:absolute;top:0;right:calc(var(--cbG,9) * -.5px);width:calc(var(--cbG,9) * 1px);height:100%;cursor:col-resize;z-index:3;touch-action:none}
+.colrs::after{content:"";position:absolute;top:calc((100% - var(--cbL,60) * 1%) / 2);bottom:calc((100% - var(--cbL,60) * 1%) / 2);left:calc(50% - var(--cbT,3) * .5px);width:calc(var(--cbT,3) * 1px);border-radius:2px;background:var(--muted);opacity:.35}
 .colrs:hover::after,.colrs.on::after{opacity:1;background:var(--focus,#2a6)}.colrs.set::after{opacity:.7}
 body.colresizing,body.colresizing *{cursor:col-resize!important;user-select:none!important}
 html.mob .colrs{display:none}
+/* drag handle at the bottom-left of every row on W2 to W12: drag to set that row's height, double-click to fit it to what's in it */
+html:not(.mob) table.offtbl>tbody>tr>td:first-child::after{content:"";position:absolute;left:calc((100% - var(--rbL,94) * 1%) / 2);width:calc(var(--rbL,94) * 1%);bottom:0;height:calc(var(--rbT,2) * 1px);border-radius:2px;background:var(--muted);opacity:.45;pointer-events:none;z-index:2}
+html:not(.mob) table.offtbl>tbody>tr>td:first-child.rowrs-hot::after,html:not(.mob) table.offtbl>tbody>tr.rowrs-on>td:first-child::after{opacity:1;background:var(--focus,#2a6)}
+html:not(.mob) table.offtbl>tbody>tr>td:first-child.rowrs-hot,html:not(.mob) table.offtbl>tbody>tr>td:first-child.rowrs-hot *{cursor:row-resize!important}
+body.rowresizing,body.rowresizing *{cursor:row-resize!important;user-select:none!important}
+@media print{table.offtbl>tbody>tr>td:first-child::after{display:none!important}}
 .nmwrap{position:relative;flex:1;min-width:0;display:flex}
 .nsdot{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#fff;color:#000;border:1px solid #000;box-sizing:border-box;cursor:help;font:700 10px/1 system-ui,sans-serif;vertical-align:middle;margin-right:4px;flex:0 0 auto}
 .nmwrap>.nsdot{position:absolute;left:-999px;top:50%;transform:translateY(-50%);z-index:2;pointer-events:auto;margin:0}
@@ -1820,6 +1828,36 @@ function render(){{const m=$("main");if(m)m.dataset.tabkey=tab+"|"+offLay()}
   const r=_rnd.apply(this,arguments);
   if(m&&m.dataset.tabkey===tk){const ws=[...m.querySelectorAll(".tablewrap")];ws.forEach((w,i)=>{if(sl[i]){w.scrollLeft=sl[i];const ts=w.previousElementSibling;if(ts&&ts.classList.contains("topscroll"))ts.scrollLeft=sl[i]}});if(scrollX!==sx||scrollY!==sy)scrollTo(sx,sy)}
   requestAnimationFrame(placeNS);fitMark();if(window.__dpKeep)window.__dpKeep();return r}}
+/* ---------- row height: drag the thick line at the bottom-left of a row (W2 to W12) to set that row's height.
+   Double-click it to fit the row to what's in it; double-click again to put it back (Ash, 4 Oct 2026) ---------- */
+{const RS=()=>Math.max(2,+(lookNow().rbG)||5),isM=()=>document.documentElement.classList.contains("mob");let hot=null;
+  const tables=()=>[...document.querySelectorAll("#main table.offtbl")];
+  const rowKey=tr=>{const t=tr.closest("table.offtbl");return offLay()+":"+tab+":"+tables().indexOf(t)+":"+[...tr.parentNode.children].indexOf(tr)};
+  window.applyRowHs=function(){if(isM())return;const H=(db.look&&db.look.rowHs)||{};
+    tables().forEach((t,ti)=>{[...t.tBodies].forEach(tb=>[...tb.children].forEach((tr,ri)=>{const v=H[offLay()+":"+tab+":"+ti+":"+ri];if(v)tr.style.setProperty("--rowh",v+"px");else tr.style.removeProperty("--rowh")}))})};
+  /* is the pointer on the thick line at the bottom of a row's first cell? */
+  const hit=e=>{if(isM()||!e.target||!e.target.closest)return null;const td=e.target.closest("table.offtbl>tbody>tr>td:first-child");if(!td)return null;
+    const r=td.getBoundingClientRect();return e.clientY>=r.bottom-RS()&&e.clientY<=r.bottom+1?td.parentNode:null};
+  /* a row is a few pixels taller than --rowh (borders, input padding), so work out the --rowh that gives the row the height we want */
+  const calib=(tr,want)=>{want=Math.round(want);tr.style.setProperty("--rowh",want+"px");const a=tr.getBoundingClientRect().height;if(a-want>.5){const v=Math.max(0,Math.round(want-(a-want)));tr.style.setProperty("--rowh",v+"px");return v}return want};
+  const setH=(key,v)=>{db.look=db.look||{};const H=Object.assign({},db.look.rowHs);if(v)H[key]=v;else delete H[key];if(Object.keys(H).length)db.look.rowHs=H;else delete db.look.rowHs};
+  document.addEventListener("pointermove",e=>{if(e.buttons)return;const tr=hit(e),td=tr?tr.firstElementChild:null;if(td===hot)return;if(hot)hot.classList.remove("rowrs-hot");hot=td;if(hot)hot.classList.add("rowrs-hot")},true);
+  document.addEventListener("pointerdown",e=>{if(e.button)return;const tr=hit(e);if(!tr)return;e.preventDefault();e.stopPropagation();
+    const key=rowKey(tr),h0=tr.getBoundingClientRect().height,y0=e.clientY;let h=null,moved=false;
+    document.body.classList.add("rowresizing");tr.classList.add("rowrs-on");
+    const mv=ev=>{if(Math.abs(ev.clientY-y0)>=2)moved=true;if(!moved)return;h=calib(tr,Math.max(18,Math.min(400,h0+ev.clientY-y0)))};
+    const up=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",up);removeEventListener("pointercancel",up);document.body.classList.remove("rowresizing");tr.classList.remove("rowrs-on");
+      if(!moved||h==null)return; /* just a click (or the first half of a double-click): nothing to save */
+      setH(key,h);save("Row height set")};
+    addEventListener("pointermove",mv);addEventListener("pointerup",up);addEventListener("pointercancel",up)},true);
+  document.addEventListener("dblclick",e=>{const tr=hit(e);if(!tr)return;e.preventDefault();e.stopPropagation();
+    const key=rowKey(tr),had=tr.style.getPropertyValue("--rowh");
+    tr.style.setProperty("--rowh","auto");const want=Math.max(18,Math.ceil(tr.getBoundingClientRect().height)),need=calib(tr,want);
+    if(had)tr.style.setProperty("--rowh",had);else tr.style.removeProperty("--rowh");
+    const cur=(db.look&&db.look.rowHs&&db.look.rowHs[key])||0;
+    if(cur===need){setH(key,0);save("Row height put back");applyRowHs();toast("Row height put back");return}
+    setH(key,need);save("Row fitted to its contents");applyRowHs();toast("Row fitted to its contents — double-click again to put it back")},true);
+  const _r2=render;render=function(){const r=_r2.apply(this,arguments);try{applyRowHs()}catch(e){}return r}}
 /* phone: spell out when a driver or sub is on a rest day, A/L, S/L etc. */
 function mobAbsence(){document.querySelectorAll('#main input[data-type="name"]').forEach(el=>{const n=up(el.value.trim());if(!n||!db.drivers.includes(n))return;
   let av=availOn(n,day);const rdw=!av&&worksRD(n,day)&&RDRX.test(availOn0(n,day));if(rdw)av="working rest day";if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
@@ -2994,7 +3032,7 @@ function wireSettings(){
 
 /* ---------- appearance ---------- */
 const FONTS={barlow:['Barlow','"Barlow","Segoe UI",system-ui,sans-serif'],arial:['Arial','Arial,Helvetica,sans-serif'],verdana:['Verdana (easy to read)','Verdana,Geneva,sans-serif'],tahoma:['Tahoma','Tahoma,Geneva,sans-serif'],calibri:['Calibri','Calibri,Carlito,"Segoe UI",sans-serif'],segoe:['Segoe UI / System','"Segoe UI",system-ui,-apple-system,Roboto,sans-serif'],georgia:['Georgia','Georgia,"Times New Roman",serif']};
-const BASE_LOOK={abSLTx:"#cc0000",abSLBg:"#f6dbdb",abSLLn:"#cc0000",abRDTx:"#1d5fd1",abRDBg:"#f6dbdb",abRDLn:"#1d5fd1",abALTx:"#d96a00",abALBg:"#f6dbdb",abALLn:"#cc0000",abOATx:"#a07800",abOABg:"#f6dbdb",abOALn:"#cc0000",preset:"standard",head:"#1d2a36",steel:"#dfe3e1",panel:"#f7f8f6",field:"#ffffff",side:"#e7eae8",bar:"#eef0ef",tabbg:"#e9ecea",text:"#1d2a36",muted:"#5d6b75",line:"#c3cac7",ink:"#1d2a36",rowline:"#e3e7e5",tag:"#f1c232",clash:"#c4302b",elec:"#1f7a4d",coll:"#2b5c9e",oth:"#1d8a8a",used:"#cfd5d2",usedInk:"#56615c",tagInk:"#3a2e05",warn:"#9a6a00",warnBg:"#fff3d1",
+const BASE_LOOK={rbT:2,rbL:94,rbG:5,cbT:3,cbL:60,cbG:9,abSLTx:"#cc0000",abSLBg:"#f6dbdb",abSLLn:"#cc0000",abRDTx:"#1d5fd1",abRDBg:"#f6dbdb",abRDLn:"#1d5fd1",abALTx:"#d96a00",abALBg:"#f6dbdb",abALLn:"#cc0000",abOATx:"#a07800",abOABg:"#f6dbdb",abOALn:"#cc0000",preset:"standard",head:"#1d2a36",steel:"#dfe3e1",panel:"#f7f8f6",field:"#ffffff",side:"#e7eae8",bar:"#eef0ef",tabbg:"#e9ecea",text:"#1d2a36",muted:"#5d6b75",line:"#c3cac7",ink:"#1d2a36",rowline:"#e3e7e5",tag:"#f1c232",clash:"#c4302b",elec:"#1f7a4d",coll:"#2b5c9e",oth:"#1d8a8a",used:"#cfd5d2",usedInk:"#56615c",tagInk:"#3a2e05",warn:"#9a6a00",warnBg:"#fff3d1",
   offW2:"#c8c039",offW8:"#498059",offW9:"#af349f",offW10:"#501f6e",offW11:"#004d9d",offW12:"#c6883f",offOn:true,
   fs:15,font:"barlow",heading:"condensed",cellWeight:"400",hookWeight:"600",lines:"light",vlines:false,zebra:false,rowH:"normal",density:"normal",radius:"rounded",
   headInk:"auto",inkText:"auto",tabInk:"auto",tabSel:"auto",tabSelInk:"auto",focus:"auto",hover:"auto",zebraCol:"auto",del:"auto",toast:"auto",qhit:"#e63946",calData:"auto",calToday:"auto",calSel:"auto",
@@ -3088,12 +3126,21 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-fitall]");
   db.look.fitUndo={prev,sm};
   save("Fitted all columns to the longest entry");render();toast("All columns fitted. Tap ↔ again to undo")});
 /* the ↕ button next to ↔: make every row as short as it can be. Tap again to put the row height back (Ash, 4 Oct 2026) */
-function rowsCompactOn(){const n=String(offLay()),U=db.look&&db.look.rowUndo;return !!(U&&U[n]!=null&&(lookNow().rowH||DEF_SIZE.rowH)===ROWH[0][0])}
+function rowsMine(n){const H=(db.look&&db.look.rowHs)||{};return Object.keys(H).filter(k=>k.startsWith(n+":"))}
+function rowsCompactOn(){const n=String(offLay()),U=db.look&&db.look.rowUndo;return !!(U&&U[n]!=null&&(lookNow().rowH||DEF_SIZE.rowH)===ROWH[0][0]&&!rowsMine(n).length)}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-fitrows]");if(!b)return;e.preventDefault();
-  db.look=db.look||{};const n=String(offLay()),cur=lookNow().rowH||DEF_SIZE.rowH,small=ROWH[0][0],U=db.look.rowUndo=Object.assign({},db.look.rowUndo);
-  if(U[n]!=null&&cur===small){const prev=U[n];delete U[n];if(!Object.keys(U).length)delete db.look.rowUndo;setLayHere("rowH",prev);applyLook();save("Rows put back to "+(ROWH.find(x=>x[0]===prev)||[0,prev])[1]);render();toast("Row height put back");return}
-  if(cur===small){if(!Object.keys(U).length)delete db.look.rowUndo;toast("Rows are already as short as they go");return}
-  U[n]=cur;setLayHere("rowH",small);applyLook();save("Compacted the rows");render();toast("Rows compacted. Tap ↕ again to undo")});
+  db.look=db.look||{};const n=String(offLay()),cur=lookNow().rowH||DEF_SIZE.rowH,small=ROWH[0][0],U=db.look.rowUndo=Object.assign({},db.look.rowUndo),R=db.look.rowUndoRs=Object.assign({},db.look.rowUndoRs),mine=rowsMine(n);
+  const clean=()=>{if(!Object.keys(U).length)delete db.look.rowUndo;if(!Object.keys(R).length)delete db.look.rowUndoRs};
+  if(U[n]!=null&&cur===small&&!mine.length){const prev=U[n],rs=R[n]||{};delete U[n];delete R[n];clean();
+    if(Object.keys(rs).length)db.look.rowHs=Object.assign({},db.look.rowHs,rs);
+    setLayHere("rowH",prev);applyLook();save("Rows put back to "+(ROWH.find(x=>x[0]===prev)||[0,prev])[1]);render();toast("Row heights put back");return}
+  if(cur===small&&!mine.length){clean();toast("Every row is already as short as it goes");return}
+  /* remember what to put back: the global height (unless we already did) and any rows sized by hand */
+  if(U[n]==null||cur!==small)U[n]=cur;
+  const H=Object.assign({},db.look.rowHs),old=Object.assign({},R[n]);mine.forEach(k=>{old[k]=H[k];delete H[k]});
+  if(Object.keys(old).length)R[n]=old;
+  if(Object.keys(H).length)db.look.rowHs=H;else delete db.look.rowHs;
+  setLayHere("rowH",small);applyLook();save("Compacted the rows");render();toast("All rows made as short as they go. Tap ↕ again to undo")});
 let lastOff="";
 function fitMark(){if(OFFICES.includes(tab))lastOff=tab;const on=!!(db.look&&db.look.fitUndo);document.querySelectorAll("[data-fitall]").forEach(b=>{b.setAttribute("aria-pressed",on);b.title=on?"Tap to put the column widths back to how they were":"Fit every column to its longest entry";if(b.classList.contains("fitbtn"))b.textContent=on?"↩ Undo fit":"↔ Fit columns"})}
 function rowHIdx(){const k=lookNow().rowH||DEF_SIZE.rowH,i=ROWH.findIndex(x=>x[0]===k);return i<0?ROWH.findIndex(x=>x[0]==="normal"):i}
@@ -3133,6 +3180,7 @@ function applyLook(){
   set("--vline",L.vlines?"1px":"0px");
   set("--zebra",L.zebra?`color-mix(in srgb,${A("zebraCol",L.text)} ${{light:6,medium:11,strong:18}[L.zebraStr]||6}%,transparent)`:"transparent");
   set("--rowh",(ROWH.find(x=>x[0]===L.rowH)||ROWH.find(x=>x[0]==="normal"))[2]);document.documentElement.classList.toggle("rowsmall",["r130","r145","r160","min","r190","tiny","r220","xshort","r260","short"].includes(L.rowH));document.documentElement.classList.toggle("rowtiny",["r130","r145","r160","min","r190","tiny","r220"].includes(L.rowH));document.documentElement.classList.toggle("rowmicro",["r130","r145","r160"].includes(L.rowH));
+  ["rbT","rbL","rbG","cbT","cbL","cbG"].forEach(k=>set("--"+k,L[k]));
   set("--rowpad",{compact:"0px",normal:"3px",roomy:"8px"}[L.density]||"3px");
   set("--radius",{square:"0px",slight:"3px",rounded:"6px",round:"11px"}[L.radius]||"6px");
   if(typeof syncPopLook==="function")syncPopLook();
@@ -3179,6 +3227,7 @@ function lookHTML(){
   h+=sel("rowH","Row height on W2 to W12 (always the same)",ROWH.map(x=>[x[0],x[1]]));
   h+=sel("density","Row spacing",[["compact","Compact"],["normal","Normal"],["roomy","Roomy"]]);
   h+=sel("radius","Corners",[["square","Square"],["slight","Slightly rounded"],["rounded","Rounded"],["round","Very rounded"]]);
+h+=`<div class="looksub">Resize bars</div><p class="note" style="margin:2px 0 6px">The bars you drag to change a row height (bottom-left of each row) or a column width (right edge of each heading).</p><label><span>Row bar thickness</span><span class="ctl"><input type="range" min="1" max="8" step="1" data-look="rbT" value="${L.rbT}"> <b data-rngout="rbT">${L.rbT}</b>px</span></label><label><span>Row bar length</span><span class="ctl"><input type="range" min="20" max="100" step="1" data-look="rbL" value="${L.rbL}"> <b data-rngout="rbL">${L.rbL}</b>%</span></label><label><span>Row bar grab area (how easy to catch)</span><span class="ctl"><input type="range" min="3" max="14" step="1" data-look="rbG" value="${L.rbG}"> <b data-rngout="rbG">${L.rbG}</b>px</span></label><label><span>Column bar thickness</span><span class="ctl"><input type="range" min="1" max="8" step="1" data-look="cbT" value="${L.cbT}"> <b data-rngout="cbT">${L.cbT}</b>px</span></label><label><span>Column bar length</span><span class="ctl"><input type="range" min="20" max="100" step="1" data-look="cbL" value="${L.cbL}"> <b data-rngout="cbL">${L.cbL}</b>%</span></label><label><span>Column bar grab area (how easy to catch)</span><span class="ctl"><input type="range" min="5" max="18" step="1" data-look="cbG" value="${L.cbG}"> <b data-rngout="cbG">${L.cbG}</b>px</span></label>`;
   h+=`<div class="looksub">Effects</div>`+chk("shadows","Shadows")+chk("motion","Animations (flashes and fades)");
   h+=`</div>${savedSetupsHTML()}<div class="lookbtns"><button class="vanadd" id="saveLookDefault">Save as my default</button><button class="addrow" id="resetLookDefault"${db.lookDefault?"":" disabled"}>Reset to my default</button><button class="addrow" id="resetLookFactory">Reset to factory settings</button><button class="addrow" id="saveLookFactory">Save as factory settings</button>${db.lookFactory?`<button class="addrow" id="clearLookFactory">Restore original factory settings</button>`:""}</div><p class="note">${db.lookDefault?"You have a saved default.":"No default saved yet. Set things up how you like, then press Save as my default."} ${db.lookFactory?"Factory settings are your own saved setup.":"Factory settings are the original built-in look."} Factory buttons need 3 clicks to apply.</p></section>`;
   return h;
@@ -3231,7 +3280,7 @@ function wireLook(){
   m.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{const k=b.dataset.preset;db.look=Object.assign({},BASE_LOOK,PRESETS[k],{preset:k});delete db.look.name;applyLook();save();render();toast(PRESETS[k].name+" theme on")});
   m.querySelectorAll("[data-look]").forEach(el=>{el.oninput=el.onchange=()=>{const k=el.dataset.look;db.look=db.look||{};
     let v=el.type==="checkbox"?el.checked:el.type==="range"?+el.value:el.value;if(LAYKEYS.includes(k)){setLayLook(k,v,lookScope);if(k==="colW")db.look.colWs={};setTimeout(render,0)}else db.look[k]=v;db.look.preset="custom";
-    if(k==="fs")$("fsOut").textContent=v;
+    if(k==="fs")$("fsOut").textContent=v;{const ro=m.querySelector(`[data-rngout="${k}"]`);if(ro)ro.textContent=v}
     if(k==="wkFmt")setTimeout(()=>{const c=$("calBtnTxt");if(c&&!isMob()){const f=v;c.textContent=(f==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:f})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"})}fixCalW()},0);
     if(k==="offOn"||k.startsWith("off"))setTimeout(()=>{renderBoard(cur());renderTabs()},0);
     const hx=m.querySelector(`[data-hex="${k}"]`);if(hx)hx.textContent=v;const ab=m.querySelector(`[data-auto="${k}"]`);if(ab)ab.setAttribute("aria-pressed","false");
@@ -5027,7 +5076,10 @@ const HELP=[
  [".offsize:not(.trktools):not(.rowhtools)","Text size","Make the tables bigger or smaller."],
  [".trktools","Letter spacing","Pick which text, then bring its letters closer together or move them further apart."],
  [".rowhtools","Row height","Make the rows taller or shorter."],
- [".fitrows","Compact rows","Make every row as short as it can be. Tap again to put the row height back."],
+ [".fitrows","Compact rows (↕)","Makes every row as short as it can be, including rows you resized by hand. Tap again to put them all back."],
+ ["[data-fitall]","Fit columns (↔)","Fits every column to its longest entry. Tap again to put the widths back."],
+ ["main table.offtbl>tbody>tr>td:first-child","Row height bar","Drag the thin line at the bottom-left of any row up or down to set that row's height. Double-click it to fit the row to what's in it; double-click again to put it back."],
+ ["main table.offtbl .colrs","Column width bar","Drag the bar on the right edge of a heading to change that column's width. Double-click to fit the longest entry; double-click again to put it back."],
  [".nshow summary","Show beside names","Tick to show photo, gender, L, height and more next to each driver."],
  ["#mvToggle","Move","Turns on drag handles: drag rows up/down, columns left/right, or drivers between boxes."],
  ["#selToggle","Select","Highlight hooks, drivers or substitutes, then clear them all at once."],
@@ -5081,6 +5133,12 @@ const HELP=[
  ["#saveLookDefault","Save as my default","Saves your colours and fonts as your default."],
  ["#resetLookDefault","Reset to my default","Goes back to the look you saved."],
  ["#resetLookFactory","Factory settings","Goes back to the original look."],
+ ["input[data-look='rbT']","Row bar thickness","How thick the row height line is, at the bottom-left of each row."],
+ ["input[data-look='rbL']","Row bar length","How much of the cell's width the row height line covers."],
+ ["input[data-look='rbG']","Row bar grab area","How close to the row line you need to be to catch it. Bigger is easier to grab."],
+ ["input[data-look='cbT']","Column bar thickness","How thick the column width line is, on the right of each heading."],
+ ["input[data-look='cbL']","Column bar length","How much of the heading's height the column width line covers."],
+ ["input[data-look='cbG']","Column bar grab area","How wide the column bar's catch zone is. Bigger is easier to grab."],
  ["#resetColW","Reset column widths","Undo any column widths you dragged on the office tabs."],
  ["#dsRun","Sort offices from past days","Puts each driver in the office they've worked most. You see the changes before anything is saved."],
  ["#setBackup","Save Data/Backup now","Saves everything to a file. Keep it somewhere safe."],
