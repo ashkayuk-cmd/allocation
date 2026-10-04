@@ -487,7 +487,7 @@ th.vdcol,td.vdcol{text-align:center;width:60px}
 .nstip{position:fixed;z-index:9999;pointer-events:none;background:#fff;color:#000;border:1px solid #000;border-radius:4px;padding:2px 6px;font:600 12px/1.3 system-ui,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 .nshowall{grid-column:1/-1;display:flex;gap:6px}
 @media (max-width:520px){.nshowbox{grid-template-columns:1fr}}.nshowbox label{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer;white-space:nowrap}.namecell input{flex:1;min-width:0}.subtip{display:inline-flex;align-items:center;gap:4px}.chipph{width:18px;height:18px;border-radius:50%;object-fit:cover;flex:0 0 18px;margin-left:-4px}.chipini{display:inline-flex;align-items:center;justify-content:center;background:var(--field);border:1px solid var(--line);font:700 8px var(--body);color:var(--muted)}html.rowmicro:not(.mob) .chipph{display:none}.sugdr{display:flex;align-items:center;gap:6px}.sugdr select{flex:1;min-width:0}
-.subinfo{font-size:12px;color:var(--muted);margin-top:3px}.subinfo b{color:var(--text)}.subinfo.new{font-style:italic}
+.subinfo{font-size:12px;color:var(--muted);margin-top:3px}.subinfo b{color:var(--text)}.subinfo.new{font-style:italic}.subinfo.coverbest{color:var(--text);background:color-mix(in srgb,var(--elec) 12%,transparent);border-left:3px solid var(--elec);padding:2px 6px;border-radius:4px}
 /* make it obvious which office you're in */
 nav .offtab[aria-selected=true]{background:color-mix(in srgb,var(--oc) 28%,var(--tabsel));border:2px solid var(--oc);border-bottom:0;font-size:20px;padding-top:6px;z-index:1}
 nav .offtab[aria-selected=true]::after{left:0;right:0;height:7px;border-radius:0}
@@ -1167,6 +1167,11 @@ html.mob .datebox .todaybtn{height:40px}
 .ghform details{grid-column:1/-1;font-size:13px}.ghform details label{margin-top:6px;max-width:300px}
 #ghBadge{display:inline-block;vertical-align:middle;padding:4px 10px;letter-spacing:0;white-space:nowrap;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:600 12px system-ui,sans-serif;cursor:pointer;}
 #ghBadge[hidden]{display:none}
+/* Sync status light: green = saved to GitHub, amber = saving / waiting, red = not saved (Ash, 4 Oct 2026) */
+#ghBadge .ghdot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:#9e9e9e;box-shadow:0 0 0 2px color-mix(in srgb,currentColor 18%,transparent)}
+#ghBadge.gh-ok .ghdot{background:#2e9e3a}#ghBadge.gh-busy .ghdot,#ghBadge.gh-wait .ghdot{background:#f0a400}#ghBadge.gh-err .ghdot{background:#d32f2f;animation:ghblink 1.2s infinite}
+#ghBadge.gh-busy .ghdot{animation:ghblink 1s infinite}@keyframes ghblink{50%{opacity:.35}}
+html.mob #ghBadge .ghlab{display:none}html.mob #ghBadge .ghdot{margin-right:0;width:13px;height:13px}
 html.mob #ghBadge{grid-column:1/5;grid-row:1;justify-self:start;max-width:100%;font-size:13px;padding:6px 10px;overflow:hidden;text-overflow:ellipsis}
 html.mob header:has(#ghBadge:not([hidden])) h1{display:none}
 #ghBadge.gh-ok{border-color:#2e7d32;color:#2e7d32}#ghBadge.gh-err{border-color:var(--clash);color:var(--clash)}#ghBadge.gh-wait{border-color:#b26a00;color:#b26a00}
@@ -1234,6 +1239,12 @@ html.mob #main{padding:0}
 .abstag.ab-rdw{color:#1d6b3a;background:#d9f2e2;border-color:#1d6b3a}
 html.mob #main .mabs-rdw{color:#1d6b3a;background:#d9f2e2}
 .absmenu [data-rdw].on{background:#d9f2e2;color:#1d6b3a}
+
+/* Info (i) buttons: always keep the i centred in its circle, whatever the table, row height or layout settings (Ash, 4 Oct 2026) */
+:is(.vdbtn,.dhbtn){display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;padding:0 1px 0 0!important;text-indent:0!important;letter-spacing:0!important;text-align:center!important;line-height:1!important;overflow:visible!important;font-family:Georgia,serif!important;font-style:italic!important;font-weight:700!important;min-height:0!important}
+html:not(.mob) :is(.vdbtn,.dhbtn){width:22px!important;height:22px!important;min-width:22px!important;font-size:13px!important}
+html:not(.mob) .vdcol .vdbtn{width:24px!important;height:24px!important}
+@media print{:is(.vdbtn,.dhbtn){display:none!important}}
 </style>
 </head>
 <body>
@@ -1967,22 +1978,26 @@ function coverCounts(){if(UC)return UC;const byD=new Map(),byW=new Map(),byS=new
 function restGroup(n){const sh=DI(n).rotaShift;if(sh==null||sh===""||sh==="none")return "";return roleOffice(driverOffice(n))+"|"+sh}
 /* who is most likely to cover driver d on duty w today. Substitutes mostly cover drivers on their rest day,
    and a sub works a line of drivers who share the same rest pattern: covering 1 and 2 means they'll likely cover 3. */
-function coverRank(d,w){d=up(d);w=up(w);const C=coverCounts(),g=d&&restGroup(d),out=[];
+function coverRank(d,w,off){d=up(d);w=up(w);const C=coverCounts(),g=d&&restGroup(d),out=[];
   C.byS.forEach((M,c)=>{if(c===d||U.drivers.has(c)||isND(c))return;const av=availOn(c,day);if(av&&av!=="covered by a sub")return;
     const x=d?((C.byD.get(d)||new Map()).get(c)||0):0,xw=d?(M.get(d)||0):0;let gg=0;if(g)M.forEach((v,dr)=>{if(dr!==d&&restGroup(dr)===g)gg+=v});
-    const wd=w?((C.byW.get(w)||new Map()).get(c)||0):0;const sc=4*xw+2*gg+wd;if(!sc)return;
+    const wd=w?((C.byW.get(w)||new Map()).get(c)||0):0;const sc=off?6*wd+2*xw+gg:4*xw+2*gg+wd;if(!sc)return;
     const why=[x?`covered ${d.split(" ")[0]} ${x}×`:"",gg?`covers the same rest-day group`:"",wd?`${w} ${wd}×`:""].filter(Boolean).join(" · ");
     out.push({n:c,sc,x,gg,wd,why})});
-  return out.sort((a,b)=>b.sc-a.sc||b.x-a.x||a.n.localeCompare(b.n))}
+  return out.sort((a,b)=>b.sc-a.sc||(off?b.wd-a.wd:0)||b.x-a.x||a.n.localeCompare(b.n))}
 function coverTop(M,k){const m=M.get(k);return m?[...m.entries()].sort((x,y)=>y[1]-x[1]):[]}
 function subInfoHTML(r,p){const d=up(r.driver),w=up(r.duty),s=up(r.sub);if(!d&&!w)return "";if(!s&&db.look&&db.look.subSugOff)return "";if(s&&db.look&&db.look.subInfoOff)return "";const C=coverCounts();
   if(s){const a=d&&(C.byD.get(d)||new Map()).get(s)||0,b=w&&(C.byW.get(w)||new Map()).get(s)||0;if(!a&&!b)return `<div class="subinfo new">First time covering${d?" "+esc(d.split(" ")[0]):""}</div>`;
     return `<div class="subinfo">${a?`Covered ${esc(d.split(" ")[0])} <b>${a}×</b>`:""}${a&&b?" · ":""}${b?`${esc(w)} <b>${b}×</b>`:""}</div>`}
+  /* Driver off (rest day, sick, leave): put first whoever has covered THIS duty most, labelled "Covered 12×" (Ash, 4 Oct 2026) */
+  const offWhy=d?(availOn(d,day)||""):"",off=!!(offWhy&&offWhy!=="covered by a sub"&&w),dn=w.replace(/^(\d+)\..*$/,"$1")||w,
+    lbl=x=>off?(x.wd?`Covered ${x.wd}×`:x.x?`covered ${d.split(" ")[0]} ${x.x}×`:"rest group"):(x.x?x.x+"× covered":x.gg?"rest group":x.wd+"× duty"),
+    offHead=R=>off&&R.length&&R[0].wd?`<div class="subinfo coverbest">${esc(d.split(" ")[0])} is off (${esc(offWhy)}). Best cover for duty ${esc(dn)}: <b>${esc(R[0].n)}</b> — covered it <b>${R[0].wd}×</b></div>`:"";
   const out=[],seen=new Set(),add=(n,c,lab)=>{if(seen.has(n)||U.drivers.has(n)||out.length>=3)return;seen.add(n);out.push(`<button type="button" class="hooktip subtip" data-usesub="${p}" data-n="${esc(n)}" title="${esc(n)} has covered ${esc(lab)} ${c} time${c===1?"":"s"}. Tap to make them the substitute.">${chipPh(n)}${esc(n)} <small>${c}× ${esc(lab)}</small></button>`)};
-  if(!(db.look&&db.look.subSugChips)){const R=coverRank(d,w).slice(0,10);if(!R.length)return "";
-    return `<select class="subsugsel" data-usesubsel="${p}" title="Suggested substitutes, best first. Pick one to make them the substitute."><option value="">Suggested (${R.length}) ▾</option><option value="__list">☰ Pick from drivers list…</option><option value="__type">✎ Type a name…</option><optgroup label="Suggested">${R.map(x=>`<option value="${esc(x.n)}" title="${esc(x.why)}">${esc(x.n)} — ${esc(x.x?x.x+"× covered":x.gg?"rest group":x.wd+"× duty")}</option>`).join("")}</optgroup></select>`}
-  coverRank(d,w).slice(0,3).forEach(x=>{if(out.length>=3)return;out.push(`<button type="button" class="hooktip subtip" data-usesub="${p}" data-n="${esc(x.n)}" title="${esc(x.n)}: ${esc(x.why)}. Tap to make them the substitute.">${chipPh(x.n)}${esc(x.n)} <small>${esc(x.x?x.x+"×":x.gg?"rest group":x.wd+"× duty")}</small></button>`)});
-  return out.length?`<div class="hooktips">${out.join("")}</div>`:""}
+  if(!(db.look&&db.look.subSugChips)){const R=coverRank(d,w,off).slice(0,10);if(!R.length)return "";
+    return `<select class="subsugsel" data-usesubsel="${p}" title="Suggested substitutes, best first. Pick one to make them the substitute."><option value="">Suggested (${R.length}) ▾</option><option value="__list">☰ Pick from drivers list…</option><option value="__type">✎ Type a name…</option><optgroup label="${off?"Covered duty "+esc(dn)+", most first":"Suggested"}">${R.map(x=>`<option value="${esc(x.n)}" title="${esc(x.why)}">${esc(x.n)} — ${esc(lbl(x))}</option>`).join("")}</optgroup></select>`+offHead(R)}
+  const R3=coverRank(d,w,off).slice(0,3);R3.forEach(x=>{if(out.length>=3)return;out.push(`<button type="button" class="hooktip subtip" data-usesub="${p}" data-n="${esc(x.n)}" title="${esc(x.n)}: ${esc(x.why)}. Tap to make them the substitute.">${chipPh(x.n)}${esc(x.n)} <small>${esc(off?lbl(x):x.x?x.x+"×":x.gg?"rest group":x.wd+"× duty")}</small></button>`)});
+  return out.length?`<div class="hooktips">${out.join("")}</div>`+offHead(R3):""}
 /* empty driver box: suggest who usually drives this duty, and who usually has this van.
    Counts every past day; the last 6 weeks count double. Drivers already used today or off today are left out. */
 function drvCounts(){if(UDC)return UDC;const byW=new Map(),byH=new Map(),inc=(M,k,n,w)=>{if(!M.has(k))M.set(k,new Map());const m=M.get(k);m.set(n,(m.get(n)||0)+w)};
@@ -3384,7 +3399,7 @@ const GH_CFG="daGh",LS_GH="daGhTime";
 let ghSha=null,ghBusy=false,ghAgain=false,ghTimer=0,ghState="off",ghMsg="",ghLast=0;
 function ghCfg(){return {owner:"ashkayuk-cmd",repo:"allocation-data",path:"data.json",branch:"main",token:GH_BAKED}}
 function ghOn(){const c=ghCfg();return !!(c.owner&&c.repo&&c.token)}
-function ghSet(st,msg){ghState=st;ghMsg=msg||"";const b=$("ghBadge");if(b){b.className="ghbadge gh-"+st;b.textContent=st==="ok"?"☁ Synced":st==="busy"?"☁ Syncing…":st==="err"?"☁ Problem":st==="wait"?"☁ Waiting":"";b.title=(ghMsg||"")+(ghLast?`\nLast synced ${new Date(ghLast).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}`:"")+"\nTap to sync now";b.hidden=st==="off"}
+function ghSet(st,msg){ghState=st;ghMsg=msg||"";const b=$("ghBadge");if(b){b.className="ghbadge gh-"+st;const lab=st==="ok"?"Saved":st==="busy"?"Syncing…":st==="err"?"Not saved":st==="wait"?"Waiting":"";b.innerHTML=`<span class="ghdot" aria-hidden="true"></span><span class="ghlab">${lab}</span>`;b.setAttribute("aria-label","Sync: "+lab);b.title=(ghMsg||"")+(ghLast?`\nLast synced ${new Date(ghLast).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}`:"")+"\nTap to sync now";b.hidden=st==="off"}
   const s=$("ghStatus");if(s)s.textContent=ghMsg||(st==="ok"?"Synced":"")}
 function ghB64(str){const u=new TextEncoder().encode(str);let s="";for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)}
 function ghUrl(c){return `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path.split("/").map(encodeURIComponent).join("/")}`}
@@ -3428,14 +3443,26 @@ async function ghSync(why){if(!ghOn()){ghSet("off");return}
       ghSha=meta.sha;
       if(localNew){if(await ghPush(c)){ghSet("ok","Saved to GitHub");break}continue}
       lsSet(LS_GH,Math.max(synced,rt));ghSet("ok","Up to date");break}
-    if(ghState==="busy")ghSet("err","Couldn't save: GitHub kept changing. Try Sync now.");else ghLast=Date.now();ghSet(ghState,ghMsg)}
+    if(ghState==="busy")ghSet("err","Couldn't save: GitHub kept changing. Try Sync now.");else{ghLast=Date.now();if(ghState==="ok")setTimeout(()=>ghBackup(c),2000)}ghSet(ghState,ghMsg)}
   catch(e){ghSet("err",navigator.onLine===false?"Offline — changes are kept here and will sync when you're back online":(e&&e.message)||"Couldn't reach GitHub")}
   finally{ghBusy=false;if(ghAgain){ghAgain=false;ghTimer=setTimeout(()=>ghSync("quiet"),1500)}}}
+/* Automatic weekly backup: once a week a full copy goes into backups/ in the data repo (never overwritten),
+   e.g. backups/2026-W40.json. Done by whichever device syncs first that week (Ash, 4 Oct 2026). */
+const LS_GHBAK="daGhBak";
+function ghWeek(t){const d=new Date(t);d.setHours(0,0,0,0);d.setDate(d.getDate()+3-(d.getDay()+6)%7);const w1=new Date(d.getFullYear(),0,4);return d.getFullYear()+"-W"+String(1+Math.round(((d-w1)/864e5-3+(w1.getDay()+6)%7)/7)).padStart(2,"0")}
+async function ghBackup(c){const wk=ghWeek(Date.now());try{if(localStorage.getItem(LS_GHBAK)===wk)return}catch(e){}
+  const path="backups/"+wk+".json",url=ghUrl(Object.assign({},c,{path}));
+  try{const h=await fetch(url+"?ref="+encodeURIComponent(c.branch)+"&t="+Date.now(),{method:"GET",headers:ghHead(c,"application/vnd.github.object+json"),cache:"no-store"});
+    if(h.ok){try{localStorage.setItem(LS_GHBAK,wk)}catch(e){}return}if(h.status!==404)return;
+    const out=Object.assign({_backup:{savedAt:new Date().toISOString(),build:BUILD,weekly:wk}},db);
+    const r=await fetch(url,{method:"PUT",headers:Object.assign({"Content-Type":"application/json"},ghHead(c,"application/vnd.github+json")),body:JSON.stringify({message:"Weekly backup "+wk,content:ghB64(JSON.stringify(out)),branch:c.branch})});
+    if(r.ok||r.status===422){try{localStorage.setItem(LS_GHBAK,wk)}catch(e){}if(r.ok)toast("Weekly backup saved to GitHub ("+wk+")",3000)}}catch(e){}}
 function ghDirty(){if(!ghOn())return;ghSet("wait","Changes waiting to be saved to GitHub");clearTimeout(ghTimer);ghTimer=setTimeout(()=>ghSync("quiet"),4000)}
 function ghHTML(){const c=ghCfg();
   return `<h3>GitHub sync</h3><p class="note">Locked: this app is set to sync with <b>${esc(c.owner)}/${esc(c.repo)}</b> on GitHub, so every PC, browser and phone sees the same allocations. These settings are built in and can't be changed here.</p>
   <div class="addline"><button class="addrow" id="ghNow">Sync now</button></div>
-  <p class="note" id="ghStatus">${esc(ghMsg||"")}</p>`}
+  <p class="note" id="ghStatus">${esc(ghMsg||"")}</p>
+  <p class="note">Weekly backup: a full copy is saved to <b>backups/</b> in ${esc(c.repo)} once a week and never overwritten.${(()=>{try{const w=localStorage.getItem(LS_GHBAK);return w?` This week's (${esc(w)}) is ${w===ghWeek(Date.now())?"done":"not done yet"}.`:""}catch(e){return ""}})()}</p>`}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#ghNow,#ghBadge");if(!t)return;
   if(t.id==="ghSave"){const v=id=>($(id)?$(id).value:"").trim();const c={owner:v("ghOwner"),repo:v("ghRepo")||"allocation-data",token:v("ghToken"),path:v("ghPath")||"data.json",branch:v("ghBranch")||"main"};
     if(!c.owner||!c.token){toast("Fill in your GitHub username and the token");return}
