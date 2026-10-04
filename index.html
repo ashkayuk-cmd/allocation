@@ -553,6 +553,10 @@ html.l2v2 table.lay2 th{font-size:10px!important;font-weight:400!important;color
 html.l2v2 table.lay2 td,html.l2v2 table.lay2 td :is(input,select,button,.nmtxt,b){font-weight:400!important;font-size:13px}
 html.l2v2 table.lay2 td input{background:transparent!important;border:0!important;color:#000!important;box-shadow:none!important}
 html.l2v2 table.lay2 :is(.nmph,.chipph,.iniph,.vdbtn,.dhbtn,.nmclr,.hkclr){display:none!important}
+/* V2: keep the 3-tap × on the duty / CDV partner boxes while editing a row (Ash, 4 Oct 2026) */
+html.l2v2 table.lay2 .l2cdved .nmclr[data-wkclr],html:not(.mob) table.offtbl.colfix.colslim .l2cdved .nmclr[data-wkclr]{display:block!important;color:#000;opacity:.8}
+html.l2v2 table.lay2 .l2cdved .nmclr[data-wkclr]:hover,html.l2v2 table.lay2 .l2cdved .nmclr[data-wkclr].arm1,html.l2v2 table.lay2 .l2cdved .nmclr[data-wkclr].arm2{opacity:1;background:var(--del);color:#fff}
+html.l2v2 table.lay2 .l2cdved .nmwrap{position:relative}
 html.l2v2 table.lay2 .colrs{opacity:.25}
 html.l2v2 h3.v2sec{font:700 14px Arial,Helvetica,sans-serif;text-decoration:underline;color:#000;margin:22px 0 6px}
 html.l2v2 table.v2extra{background:#fff!important;border-collapse:collapse!important;border:2px solid #000!important;font-family:Arial,Helvetica,sans-serif!important}
