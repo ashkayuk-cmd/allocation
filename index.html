@@ -1365,6 +1365,11 @@ html.mob #main>.offvline,html.mob #main>.restline{padding-left:12px;padding-righ
 html:not(.mob):not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){width:22px!important;min-width:22px!important;height:22px!important;min-height:22px!important;max-height:none!important;margin-block:min(0px,calc((var(--rowh) - 24px) / 2))!important;position:relative;z-index:1}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn) .iglyph{height:.96em!important}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.namecell,.hookcell):has(>:is(.vdbtn,.dhbtn)){overflow:clip!important;overflow-clip-margin:4px}
+/* "Not used" tick box stays the same size whatever the row height or column width (Ash, 5 Oct 2026) */
+html table.offtbl>tbody>tr>td.l2nu .nuchk>input[type=checkbox][data-notused]{width:20px!important;height:20px!important;min-width:20px!important;min-height:20px!important;max-width:20px!important;max-height:20px!important;flex:none!important;padding:0!important;margin:0!important;box-sizing:border-box!important;transform:none!important}
+/* fitting a column (double-click its edge, or ↔) only measures what's typed in: suggestion chips and "Suggested" lists
+   are left out so they don't make the column wider than the longest entry (Ash, 5 Oct 2026) */
+table.offtbl.measuring>tbody>tr>td :is(.hooktips,.drvtips,.subsugsel,.drvsugsel,.subinfo),table.offtbl.measuring>tbody>tr>td>:is(.hooktips,.subsugsel,.subinfo){display:none!important}
 </style>
 </head>
 <body>
@@ -3300,12 +3305,18 @@ document.addEventListener("dblclick",e=>{const hd=e.target.closest("[data-colrs]
   W[k]=need;save(`Column ${k} fitted to ${need}px`);render();toast("Column fitted to its longest entry")},true);
 /* measure what each column really needs: lay the table out freely for a moment, with every box sized to its text
    and nothing wrapped or cut off, read the widths, then put everything back. Same answer however wide the columns are now. */
-function measureCols(tbl){const cv=measureCols.c||(measureCols.c=document.createElement("canvas").getContext("2d"));
+function measureCols(tbl){
   const px=(cs,a)=>a.reduce((t,p)=>t+(parseFloat(cs[p])||0),0),undo=[];
   tbl.querySelectorAll("tbody input:not([type=checkbox]):not([type=radio]):not([hidden]),tbody select").forEach(el=>{if(el.offsetParent===null)return;
-    const cs=getComputedStyle(el);cv.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const cs=getComputedStyle(el);
     const t=el.tagName==="SELECT"?(el.selectedOptions[0]?el.selectedOptions[0].textContent:""):(el.value||"");
-    const w=Math.ceil(cv.measureText(t).width*1.04+px(cs,["paddingLeft","paddingRight","borderLeftWidth","borderRightWidth"])+(el.tagName==="SELECT"?22:8));
+    /* measure the text with a hidden copy using the box's own font, weight, letter spacing and so on, so the column
+       fits the text exactly (the old canvas guess ignored letter spacing and added a safety margin) (Ash, 5 Oct 2026) */
+    const sp=measureCols.s||(measureCols.s=Object.assign(document.createElement("span"),{ariaHidden:"true"}));
+    sp.style.cssText="position:absolute;left:-99999px;top:0;visibility:hidden;white-space:pre;padding:0;border:0;margin:0";
+    ["fontFamily","fontSize","fontWeight","fontStyle","fontStretch","fontVariant","fontKerning","fontFeatureSettings","letterSpacing","wordSpacing","textTransform"].forEach(k=>{try{sp.style[k]=cs[k]}catch(e){}});
+    sp.textContent=t;if(!sp.isConnected)document.body.appendChild(sp);
+    const w=Math.ceil(sp.getBoundingClientRect().width+px(cs,["paddingLeft","paddingRight","borderLeftWidth","borderRightWidth"])+(el.tagName==="SELECT"?22:2));
     undo.push([el,el.getAttribute("style")]);["width",Math.max(w,40)+"px","flex","none","min-width","0","max-width","none"].forEach((v,i,A)=>{if(i%2===0)el.style.setProperty(v,A[i+1],"important")})});
   const cf=[...tbl.classList].filter(c=>c==="colfix"||c==="colslim");cf.forEach(c=>tbl.classList.remove(c));tbl.classList.add("measuring");const out={};
   tbl.querySelectorAll("thead th").forEach(th=>{const r=th.querySelector("[data-colrs]");if(r)out[r.dataset.colrs]=Math.min(700,Math.max(36,Math.ceil(th.getBoundingClientRect().width)+2))});
