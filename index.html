@@ -479,7 +479,7 @@ th.vdcol,td.vdcol{text-align:center;width:60px}
 .offsize{display:inline-flex;vertical-align:middle;margin:0 6px 0 0}.tablewrap:has(.namecell){zoom:var(--offz,1)}
 .dutycell{display:flex;align-items:center;gap:4px}.dutycell .nmwrap,.dutycell>input{flex:1;min-width:0}td.d2col{background:color-mix(in srgb,var(--elec) 10%,transparent);box-shadow:inset 3px 0 0 var(--elec)}.d2tag{flex:0 0 auto;font:800 9px/1.05 var(--body);letter-spacing:.03em;text-transform:uppercase;color:#fff;background:var(--elec);border-radius:5px;padding:2px 4px;text-align:center}.duty2 .dutyrm{flex-basis:22px;width:22px;height:22px;font-size:15px}.duty2 input{font-weight:700;border-style:dashed;border-color:var(--elec)}.dutyadd{flex:0 0 26px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--field);color:var(--text);font:700 17px/1 var(--body);cursor:pointer;padding:0}.dutyadd:hover{border-color:var(--elec)}td.nopartner{font-size:13px}
 .wsort{margin:6px 0}.wgrp{font-weight:700;padding:8px 6px 4px;border-left:4px solid var(--oc,var(--muted));margin-top:6px}.wgrp small{font-weight:500;color:var(--muted)}.wbtns{display:flex;gap:6px}.wedit{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.wedit input{flex:1;min-width:140px}
-.d2pick{display:grid;gap:4px;margin:8px 0}.d2pick span{font-weight:600}.d2pick select{width:100%;font-size:16px;padding:8px}
+.d2pick{display:grid;gap:4px;margin:8px 0}.d2pick span{font-weight:600}.d2pick select{width:100%;font-size:16px;padding:8px}.d2warn{margin:8px 0;padding:8px 10px;border-radius:6px;border:1px solid var(--clash);background:color-mix(in srgb,var(--clash) 12%,transparent);font-size:14px;line-height:1.4}.d2warn ul{margin:4px 0 4px 18px;padding:0}.d2warn b{white-space:normal}
 .hooktips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}.hooktip{font:600 12px var(--body);padding:1px 7px;border-radius:999px;border:1px solid var(--ink);background:color-mix(in srgb,var(--ink) 10%,var(--field));color:var(--text);cursor:pointer;white-space:nowrap}.hooktip small{opacity:.65;font-weight:400}@media print{.drvtips,.drvsugsel{display:none!important}td:has(>.drvsugsel)>.namecell{display:flex!important}}
 .hooktip.subown{border-color:var(--muted);color:var(--muted)}
 .namecell.covered .nmwrap input,.namecell.covered .nmwrap .nmshort{text-decoration:line-through!important;opacity:.6}.awaysel{flex:0 0 auto;width:auto;min-width:0;padding:2px 4px;font:700 12px var(--body);border-radius:999px;background:var(--warn-bg,#fff3cd);color:var(--warn,#8a5a00);border:1px solid currentColor}.awaysel.sick{background:color-mix(in srgb,var(--clash,#c00) 15%,var(--field));color:var(--clash,#c00)}
@@ -2989,19 +2989,39 @@ function wire(m,a){
       if((e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey)||e.key==="Backspace"||e.key==="Delete"){e.preventDefault();ask()}});
     el.addEventListener("blur",()=>{if(!el.readOnly&&el.value===(el.dataset.was||"")&&!$("walkDlg")){el.readOnly=true;el.setAttribute("readonly","")}});
   });
-  /* second duty: a driver covering 2 duties has no partner. Carries on to later dates like duty changes. */
+  /* second duty: a driver covering 2 duties has no partner. Carries on to later dates like duty changes.
+     Duties already listed in another box today are offered in their own group; picking one says where it is
+     and who is on it, and it is taken out of that box when added here (Ash, 5 Oct 2026) */
   m.querySelectorAll("[data-duty2]").forEach(b=>b.onclick=()=>{const p=b.dataset.duty2,[P,,ri]=p.split("."),row=a[P].main[+ri];if(!row)return;
-    const Uw=usage(a).walks,free=w=>!Uw.has(up(w))||up(w)===up(row.partner),mineL=db.walks.filter(w=>db.walkOffice[w]===P&&free(w)).sort((x,y)=>walkCmp(x,y,"num")),
-      othL=db.walks.filter(w=>db.walkOffice[w]!==P&&free(w)&&!SPECIAL.has(w)).sort((x,y)=>walkCmp(x,y,"office")),spL=[...SPECIAL].filter(free);
-    const opt=w=>`<option value="${esc(w)}"${up(w)===up(row.partner)?" selected":""}>${esc(w)}${db.walkOffice[w]&&db.walkOffice[w]!==P?" ("+esc(db.walkOffice[w])+")":""}</option>`;
+    const Uw=usage(a).walks,mine=x=>x.office===P&&x.sec==="main"&&x.i===+ri,
+      occ=w=>(Uw.get(up(w))||[]).filter(x=>!mine(x)),
+      free=w=>!occ(w).length,ownDuty=w=>up(w)===up(row.duty),
+      mineL=db.walks.filter(w=>db.walkOffice[w]===P&&free(w)&&!ownDuty(w)).sort((x,y)=>walkCmp(x,y,"num")),
+      othL=db.walks.filter(w=>db.walkOffice[w]!==P&&free(w)&&!SPECIAL.has(w)&&!ownDuty(w)).sort((x,y)=>walkCmp(x,y,"office")),spL=[...SPECIAL].filter(w=>free(w)&&!ownDuty(w)),
+      usedL=db.walks.filter(w=>!SPECIAL.has(w)&&!free(w)&&!ownDuty(w)).sort((x,y)=>{const ox=db.walkOffice[x]===P?0:1,oy=db.walkOffice[y]===P?0:1;return ox-oy||walkCmp(x,y,ox?"office":"num")});
+    const FN={duty:"duty",duty2:"second duty",partner:"partner"},
+      who=x=>{const r=a[x.office].main[x.i]||{},d=r.driver?String(r.driver).trim():"",u=r.sub?String(r.sub).trim():"";return d&&u?`${d} (substitute ${u})`:d||(u?`${u} (substitute)`:"")},
+      whereTxt=x=>`${x.office} row ${x.i+1} (${FN[x.f]||x.f})`;
+    const opt=w=>`<option value="${esc(w)}"${up(w)===up(row.partner)?" selected":""}>${esc(w)}${db.walkOffice[w]&&db.walkOffice[w]!==P?" ("+esc(db.walkOffice[w])+")":""}</option>`,
+      optU=w=>{const L=occ(w),nm=L.map(who).filter(Boolean);return `<option value="${esc(w)}">${esc(w)} — on ${esc(L.map(whereTxt).join(", "))}${nm.length?" · "+esc(nm.join(", ")):" · nobody assigned"}</option>`};
     let pick=row.partner&&free(row.partner)?row.partner:"";
-    const go=()=>{if(!pick)return toast("Pick a duty first");const was=row.partner||"";setWalk(a,p+".partner","");const l2=setWalk(a,p+".two",true);setWalk(a,p+".duty2",pick);
-      save(`Row ${+ri+1} on ${P} now covers 2 duties: ${row.duty||"?"} + ${pick}`+(was&&up(was)!==up(pick)?` (partner ${was} removed)`:"")+(l2.length?`, and on ${l2.length} later date${l2.length===1?"":"s"}`:""));render();
-      toast(`Second duty ${pick} added`+(was&&up(was)!==up(pick)?`. Partner ${was} removed`:""),3500)};
+    const go=()=>{if(!pick)return toast("Pick a duty first");const was=row.partner||"",moved=occ(pick).map(x=>({...x,who:who(x)}));
+      /* take it out of wherever else it is listed first */
+      moved.forEach(x=>{const sp=`${x.office}.main.${x.i}`,sr=a[x.office].main[x.i];if(!sr)return;
+        if(x.f==="duty2"){setWalk(a,sp+".duty2","");setWalk(a,sp+".two",false);sr.two=false;delete sr.duty2}else setWalk(a,sp+"."+x.f,"")});
+      setWalk(a,p+".partner","");const l2=setWalk(a,p+".two",true);setWalk(a,p+".duty2",pick);
+      const mv=moved.map(x=>`${FN[x.f]} on ${x.office} row ${x.i+1}${x.who?" ("+x.who+")":""}`);
+      save(`Row ${+ri+1} on ${P} now covers 2 duties: ${row.duty||"?"} + ${pick}`+(mv.length?` (taken off the ${mv.join(" and the ")})`:"")+(was&&up(was)!==up(pick)?` (partner ${was} removed)`:"")+(l2.length?`, and on ${l2.length} later date${l2.length===1?"":"s"}`:""));render();
+      toast(`Second duty ${pick} added`+(mv.length?`. Removed from the ${mv.join(" and the ")}`:"")+(was&&up(was)!==up(pick)?`. Partner ${was} removed`:""),mv.length?6000:3500)};
     walkDlg("Add a second duty",`<p>Row ${+ri+1} on ${P}${row.duty?` (<b>${esc(row.duty)}</b>)`:""}: pick the other duty this driver covers.</p>
-      <label class="d2pick"><span>Second duty</span><select id="d2Sel"><option value="">— pick a duty —</option>${mineL.length?`<optgroup label="${P}">${mineL.map(opt).join("")}</optgroup>`:""}${spL.length?`<optgroup label="Other duties">${spL.map(opt).join("")}</optgroup>`:""}${othL.length?`<optgroup label="Other offices">${othL.map(opt).join("")}</optgroup>`:""}</select></label>
-      <p class="note">Only duties not already used today are listed.${row.partner?` The partner <b>${esc(row.partner)}</b> will be removed${free(row.partner)?" (it's picked here already, so it becomes the second duty)":""}.`:""}</p>`,"Add second duty",go);
-    const sel=document.getElementById("d2Sel"),okB=document.querySelector("#walkDlg [data-ok]");if(okB)okB.disabled=!pick;if(sel){sel.onchange=()=>{pick=sel.value;if(okB)okB.disabled=!pick};setTimeout(()=>sel.focus(),30)}});
+      <label class="d2pick"><span>Second duty</span><select id="d2Sel"><option value="">— pick a duty —</option>${mineL.length?`<optgroup label="${P} — free">${mineL.map(opt).join("")}</optgroup>`:""}${spL.length?`<optgroup label="Other duties">${spL.map(opt).join("")}</optgroup>`:""}${othL.length?`<optgroup label="Other offices — free">${othL.map(opt).join("")}</optgroup>`:""}${usedL.length?`<optgroup label="⚠ Already listed today — will be moved here">${usedL.map(optU).join("")}</optgroup>`:""}</select></label>
+      <div id="d2Warn" class="d2warn" role="status" aria-live="polite" hidden></div>
+      <p class="note">Free duties are listed first. Duties already listed in another box today are at the bottom; picking one takes it out of that box.${row.partner?` The partner <b>${esc(row.partner)}</b> will be removed${free(row.partner)?" (it's picked here already, so it becomes the second duty)":""}.`:""}</p>`,"Add second duty",go);
+    const sel=document.getElementById("d2Sel"),okB=document.querySelector("#walkDlg [data-ok]"),warn=document.getElementById("d2Warn");
+    const upd=()=>{if(okB){okB.disabled=!pick}const L=pick?occ(pick):[];
+      if(warn){if(L.length){warn.hidden=false;warn.innerHTML=`<b>${esc(pick)}</b> is already listed today:<ul>${L.map(x=>{const w=who(x);return `<li>${esc(x.office)} row ${x.i+1}, as the ${esc(FN[x.f]||x.f)} — ${w?`assigned to <b>${esc(w)}</b>`:"nobody assigned"}</li>`}).join("")}</ul>It will be <b>removed from there</b> and added here as the second duty.`}else{warn.hidden=true;warn.innerHTML=""}}
+      if(okB)okB.textContent=L.length?"Move it here":"Add second duty"};
+    if(sel){sel.onchange=()=>{pick=sel.value;upd()};setTimeout(()=>sel.focus(),30)}upd()});
   m.querySelectorAll("[data-swst]").forEach(sl=>sl.onchange=()=>{const L=subWaitList().slice(),e=L[+sl.dataset.swst];if(!e)return;const was=e.st,v=sl.value;e.st=v;
     db.absence=db.absence||{};const D=db.absence[day]=db.absence[day]||{};
     if(/^(AL|SL|OA)$/.test(v))D[e.n]=v;else if(/^(AL|SL|OA)$/.test(was)&&D[e.n]===was)delete D[e.n];if(!Object.keys(D).length)delete db.absence[day];
