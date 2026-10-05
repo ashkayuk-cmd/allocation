@@ -1370,6 +1370,12 @@ html table.offtbl>tbody>tr>td.l2nu .nuchk>input[type=checkbox][data-notused]{wid
 /* fitting a column (double-click its edge, or ↔) only measures what's typed in: suggestion chips and "Suggested" lists
    are left out so they don't make the column wider than the longest entry (Ash, 5 Oct 2026) */
 table.offtbl.measuring>tbody>tr>td :is(.hooktips,.drvtips,.subsugsel,.drvsugsel,.subinfo),table.offtbl.measuring>tbody>tr>td>:is(.hooktips,.subsugsel,.subinfo){display:none!important}
+/* ↔ ↕ for the small tables (Ash, 5 Oct 2026) */
+.smfitrow{display:flex;gap:6px;margin:2px 0 4px}
+.smfit{display:flex;align-items:center;justify-content:center;width:26px;height:22px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font:700 15px/1 var(--body);cursor:pointer}
+.smfit:hover,.smfit[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}
+html.mob .smfitrow{display:none}
+@media print{.smfitrow{display:none!important}}
 </style>
 </head>
 <body>
@@ -1926,7 +1932,7 @@ function render(){{const m=$("main");if(m)m.dataset.tabkey=tab+"|"+offLay()}
   const a=cur(); carryAbsDay(a); U=usage(a); UH=new Map(); UC=null; UDC=null; applyMob();
   document.body.classList.toggle("kcoff",!!(db.look&&db.look.boardHidden));
   $("date").value=day; $("dayname").textContent=pretty(day); $("calBtnTxt").textContent=isMob()?parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(/,/g,""):((lookNow().wkFmt||"long")==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:lookNow().wkFmt||"long"})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}); fixCalW(); if(isMob()){const cb=$("calBtn");if(cb&&cb.scrollWidth>cb.clientWidth+1)$("calBtnTxt").textContent=parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}).replace(/,/g,"")} $("todayBtn").hidden=(day===todayDay()); document.documentElement.classList.toggle("nottoday",day!==todayDay()); if(!$("calPop").hidden)drawCal();
-  renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)){setupColResize();setupTopScroll();} renderBoard(a);
+  renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)){setupColResize();document.querySelectorAll("#main table.offtbl.colfix").forEach(t=>tblWidthFix(t,v=>t.style.setProperty("--tw",v+"px")));setupTopScroll();} renderBoard(a);
 }
 {const _rnd=render;render=function(){
   /* keep each table's sideways scroll where it was when the page redraws (e.g. after resizing a column) */
@@ -2563,6 +2569,34 @@ const MAINCOLS=["hook","driver","sub","duty","partner"];
 function syncShort(){document.querySelectorAll(".nmshort").forEach(sp=>{const i=sp.previousElementSibling;if(!i||i.tagName!=="INPUT")return;const c=getComputedStyle(i),w=sp.parentNode.getBoundingClientRect(),r=i.getBoundingClientRect();
   Object.assign(sp.style,{left:(r.left-w.left)+"px",top:(r.top-w.top)+"px",width:r.width+"px",height:r.height+"px",font:c.font,color:c.color,paddingLeft:(parseFloat(c.paddingLeft)+parseFloat(c.borderLeftWidth))+"px",paddingRight:(parseFloat(c.paddingRight)+parseFloat(c.borderRightWidth))+"px",letterSpacing:c.letterSpacing,textDecoration:c.textDecorationLine==="none"?"":c.textDecoration,textAlign:c.textAlign})})}
 addEventListener("resize",()=>requestAnimationFrame(syncShort));
+
+/* ↔ / ↕ for the small tables (ADDITIONAL VEHICLES REQUIRED, 1PM VANS): each table has its own pair, separate from the
+   main table's. ↔ fits every column to its longest entry, ↕ makes every row as short as it can be; tap again to put back (Ash, 5 Oct 2026) */
+function smTbl(b){const fr=b.closest(".smfitrow");let e=fr&&fr.nextElementSibling;while(e&&!e.classList.contains("tablewrap"))e=e.nextElementSibling;return e?e.querySelector("table"):null}
+function smColKey(tb){return [...tb.querySelectorAll("thead th")].map(t=>t.textContent.trim()).join("|")}
+function smRowKey(tb){return offLay()+":"+tab+":"+[...document.querySelectorAll("#main table.offtbl")].indexOf(tb)}
+function smMark(){document.querySelectorAll(".smfitrow").forEach(fr=>{const tb=smTbl(fr.firstElementChild);if(!tb)return;
+  const a=fr.querySelector("[data-smfitall]"),r=fr.querySelector("[data-smfitrows]"),cw=db.colW||{},rp=(db.look&&db.look.rowSmPrev)||{};
+  if(a)a.setAttribute("aria-pressed",String(!!cw[smColKey(tb)+"#fitprev"]));if(r)r.setAttribute("aria-pressed",String(!!rp[smRowKey(tb)]))})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-smfitall]");if(!b)return;e.preventDefault();const tb=smTbl(b);if(!tb)return;
+  db.colW=db.colW||{};const key=smColKey(tb),pk=key+"#fitprev",ths=[...tb.querySelectorAll("thead th")];
+  if(db.colW[pk]){const prev=db.colW[pk];delete db.colW[pk];if(Array.isArray(prev)&&prev.length===ths.length)db.colW[key]=prev;else delete db.colW[key];
+    save("Small table column widths put back");render();toast("Column widths put back");return}
+  const ws=ths.map(t=>Math.round(t.getBoundingClientRect().width));db.colW[pk]=db.colW[key]?db.colW[key].slice():"none";
+  ths.forEach((t,i)=>{if(t.textContent.trim())ws[i]=Math.max(smallNeed(tb,i),Math.ceil(smHeadW(t)))});
+  db.colW[key]=ws;save("Fitted the columns of a small table");render();toast("Columns fitted to their longest entry. Tap ↔ again to put them back")});
+function smHeadW(th){const sp=document.createElement("span"),cs=getComputedStyle(th);sp.style.cssText="position:absolute;left:-99999px;visibility:hidden;white-space:pre";
+  ["fontFamily","fontSize","fontWeight","fontStyle","letterSpacing","textTransform"].forEach(k=>sp.style[k]=cs[k]);sp.textContent=th.textContent.trim();document.body.appendChild(sp);
+  const w=sp.getBoundingClientRect().width+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+8;sp.remove();return w}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-smfitrows]");if(!b)return;e.preventDefault();const tb=smTbl(b);if(!tb)return;
+  db.look=db.look||{};const tk=smRowKey(tb),P=Object.assign({},db.look.rowSmPrev),H=Object.assign({},db.look.rowHs),rows=[...tb.tBodies].flatMap(x=>[...x.children]);
+  if(P[tk]){const prev=P[tk];rows.forEach((tr,ri)=>{const k=tk+":"+ri;if(prev[k])H[k]=prev[k];else delete H[k]});delete P[tk];
+    if(Object.keys(P).length)db.look.rowSmPrev=P;else delete db.look.rowSmPrev;if(Object.keys(H).length)db.look.rowHs=H;else delete db.look.rowHs;
+    save("Small table row heights put back");render();toast("Row heights put back");return}
+  const prev={};rows.forEach((tr,ri)=>{const k=tk+":"+ri;prev[k]=H[k]||0;
+    /* the same smallest height the main table's ↕ uses ("Smallest", 1.3em) */
+    H[k]=Math.max(14,Math.round(parseFloat(getComputedStyle(tr).fontSize)*parseFloat(ROWH[0][2])))});
+  P[tk]=prev;db.look.rowSmPrev=P;db.look.rowHs=H;save("Made the rows of a small table as short as they go");render();toast("Rows made as short as they go. Tap ↕ again to put them back")});
 function placeFits(){document.querySelectorAll(".fitrow").forEach(fr=>{const b=fr.querySelector(".fitmid"),tw=(()=>{let e=fr.nextElementSibling;while(e&&!e.classList.contains("tablewrap"))e=e.nextElementSibling;return e})(),th=tw&&tw.querySelector("[data-fitanchor]");if(!b)return;if(!th){b.style.visibility="hidden";const r0=fr.querySelector(".fitrows");if(r0)r0.style.visibility="hidden";return}
   const x=th.getBoundingClientRect().left-fr.getBoundingClientRect().left,w=tw.getBoundingClientRect().width,ok=x>=0&&x<=w;b.style.left=x+"px";b.style.visibility=ok?"visible":"hidden";const r=fr.querySelector(".fitrows");if(r){r.style.left=(x+18)+"px";r.style.visibility=ok?"visible":"hidden"}})}
 addEventListener("resize",()=>requestAnimationFrame(placeFits));addEventListener("scroll",e=>{if(e.target&&e.target.classList&&e.target.classList.contains("tablewrap"))placeFits()},true);
@@ -2594,7 +2628,7 @@ document.addEventListener("click",e=>{if(!L2ED.size)return;const t=e.target;if(!
   if(document.querySelector(".dlgback"))return; // a dialog is open (e.g. Add a second duty): leave the row open
   if(t.closest(".l1edit,.l2edit,[data-l2ed],[data-l2edt],.dlgback,#absMenu"))return;
   L2ED.clear();render()});
-function l2Small(s,o,sec,title){const pm=sec==="pm";let h=`${pm?'<div class="v2gap"></div>':`<h3 class="v2sec">${title}</h3>`}<div class="tablewrap"><table class="offtbl v2extra v2small"><thead><tr><th>Duty</th><th>Name</th><th${pm?' class="v2pmh"':""}>${pm?"1PM VANS":"Reason"}</th><th class="v2blank">Not Used</th></tr></thead><tbody>`;
+function l2Small(s,o,sec,title){const pm=sec==="pm";let h=`${pm?'<div class="v2gap"></div>':`<h3 class="v2sec">${title}</h3>`}<div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button></div><div class="tablewrap"><table class="offtbl v2extra v2small"><thead><tr><th>Duty</th><th>Name</th><th${pm?' class="v2pmh"':""}>${pm?"1PM VANS":"Reason"}</th><th class="v2blank">Not Used</th></tr></thead><tbody>`;
   s[sec].forEach((r,i)=>{const p=`${o}.${sec}.${i}`;
     h+=`<tr><td><input value="${esc(r.duty||"")}" data-path="${p}.duty" aria-label="Duty"></td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Name")}${dhBtn(r.driver)}</div></td><td><input value="${esc(r.note||"")}" data-path="${p}.note" aria-label="${pm?"1PM VANS":"Reason"}"></td><td class="v2blank l2nu"><label class="nuchk" title="Tick if this row isn't used today"><input type="checkbox" data-notused="${p}"${r.notUsed?" checked":""} aria-label="${title} row ${i+1} not used"></label></td></tr>`});
   return h+`</tbody></table></div><button class="addrow" data-add="${o}.${sec}">Add a row</button>`}
@@ -2626,11 +2660,11 @@ function officeHTML(a,o){
     h+=`<tr${r.notUsed?' class="nurow" title="Not used today (ticked in Layout 2)"':""}>${FO.map(k=>C[k]).join("")}<td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.main">Add a row</button>`;
   if(offLay()!==2){
-  h+=`<h3 class="v2sec">ADDITIONAL VEHICLES REQUIRED</h3><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th>Reason</th><th></th></tr></thead><tbody>`;
+  h+=`<h3 class="v2sec">ADDITIONAL VEHICLES REQUIRED</h3><div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button></div><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th>Reason</th><th></th></tr></thead><tbody>`;
   s.extra.forEach((r,i)=>{const p=`${o}.extra.${i}`;
     h+=`<tr><td class="n">${mvR(p,i,s.extra.length)}</td><td${fuelCls(r.hook)}><div class="hookcell">${hookSelect(r.hook,p+".hook",new Set(hookTips(r,"x").map(t=>t.h)))}${vdBtn(r.hook)}</div>${hookTipHTML(r,p,"x")}</td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Driver")}${dhBtn(r.driver)}</div>${drvSugHTML(r,p)}</td><td><input value="${esc(r.note)}" data-path="${p}.note" aria-label="Reason"></td><td class="x"><button data-del="${p}" aria-label="Remove row">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.extra">Add a row</button>`;
-  h+=`<h3 class="v2sec">1PM VANS</h3><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th></th></tr></thead><tbody>`;
+  h+=`<h3 class="v2sec">1PM VANS</h3><div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button></div><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th></th></tr></thead><tbody>`;
   s.pm.forEach((r,i)=>{const p=`${o}.pm.${i}`;
     h+=`<tr><td class="n">${mvR(p,i,s.pm.length)}</td><td${fuelCls(r.hook)}><div class="hookcell">${hookSelect(r.hook,p+".hook",new Set(hookTips(r,"x").map(t=>t.h)))}${vdBtn(r.hook)}</div>${hookTipHTML(r,p,"x")}</td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Driver")}${dhBtn(r.driver)}</div>${drvSugHTML(r,p)}</td><td class="x"><button data-del="${p}" aria-label="Remove row">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.pm">Add a row</button>`;
@@ -3105,7 +3139,7 @@ function wireSelect(m,a){
        hd.onpointermove=ev=>{const x=Math.max(0,Math.min(innerWidth-r.width,ev.clientX-dx)),y=Math.max(0,Math.min(innerHeight-40,ev.clientY-dy));pt.style.left=x+"px";pt.style.top=y+"px";pt.style.right="auto";offPopXY=[x,y]};
        hd.onpointerup=()=>{hd.onpointermove=null}}}}
   optLayApply(m);colAlignApply(m);
-  requestAnimationFrame(()=>{placeFits();syncShort()});
+  requestAnimationFrame(()=>{placeFits();syncShort();try{smMark()}catch(e){}});
   m.querySelectorAll("[data-notused]").forEach(cb=>cb.onchange=()=>{const [P,S,I]=cb.dataset.notused.split("."),r=a[P]&&a[P][S]&&a[P][S][+I];if(!r)return;if(cb.checked)r.notUsed=true;else delete r.notUsed;save(cb.checked?`Marked ${P} row ${+I+1} not used${r.hook?" (hook "+nameOf(r.hook)+" freed)":""}`:`${P} row ${+I+1} back in use`);render();toast(cb.checked?`Row ${+I+1} not used — its van and driver are free to use elsewhere`:`Row ${+I+1} back in use`)});
   m.querySelectorAll("[data-offwin]").forEach(b=>b.onclick=()=>openOffWin(b.dataset.offwin));
   m.querySelectorAll("[data-offlay]").forEach(b=>b.onclick=()=>{const v=+b.dataset.offlay;db.look=db.look||{};const wasV2=v===2&&offLay()===2&&!!db.look.l2v2;if(offLay()===v&&!wasV2)return;db.look.offLayout=v;if(wasV2||v===1)delete db.look.l2v2;applyLook();save(wasV2?"Switched to layout 2 (V2 off)":"Switched to layout "+v);render()});
@@ -3280,11 +3314,11 @@ document.addEventListener("pointerdown",e=>{const hd=e.target.closest("[data-col
   if(!tbl.classList.contains("colfix")){/* switch the table to fixed widths using what's on screen now */
     const ths=[...tbl.querySelectorAll("thead th")],cg=document.createElement("colgroup");
     ths.forEach(t=>{const c=document.createElement("col");c.style.width=Math.round(t.getBoundingClientRect().width)+"px";const r=t.querySelector("[data-colrs]");if(r)c.dataset.colk=r.dataset.colrs;cg.appendChild(c)});
-    tbl.insertBefore(cg,tbl.firstChild);tbl.style.setProperty("--tw",Math.round(tbl.getBoundingClientRect().width)+"px");tbl.classList.add("colfix")}
+    tbl.insertBefore(cg,tbl.firstChild);tbl.style.setProperty("--tw",Math.round(tbl.getBoundingClientRect().width)+"px");tbl.classList.add("colfix");tblWidthFix(tbl,v=>tbl.style.setProperty("--tw",v+"px"))}
   const col=tbl.querySelector(`col[data-colk="${k}"]`);if(!col)return;
   const sum=()=>[...tbl.querySelectorAll("col")].reduce((t,c)=>t+(parseFloat(c.style.width)||0),0);
   let w=w0;document.body.classList.add("colresizing");hd.classList.add("on");
-  const mv=ev=>{w=Math.max(36,Math.round(w0+ev.clientX-x0));col.style.width=w+"px";tbl.style.setProperty("--tw",sum()+"px")};
+  const mv=ev=>{w=Math.max(36,Math.round(w0+ev.clientX-x0));col.style.width=w+"px";tbl.style.setProperty("--tw",sum()+"px");tblWidthFix(tbl,v=>tbl.style.setProperty("--tw",v+"px"))};
   const upf=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",upf);removeEventListener("pointercancel",upf);document.body.classList.remove("colresizing");hd.classList.remove("on");
     if(Math.abs(w-w0)<2)return; /* just a click (or the first half of a double-click): nothing to save */
     const W=colWsEdit();
@@ -3895,13 +3929,24 @@ document.addEventListener("DOMContentLoaded",setupTopScroll);setupTopScroll();
 
 /* drag column edges to resize on the office tabs; widths shared by W2-W12 and remembered */
 /* width a column of the small tables (ADDITIONAL VEHICLES REQUIRED, 1PM VANS…) needs to show its longest entry */
-function smallNeed(tb,i){const cv=smallNeed.c||(smallNeed.c=document.createElement("canvas").getContext("2d"));let w=0;
-  [...tb.rows].forEach(tr=>{const c=tr.cells[i];if(!c)return;const cs=getComputedStyle(c);let t=0;
-    c.querySelectorAll("input,select").forEach(el=>{const s=getComputedStyle(el);cv.font=`${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;const v=el.tagName==="SELECT"?((el.options[el.selectedIndex]||{}).text||""):(el.value||el.placeholder||"");t+=cv.measureText(v).width+parseFloat(s.paddingLeft)+parseFloat(s.paddingRight)+(el.tagName==="SELECT"?26:12)});
-    c.querySelectorAll("button:not(.colgrip),.nmtag,.vdbtn,.dhbtn").forEach(el=>{t+=el.getBoundingClientRect().width+4});
-    if(!c.querySelector("input,select")){cv.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;t=Math.max(t,cv.measureText(c.textContent.trim()).width)}
-    w=Math.max(w,t+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+4)});
-  return Math.max(40,Math.ceil(w))}
+/* Keep a fixed-width table exactly as wide as its columns add up to. Some browsers (Firefox) squeeze every column a
+   little when the table's width comes out a pixel or two short of the column total, which made column edges jump left
+   when you started dragging one. This measures the real columns and tops the table width up (Ash, 5 Oct 2026). */
+function tblWidthFix(tb,set){try{if(!tb||!tb.tHead||!tb.tHead.rows[0])return;
+  for(let n=0;n<3;n++){const cols=[...tb.querySelectorAll(":scope>colgroup>col")];if(!cols.length)return;
+    const want=cols.reduce((t,c)=>t+(parseFloat(c.style.width)||0),0),have=[...tb.tHead.rows[0].cells].reduce((t,c)=>t+c.getBoundingClientRect().width,0),d=want-have;
+    if(!want||Math.abs(d)<.5)return;set(tb.getBoundingClientRect().width+d)}}catch(e){}}
+function smallNeed(tb,i){let w=0;
+  /* measure text with a hidden copy in the box's own font and letter spacing, so the column fits exactly (Ash, 5 Oct 2026) */
+  const tw=(cs,v)=>{const sp=smallNeed.s||(smallNeed.s=document.createElement("span"));sp.style.cssText="position:absolute;left:-99999px;top:0;visibility:hidden;white-space:pre;padding:0;border:0;margin:0";
+    ["fontFamily","fontSize","fontWeight","fontStyle","fontStretch","letterSpacing","wordSpacing","textTransform"].forEach(k=>{try{sp.style[k]=cs[k]}catch(e){}});sp.textContent=v;if(!sp.isConnected)document.body.appendChild(sp);return sp.getBoundingClientRect().width};
+  [...tb.tBodies].flatMap(x=>[...x.rows]).forEach(tr=>{const c=tr.cells[i];if(!c)return;const cs=getComputedStyle(c);let t=0;
+    c.querySelectorAll("input:not([type=checkbox]):not([type=radio]),select").forEach(el=>{if(el.offsetParent===null)return;const st=getComputedStyle(el);const v=el.tagName==="SELECT"?((el.options[el.selectedIndex]||{}).text||""):(el.value||el.placeholder||"");t+=tw(st,v)+parseFloat(st.paddingLeft)+parseFloat(st.paddingRight)+parseFloat(st.borderLeftWidth)+parseFloat(st.borderRightWidth)+(el.tagName==="SELECT"?22:2)});
+    c.querySelectorAll("button:not(.colgrip),.nmtag,.abstag,.vdbtn,.dhbtn,.nmph,input[type=checkbox]").forEach(el=>{if(el.offsetParent===null)return;t+=el.getBoundingClientRect().width+4});
+    if(!c.querySelector("input,select"))t=Math.max(t,tw(cs,c.textContent.trim()));
+    w=Math.max(w,t+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+2)});
+  const th=tb.tHead&&tb.tHead.rows[0]&&tb.tHead.rows[0].cells[i];if(th&&th.textContent.trim())w=Math.max(w,smHeadW(th));
+  return Math.max(36,Math.ceil(w))}
 function setupColResize(){
   const CW=db.colW||{};
   $("main").querySelectorAll(".tablewrap>table").forEach(tb=>{
@@ -3911,7 +3956,7 @@ function setupColResize(){
     const key=ths.map(t=>t.textContent.trim()).join("|");
     /* widths go on <col> elements (like the main table), so dragging only changes one column and stays smooth */
     let cg=null;const cols=()=>{if(!cg){cg=document.createElement("colgroup");ths.forEach(()=>cg.appendChild(document.createElement("col")));tb.insertBefore(cg,tb.firstChild)}return [...cg.children]};
-    const apply=ws=>{const C=cols();tb.classList.add("sized");tb.style.tableLayout="fixed";tb.style.minWidth="0";tb.style.maxWidth="none";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px";C.forEach((c,i)=>c.style.width=Math.round(ws[i])+"px")};
+    const apply=ws=>{const C=cols();tb.classList.add("sized");tb.style.tableLayout="fixed";tb.style.minWidth="0";tb.style.maxWidth="none";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px";C.forEach((c,i)=>c.style.width=Math.round(ws[i])+"px");tblWidthFix(tb,w=>tb.style.width=w+"px")};
     const clear=()=>{tb.classList.remove("sized");tb.style.tableLayout=tb.style.minWidth=tb.style.width=tb.style.maxWidth="";if(cg){cg.remove();cg=null}};
     if(CW[key]&&CW[key].length===ths.length)apply(CW[key]);
     ths.forEach((th,i)=>{if(!th.textContent.trim())return;
@@ -3919,9 +3964,9 @@ function setupColResize(){
       g.onpointerdown=e=>{e.preventDefault();e.stopPropagation();
         const ws=ths.map(t=>t.getBoundingClientRect().width);let moved=false;
         const x0=e.clientX,w0=ws[i];try{g.setPointerCapture(e.pointerId)}catch(_){}document.body.classList.add("colresizing");
-        let raf=0,xs=x0;g.onpointermove=ev=>{if(!moved){if(Math.abs(ev.clientX-x0)<3)return;moved=true;xs=ev.clientX;apply(ws);return}ws[i]=Math.max(40,w0+ev.clientX-xs);
-          if(!raf)raf=requestAnimationFrame(()=>{raf=0;const C=cols();C[i].style.width=Math.round(ws[i])+"px";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px"})};
-        g.onpointerup=g.onpointercancel=()=>{g.onpointermove=g.onpointerup=g.onpointercancel=null;document.body.classList.remove("colresizing");if(!moved)return;db.colW=db.colW||{};db.colW[key]=ws.map(Math.round);save()};};
+        let raf=0,started=false;g.onpointermove=ev=>{/* follow the pointer from the very first pixel, like the main table, so the edge never lags or jumps (Ash, 5 Oct 2026) */if(!started){started=true;apply(ws)}if(Math.abs(ev.clientX-x0)>=2)moved=true;ws[i]=Math.max(40,w0+ev.clientX-x0);
+          if(!raf)raf=requestAnimationFrame(()=>{raf=0;const C=cols();C[i].style.width=Math.round(ws[i])+"px";tb.style.width=Math.round(ws.reduce((x,y)=>x+y,0))+"px";tblWidthFix(tb,w=>tb.style.width=w+"px")})};
+        g.onpointerup=g.onpointercancel=()=>{g.onpointermove=g.onpointerup=g.onpointercancel=null;document.body.classList.remove("colresizing");if(!moved){if(started){if(CW[key]&&CW[key].length===ths.length)apply(CW[key]);else clear()}return}db.colW=db.colW||{};db.colW[key]=ws.map(Math.round);save()};};
       /* double-click: fit this column to its longest entry; double-click again to put it back */
       g.ondblclick=e=>{e.stopPropagation();db.colW=db.colW||{};const ws=ths.map(t=>Math.round(t.getBoundingClientRect().width)),fit=smallNeed(tb,i);
         const prevK=key+"#prev"+i;if(db.colW[prevK]!=null&&Math.abs(ws[i]-fit)<=2){ws[i]=db.colW[prevK];delete db.colW[prevK];toast("Column put back")}else{db.colW[prevK]=ws[i];ws[i]=fit;toast("Column fitted. Double-click again to put it back")}
