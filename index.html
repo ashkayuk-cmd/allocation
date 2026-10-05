@@ -1955,11 +1955,17 @@ function render(){{const m=$("main");if(m)m.dataset.tabkey=tab+"|"+offLay()}
   const setH=(key,v)=>{db.look=db.look||{};const H=Object.assign({},db.look.rowHs);if(v)H[key]=v;else delete H[key];if(Object.keys(H).length)db.look.rowHs=H;else delete db.look.rowHs};
   document.addEventListener("pointermove",e=>{if(e.buttons)return;const tr=hit(e),td=tr?tr.firstElementChild:null;if(td===hot)return;if(hot)hot.classList.remove("rowrs-hot");hot=td;if(hot)hot.classList.add("rowrs-hot")},true);
   document.addEventListener("pointerdown",e=>{if(e.button)return;const tr=hit(e);if(!tr)return;e.preventDefault();e.stopPropagation();
-    const key=rowKey(tr),h0=tr.getBoundingClientRect().height,y0=e.clientY;let h=null,moved=false;
+    const key=rowKey(tr),h0=tr.getBoundingClientRect().height,y0=e.clientY,had=tr.style.getPropertyValue("--rowh");let h=null,moved=false;
+    /* work out once how much taller the row is than --rowh (borders, padding), then the row's bottom edge follows the
+       pointer exactly from the first pixel, with no lag or jump (Ash, 5 Oct 2026) */
+    const L=Math.round(h0+200);tr.style.setProperty("--rowh",L+"px");const extra=tr.getBoundingClientRect().height-L;
+    if(had)tr.style.setProperty("--rowh",had);else tr.style.removeProperty("--rowh");
     document.body.classList.add("rowresizing");tr.classList.add("rowrs-on");
-    const mv=ev=>{if(Math.abs(ev.clientY-y0)>=2)moved=true;if(!moved)return;h=calib(tr,Math.max(18,Math.min(400,h0+ev.clientY-y0)))};
+    const mv=ev=>{const dy=ev.clientY-y0;if(Math.abs(dy)>=2)moved=true;const want=Math.max(18,Math.min(400,h0+dy));h=Math.max(0,Math.round(want-extra));tr.style.setProperty("--rowh",h+"px")};
     const up=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",up);removeEventListener("pointercancel",up);document.body.classList.remove("rowresizing");tr.classList.remove("rowrs-on");
-      if(!moved||h==null)return; /* just a click (or the first half of a double-click): nothing to save */
+      if(!moved||h==null){if(had)tr.style.setProperty("--rowh",had);else tr.style.removeProperty("--rowh");return} /* just a click (or the first half of a double-click): nothing to save */
+      /* if the row can't go as short as asked (its contents need more room), save the height it really is */
+      {const real=tr.getBoundingClientRect().height,v=Math.max(0,Math.round(real-extra));if(v>h)h=v;tr.style.setProperty("--rowh",h+"px")}
       setH(key,h);save("Row height set")};
     addEventListener("pointermove",mv);addEventListener("pointerup",up);addEventListener("pointercancel",up)},true);
   document.addEventListener("dblclick",e=>{const tr=hit(e);if(!tr)return;e.preventDefault();e.stopPropagation();
@@ -2628,9 +2634,9 @@ document.addEventListener("click",e=>{if(!L2ED.size)return;const t=e.target;if(!
   if(document.querySelector(".dlgback"))return; // a dialog is open (e.g. Add a second duty): leave the row open
   if(t.closest(".l1edit,.l2edit,[data-l2ed],[data-l2edt],.dlgback,#absMenu"))return;
   L2ED.clear();render()});
-function l2Small(s,o,sec,title){const pm=sec==="pm";let h=`${pm?'<div class="v2gap"></div>':`<h3 class="v2sec">${title}</h3>`}<div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button></div><div class="tablewrap"><table class="offtbl v2extra v2small"><thead><tr><th>Duty</th><th>Name</th><th${pm?' class="v2pmh"':""}>${pm?"1PM VANS":"Reason"}</th><th class="v2blank">Not Used</th></tr></thead><tbody>`;
+function l2Small(s,o,sec,title){const pm=sec==="pm";let h=`${pm?'<div class="v2gap"></div>':`<h3 class="v2sec">${title}</h3>`}<div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button></div><div class="tablewrap"><table class="offtbl v2extra v2small"><thead><tr><th>Duty</th><th>Name</th><th${pm?' class="v2pmh"':""}>${pm?"1PM VANS":"Reason"}</th></tr></thead><tbody>`;
   s[sec].forEach((r,i)=>{const p=`${o}.${sec}.${i}`;
-    h+=`<tr><td><input value="${esc(r.duty||"")}" data-path="${p}.duty" aria-label="Duty"></td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Name")}${dhBtn(r.driver)}</div></td><td><input value="${esc(r.note||"")}" data-path="${p}.note" aria-label="${pm?"1PM VANS":"Reason"}"></td><td class="v2blank l2nu"><label class="nuchk" title="Tick if this row isn't used today"><input type="checkbox" data-notused="${p}"${r.notUsed?" checked":""} aria-label="${title} row ${i+1} not used"></label></td></tr>`});
+    h+=`<tr><td><input value="${esc(r.duty||"")}" data-path="${p}.duty" aria-label="Duty"></td><td><div class="namecell">${nameExtra(r.driver)}${nameInput(r.driver,p+".driver","Name")}${dhBtn(r.driver)}</div></td><td><input value="${esc(r.note||"")}" data-path="${p}.note" aria-label="${pm?"1PM VANS":"Reason"}"></td></tr>`});
   return h+`</tbody></table></div><button class="addrow" data-add="${o}.${sec}">Add a row</button>`}
 function officeHTML(a,o){
   const s=a[o];document.documentElement.classList.toggle("l2v2",offLay()===2&&!!(db.look&&db.look.l2v2));
@@ -3656,7 +3662,7 @@ function printSheetGo(pfMode,only){only=only&&only!=="ALL"?only:null;
       h+=`<section class="ppage pv2"><div class="pv2title"><span>Driver Allocation for ${esc(o)}</span><span>Date: ${esc(pretty(day))}</span></div><table class="pv2tab" style="table-layout:fixed">${l2ColG()}<thead><tr><th>Hook<br>No.</th><th>Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
       s.main.forEach(r=>{const v=vb(r.hook);h+=`<tr><td${fuelBg(v)}>${v?esc(vname(v)):""}</td><td class="c">${esc(dlgDutyNo(r.duty))}</td><td>${v?esc(v.full||v.reg||""):""}</td><td>${esc(r.driver||"")}${awayShort(r)?" ("+awayShort(r)+")":""}</td><td>${esc(r.sub||"")}</td><td>${esc(cdvTxt(r))}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`});
       h+=`</tbody></table>`;
-      const sm=(sec,t,h3)=>{const R=s[sec];return `${h3?`<h5 class="pv2h">${t}</h5>`:'<div style="height:14px"></div>'}<table class="pv2tab"><thead><tr><th>Duty</th><th>Name</th><th${h3?"":' class="b"'}>${h3?"Reason":t}</th><th>Not Used</th></tr></thead><tbody>${(R.length?R:[{},{},{}]).map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td><td class="c">${r.notUsed?"✓":""}</td></tr>`).join("")}</tbody></table>`};
+      const sm=(sec,t,h3)=>{const R=s[sec];return `${h3?`<h5 class="pv2h">${t}</h5>`:'<div style="height:14px"></div>'}<table class="pv2tab"><thead><tr><th>Duty</th><th>Name</th><th${h3?"":' class="b"'}>${h3?"Reason":t}</th></tr></thead><tbody>${(R.length?R:[{},{},{}]).map(r=>`<tr><td>${esc(r.duty||"")}</td><td>${esc(r.driver||"")}</td><td>${esc(r.note||"")}</td></tr>`).join("")}</tbody></table>`};
       h+=sm("extra","ADDITIONAL VEHICLES REQUIRED",true)+sm("pm","1PM VANS",false)+`</section>`;return}
     if(offLay()===2){const vb=x=>x!==""&&x!=null?(vanBy(x)||db.vans.find(v=>String(v.h)===String(x))):null;
       h+=`<section class="ppage">${head(o,o)}<table class="ptab" style="table-layout:fixed">${l2ColG()}<thead><tr><th>Hook No.</th><th style="text-align:center">Duty No.</th><th>Reg. No.</th><th>Usual Driver</th><th>Substitute (If any)</th><th>CDV Partner</th><th>Not<br>Used</th></tr></thead><tbody>`;
