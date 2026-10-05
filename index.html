@@ -1259,6 +1259,19 @@ html:not(.mob) .vdcol .vdbtn .iglyph{height:1.04em}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn) .iglyph{height:min(.96em,calc((var(--rowh) - 2px) * .62))}
 html.mob :is(.vdbtn,.dhbtn) .iglyph{height:1.13em}
 .ilogo .iglyph{height:.85em}
+/* no connector line under the ↔ Fit columns button (Ash, 5 Oct 2026) */
+.fitmid::before{content:none!important;display:none!important}
+/* Compact name row: O/A, A/L, S/L, R/D tags, the × and the (i) sit right next to each other after the name instead of spread out (Ash, 5 Oct 2026) */
+html:not(.mob) .namecell{gap:2px!important}
+html:not(.mob) .namecell .nmwrap{align-items:center;gap:2px}
+html:not(.mob) .namecell .nmwrap>input{padding-right:4px!important}
+html:not(.mob) .namecell .nmwrap>.abstag{position:static!important;transform:none!important;flex:0 0 auto;order:2;margin:0!important}
+html:not(.mob) .namecell .nmwrap>.abstag.abs2{order:1}
+html:not(.mob) .namecell .nmwrap>.nmclr{position:static!important;transform:none!important;flex:0 0 auto;order:3;margin:0!important}
+html:not(.mob) .namecell>:is(.vdbtn,.dhbtn){margin:0!important}
+/* Info (i) buttons: always a true circle — width follows height, so short rows shrink the ring evenly instead of squashing it into an oval (Ash, 5 Oct 2026) */
+:is(.vdbtn,.dhbtn){border-radius:50%!important;flex:0 0 auto!important;aspect-ratio:1/1!important}
+html:not(.mob):not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){width:min(calc(var(--rowh) - 2px),22px)!important;min-width:min(calc(var(--rowh) - 2px),22px)!important}
 
 /* Letter spacing (W2 to W12): classes are only on <html> while a value is set, so nothing changes when it is Normal */
 html.trk-all table.offtbl :is(td,th,input,select){letter-spacing:var(--trk-all)}
