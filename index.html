@@ -479,7 +479,7 @@ th.vdcol,td.vdcol{text-align:center;width:60px}
 .offsize{display:inline-flex;vertical-align:middle;margin:0 6px 0 0}.tablewrap:has(.namecell){zoom:var(--offz,1)}
 .dutycell{display:flex;align-items:center;gap:4px}.dutycell .nmwrap,.dutycell>input{flex:1;min-width:0}td.d2col{background:color-mix(in srgb,var(--elec) 10%,transparent);box-shadow:inset 3px 0 0 var(--elec)}.d2tag{flex:0 0 auto;font:800 9px/1.05 var(--body);letter-spacing:.03em;text-transform:uppercase;color:#fff;background:var(--elec);border-radius:5px;padding:2px 4px;text-align:center}.duty2 .dutyrm{flex-basis:22px;width:22px;height:22px;font-size:15px}.duty2 input{font-weight:700;border-style:dashed;border-color:var(--elec)}.dutyadd{flex:0 0 26px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--field);color:var(--text);font:700 17px/1 var(--body);cursor:pointer;padding:0}.dutyadd:hover{border-color:var(--elec)}td.nopartner{font-size:13px}
 .wsort{margin:6px 0}.wgrp{font-weight:700;padding:8px 6px 4px;border-left:4px solid var(--oc,var(--muted));margin-top:6px}.wgrp small{font-weight:500;color:var(--muted)}.wbtns{display:flex;gap:6px}.wedit{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.wedit input{flex:1;min-width:140px}
-.d2pick{display:grid;gap:4px;margin:8px 0}.d2pick span{font-weight:600}.d2pick select{width:100%;font-size:16px;padding:8px}.d2warn{margin:8px 0;padding:8px 10px;border-radius:6px;border:1px solid var(--clash);background:color-mix(in srgb,var(--clash) 12%,transparent);font-size:14px;line-height:1.4}.d2warn ul{margin:4px 0 4px 18px;padding:0}.d2warn b{white-space:normal}
+.d2pick{display:grid;gap:4px;margin:8px 0}.d2pick span{font-weight:600}.d2pick select{width:100%;font-size:16px;padding:8px}.d2list{max-height:min(52vh,420px);overflow:auto;border:1px solid var(--line);border-radius:6px;margin:8px 0;padding:4px}.d2sec{position:sticky;top:-4px;z-index:1;background:var(--panel,var(--bg,#fff));font-weight:700;font-size:13px;padding:6px 6px 4px;border-bottom:1px solid var(--line)}.d2secu{color:var(--clash);margin-top:6px}.d2it{display:block;width:100%;text-align:left;padding:6px 8px;margin:2px 0;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--text);font:inherit;cursor:pointer}.d2it:hover{border-color:var(--line)}.d2it.on{border-color:var(--elec);background:color-mix(in srgb,var(--elec) 14%,transparent)}.d2it small{display:block;font-size:12px;opacity:.8;margin-top:2px}.d2used b{color:var(--clash)}.d2none{margin:6px 8px}.d2warn{margin:8px 0;padding:8px 10px;border-radius:6px;border:1px solid var(--clash);background:color-mix(in srgb,var(--clash) 12%,transparent);font-size:14px;line-height:1.4}.d2warn ul{margin:4px 0 4px 18px;padding:0}.d2warn b{white-space:normal}
 .hooktips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}.hooktip{font:600 12px var(--body);padding:1px 7px;border-radius:999px;border:1px solid var(--ink);background:color-mix(in srgb,var(--ink) 10%,var(--field));color:var(--text);cursor:pointer;white-space:nowrap}.hooktip small{opacity:.65;font-weight:400}@media print{.drvtips,.drvsugsel{display:none!important}td:has(>.drvsugsel)>.namecell{display:flex!important}}
 .hooktip.subown{border-color:var(--muted);color:var(--muted)}
 .namecell.covered .nmwrap input,.namecell.covered .nmwrap .nmshort{text-decoration:line-through!important;opacity:.6}.awaysel{flex:0 0 auto;width:auto;min-width:0;padding:2px 4px;font:700 12px var(--body);border-radius:999px;background:var(--warn-bg,#fff3cd);color:var(--warn,#8a5a00);border:1px solid currentColor}.awaysel.sick{background:color-mix(in srgb,var(--clash,#c00) 15%,var(--field));color:var(--clash,#c00)}
@@ -2406,8 +2406,42 @@ function walkSheet(el){const old=document.getElementById("walkSheet");if(old)old
     if(b.hasAttribute("data-wx")){shut();return}
     if(b.hasAttribute("data-wtype")){d.remove();el.focus();el.select();return}
     if(b.dataset.w!=null){d.remove();el.value=b.dataset.w;el.dispatchEvent(new Event("change",{bubbles:true}))}}}
+/* Second duty picker (Ash, 5 Oct 2026). Only this office's duties are offered: free ones first, then the ones
+   already picked today in their own section, each showing which row/box it's in and who is on it.
+   Picking one already picked takes it out of that box and adds it here. Used by the + / "+ 2nd duty" buttons
+   and when changing an existing second duty. */
+function d2Pick(a,p){const [P,,ri]=p.split("."),row=a[P]&&a[P].main[+ri];if(!row)return;
+  const Uw=usage(a).walks,mine=x=>x.office===P&&x.sec==="main"&&x.i===+ri,
+    occ=w=>(Uw.get(up(w))||[]).filter(x=>!mine(x)),free=w=>!occ(w).length,
+    skip=w=>up(w)===up(row.duty)||(row.two&&up(w)===up(row.duty2)),
+    offL=db.walks.filter(w=>db.walkOffice[w]===P&&!skip(w)).sort((x,y)=>walkCmp(x,y,"num")),
+    freeL=offL.filter(free),usedL=offL.filter(w=>!free(w));
+  const FN={duty:"duty",duty2:"second duty",partner:"partner"},
+    who=x=>{const r=a[x.office].main[x.i]||{},d=r.driver?String(r.driver).trim():"",u=r.sub?String(r.sub).trim():"";return d&&u?`${d} (substitute ${u})`:d||(u?`${u} (substitute)`:"")};
+  let pick=!row.two&&row.partner&&free(row.partner)&&db.walkOffice[row.partner]===P?row.partner:"";
+  const item=(w,used)=>{const L=used?occ(w):[];return `<button type="button" class="d2it${used?" d2used":""}" data-d2w="${esc(w)}"><b>${esc(w)}</b>${used?`<small>${L.map(x=>`Row ${x.i+1} ${esc(FN[x.f]||x.f)} · ${who(x)?esc(who(x)):"nobody assigned"}`).join("<br>")}</small>`:""}</button>`};
+  const go=()=>{if(!pick)return toast("Pick a duty first");const was=row.two?"":(row.partner||""),old2=row.two?(row.duty2||""):"",moved=occ(pick).map(x=>({...x,who:who(x)}));
+    moved.forEach(x=>{const sp=`${x.office}.main.${x.i}`,sr=a[x.office].main[x.i];if(!sr)return;
+      if(x.f==="duty2"){setWalk(a,sp+".duty2","");setWalk(a,sp+".two",false);sr.two=false;delete sr.duty2}else setWalk(a,sp+"."+x.f,"")});
+    if(!row.two)setWalk(a,p+".partner","");const l2=setWalk(a,p+".two",true);setWalk(a,p+".duty2",pick);
+    const mv=moved.map(x=>`${FN[x.f]} on ${x.office} row ${x.i+1}${x.who?" ("+x.who+")":""}`);
+    save(`Row ${+ri+1} on ${P} now covers 2 duties: ${row.duty||"?"} + ${pick}`+(old2&&up(old2)!==up(pick)?` (was ${old2})`:"")+(mv.length?` (taken off the ${mv.join(" and the ")})`:"")+(was&&up(was)!==up(pick)?` (partner ${was} removed)`:"")+(l2.length?`, and on ${l2.length} later date${l2.length===1?"":"s"}`:""));render();
+    toast(`Second duty ${pick} ${old2?"set":"added"}`+(mv.length?`. Removed from the ${mv.join(" and the ")}`:"")+(was&&up(was)!==up(pick)?`. Partner ${was} removed`:""),mv.length?6000:3500)};
+  walkDlg(row.two?"Change the second duty":"Add a second duty",`<p>Row ${+ri+1} on ${P}${row.duty?` (<b>${esc(row.duty)}</b>)`:""}: pick the other duty this driver covers.</p>
+    <div class="d2list" id="d2List">
+      <div class="d2sec">Free on ${P} (${freeL.length})</div>${freeL.map(w=>item(w,false)).join("")||`<p class="note d2none">No ${P} duties are free today.</p>`}
+      <div class="d2sec d2secu">⚠ Already picked on ${P} (${usedL.length}) — picking one moves it here</div>${usedL.map(w=>item(w,true)).join("")||`<p class="note d2none">None.</p>`}
+    </div>
+    <div id="d2Warn" class="d2warn" role="status" aria-live="polite" hidden></div>
+    ${!row.two&&row.partner?`<p class="note">The partner <b>${esc(row.partner)}</b> will be removed.</p>`:""}`,row.two?"Change second duty":"Add second duty",go);
+  const list=document.getElementById("d2List"),okB=document.querySelector("#walkDlg [data-ok]"),warn=document.getElementById("d2Warn");
+  const upd=()=>{list.querySelectorAll(".d2it").forEach(b=>b.classList.toggle("on",b.dataset.d2w===pick));if(okB)okB.disabled=!pick;const L=pick?occ(pick):[];
+    if(L.length){warn.hidden=false;warn.innerHTML=`<b>${esc(pick)}</b> is already picked today:<ul>${L.map(x=>{const w=who(x);return `<li>${esc(x.office)} row ${x.i+1}, as the ${esc(FN[x.f]||x.f)} — ${w?`assigned to <b>${esc(w)}</b>`:"nobody assigned"}</li>`}).join("")}</ul>It will be <b>removed from there</b> and added here as the second duty.`}else{warn.hidden=true;warn.innerHTML=""}
+    if(okB)okB.textContent=L.length?"Move it here":row.two?"Change second duty":"Add second duty"};
+  list.onclick=e=>{const b=e.target.closest("[data-d2w]");if(!b)return;pick=b.dataset.d2w;upd();if(!warn.hidden)warn.scrollIntoView({block:"nearest"})};
+  upd()}
 function askEditWalk(el){
-  const m=WALKF.exec(el.dataset.path);if(!m)return;const P=m[1],rowN=+m[2]+1,f=m[3],was=el.value.trim(),past=day<iso(new Date());
+  const m=WALKF.exec(el.dataset.path);if(!m)return;if(m[3]==="duty2"){const A=cur();if(A&&A[m[1]]&&A[m[1]].main[+m[2]]){el.blur();d2Pick(A,`${m[1]}.main.${m[2]}`);return}}const P=m[1],rowN=+m[2]+1,f=m[3],was=el.value.trim(),past=day<iso(new Date());
   walkDlg(`Are you sure you want to edit this ${f==="duty2"?"second duty":f}?`,
     `<p>${P} row ${rowN}: <b>${was?esc(was):"empty"}</b></p><p>${past?`${esc(pretty(day))} has passed, so a change here only changes this date.`:`Changing a ${f==="duty2"?"second duty":f} also changes it on every later date.`}</p>`,
     "Yes, edit",
@@ -2569,7 +2603,7 @@ function officeHTML(a,o){
       :L1E?(r.two?`<td class="d2col l1edit" title="Second duty — this driver covers 2 duties, so there is no partner"><div class="dutycell duty2"><span class="d2tag" aria-hidden="true">2nd<br>duty</span>${walkInput(r.duty2||"",p+".duty2",o,"Second duty")}<button type="button" class="l1d2btn l1d2rm" data-duty2rm="${p}" title="Tap 3 times to remove the second duty" aria-label="Remove the second duty from row ${i+1}">Remove 2nd</button></div></td>`:`<td class="l1edit">${walkInput(r.partner,p+".partner",o,"Partner")}</td>`)
       :(r.two?`<td class="d2col l1w" data-l2edt="${p}" title="Second duty — this driver covers 2 duties, so there is no partner. Double-click to edit"><div class="dutycell duty2"><span class="d2tag" aria-hidden="true">2nd<br>duty</span>${l1Wtx(r.duty2)}${l1Pen(p,i)}</div></td>`:`<td class="l1w" data-l2edt="${p}" title="Double-click to edit the duty and partner"><div class="dutycell">${l1Wtx(r.partner)}${l1Pen(p,i)}</div></td>`)};
     if(L2){const v=r.hook!==""&&r.hook!=null?(vanBy(r.hook)||db.vans.find(x=>String(x.h)===String(r.hook))):null;
-      h+=`<tr${r.notUsed?' class="nurow"':""}><td${fuelCls(r.hook)}><div class="hookcell">${hookInput(r.hook,p+".hook",false,true)}${vdBtn(r.hook)}</div></td><td class="l2dn" data-l2edt="${p}" title="Double-click to edit the duty and CDV partner">${moveMode?`<span class="grip" data-dragrow="${p}" title="Drag to move this row">⠿</span> `:""}${esc(dutyNo(r.duty)||(/^\s*(DPR|FIRMS)/i.test(r.duty||"")?String(r.duty).trim().toUpperCase():""))}</td><td class="l2reg">${hookInput(r.hook,p+".hook",true)}</td>${C.driver}${C.sub}${L2ED.has(p)?`<td class="l2t l2edit"><div class="l2cdved">${walkInput(r.duty,p+".duty",o,"Duty")}<span class="l2sl">/</span>${r.two?walkInput(r.duty2||"",p+".duty2",o,"Second duty"):walkInput(r.partner,p+".partner",o,"Partner")}<button type="button" class="l2eddone" data-l2ed="${p}" title="Finish editing this row">✓</button></div></td>`:`<td class="l2t" data-l2edt="${p}"><span class="l2ttx">${esc(cdvTxt(r))}</span><button type="button" class="l2edbtn" data-l2ed="${p}" title="Edit the duty and CDV partner for this row. Changing them also changes later dates, like in Layout 1" aria-label="Edit duty and CDV partner">✎</button></td>`}<td class="l2nu"><label class="nuchk" title="Tick if this row isn't used today. Its van can then be used in another row, and its driver shows in the driver list with a warning."><input type="checkbox" data-notused="${o}.main.${i}"${r.notUsed?" checked":""} aria-label="Row ${i+1} not used"></label></td><td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;return}
+      h+=`<tr${r.notUsed?' class="nurow"':""}><td${fuelCls(r.hook)}><div class="hookcell">${hookInput(r.hook,p+".hook",false,true)}${vdBtn(r.hook)}</div></td><td class="l2dn" data-l2edt="${p}" title="Double-click to edit the duty and CDV partner">${moveMode?`<span class="grip" data-dragrow="${p}" title="Drag to move this row">⠿</span> `:""}${esc(dutyNo(r.duty)||(/^\s*(DPR|FIRMS)/i.test(r.duty||"")?String(r.duty).trim().toUpperCase():""))}</td><td class="l2reg">${hookInput(r.hook,p+".hook",true)}</td>${C.driver}${C.sub}${L2ED.has(p)?`<td class="l2t l2edit"><div class="l2cdved">${walkInput(r.duty,p+".duty",o,"Duty")}<span class="l2sl">/</span>${r.two?walkInput(r.duty2||"",p+".duty2",o,"Second duty"):walkInput(r.partner,p+".partner",o,"Partner")+`<button type="button" class="l1d2btn" data-duty2="${p}" title="Add a second duty — this driver covers 2 duties (removes the partner)">+ 2nd duty</button>`}<button type="button" class="l2eddone" data-l2ed="${p}" title="Finish editing this row">✓</button></div></td>`:`<td class="l2t" data-l2edt="${p}"><span class="l2ttx">${esc(cdvTxt(r))}</span><button type="button" class="l2edbtn" data-l2ed="${p}" title="Edit the duty and CDV partner for this row. Changing them also changes later dates, like in Layout 1" aria-label="Edit duty and CDV partner">✎</button></td>`}<td class="l2nu"><label class="nuchk" title="Tick if this row isn't used today. Its van can then be used in another row, and its driver shows in the driver list with a warning."><input type="checkbox" data-notused="${o}.main.${i}"${r.notUsed?" checked":""} aria-label="Row ${i+1} not used"></label></td><td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;return}
     C.num=`<td class="n" style="text-align:center;padding-right:0;width:${NW}px;min-width:${NW}px;max-width:${NW}px;box-sizing:border-box">${mvR(p,i,s.main.length)}</td>`;
     h+=`<tr${r.notUsed?' class="nurow" title="Not used today (ticked in Layout 2)"':""}>${FO.map(k=>C[k]).join("")}<td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.main">Add a row</button>`;
@@ -2989,39 +3023,8 @@ function wire(m,a){
       if((e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey)||e.key==="Backspace"||e.key==="Delete"){e.preventDefault();ask()}});
     el.addEventListener("blur",()=>{if(!el.readOnly&&el.value===(el.dataset.was||"")&&!$("walkDlg")){el.readOnly=true;el.setAttribute("readonly","")}});
   });
-  /* second duty: a driver covering 2 duties has no partner. Carries on to later dates like duty changes.
-     Duties already listed in another box today are offered in their own group; picking one says where it is
-     and who is on it, and it is taken out of that box when added here (Ash, 5 Oct 2026) */
-  m.querySelectorAll("[data-duty2]").forEach(b=>b.onclick=()=>{const p=b.dataset.duty2,[P,,ri]=p.split("."),row=a[P].main[+ri];if(!row)return;
-    const Uw=usage(a).walks,mine=x=>x.office===P&&x.sec==="main"&&x.i===+ri,
-      occ=w=>(Uw.get(up(w))||[]).filter(x=>!mine(x)),
-      free=w=>!occ(w).length,ownDuty=w=>up(w)===up(row.duty),
-      mineL=db.walks.filter(w=>db.walkOffice[w]===P&&free(w)&&!ownDuty(w)).sort((x,y)=>walkCmp(x,y,"num")),
-      othL=db.walks.filter(w=>db.walkOffice[w]!==P&&free(w)&&!SPECIAL.has(w)&&!ownDuty(w)).sort((x,y)=>walkCmp(x,y,"office")),spL=[...SPECIAL].filter(w=>free(w)&&!ownDuty(w)),
-      usedL=db.walks.filter(w=>!SPECIAL.has(w)&&!free(w)&&!ownDuty(w)).sort((x,y)=>{const ox=db.walkOffice[x]===P?0:1,oy=db.walkOffice[y]===P?0:1;return ox-oy||walkCmp(x,y,ox?"office":"num")});
-    const FN={duty:"duty",duty2:"second duty",partner:"partner"},
-      who=x=>{const r=a[x.office].main[x.i]||{},d=r.driver?String(r.driver).trim():"",u=r.sub?String(r.sub).trim():"";return d&&u?`${d} (substitute ${u})`:d||(u?`${u} (substitute)`:"")},
-      whereTxt=x=>`${x.office} row ${x.i+1} (${FN[x.f]||x.f})`;
-    const opt=w=>`<option value="${esc(w)}"${up(w)===up(row.partner)?" selected":""}>${esc(w)}${db.walkOffice[w]&&db.walkOffice[w]!==P?" ("+esc(db.walkOffice[w])+")":""}</option>`,
-      optU=w=>{const L=occ(w),nm=L.map(who).filter(Boolean);return `<option value="${esc(w)}">${esc(w)} — on ${esc(L.map(whereTxt).join(", "))}${nm.length?" · "+esc(nm.join(", ")):" · nobody assigned"}</option>`};
-    let pick=row.partner&&free(row.partner)?row.partner:"";
-    const go=()=>{if(!pick)return toast("Pick a duty first");const was=row.partner||"",moved=occ(pick).map(x=>({...x,who:who(x)}));
-      /* take it out of wherever else it is listed first */
-      moved.forEach(x=>{const sp=`${x.office}.main.${x.i}`,sr=a[x.office].main[x.i];if(!sr)return;
-        if(x.f==="duty2"){setWalk(a,sp+".duty2","");setWalk(a,sp+".two",false);sr.two=false;delete sr.duty2}else setWalk(a,sp+"."+x.f,"")});
-      setWalk(a,p+".partner","");const l2=setWalk(a,p+".two",true);setWalk(a,p+".duty2",pick);
-      const mv=moved.map(x=>`${FN[x.f]} on ${x.office} row ${x.i+1}${x.who?" ("+x.who+")":""}`);
-      save(`Row ${+ri+1} on ${P} now covers 2 duties: ${row.duty||"?"} + ${pick}`+(mv.length?` (taken off the ${mv.join(" and the ")})`:"")+(was&&up(was)!==up(pick)?` (partner ${was} removed)`:"")+(l2.length?`, and on ${l2.length} later date${l2.length===1?"":"s"}`:""));render();
-      toast(`Second duty ${pick} added`+(mv.length?`. Removed from the ${mv.join(" and the ")}`:"")+(was&&up(was)!==up(pick)?`. Partner ${was} removed`:""),mv.length?6000:3500)};
-    walkDlg("Add a second duty",`<p>Row ${+ri+1} on ${P}${row.duty?` (<b>${esc(row.duty)}</b>)`:""}: pick the other duty this driver covers.</p>
-      <label class="d2pick"><span>Second duty</span><select id="d2Sel"><option value="">— pick a duty —</option>${mineL.length?`<optgroup label="${P} — free">${mineL.map(opt).join("")}</optgroup>`:""}${spL.length?`<optgroup label="Other duties">${spL.map(opt).join("")}</optgroup>`:""}${othL.length?`<optgroup label="Other offices — free">${othL.map(opt).join("")}</optgroup>`:""}${usedL.length?`<optgroup label="⚠ Already listed today — will be moved here">${usedL.map(optU).join("")}</optgroup>`:""}</select></label>
-      <div id="d2Warn" class="d2warn" role="status" aria-live="polite" hidden></div>
-      <p class="note">Free duties are listed first. Duties already listed in another box today are at the bottom; picking one takes it out of that box.${row.partner?` The partner <b>${esc(row.partner)}</b> will be removed${free(row.partner)?" (it's picked here already, so it becomes the second duty)":""}.`:""}</p>`,"Add second duty",go);
-    const sel=document.getElementById("d2Sel"),okB=document.querySelector("#walkDlg [data-ok]"),warn=document.getElementById("d2Warn");
-    const upd=()=>{if(okB){okB.disabled=!pick}const L=pick?occ(pick):[];
-      if(warn){if(L.length){warn.hidden=false;warn.innerHTML=`<b>${esc(pick)}</b> is already listed today:<ul>${L.map(x=>{const w=who(x);return `<li>${esc(x.office)} row ${x.i+1}, as the ${esc(FN[x.f]||x.f)} — ${w?`assigned to <b>${esc(w)}</b>`:"nobody assigned"}</li>`}).join("")}</ul>It will be <b>removed from there</b> and added here as the second duty.`}else{warn.hidden=true;warn.innerHTML=""}}
-      if(okB)okB.textContent=L.length?"Move it here":"Add second duty"};
-    if(sel){sel.onchange=()=>{pick=sel.value;upd()};setTimeout(()=>sel.focus(),30)}upd()});
+  /* second duty picker: see d2Pick() */
+  m.querySelectorAll("[data-duty2]").forEach(b=>b.onclick=()=>d2Pick(a,b.dataset.duty2));
   m.querySelectorAll("[data-swst]").forEach(sl=>sl.onchange=()=>{const L=subWaitList().slice(),e=L[+sl.dataset.swst];if(!e)return;const was=e.st,v=sl.value;e.st=v;
     db.absence=db.absence||{};const D=db.absence[day]=db.absence[day]||{};
     if(/^(AL|SL|OA)$/.test(v))D[e.n]=v;else if(/^(AL|SL|OA)$/.test(was)&&D[e.n]===was)delete D[e.n];if(!Object.keys(D).length)delete db.absence[day];
