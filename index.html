@@ -1294,8 +1294,52 @@ html:not(.mob) table.offtbl .hkline:has(input.hook:focus) .hooktips{display:none
 html:not(.mob) table.offtbl .hkline:has(input.hook:focus) .hookcell{flex:1 1 100%!important;width:100%!important;min-width:0!important;max-width:100%!important}
 html:not(.mob) table.offtbl .hkline:has(input.hook:focus) input.hook{border-radius:8px;box-shadow:0 0 0 2px color-mix(in srgb,var(--ink) 40%,transparent)}
 html:not(.mob) table.offtbl .hkline:has(input.hook:focus) input.hook::placeholder{color:var(--muted);opacity:.85}
+.hlnew{margin-left:6px;padding:1px 6px;border-radius:999px;background:#ffd43b;color:#1d1d1d;font:800 10px/1.4 var(--body,system-ui);letter-spacing:.04em;vertical-align:middle}
+.hlguide{pointer-events:auto;position:fixed;left:50%;top:18px;transform:translateX(-50%);width:min(780px,94vw);max-height:calc(100vh - 96px);display:flex;flex-direction:column;background:var(--panel,#fff);color:var(--text,#1d1d1d);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.45);overflow:hidden;font:400 15px/1.45 var(--body,system-ui)}
+.hlg-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 4px}.hlg-head h3{margin:0;font-size:22px}.hlg-build{margin-left:auto;font-size:12px;color:var(--muted,#667)}
+.hlguide input[type=search]{margin:6px 18px 8px;padding:9px 12px;border:1px solid var(--line,#ccc);border-radius:10px;background:var(--field,#fff);color:inherit;font:inherit}
+.hlg-body{overflow:auto;padding:0 18px 16px}
+.hlsec{border:1px solid var(--line,#ddd);border-radius:10px;margin:8px 0;background:var(--field,#fff)}
+.hlsec>summary{cursor:pointer;padding:10px 14px;font:700 16px var(--body,system-ui);list-style:none;display:flex;align-items:center}
+.hlsec>summary::-webkit-details-marker{display:none}.hlsec>summary::before{content:"▸";display:inline-block;width:20px;text-align:center;font-size:13px}.hlsec[open]>summary::before{content:"▾"}
+.hlsec>div{padding:0 16px 12px 34px}.hlsec h4{margin:12px 0 2px;font-size:14px;color:var(--muted,#667)}.hlsec p{margin:6px 0}.hlsec ul,.hlsec ol{margin:4px 0;padding-left:20px}.hlsec li{margin:6px 0}
+.hlg-none{padding:10px 4px;color:var(--muted,#667)}
+.sheettxt{margin:14px 0 6px}.stgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px;margin-top:8px}
+.stcard{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.stcard h4{margin:0;font:700 20px var(--display)}.stcard .stsub{margin:-4px 0 2px;font-size:12px;color:var(--muted)}
+.stprev{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;overflow:hidden;background:var(--field);color:var(--text);white-space:nowrap;min-height:76px;display:flex;flex-direction:column;justify-content:center}
+.stprev.paper{background:#fff;color:#000;border:1px solid #000;border-radius:0}.stprev .sth{border-bottom:1px solid currentColor;padding-bottom:3px;margin-bottom:4px}
+.strow{display:grid;grid-template-columns:minmax(92px,124px) minmax(0,1fr);align-items:center;gap:8px}.strow>label:first-child{font-size:13px;color:var(--muted)}
+.strow select{width:100%;min-width:0}.strng{display:flex;align-items:center;gap:8px;min-width:0}.strng input[type=range]{flex:1 1 0;width:0;min-width:0}.strng output{min-width:42px;text-align:right;font:600 13px var(--body)}
+.stchk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text)!important}.stbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+/* Hook box: the clear × now sits beside the text in its own slot, like the driver and substitute boxes. Before, it floated over
+   the input and only 24px of padding kept the text away; Firefox lets long text run into that padding, so the × covered the last letters
+   of the plate (Ash, 7 Oct 2026). If the × is hidden or off, the box simply uses the room. */
+html:not(.mob) table.offtbl .hkwrap{align-items:center;gap:2px}
+html:not(.mob) table.offtbl .hkwrap>input.hook{padding-right:4px!important;min-width:0}
+html:not(.mob) table.offtbl .hkwrap>.hkclr{position:static!important;transform:none!important;flex:0 0 auto;order:3;margin:0!important}
+/* pointing at a × turns it into a disc: keep the cross readable (the hook cell colours had made it black on grey) */
+html:not(.mob) table.offtbl td :is(.nmclr,.hkclr):hover,html:not(.mob) table.offtbl td :is(.nmclr,.hkclr):focus-visible{color:#fff!important}
+.stbar{margin:6px 0 12px}.stfind{display:block}.stfind input{width:100%;box-sizing:border-box;padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--text);font:inherit}
+.sr{position:absolute;left:-9999px}.stnav{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}.stnavlab{font-size:13px;color:var(--muted);margin-right:2px}
+.stnav button{border:1px solid var(--line);background:var(--field);color:var(--text);border-radius:999px;padding:4px 12px;font:600 13px var(--body);cursor:pointer}.stnav button:hover{background:color-mix(in srgb,var(--text) 8%,var(--field))}
+.stnavsep{flex:1}.stnone{margin:10px 2px;color:var(--muted)}
+.stsec{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:12px 0;scroll-margin-top:72px}.stsec[hidden]{display:none}
+.stsec>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:12px 16px}.stsec>summary::-webkit-details-marker{display:none}
+.stsec>summary::before{content:"▸";width:16px;color:var(--muted);align-self:center}.stsec[open]>summary::before{content:"▾"}
+.stsec>summary:hover{background:color-mix(in srgb,var(--text) 5%,transparent);border-radius:12px}.sttitle{font:700 20px var(--display)}.stdesc{font-size:13.5px;color:var(--muted)}
+.stbody{padding:2px 16px 16px}.stbody>h3{margin:18px 0 4px;font:700 17px var(--display)}.stsec.stdanger{border-color:color-mix(in srgb,var(--clash) 55%,var(--line))}.stsec.stdanger .sttitle{color:var(--clash)}
+.stmatch{outline:3px solid #ffd43b;outline-offset:2px;border-radius:6px;background:color-mix(in srgb,#ffd43b 22%,transparent)}
+.setopts .optgh{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap;text-transform:none;letter-spacing:0;font:700 16px var(--display);color:var(--text);border-bottom:1px solid var(--line);margin-top:12px}.setopts .optgh small{font:400 12.5px var(--body);color:var(--muted)}
+.opthelp{margin:10px 0}.opthelp>summary{cursor:pointer;font-weight:600;padding:4px 0;color:var(--ink)}.opthelp dl{margin:6px 0 0;display:grid;grid-template-columns:minmax(150px,max-content) 1fr;gap:6px 16px;font-size:13.5px}.opthelp dt{font-weight:700}.opthelp dd{margin:0;color:var(--muted)}
+.lookgrp{border-top:1px solid var(--line);margin-top:6px}.lookgrp[hidden]{display:none}.lookgrp>summary{cursor:pointer;list-style:none;padding:10px 2px;font:600 16px var(--display);color:var(--muted)}.lookgrp>summary::-webkit-details-marker{display:none}
+.lookgrp>summary::before{content:"▸";display:inline-block;width:18px}.lookgrp[open]>summary::before{content:"▾"}.lookgrp[open]>summary{color:var(--text)}.lookgrp>.lookgrid{padding-bottom:8px}
 /* top bar Settings + Pop out */
-.hsetgrp{display:inline-flex;gap:4px;align-items:center}
+.hsetgrp{display:inline-flex;gap:0;align-items:stretch}
+.hsetgrp #setTopBtn{border-top-right-radius:0;border-bottom-right-radius:0}
+.hsetgrp #setTopBtn[aria-pressed=true]{box-shadow:inset 2px 0 0 0 currentColor,inset 0 2px 0 0 currentColor,inset 0 -2px 0 0 currentColor}
+.hsetgrp #setTopPop[aria-pressed=true]{box-shadow:inset -2px 0 0 0 currentColor,inset 0 2px 0 0 currentColor,inset 0 -2px 0 0 currentColor}
+.hsetgrp #setTopPop{margin-left:-1px;border-top-left-radius:0;border-bottom-left-radius:0;padding-left:7px;padding-right:7px;min-width:28px;font-weight:700}
 #setTopBtn[aria-pressed=true],#setTopPop[aria-pressed=true]{box-shadow:inset 0 0 0 2px currentColor}
 html.mob .hsetgrp,html.offpopwin .hsetgrp,html.setwin .hsetgrp{display:none!important}
 /* Substitutes to place (RDW moved them off a row) */
@@ -1605,8 +1649,8 @@ table.offtbl td.l2dnfree input{width:100%;text-align:center;box-sizing:border-bo
   <div class="spacer"></div>
   <button class="hbtn" id="undoBtn" disabled title="Nothing to undo yet">↶ Undo</button>
   <button class="hbtn" id="redoBtn" disabled title="Nothing to redo">↷ Redo</button>
-  <span class="hsetgrp"><button class="hbtn" id="setTopBtn" type="button" title="Open Settings">⚙ Settings</button><button class="hbtn" id="setTopPop" type="button" aria-pressed="false" title="Pop out Settings into its own window">⧉ Pop out</button></span>
-  <button class="hbtn" id="helpBtn" type="button" title="Show what everything on this page does">? Help</button>
+  <span class="hsetgrp"><button class="hbtn" id="setTopBtn" type="button" title="Open Settings">⚙ Settings</button><button class="hbtn" id="setTopPop" type="button" aria-pressed="false" aria-label="Pop out Settings into its own window" title="Pop out Settings into its own window">⧉</button></span>
+  <button class="hbtn" id="helpBtn" type="button" title="Help: points out what everything on this page does, with a written guide and what's new (or press ?)">? Help</button>
   <button class="hbtn mobonly" id="moreBtn" type="button" aria-expanded="false" title="History, print and backups">More</button>
   <button class="hbtn" id="printBtn">Print sheet</button>
   <button class="hbtn" id="exportBtn">Save Data/Backup</button>
@@ -1728,7 +1772,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-07.194";
+const BUILD="2026-10-07.200";window.DA_BUILD=BUILD;
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000;let STORE_CAP=localStorage.idb?60000000:5000000;
@@ -1815,7 +1859,7 @@ function fuelSty(v){const k=fuelK(v);if(!k)return "";const x=k.slice(-1);return 
 function fuelCls(h){const L=lookNow();if(L.fuelColOff)return "";const v=h&&vanBy(h);if(!v||!v.fuel)return "";return ` class="fuelc fuel-${v.fuel==="E"?"e":v.fuel==="P"?"p":"d"}"`}
 /* hover descriptions for every button (Ash, 4 Oct 2026). Buttons that already have their own description keep it. */
 const TIPS=[
- ["#prev","Go back one day (skips Sundays)"],["#next","Go forward one day (skips Sundays)"],
+ ["#prev","Go back one day"],["#next","Go forward one day"],
  ["#setTopBtn","Open Settings"],["#setTopPop","Open Settings in its own window. Tap again to close that window"],["#printBtn","Print the allocation sheet for this day"],["#exportBtn,#saveWarnBk","Save a backup file of all your data to this computer"],["#importBtn","Load a backup file and replace what's in this browser"],
  ["#histClose","Close the change history"],
  ["[data-osz='-10']","Make the selected button smaller"],["[data-osz='10']","Make the selected button bigger"],["[data-osz='0']","Put the selected button back to its normal size"],
@@ -2248,7 +2292,7 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 let U;
 
 function render(){{const m=$("main");if(m)m.dataset.tabkey=tab+"|"+offLay()}
-  {const sp=$("setTopPop");if(sp){const on=setOpen();sp.setAttribute("aria-pressed",on);sp.textContent=on?"⧉ Close pop-out":"⧉ Pop out";sp.title=on?"Close the Settings window":"Pop out Settings into its own window"}const sb=$("setTopBtn");if(sb)sb.setAttribute("aria-pressed",tab==="Settings")}
+  {const sp=$("setTopPop");if(sp){const on=setOpen();sp.setAttribute("aria-pressed",on);sp.textContent=on?"✕":"⧉";sp.title=on?"Close the Settings window":"Pop out Settings into its own window";sp.setAttribute("aria-label",sp.title)}const sb=$("setTopBtn");if(sb)sb.setAttribute("aria-pressed",tab==="Settings")}
   if(OFFPOP&&tab!==OFFPOP){tab=OFFPOP;mobBoard=false}
   if(SETWIN&&tab!=="Settings"){tab="Settings";mobBoard=false}
   if(!OFFPOP)setTimeout(postOpt,0);
@@ -3168,11 +3212,78 @@ function oosHTML(a){
 
   return h;
 }
-function offOptsHTML(){/* "Pop out W2" removed from Settings — each office tab has its own 🗗 Pop out button (Ash, 7 Oct 2026) */return `<div class="offtools setopts${optEdit?" optedit":""}"><span class="optgh" data-optkey="gh:vans">Vans and hooks</span><button class="addrow" id="vdToggle" aria-pressed="${!(db.look&&db.look.vdOff)}" title="Show or hide the i button next to each hook for vehicle details">${db.look&&db.look.vdOff?"Vehicle details (i): off":"Vehicle details (i): on"}</button><span class="optgh" data-optkey="gh:names">Driver names</span><button class="addrow" id="shortNmToggle" aria-pressed="${!!(db.look&&db.look.shortNames)}" title="Show driver and substitute names in full, as J. SMITH, or as JOHN S.">${db.look&&db.look.shortNames==="last"?"Names: JOHN S.":db.look&&db.look.shortNames?"Names: J. SMITH":"Names: FULL"}</button>${["boldDrv","boldSub"].map(k=>`<label class="nwsel" title="How bold the ${k==="boldDrv"?"driver":"substitute"} names are on W2 to W12">${k==="boldDrv"?"Driver names":"Sub names"} <select data-namew="${k}">${NAMEW.map(([v,l])=>`<option value="${v}"${nameW(db.look&&db.look[k])===v?" selected":""} style="font-weight:${v}">${l}</option>`).join("")}</select></label>`).join("")}<button class="addrow" id="dhToggle" aria-pressed="${!(db.look&&db.look.dhOff)}" title="Show or hide the i button next to each driver for their van history">${db.look&&db.look.dhOff?"Driver history (i): off":"Driver history (i): on"}</button><button class="addrow" id="vanLineToggle" aria-pressed="${vanLineMode()!=="off"}" title="The office's van list at the top of the sheet. Tap to show it, show it without the vans that aren't on the office's list, or hide it">${vanLineMode()==="off"?"Office vans line: off":vanLineMode()==="nolist"?"Office vans line: no 'Not on list'":"Office vans line: on"}</button><button class="addrow" id="clrXToggle" aria-pressed="${((db.look&&db.look.clrX)||"on")!=="off"}" title="The × next to a driver or substitute that clears the name (tap it 3 times). Show it always, only when the mouse is over the row, or not at all">${{on:"Clear name ×: on",hover:"Clear name ×: on hover",off:"Clear name ×: off"}[(db.look&&db.look.clrX)||"on"]}</button>${nameShowHTML()}<span class="optgh" data-optkey="gh:sugs">Suggestions</span><button class="addrow" id="drvSugToggle" aria-pressed="${!(db.look&&db.look.drvSugOff)}" title="Show suggested drivers for an empty driver box as buttons, as a drop-down list, or not at all">${db.look&&db.look.drvSugOff?"Driver suggestions: none":db.look&&db.look.drvSugDrop?"Driver suggestions: drop-down":"Driver suggestions: buttons"}</button><button class="addrow" id="subSugToggle" aria-pressed="${!(db.look&&db.look.subSugOff)}" title="Show suggested substitutes as a drop-down list, as buttons, or not at all">${db.look&&db.look.subSugOff?"Sub suggestions: none":db.look&&db.look.subSugChips?"Sub suggestions: buttons":"Sub suggestions: drop-down"}</button><button class="addrow" id="subInfoToggle" aria-pressed="${!(db.look&&db.look.subInfoOff)}" title="Show the substitute line (e.g. Covered AHMED 5×) under the substitute, only inside the info button, or not at all">${db.look&&db.look.subInfoOff?"Sub covered info: off":db.look&&db.look.subInfoInI?'Sub covered info: in info button <span class="ilogo" aria-hidden="true">'+iGlyph()+'</span>':"Sub covered info: under name"}</button><button class="addrow" id="subVanToggle" aria-pressed="${!(db.look&&db.look.subVanOff)}" title="When a row has a substitute, also suggest the van the substitute uses most (for when the driver is on another duty)">${db.look&&db.look.subVanOff?"Sub's own van: off":"Sub's own van: on"}</button><span class="optgh" data-optkey="gh:walks">Walks</span><button class="addrow" id="wcolToggle" aria-pressed="${!(db.look&&db.look.wcolOff)}" title="Show or hide the walk colours (Blue, Yellow, White, Pink, N/A) in the Duty and Partner boxes">${db.look&&db.look.wcolOff?"Walk colours: off":"Walk colours: on"}</button><span class="optgh" data-optkey="gh:sizes">Sizes</span><span class="sizetools offsize" style="margin:0"><span>Text size</span><button type="button" data-offsz="-10" aria-label="Smaller text">A−</button><output>${offSize()}%</output><button type="button" data-offsz="10" aria-label="Larger text">A+</button><button type="button" data-offsz="0" title="Put text size, letter spacing, column widths and row height back to normal">Reset</button></span><span class="sizetools offsize trktools" style="margin:0"><span>Letter spacing</span><select data-trkwhat aria-label="Which text to space out">${TRKW.map(([k,l])=>`<option value="${k}"${trkSel===k?" selected":""}>${l}${trkGet(k)?" ("+trkTxt(trkGet(k))+")":""}</option>`).join("")}</select><button type="button" data-trk="-2" aria-label="Letters closer together"${trkGet(trkSel)<=-10?" disabled":""}>◀</button><output>${trkGet(trkSel)?trkTxt(trkGet(trkSel)):"Normal"}</output><button type="button" data-trk="2" aria-label="Letters further apart"${trkGet(trkSel)>=60?" disabled":""}>▶</button>${Object.values(trkAll()).some(v=>v)?`<button type="button" data-trkreset title="Put the letter spacing of every kind of text back to normal">Reset</button>`:""}</span><span class="sizetools offsize rowhtools" style="margin:0"><span>Row height</span><button type="button" data-rowh="-1" aria-label="Shorter rows"${rowHIdx()?"":" disabled"}>▼</button><o>${ROWH[rowHIdx()][1]}</o><button type="button" data-rowh="1" aria-label="Taller rows"${rowHIdx()<ROWH.length-1?"":" disabled"}>▲</button></span><button type="button" class="addrow fitbtn" data-optkey="fit" data-fitall title="Fit every column to its longest entry">↔ Fit columns</button><span class="optgh" data-optkey="gh:new">New dates</span><button class="addrow" id="carryNewToggle" aria-pressed="${!!(db.look&&db.look.carryNew)}" title="When you open a date for the first time, should it copy the hooks and drivers from the day before? Off: the rows, duties and partners are set up but the hook, driver and substitute boxes start empty, ready for Import from previous day or Fill from usual. On: hooks and drivers are copied over automatically. Days already opened keep what they have.">${db.look&&db.look.carryNew?"New dates copy hooks and drivers: on":"New dates copy hooks and drivers: off"}</button></div>`}
+function offOptsHTML(){/* "Pop out W2" removed from Settings — each office tab has its own 🗗 Pop out button (Ash, 7 Oct 2026) */return `<div class="offtools setopts${optEdit?" optedit":""}"><span class="optgh" data-optkey="gh:vans">Vans and hooks<small>What shows about the vans</small></span><button class="addrow" id="vdToggle" aria-pressed="${!(db.look&&db.look.vdOff)}" title="Show or hide the i button next to each hook for vehicle details">${db.look&&db.look.vdOff?"Van details button (i): hidden":"Van details button (i): shown"}</button><button class="addrow" id="vanLineToggle" aria-pressed="${vanLineMode()!=="off"}" title="The office's van list at the top of the sheet. Tap to show it, show it without the vans that aren't on the office's list, or hide it">${vanLineMode()==="off"?"Office vans line: hidden":vanLineMode()==="nolist"?"Office vans line: shown without 'Not on list'":"Office vans line: shown"}</button><span class="optgh" data-optkey="gh:names">Names and info buttons<small>How names look, and the little buttons beside them</small></span><button class="addrow" id="shortNmToggle" aria-pressed="${!!(db.look&&db.look.shortNames)}" title="Show driver and substitute names in full, as J. SMITH, or as JOHN S.">${db.look&&db.look.shortNames==="last"?"Name style: JOHN S.":db.look&&db.look.shortNames?"Name style: J. SMITH":"Name style: full name"}</button>${["boldDrv","boldSub"].map(k=>`<label class="nwsel" title="How bold the ${k==="boldDrv"?"driver":"substitute"} names are on W2 to W12">${k==="boldDrv"?"Driver name boldness":"Substitute name boldness"} <select data-namew="${k}">${NAMEW.map(([v,l])=>`<option value="${v}"${nameW(db.look&&db.look[k])===v?" selected":""} style="font-weight:${v}">${l}</option>`).join("")}</select></label>`).join("")}<button class="addrow" id="dhToggle" aria-pressed="${!(db.look&&db.look.dhOff)}" title="Show or hide the i button next to each driver for their van history">${db.look&&db.look.dhOff?"Driver history button (i): hidden":"Driver history button (i): shown"}</button><button class="addrow" id="clrXToggle" aria-pressed="${((db.look&&db.look.clrX)||"on")!=="off"}" title="The × next to a driver or substitute that clears the name (tap it 3 times). Show it always, only when the mouse is over the row, or not at all">${{on:"Clear (×) button: always shown",hover:"Clear (×) button: shown on hover",off:"Clear (×) button: hidden"}[(db.look&&db.look.clrX)||"on"]}</button>${nameShowHTML()}<span class="optgh" data-optkey="gh:sugs">Suggestions<small>Hints that appear when a box is empty</small></span><button class="addrow" id="drvSugToggle" aria-pressed="${!(db.look&&db.look.drvSugOff)}" title="Show suggested drivers for an empty driver box as buttons, as a drop-down list, or not at all">${db.look&&db.look.drvSugOff?"Suggested drivers: not shown":db.look&&db.look.drvSugDrop?"Suggested drivers: as a list":"Suggested drivers: as buttons"}</button><button class="addrow" id="subSugToggle" aria-pressed="${!(db.look&&db.look.subSugOff)}" title="Show suggested substitutes as a drop-down list, as buttons, or not at all">${db.look&&db.look.subSugOff?"Suggested substitutes: not shown":db.look&&db.look.subSugChips?"Suggested substitutes: as buttons":"Suggested substitutes: as a list"}</button><button class="addrow" id="subInfoToggle" aria-pressed="${!(db.look&&db.look.subInfoOff)}" title="Show the substitute line (e.g. Covered AHMED 5×) under the substitute, only inside the info button, or not at all">${db.look&&db.look.subInfoOff?"“Covered” note: hidden":db.look&&db.look.subInfoInI?'“Covered” note: inside the info button <span class="ilogo" aria-hidden="true">'+iGlyph()+'</span>':"“Covered” note: under the name"}</button><button class="addrow" id="subVanToggle" aria-pressed="${!(db.look&&db.look.subVanOff)}" title="When a row has a substitute, also suggest the van the substitute uses most (for when the driver is on another duty)">${db.look&&db.look.subVanOff?"Substitute's own van: not suggested":"Substitute's own van: suggested"}</button><span class="optgh" data-optkey="gh:walks">Walks<small>The Duty and Partner boxes</small></span><button class="addrow" id="wcolToggle" aria-pressed="${!(db.look&&db.look.wcolOff)}" title="Show or hide the walk colours (Blue, Yellow, White, Pink, N/A) in the Duty and Partner boxes">${db.look&&db.look.wcolOff?"Walk colours: hidden":"Walk colours: shown"}</button><span class="optgh" data-optkey="gh:sizes">Sizes and spacing<small>How big the whole sheet is</small></span><span class="sizetools offsize" style="margin:0"><span>Text size</span><button type="button" data-offsz="-10" aria-label="Smaller text">A−</button><output>${offSize()}%</output><button type="button" data-offsz="10" aria-label="Larger text">A+</button><button type="button" data-offsz="0" title="Put text size, letter spacing, column widths and row height back to normal">Reset</button></span><span class="sizetools offsize trktools" style="margin:0"><span>Letter spacing</span><select data-trkwhat aria-label="Which text to space out">${TRKW.map(([k,l])=>`<option value="${k}"${trkSel===k?" selected":""}>${l}${trkGet(k)?" ("+trkTxt(trkGet(k))+")":""}</option>`).join("")}</select><button type="button" data-trk="-2" aria-label="Letters closer together"${trkGet(trkSel)<=-10?" disabled":""}>◀</button><output>${trkGet(trkSel)?trkTxt(trkGet(trkSel)):"Normal"}</output><button type="button" data-trk="2" aria-label="Letters further apart"${trkGet(trkSel)>=60?" disabled":""}>▶</button>${Object.values(trkAll()).some(v=>v)?`<button type="button" data-trkreset title="Put the letter spacing of every kind of text back to normal">Reset</button>`:""}</span><span class="sizetools offsize rowhtools" style="margin:0"><span>Row height</span><button type="button" data-rowh="-1" aria-label="Shorter rows"${rowHIdx()?"":" disabled"}>▼</button><o>${ROWH[rowHIdx()][1]}</o><button type="button" data-rowh="1" aria-label="Taller rows"${rowHIdx()<ROWH.length-1?"":" disabled"}>▲</button></span><button type="button" class="addrow fitbtn" data-optkey="fit" data-fitall title="Fit every column to its longest entry">↔ Fit columns</button><span class="optgh" data-optkey="gh:new">New days<small>What a brand-new day starts with</small></span><button class="addrow" id="carryNewToggle" aria-pressed="${!!(db.look&&db.look.carryNew)}" title="When you open a date for the first time, should it copy the hooks and drivers from the day before? Off: the rows, duties and partners are set up but the hook, driver and substitute boxes start empty, ready for Import from previous day or Fill from usual. On: hooks and drivers are copied over automatically. Days already opened keep what they have.">${db.look&&db.look.carryNew?"New days copy yesterday's hooks and drivers: yes":"New days copy yesterday's hooks and drivers: no"}</button></div>`}
+/* ===== Settings page layout (Ash, 7 Oct 2026): six collapsible sections, a search box and jump buttons ===== */
+const ST_KEY="driver-allocation-settings-open";
+let stOpen=(()=>{try{const v=JSON.parse(localStorage.getItem(ST_KEY)||"null");if(Array.isArray(v))return new Set(v.filter(x=>typeof x==="string"))}catch(e){}return new Set(["sheets","text"])})(),stGrpOpen=new Set();
+const stSave=()=>{try{localStorage.setItem(ST_KEY,JSON.stringify([...stOpen]))}catch(e){}};
+const ST_SECS=[["sheets","What the office sheets show","Buttons, names, suggestions and sizes on the W2 to W12 sheets.","Sheets"],
+  ["text","Sheet text","Size, boldness, italic and font for Layout 1, Layout 2 and V2, each on its own.","Sheet text"],
+  ["colours","Colours and themes","Pick a theme, then change any colour, line or effect.","Colours"],
+  ["vans","Vans","Update the van list from your spreadsheets.","Vans"],
+  ["backups","Backups and sync","Where your data is kept, how to save a copy, and syncing between devices.","Backups and sync"],
+  ["reset","Start again","Delete everything and begin again. Save a backup first.","Start again"]];
+const OPT_HELP=[["Van details button (i)","Shows or hides the small i next to each hook. It opens that van's details."],
+  ["Office vans line","The list of this office's vans at the top of the sheet. Press to show it, show it without the vans that aren't on the office's list, or hide it."],
+  ["Name style","Shows driver and substitute names in full, as J. SMITH, or as JOHN S. Press to move to the next style."],
+  ["Driver and substitute name boldness","How bold the driver names and the substitute names are on W2 to W12."],
+  ["Driver history button (i)","Shows or hides the small i next to each driver. It shows the vans they have used."],
+  ["Clear (×) button","The × next to a driver or substitute that clears the name (tap it 3 times). Show it always, only when the mouse is over the row, or not at all."],
+  ["Show beside names","Photo, gender, L, height and more next to each driver's name. Tick the ones you want."],
+  ["Suggested drivers","What appears in an empty driver box: suggestion buttons, a drop-down list, or nothing."],
+  ["Suggested substitutes","Suggested substitutes as a drop-down list, as buttons, or not shown."],
+  ["“Covered” note","The line under a substitute, for example Covered AHMED 5×. Show it under the name, only inside the info button, or hide it."],
+  ["Substitute's own van","When a row has a substitute, also suggest the van that substitute uses most. Useful when the driver is on another duty."],
+  ["Walk colours","Shows or hides the walk colours (Blue, Yellow, White, Pink, N/A) in the Duty and Partner boxes."],
+  ["Text size, Letter spacing, Row height, Fit columns","Make the tables bigger or smaller, bring the letters closer together or further apart, make the rows taller or shorter, or fit every column to its longest entry."],
+  ["New days copy yesterday's hooks and drivers","When you open a date for the first time. Yes: hooks and drivers are copied over. No: those boxes start empty, ready for Import from previous day or Fill from usual. Days you have already opened keep what they have."],
+  ["Arrange buttons","Move these buttons around and add dividers, so they sit the way you like."]];
+function optHelpHTML(){return `<details class="opthelp"><summary>What does each option do?</summary><dl>${OPT_HELP.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join("")}</dl></details>`}
+function stSec(id,html){const x=ST_SECS.find(a=>a[0]===id);return `<details class="stsec${id==="reset"?" stdanger":""}" id="stsec-${id}" data-stsec="${id}"${stOpen.has(id)?" open":""}><summary><span class="sttitle">${x[1]}</span><span class="stdesc">${x[2]}</span></summary><div class="stbody">${html}</div></details>`}
+function stBar(){return `<div class="stbar"><label class="stfind"><span class="sr">Find a setting</span><input type="search" id="stFind" placeholder="Find a setting, for example colour, names, backup" autocomplete="off"></label>
+  <nav class="stnav" aria-label="Jump to a section"><span class="stnavlab">Jump to</span>${ST_SECS.map(x=>`<button type="button" data-stgo="${x[0]}">${x[3]}</button>`).join("")}<span class="stnavsep"></span><button type="button" data-stall="1">Open all</button><button type="button" data-stall="0">Close all</button></nav><p class="stnone" hidden>No setting matches. Try a shorter word.</p></div>`}
 function settingsHTML(){
   /* "Pop out Settings" removed from the page heading — the ⧉ Pop out button in the main header does the same thing (Ash, 7 Oct 2026) */
-  return `<h2>Settings</h2><p class="sub">Changes here apply to every day.${SETWIN?" This window stays in step with the main window.":""}</p>`+(phoneScreen()?`<h3>Phone layout</h3><div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on":"Phone layout: off"}</button><span class="note">${isMob()?"Turn off to see the full desktop layout on this phone.":"This phone is showing the desktop layout. Turn on for the phone layout."} Only changes this phone.</span></div>`:"")+`<h3>Office tables (W2 to W12)</h3><p class="note">How the office tables look and what they show. Drag the edge of a column heading on an office tab to change its width.</p>`+offOptsHTML()+`<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button>`+lookHTML()+vanUploadHTML()+`<h3>Data and sync</h3>`+storageHTML()+ghHTML()+`<h3>Start again</h3><p class="note">Deletes every saved day and restores the lists from the original spreadsheet. Save a backup first.</p><button class="addrow" id="resetAll">Reset everything</button><p class="buildstamp">Build ${BUILD}</p>`;
+  return `<h2>Settings</h2><p class="sub">Changes here apply to every day.${SETWIN?" This window stays in step with the main window.":""}</p>`+(phoneScreen()?`<h3>Phone layout</h3><div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on":"Phone layout: off"}</button><span class="note">${isMob()?"Turn off to see the full desktop layout on this phone.":"This phone is showing the desktop layout. Turn on for the phone layout."} Only changes this phone.</span></div>`:"")+stBar()+
+  stSec("sheets",`<p class="note" style="margin-top:0">Press a button to change it; its words say what it is set to now. Hover over a button for a short explanation, or open the list underneath. To change a column's width, drag the edge of its heading on an office tab.</p>`+offOptsHTML()+optHelpHTML()+`<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button>`)+
+  stSec("text",sheetTextHTML())+stSec("colours",lookHTML())+stSec("vans",vanUploadHTML())+stSec("backups",storageHTML()+ghHTML())+
+  stSec("reset",`<p class="note" style="margin-top:0">Deletes every saved day and restores the lists from the original spreadsheet. Save a backup first.</p><button class="addrow" id="resetAll">Reset everything</button>`)+
+  `<p class="buildstamp">Build ${BUILD}</p>`;
 }
+/* wires the Settings layout: remembers which sections are open, jump buttons, search, and folds each colour group under its heading */
+function wireSettingsLayout(){const m=document.querySelector("main");if(!m||!m.querySelector(".stsec"))return;
+  const g=m.querySelector(".look .lookgrid");
+  if(g){const frag=document.createDocumentFragment();let cur=null;
+    [...g.children].forEach(k=>{if(k.classList.contains("looksub")){const t=k.textContent.trim();cur=document.createElement("details");cur.className="lookgrp";cur.dataset.grp=t;if(stGrpOpen.has(t))cur.open=true;
+        const sm=document.createElement("summary");sm.textContent=t;const body=document.createElement("div");body.className="lookgrid";cur.appendChild(sm);cur.appendChild(body);cur._body=body;frag.appendChild(cur)}
+      else if(cur)cur._body.appendChild(k);else frag.appendChild(k)});
+    g.replaceWith(frag)}
+  const setOpen=(d,v)=>{if(d.open!==v){d.dataset.auto="1";d.open=v}};
+  const remember=(d,set,key)=>d.addEventListener("toggle",()=>{if(d.dataset.auto){delete d.dataset.auto;return}d.open?set.add(key):set.delete(key)});
+  m.querySelectorAll(".stsec").forEach(d=>remember(d,stOpen,d.dataset.stsec));m.querySelectorAll(".stsec").forEach(d=>d.addEventListener("toggle",stSave));
+  m.querySelectorAll(".lookgrp").forEach(d=>remember(d,stGrpOpen,d.dataset.grp));
+  const q=m.querySelector("#stFind"),none=m.querySelector(".stnone");
+  const secs=[...m.querySelectorAll(".stsec")];
+  const clearMarks=()=>m.querySelectorAll(".stmatch").forEach(e=>e.classList.remove("stmatch"));
+  const restore=()=>{clearMarks();none.hidden=true;secs.forEach(d=>{d.hidden=false;setOpen(d,stOpen.has(d.dataset.stsec))});m.querySelectorAll(".lookgrp").forEach(d=>{d.hidden=false;setOpen(d,stGrpOpen.has(d.dataset.grp))})};
+  const textOf=el=>{const c=el.cloneNode(true);c.querySelectorAll("select,output,option,svg").forEach(x=>x.remove());return ((c.textContent||"")+" "+(el.getAttribute("title")||"")+" "+(el.getAttribute("aria-label")||"")).toLowerCase()};
+  let firstT=0;
+  const run=()=>{const w=q.value.toLowerCase().split(/\s+/).filter(Boolean);if(!w.length){restore();return}
+    clearMarks();let any=false,first=null;
+    m.querySelectorAll(".lookgrp").forEach(d=>{d.hidden=false});
+    secs.forEach(d=>{const hits=[...d.querySelectorAll("summary,label,button,.optgh,dt,h3,h4,p.note,.stsub")].filter(e=>{const t=textOf(e);return w.every(x=>t.includes(x))});
+      if(!hits.length){d.hidden=true;return}
+      any=true;d.hidden=false;setOpen(d,true);
+      hits.forEach(e=>{e.classList.add("stmatch");if(e.tagName==="SUMMARY"&&e.parentElement===d)return;
+        for(let a=e.parentElement;a&&a!==d;a=a.parentElement)if(a.tagName==="DETAILS"){if(a.classList.contains("nshow")){const sm=a.querySelector(":scope>summary");if(sm)sm.classList.add("stmatch")}else setOpen(a,true)}});
+      if(!first)first=hits.find(e=>e.getClientRects().length)||null});
+    m.querySelectorAll(".lookgrp").forEach(d=>{if(!d.querySelector(".stmatch")&&!d.parentElement.closest(".stsec").querySelector("summary.stmatch"))d.hidden=true});
+    none.hidden=any;clearTimeout(firstT);if(first)firstT=setTimeout(()=>{try{first.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}},200)};
+  q.oninput=run;
+  m.querySelectorAll("[data-stgo]").forEach(b=>b.onclick=()=>{const id=b.dataset.stgo,d=m.querySelector("#stsec-"+id);if(!d)return;if(q.value){q.value="";restore()}
+    stOpen.add(id);stSave();setOpen(d,true);d.scrollIntoView({block:"start",behavior:"smooth"})});
+  m.querySelectorAll("[data-stall]").forEach(b=>b.onclick=()=>{const on=b.dataset.stall==="1";if(q.value){q.value="";restore()}
+    secs.forEach(d=>{const id=d.dataset.stsec;on?stOpen.add(id):stOpen.delete(id);setOpen(d,on)});stSave()})}
 function driversHTML(){
   return `<h2>Drivers</h2><p class="sub">Add and remove drivers and set which office they belong to. Use Advanced Drivers List for full details on each driver.</p>`+dsHTML()+`<div class="onecol">`+`<section><div class="h3row"><h3>Drivers (${db.drivers.filter(n=>!isND(n)).length})</h3><button class="addrow" id="dupGo" title="Look through the whole list for the same person entered twice">Check for duplicates</button><button class="addrow" id="shortGo" title="Find drivers entered with only one name, like a first name or surname on its own">Check for missing full names</button><button class="addrow" id="advGo" title="Age, licence, training, contact, photo, leave and more for every driver">Advanced Drivers List ▸</button></div><div class="addline"><input id="newDriver" placeholder="Full name" aria-label="New driver name"><select id="newDriverOffice" aria-label="Office" style="flex:0 0 130px"><option value="">Office</option>${roleOptions("")}</select><button id="addDriver">Add</button><button id="addDrivers" class="bkbtn" type="button" title="Add a list of names in one go, with a check for anyone already on the list">Add several…</button></div><div class="addline" style="margin-top:0"><input class="search" id="findDriver" placeholder="Search name or office, e.g. W2 or W2 john" aria-label="Search drivers by name or office" style="margin:0"><select id="driverOffFilter" aria-label="Show office" style="flex:0 0 130px"><option value="">All offices</option>${OFFICES.filter(o=>o!=="W13").map(o=>`<option value="${o}*">All ${ovName(o)}</option>`).join("")}${roleOptions("")}<option value="none">No office</option><option value="mgr">All managers</option><option value="sun">Sunday Duty</option></select></div><div class="addline" style="margin:6px 0 0" id="drSortBox"></div><div id="drAZ"></div><div class="note" id="drCount"></div><div class="listbox" id="driverList"></div></section>`+`<section class="phsec" id="photoSec">${photosHTML()}</section><section class="sundlist"><h3>Sunday Duty drivers (${db.drivers.filter(n=>!isND(n)&&DI(n).sunday).length+sunExt().filter(e=>!db.drivers.includes(e.n)).length})</h3><p class="note">Sunday is optional. Ticking someone here (or ticking Sunday next to their name above) doesn't change their office. They stay on W2 to W12 and are also offered on the Sunday Duty sheet.</p>
   <div class="addline"><select id="sunAdd" aria-label="Driver to add to Sunday Duty"><option value="">Pick a driver to add…</option>${db.drivers.filter(n=>!isND(n)&&!DI(n).sunday).sort((x,y)=>x.localeCompare(y)).map(n=>`<option value="${esc(n)}">${esc(n)}${driverOffice(n)?" ("+esc(driverOffice(n))+")":""}</option>`).join("")}</select><button id="sunAddGo" type="button">Add</button></div>
@@ -3743,6 +3854,8 @@ function wireSettings(){
   const G=id=>$(id)||{};
   if($("mobToggle"))$("mobToggle").onclick=()=>{const on=!isMob();try{if(on)localStorage.removeItem(MOBOFF_KEY);else localStorage.setItem(MOBOFF_KEY,"1")}catch(e){}render();toast(on?"Phone layout on":"Desktop layout on this phone")};
   if($("saveLookDefault"))wireLook();
+  wireSheetText();
+  wireSettingsLayout();
   fillLists();
   G("findDriver").oninput=()=>{drLetter="";fillLists()};G("findWalk").oninput=fillLists;
   G("driverOffFilter").onchange=fillLists;
@@ -3938,16 +4051,93 @@ function applyLook(){
   ["rbT","rbL","rbG","cbT","cbL","cbG"].forEach(k=>set("--"+k,L[k]));
   set("--rowpad",{compact:"0px",normal:"3px",roomy:"8px"}[L.density]||"3px");
   set("--radius",{square:"0px",slight:"3px",rounded:"6px",round:"11px"}[L.radius]||"6px");
+  applySheetText();
   if(typeof syncPopLook==="function")syncPopLook();
   document.documentElement.style.colorScheme=contrastInk(L.panel)==="#ffffff"?"dark":"light";
 }
+/* ===== Sheet text: size, boldness, italic, font, spacing and headings, separately for Layout 1, Layout 2 and V2 (Ash, 7 Oct 2026) =====
+   Saved in db.look.sheetTxt = {l1:{...}, l2:{...}, v2:{...}}. Only values that differ from normal are stored.
+   Size works by giving that layout its own --fs (the app's text size variable) and, for V2 whose paper look fixes its own
+   pixel sizes, by setting those too. Nothing is zoomed, so dragging column and row edges keeps working. */
+const ST_STACK={barlow:FONTS.barlow[1],narrow:'"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif',arial:FONTS.arial[1],verdana:FONTS.verdana[1],tahoma:FONTS.tahoma[1],calibri:FONTS.calibri[1],segoe:FONTS.segoe[1],georgia:FONTS.georgia[1],mono:'Consolas,"Courier New",monospace'};
+const ST_FONTS=[["","Default"],["barlow","Barlow"],["narrow","Barlow Condensed (narrow)"],["arial","Arial"],["verdana","Verdana (easy to read)"],["tahoma","Tahoma"],["calibri","Calibri"],["segoe","Segoe UI / System"],["georgia","Georgia (serif)"],["mono","Typewriter (monospace)"]];
+const ST_WEIGHTS=[["","Default"],["400","Normal"],["500","Medium"],["600","Semi-bold"],["700","Bold"],["800","Extra bold"]];
+const ST_SPACING=[[-3,"Tighter"],[0,"Default"],[3,"Wider"],[6,"Wide"],[10,"Extra wide"]];
+const ST_LAYS=[["l1","Layout 1","The usual sheet."],["l2","Layout 2","Adds Hook No., Duty No. and Reg. No. columns."],["v2","V2","The printed paper look. Linked to Layout 2's rows and columns."]];
+const ST_SC={l1:'html:not(.mob) main[data-tabkey$="|1"] table.offtbl',l2:'html:not(.mob):not(.l2v2) main[data-tabkey$="|2"] table.offtbl',v2:'html.l2v2:not(.mob) main[data-tabkey$="|2"] table.offtbl'};
+function stCfg(k){const C=((db.look&&db.look.sheetTxt)||{})[k]||{},n=(v,lo,hi,d)=>{v=+v;return v>=lo&&v<=hi?Math.round(v):d};
+  return {size:n(C.size,60,200,100),w:ST_WEIGHTS.some(x=>x[0]&&x[0]===String(C.w))?String(C.w):"",it:!!C.it,font:ST_STACK[C.font]?C.font:"",sp:n(C.sp,-5,20,0),hsize:n(C.hsize,60,200,100),hw:ST_WEIGHTS.some(x=>x[0]&&x[0]===String(C.hw))?String(C.hw):""}}
+function stIsDefault(c){return c.size===100&&!c.w&&!c.it&&!c.font&&!c.sp&&c.hsize===100&&!c.hw}
+function stNum(n){return (Math.round(n*100)/100)+"px"}
+function sheetTxtCss(){let css="";const fs=+(lookNow().fs)||15;
+  ST_LAYS.forEach(([k])=>{const c=stCfg(k);if(stIsDefault(c))return;const SC=ST_SC[k],kk=c.size/100,hh=c.hsize/100,fam=c.font?ST_STACK[c.font]:"";
+    let r=`${SC}{--fs:${stNum(fs*kk)};font-size:var(--fs)`;
+    if(c.w)r+=`;--cell-weight:${c.w};--hook-weight:${c.w}`;
+    if(fam)r+=`;--body:${fam};--display:${fam};font-family:${fam}`;
+    css+=r+"}\n";
+    const TXT=`${SC} td :is(input,select,button,span,b,small,div)`;
+    if(c.size!==100||c.hsize!==100){
+      if(k==="v2"){css+=`${SC} th{font-size:${stNum(10*kk*hh)}!important}\n${SC}.v2small th.v2pmh{font-size:${stNum(12.1*kk*hh)}!important}\n${SC}.v2extra th{font-size:${stNum(11*kk*hh)}!important}\n`;
+        if(c.size!==100)css+=`${SC} td{font-size:${stNum(13*kk)}!important}\n`}
+      else css+=`${SC} th{font-size:${stNum(fs*kk*hh)}!important}\n`}
+    if(c.hw)css+=`${SC} th{font-weight:${c.hw}!important}\n`;
+    if(c.w)css+=`${SC} td,${SC} td :is(input,select,.l2ttx,.l1wv,.nmtxt){font-weight:${c.w}!important}\n`;
+    if(c.it)css+=`${SC} th,${SC} td,${SC} th *,${SC} td *{font-style:italic!important}\n`;
+    if(fam)css+=`${SC} th,${SC} td,${TXT}{font-family:${fam}!important}\n`;
+    if(c.sp)css+=`${SC} th,${SC} td,${TXT}{letter-spacing:${c.sp/100}em!important}\n`});
+  return css}
+function applySheetText(){let el=document.getElementById("sheetTxtCss");if(!el){el=document.createElement("style");el.id="sheetTxtCss";document.head.appendChild(el)}
+  const css=sheetTxtCss();if(el.textContent!==css)el.textContent=css}
+/* the little preview in each Settings box, built from the same numbers */
+function stPreview(k){const c=stCfg(k),fs=+(lookNow().fs)||15,kk=c.size/100,hh=c.hsize/100,fam=c.font?ST_STACK[c.font]:"",paper=k==="v2";
+  const cellPx=k==="l1"?fs*.92*kk:k==="l2"?(fs+1)*kk:(fs+1)*kk,headPx=paper?10*kk*hh:fs*kk*hh;
+  const cf=fam||(k==="l1"?"var(--body)":"var(--display)"),hf=fam||(paper?"Arial,Helvetica,sans-serif":"var(--display)");
+  const common=`${c.it?"font-style:italic;":""}${c.sp?`letter-spacing:${c.sp/100}em;`:""}`;
+  return {paper,head:`font-family:${hf};font-size:${stNum(headPx)};font-weight:${c.hw||(paper?400:600)};${common}`,cell:`font-family:${cf};font-size:${stNum(cellPx)};font-weight:${c.w||400};${common}`}}
+function sheetTextHTML(){if(isMob())return "";
+  const ctl=(k,key,label,html)=>`<div class="strow"><label for="st-${k}-${key}">${label}</label>${html}</div>`;
+  const sel=(k,key,opts,cur)=>`<select id="st-${k}-${key}" data-stl="${k}" data-stk="${key}">${opts.map(([v,t])=>`<option value="${v}"${String(v)===String(cur)?" selected":""}>${t}</option>`).join("")}</select>`;
+  const rng=(k,key,cur)=>`<span class="strng"><input type="range" id="st-${k}-${key}" data-stl="${k}" data-stk="${key}" min="60" max="200" step="5" value="${cur}"><output>${cur}%</output></span>`;
+  return `<section class="sheettxt"><p class="note" style="margin-top:0">Choose how the text looks on each sheet. Layout 1, Layout 2 and V2 each have their own box, so changing one never changes the others. Changes show straight away on the office tabs. Bigger text may need taller rows (Row height on an office tab).</p><div class="stgrid">`+
+  ST_LAYS.map(([k,name,sub])=>{const c=stCfg(k),pv=stPreview(k);
+    return `<div class="stcard" data-stl="${k}"><h4>${name}</h4><p class="stsub">${sub}</p>
+    <div class="stprev${pv.paper?" paper":""}" aria-hidden="true"><div class="sth" style="${pv.head}">HOOK&nbsp;&nbsp;&nbsp;DRIVER&nbsp;&nbsp;&nbsp;DUTY</div><div class="stpr" style="${pv.cell}">62 - LL75 NXZ&nbsp;&nbsp;&nbsp;PAUL BARGANTE&nbsp;&nbsp;&nbsp;2. LEDBURY</div></div>
+    ${ctl(k,"size","Text size",rng(k,"size",c.size))}
+    ${ctl(k,"w","Boldness",sel(k,"w",ST_WEIGHTS,c.w))}
+    ${ctl(k,"it","Italic",`<label class="stchk"><input type="checkbox" id="st-${k}-it" data-stl="${k}" data-stk="it"${c.it?" checked":""}> Slanted text</label>`)}
+    ${ctl(k,"font","Font",sel(k,"font",ST_FONTS,c.font))}
+    ${ctl(k,"sp","Letter spacing",sel(k,"sp",ST_SPACING,c.sp))}
+    ${ctl(k,"hsize","Heading size",rng(k,"hsize",c.hsize))}
+    ${ctl(k,"hw","Heading boldness",sel(k,"hw",ST_WEIGHTS,c.hw))}
+    <div class="stbtns"><button type="button" class="addrow" data-streset="${k}"${stIsDefault(c)?" disabled":""} title="Put ${name}'s text back to normal">Reset ${name}</button><button type="button" class="addrow" data-stcopy="${k}"${stIsDefault(c)?" disabled":""} title="Give the other two layouts the same text settings as ${name}">Copy to the other two</button></div></div>`}).join("")+`</div></section>`}
+function wireSheetText(){const box=document.querySelector("main .sheettxt");if(!box)return;
+  const cur=k=>{db.look=db.look||{};db.look.sheetTxt=db.look.sheetTxt||{};return db.look.sheetTxt[k]=db.look.sheetTxt[k]||{}};
+  const tidy=k=>{const C=cur(k),c=stCfg(k),o={};if(c.size!==100)o.size=c.size;if(c.w)o.w=c.w;if(c.it)o.it=true;if(c.font)o.font=c.font;if(c.sp)o.sp=c.sp;if(c.hsize!==100)o.hsize=c.hsize;if(c.hw)o.hw=c.hw;
+    if(Object.keys(o).length)db.look.sheetTxt[k]=o;else delete db.look.sheetTxt[k];if(!Object.keys(db.look.sheetTxt).length)delete db.look.sheetTxt};
+  const paint=k=>{const card=box.querySelector(`.stcard[data-stl="${k}"]`),c=stCfg(k),pv=stPreview(k);if(!card)return;
+    card.querySelector(".sth").setAttribute("style",pv.head);card.querySelector(".stpr").setAttribute("style",pv.cell);
+    card.querySelectorAll("input[type=range]").forEach(r=>{r.nextElementSibling.textContent=r.value+"%"});
+    card.querySelectorAll("[data-streset],[data-stcopy]").forEach(b=>b.disabled=stIsDefault(c))};
+  const val=el=>el.type==="checkbox"?el.checked:el.value;
+  const put=(el)=>{const k=el.dataset.stl,key=el.dataset.stk,v=val(el),C=cur(k);
+    if(key==="it")C.it=!!v;else if(key==="size"||key==="hsize"||key==="sp")C[key]=+v;else C[key]=v;tidy(k);applySheetText();paint(k)};
+  const NAME={size:"text size",w:"boldness",it:"italic",font:"font",sp:"letter spacing",hsize:"heading size",hw:"heading boldness"},LN=Object.fromEntries(ST_LAYS.map(x=>[x[0],x[1]]));
+  box.querySelectorAll("[data-stk]").forEach(el=>{const live=el.type==="range";
+    if(live)el.oninput=()=>put(el);
+    el.onchange=()=>{put(el);save(`${LN[el.dataset.stl]} ${NAME[el.dataset.stk]} changed`)}});
+  box.querySelectorAll("[data-streset]").forEach(b=>b.onclick=()=>{const k=b.dataset.streset;if(db.look&&db.look.sheetTxt){delete db.look.sheetTxt[k];if(!Object.keys(db.look.sheetTxt).length)delete db.look.sheetTxt}
+    applySheetText();save(`${LN[k]} text put back to normal`);render();toast(`${LN[k]} text is back to normal`)});
+  box.querySelectorAll("[data-stcopy]").forEach(b=>b.onclick=()=>{const k=b.dataset.stcopy,others=ST_LAYS.map(x=>x[0]).filter(x=>x!==k);
+    if(!confirm(`Give ${others.map(x=>LN[x]).join(" and ")} the same text settings as ${LN[k]}? This replaces theirs.`))return;
+    const src=JSON.parse(JSON.stringify(cur(k)));others.forEach(o=>{db.look.sheetTxt[o]=JSON.parse(JSON.stringify(src))});others.forEach(tidy);
+    applySheetText();save(`${LN[k]} text settings copied to ${others.map(x=>LN[x]).join(" and ")}`);render();toast("Copied")})}
 function lookHTML(){
   const L=lookNow();
   const col=(k,label)=>`<label class="colour"><span>${label}</span><input type="color" data-look="${k}" value="${L[k]}" aria-label="${label}"><span class="hex" data-hex="${k}">${L[k]}</span></label>`;
   const sel=(k,label,opts)=>`<label><span>${label}</span><select data-look="${k}">${opts.map(([v,t])=>`<option value="${v}"${String(L[k])===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
   const colA=(k,label,auto)=>{const isA=!L[k]||L[k]==="auto",v=isA?auto:L[k];return `<label class="colour"><span>${label}</span><input type="color" data-look="${k}" value="${v}" aria-label="${label}"><span class="hex" data-hex="${k}">${isA?"":v}</span><button type="button" class="auto" data-auto="${k}" aria-pressed="${isA}" title="Let the app pick this colour to match">Auto</button></label>`};
   const chk=(k,label)=>`<label><span>${label}</span><input type="checkbox" data-look="${k}"${L[k]?" checked":""}></label>`;
-  let h=`<section class="look"><h3>Appearance</h3><p class="note" style="margin-top:0">Pick a theme, then fine-tune anything below. Changes show straight away and are saved with your data, so every device shows the same.</p><div class="presets">`;
+  let h=`<section class="look"><p class="note" style="margin-top:0">Pick a theme, then fine-tune anything below. Changes show straight away and are saved with your data, so every device shows the same.</p><div class="presets">`;
   Object.entries(PRESETS).forEach(([k,p])=>{const P=Object.assign({},BASE_LOOK,p);
     h+=`<button data-preset="${k}" aria-pressed="${L.preset===k}"><span class="sw"><i style="background:${P.head}"></i><i style="background:${P.panel}"></i><i style="background:${P.tag}"></i><i style="background:${P.clash}"></i></span>${p.name}</button>`;});
   h+=`</div><div class="lookgrid">`;
@@ -4033,7 +4223,7 @@ document.addEventListener("click",e=>{const b=null;const p=$("setupPop");if(!p)r
   if(!p.hidden&&e.isTrusted&&e.target.isConnected&&!p.contains(e.target)&&!e.target.closest("#setupFile,#toast,.toast"))p.hidden=true});
 function wireLook(){
   const m=$("main");
-  m.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{const k=b.dataset.preset;db.look=Object.assign({},BASE_LOOK,PRESETS[k],{preset:k});delete db.look.name;applyLook();save();render();toast(PRESETS[k].name+" theme on")});
+  m.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{const k=b.dataset.preset;{const keepST=db.look&&db.look.sheetTxt;db.look=Object.assign({},BASE_LOOK,PRESETS[k],{preset:k});delete db.look.name;if(keepST)db.look.sheetTxt=keepST}applyLook();save();render();toast(PRESETS[k].name+" theme on")});
   m.querySelectorAll("[data-look]").forEach(el=>{el.oninput=el.onchange=()=>{const k=el.dataset.look;db.look=db.look||{};
     let v=el.type==="checkbox"?el.checked:el.type==="range"?+el.value:el.value;if(LAYKEYS.includes(k)){setLayLook(k,v,lookScope);if(k==="colW")db.look.colWs={};setTimeout(render,0)}else db.look[k]=v;db.look.preset="custom";
     if(k==="fs")$("fsOut").textContent=v;{const ro=m.querySelector(`[data-rngout="${k}"]`);if(ro)ro.textContent=v}
@@ -5628,7 +5818,7 @@ function vuDiff(reads){
   return {reads,merged:[...merged.values()],changes,added,missing,specCount,models};
 }
 function vanUploadHTML(){
-  const src=db.vanUpload;let h=`<section class="vuwrap"><h3>Update vans from spreadsheet</h3><p class="note" style="margin-top:0">Upload the <b>Vehicle Allocation Sheet</b> and/or the <b>WLDC vehicle details</b> list (.xlsx). It updates each hook's registration, PP ID number, fuel type and model. You'll see the changes before anything is saved. If you pick both files, the details list fills in the model.</p>`;
+  const src=db.vanUpload;let h=`<section class="vuwrap"><p class="note" style="margin-top:0">Upload the <b>Vehicle Allocation Sheet</b> and/or the <b>WLDC vehicle details</b> list (.xlsx). It updates each hook's registration, PP ID number, fuel type and model. You'll see the changes before anything is saved. If you pick both files, the details list fills in the model.</p>`;
   h+=`<div class="vurow"><label class="vanadd vupick">📂 Choose spreadsheet(s)<input type="file" id="vuFile" accept=".xlsx,.xlsm" multiple hidden></label>${src?`<span class="note">Last updated ${esc(dayShort(src.date))} from ${esc(src.files.join(" + "))}</span>`:""}</div>`;
   const P=vuPending;
   if(P&&P.error)h+=`<p class="vuerr">Couldn't read that file: ${esc(P.error)}</p>`;
@@ -6011,18 +6201,18 @@ const HELP=[
  ["#undoBtn","Undo","Takes back your last change."],
  ["#redoBtn","Redo","Puts back a change you undid."],
  ["#barBtn","Bars Setting","Hide or shrink the bars at the top to give the tables more room. Tick Lock top bar to keep the date bar on screen when you scroll."],
- ["#saveState","Saved","Shows whether your changes are saved in this browser. If it says Not saved, save a backup straight away."],
- ["#setTopBtn","⚙ Settings","Opens Settings."],
- ["#setTopPop","⧉ Pop out","Opens Settings in its own window, so you can change settings while you look at an office. Tap again to close it."],
- ["#printBtn","Print sheet","Prints one page per office, plus off-road and collections."],
+ ["#saveState","Saved","Shows whether your latest change is saved in this browser. If it says Not saved, a red banner appears: press Save Data/Backup now and keep the file."],
+ ["#setTopBtn","⚙ Settings","Opens Settings. The small ⧉ button joined to it opens Settings in its own window."],
+ ["#setTopPop","⧉ Pop out Settings","Opens Settings in its own window, so you can change settings while you look at an office. It turns into a cross while the window is open: tap it again to close the window."],
+ ["#printBtn","Print sheet","Opens the print window. Pick all offices or just one (Sunday Duty is in the list), then how to print it."],
  ["#moreBtn","More","History, print, backups and the other pages (Vehicles, Drivers, Settings and so on) on a phone."],
- ["#tabs","Tabs","Switch between the offices (W2 to W12), OOS (out of service), Vans, Drivers, Rest, Walks and Settings."],
+ ["#tabs","Tabs","Switch between the offices (W2 to W12), Sunday Duty, OOS, Vehicles, Office Vans, Drivers, Duties, Rest Day and Walks. Drag a tab to move it."],
  ["#board","Key cupboard","Every van at a glance. Click a van to jump to the row it's on."],
  ["#kcHide","Hide Key Cupboard","Hides the Key Cupboard so the office tables get the full width."],
  ["#kcShow","Show Key Cupboard","Brings the Key Cupboard back."],
  ["#plateSearch","Search plate","Type part of a number plate, e.g. NXZ, to light up the matching vans."],
  ["[data-toolshide]","Key Cupboard tools","Show or hide the search and arrange tools in the Key Cupboard."],
- ["#copyPrev","Copy previous day","Starts today from yesterday's sheet. You can change anything after."],
+ ["#copyPrev","Copy from an earlier day","Shown on an empty day. Copies vans, drivers, walks and the OOS and change over lists from the last day that has data. You can change anything after."],
  ["#clashPill","Clashes","Something is used twice. Click to go to it."],
  ["#gapPill","Gaps","Walks still needing a van or driver. Click to go to the next one."],
  // office tabs
@@ -6045,7 +6235,7 @@ const HELP=[
  ["main [data-rowsdrag]","Resize every row","Hold ⇕ and drag up or down to make every row in that table taller or shorter at once. Double-click ⇕ to put them back."],
  ["#clrXToggle","Clear name ×","The × next to a driver or substitute clears the name when tapped 3 times. Show it always, only when the mouse is over the row, or hide it."],
  ["#fillReg","Fill from regular drivers","Puts each duty's regular driver (Duties tab) into the empty driver boxes, and a free substitute (Drivers tab) in the Substitute box for anyone off today. You check the list first, and Undo puts it back."],
- ["main [data-drvlist]","Office drivers","Opens this office's drivers with their rest days this week and next week. Tap a name to edit their rest days. Tap the button again to close it."],
+ ["main [data-drvlist]","Office drivers","Opens this office's drivers with their rest days this week and next week. Tap a name to edit their rest days. Tap the button again to close it.",1],
   ["main [data-offwin]","Pop out","Opens this office in its own window. Changes in either window show in the other."],
  ["#vanLineToggle","Office vans line","The W2 vans: line at the top of the sheet. Tap to show it, show it without Not on list (vans used here that aren't on this office's list), or hide it."],
  ["main .hookcell select","Hook","Pick the van for this walk. Only free vans are offered."],
@@ -6105,9 +6295,142 @@ const HELP=[
  ["#resetColW","Reset column widths","Undo any column widths you dragged on the office tabs."],
  ["#dsRun","Sort offices from past days","Puts each driver in the office they've worked most. You see the changes before anything is saved."],
  ["#setBackup","Save Data/Backup now","Saves everything to a file. Keep it somewhere safe."],
- ["#resetAll","Reset","Clears data. Save a backup first."]
+ ["#resetAll","Reset","Clears data. Save a backup first."],
+ // top bar
+ ["#ghBadge","GitHub light","Green: your latest changes are on GitHub, the copy every PC and phone shares. Amber: on their way. Red, blinking: GitHub could not be reached."],
+ ["#saveWarn","Storage warning","Appears if this browser can not store your latest changes. Save a backup straight away so nothing is lost."],
+ // office tabs
+ [".laygrp[aria-label='Layout']","Layout","Layout 1 is the usual sheet. Layout 2 adds Hook No., Duty No. and Reg. No. columns. V2 is linked to Layout 2: a change in either shows in both."],
+ ["main .hkline.hkempty input.hook","Type a hook","Click this pencil box to type a hook number or plate. The usual-van pill steps aside and the box fills the whole cell. Click away and the pill comes back.",1],
+ ["main .hooktip:not(.drvtip)","Usual van","The van this driver has used most. Tap it to give them that van."],
+ ["main .drvtip","Suggested driver","Drivers who often do this duty or use this van, most likely first. Tap one to make them the driver."],
+ ["main [data-drvgo]","Name to rest days","Tap a driver's name to jump to the Rest Day tab, on their row, to change their rest days.",1],
+ ["main .drvtbl","Rest days list","Each driver's rest days this week and next week. The date you are looking at is outlined. A dashed tag means they are working on their rest day.",1],
+ // Sunday Duty
+ ["main .suncolbar","Your columns","Add your own columns to Sunday Duty, such as Start time or Notes. The pencil renames a column; the cross (tap 3 times) removes it and what is written in it.",1],
+ // drivers tab
+ ["main .sunrow","Sunday","Tick if this driver also does Sunday Duty. Their own office does not change. Sunday is optional.",1],
+ ["main [data-doffbtn='sun']","Sunday Duty filter","Shows only the drivers ticked for Sunday Duty.",1],
+ ["#sunAdd","Add to Sunday Duty","Pick any driver and press Add to put them on the Sunday Duty list. It is the same as ticking Sunday next to their name.",1],
+ ["#sunExtName","Driver from another office","For someone from outside W2 to W12 who comes in for Sunday Duty: type their full name and office, such as W3, then press Add. They only appear on Sunday Duty.",1],
+ ["#phPoolUp","Photos to assign later","Upload a batch of photos now and choose the driver for each one later.",1],
+ ["main .phpcard select","Pick the driver","Choose who the photo is of (it guesses from the file name when it can), then press Assign. You can crop it first.",1],
+ ["#phAllT","Drivers without photos","Switch between only the drivers who have a photo and everyone."],
+ // duties tab
+ ["main .dutyoffs","Office","Pick which office's duties to set up."],
+ ["#dutySuggest","Suggest from history","For each duty with no regular driver, puts in whoever did it most over the last 12 weeks, at least 3 times. You can change any of them after."],
+ ["main [data-dutyreg]","Regular driver","The driver permanently on this duty. Leave it empty if nobody is."],
+ ["#dutyClear","Clear all","Takes every regular driver off this office's duties."],
+ ["#subAdd","Add a substitute","Pick a driver to add as a substitute, then say whether they cover any walk or only certain duties."],
+ ["main [data-submoves]","Any walk / Only these duties","Any walk: covers whichever walk in this office needs it. Only these duties: covers just the duties you add."],
+ // office vans and OOS
+ ["main [data-ovlim]","Vans allowed","How many vans this office is allowed. It tells you when the list goes over."],
+ ["main [data-ovadd]","Add van","Type a hook or plate in the box, then press Add van to put it on this office's list."],
+ ["main [data-ovhist]","Add vans used in last 6 weeks","Adds every van this office has used in the last 6 weeks to its list."],
+ ["main [data-ovprint]","Print van list","Prints this office's van list."],
+ ["main [data-ovfull]","Number plates","Show number plates next to the hook numbers: off, the full plate, or the last three letters."],
+ ["main .ob-oos [data-add]","Out of service","A van that is out of service today, with the reason."],
+ ["main .ob-chg [data-add]","Change over","A van that is changing over. It can still be given to an office row, marked (change over)."],
+ ["main .ob-coll [data-add]","Collections","Vans reserved for collections today."],
+ ["main .ob-oth [data-add]","Reserved - Other","Vans reserved for something else, with a note."],
+ // rest day tab
+ ["main .rotaoffs","Office","Pick which office's days-off pattern to look at or change."],
+ ["main .rotapre","Start from","Pick a starting pattern that looks like your rota sheet, then change the days to match."],
+ ["main .rseg","This driver's week","Tap the line of the rota this driver is on this week. The pattern moves them on every week after. Not on it takes them off the pattern; Custom days sets days off by hand."],
+ ["main .rdrow.rdfocus","Highlighted driver","You came here from a driver's name. Change their week with the buttons beside the name.",1],
+ // settings
+ ["#stFind","Find a setting","Type a word, such as colour, names or backup. Only the sections and settings that match are shown, and the matches are highlighted.",1],
+ [".stnav","Jump to a section","Press a name to open that section and go straight to it. Open all and Close all open or close every section.",1],
+ [".stsec>summary","Settings sections","Settings is split into sections. Press a heading to open or close it; it remembers what you left open.",1],
+ [".opthelp>summary","What does each option do?","Opens a plain-English list explaining every button above it.",1],
+ ["main .stgrid","Sheet text","Layout 1, Layout 2 and V2 each have their own box: text size, boldness, italic, font, letter spacing and headings. The preview shows the result. Reset puts one layout back to normal; Copy gives the other two the same settings.",1],
+ ["main .meter","Storage meter","How much of this browser's copy is used. It is kept in the browser's large database, so there is far more room than before.",1]
 ];
 const hEsc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* ===== Help guide: plain-English walk-throughs, searchable, with what's new (Ash, 7 Oct 2026) ===== */
+const GUIDE=[
+ {t:"What's new",nw:1,open:1,h:`<h4>7 October 2026</h4><ul>
+  <li><b>Sunday Duty</b> has its own tab. On the Drivers tab, tick <b>Sunday</b> next to any driver who also does Sundays. They are offered on Sunday Duty and their own office does not change. Drivers from other offices (W3, W7 and so on) can be added by typing their name and office, and you can add your own named columns.</li>
+  <li><b>Office drivers</b>: every office tab has a button under the vans line (for example <b>W2 Drivers</b>). Tap it to see each driver's rest days this week and next week. Tap a name to jump to the Rest Day tab and change their rest days.</li>
+  <li><b>Photos to assign later</b>: on the Drivers tab, upload a batch of photos now and match each one to a driver whenever you are ready.</li>
+  <li><b>Settings, tidied</b>: it is now six sections (the office sheets, Sheet text, Colours and themes, Vans, Backups and sync, Start again) that open and close, with a <b>Find a setting</b> box and jump buttons. The buttons say what they are set to in plain words, and each group has a short description.</li>
+  <li><b>Sheet text</b>: in Settings, Layout 1, Layout 2 and V2 each have their own box for text size, boldness, italic, font, letter spacing and headings, with a live preview.</li>
+  <li><b>Hook box</b>: when a driver has a usual van, the suggestion and a small pencil box now sit together. Click the pencil to type a hook or plate instead.</li>
+  <li><b>More room to save</b>: this browser's copy now uses the browser's large database instead of the old 5 MB limit. Your existing data moved across by itself.</li>
+  <li>The Print window and the browser tab now say <b>Sunday Duty</b>. <b>Help</b> has this guide, NEW tags on the pointers, and opens with the ? key.</li></ul>
+  <h4>Earlier in October 2026</h4><ul>
+  <li><b>Duties</b> tab: regular drivers, substitutes, and <b>Fill from regular drivers</b> on each office.</li>
+  <li><b>Rest Day</b> tab: a days-off pattern for each office and a week for each driver. People who are off are marked on the office sheets.</li>
+  <li><b>Layout 2 and V2</b>, and the <b>Paper</b> look for the sheets.</li>
+  <li><b>Office Vans</b> tab: the vans each office may use, with a limit.</li>
+  <li><b>GitHub sync</b>: every PC, browser and phone shows the same data.</li></ul>`},
+ {t:"How Help works",h:`<p>Press <b>? Help</b> (or the ? key) and arrows point at what is on the page you are on, six at a time. Use <b>Back</b> and <b>Next</b>, or the left and right arrow keys, to see the rest. Anything marked <span class="hlnew">NEW</span> was added recently. Click anywhere, or press <b>Esc</b>, to close it.</p><p>This <b>Guide</b> covers the bigger jobs. Type in the search box to find one, for example <i>rest day</i>, <i>photos</i> or <i>print</i>.</p>`},
+ {t:"Allocating a day",h:`<ol>
+  <li>Pick the date at the top (arrows or the calendar). A new, empty day shows a <b>Copy from…</b> bar that copies vans, drivers, walks and the OOS and change over lists from the last day that has data.</li>
+  <li>On an office tab, fill empty rows quickly with <b>Fill from regular drivers</b> (uses the Duties tab), <b>Fill from usual</b> (works out who normally does each duty from past weeks) or <b>Import from previous day</b>. You see a list first and choose what goes in.</li>
+  <li>Type or pick the hook, driver and substitute. The drop-downs only offer what is free today. Red means something is used twice; amber means the name is not on the driver list.</li>
+  <li>The pills under the header show <b>Gaps</b> (walks still needing a van or driver) and <b>Clashes</b>. Click one to jump to the next.</li>
+  <li>Changed your mind? Use <b>Undo</b>, or <b>History</b> to go back to any earlier change.</li></ol>`},
+ {t:"Hook box and usual vans",nw:1,h:`<ul>
+  <li>Type a hook number or a plate (or part of one). A list of free vans opens with the driver's usual van starred.</li>
+  <li>When a driver has a usual van, a pill such as <b>Driver PAUL usual: 62</b> appears. Tap it to use that van.</li>
+  <li>Next to the pill is a small <b>pencil box</b>. Click it to type something else: the pill steps aside and the box fills the whole cell. Click away and the pill comes back.</li>
+  <li>The <b>i</b> button shows the van's details. The <b>×</b> removes a hook (tap it 3 times).</li></ul>`},
+ {t:"Rest days",h:`<ol>
+  <li>Open the <b>Rest Day</b> tab, pick the office, and choose a <b>Start from</b> pattern that looks like your rota sheet. Change the days, and how many weeks it repeats.</li>
+  <li>For each driver, tap what they have off <i>this week</i> (the date picked on the calendar). The pattern moves them on every week after. <b>Not on it</b> takes someone off the pattern and <b>Custom days</b> sets days off by hand.</li>
+  <li>People who are off are marked on the office sheets, and a line above the table says who is off that day.</li>
+  <li>On any office tab, the <b>Drivers</b> button under the vans line lists every driver's rest days for this week and next week. Tap a name to jump straight to their row on the Rest Day tab.</li></ol>`},
+ {t:"Sunday Duty",nw:1,h:`<ul>
+  <li>Sunday Duty is its own sheet and works like the office sheets, with Hook, Driver and Duty columns.</li>
+  <li>Sunday is optional. On the Drivers tab, tick <b>Sunday</b> next to a driver, or pick them under <b>Sunday Duty drivers</b>. They stay in their own office too. In the driver box on Sunday Duty they are listed first; press <b>Show all offices</b> to pick anyone else.</li>
+  <li>For someone from another office (W3, W7 and so on), use <b>From other offices</b> on the Drivers tab: type their full name and office, then press Add. They show on Sunday Duty only, with a small office tag, and never on W2 to W12.</li>
+  <li>Add your own columns, such as Start time or Notes, with <b>＋ Add a column</b> under the Sunday Duty table. The pencil renames one and the cross (tap 3 times) removes it.</li>
+  <li>The <b>Sunday Duty</b> button among the office buttons on the Drivers tab lists everyone who is ticked.</li>
+  <li>The date arrows step through Sundays like any other day. Use the calendar to jump straight to one. <b>Import from previous Sunday</b> copies the hooks and drivers from an earlier Sunday.</li></ul>`},
+ {t:"Duties and substitutes",h:`<ol>
+  <li>On <b>Duties</b>, pick each duty's <b>regular driver</b>, the one permanently on it. Leave it empty if nobody is, or press <b>Suggest from history</b> to fill the gaps from who did it most over the last 12 weeks.</li>
+  <li>Add <b>substitute drivers</b> and say what they cover: <b>Any walk</b> or <b>Only these duties</b>.</li>
+  <li>On an office tab, <b>Fill from regular drivers</b> puts the regular drivers in. If one is off that day, a free substitute goes in the Substitute box.</li></ol>`},
+ {t:"Drivers and photos",h:`<ul>
+  <li>Add a driver with their full name and office. <b>Add several…</b> takes a pasted list. <b>Check for duplicates</b> and <b>Check for missing full names</b> tidy the list.</li>
+  <li>Tick <b>New starter</b> for new drivers; it unticks itself after a year. <b>Move ▾</b> sends someone to Non-drivers, Moved office or Left RM.</li>
+  <li>Click a driver's name to open their details. <b>Advanced Drivers List</b> shows licence, training, leave and more for everyone, and can be saved as a CSV spreadsheet.</li>
+  <li><b>Photos</b> <span class="hlnew">NEW</span>: press <b>Upload photos to assign later</b> to add a batch, then pick the driver for each photo and press <b>Assign</b>. It guesses from the file name when it can, and you can crop first. Waiting photos are shrunk to save space.</li></ul>`},
+ {t:"Vans, Office Vans and OOS",h:`<ul>
+  <li><b>Vehicles</b> lists every van. Add a van, hire van or custom vehicle, search by hook, plate or model, and print the list.</li>
+  <li><b>Office Vans</b> sets which vans each office may use and how many are allowed. The vans line at the top of each office tab shows them: a van used today is highlighted, and a small arrow shows when another office is using it.</li>
+  <li><b>OOS, Change Over &amp; Collections</b> keeps four lists: out of service (with a reason), change over, reserved for collections, and reserved for something else. A change over van can still be given to an office row; it is marked (change over).</li></ul>`},
+ {t:"Saving, syncing and backups",h:`<ul>
+  <li><b>✓ Saved</b> in the top bar means your latest change is stored in this browser. The browser copy lives in a large database, so there is plenty of room. The meter in Settings shows how much is used.</li>
+  <li>The <b>GitHub</b> light shows the shared copy: green means it is on GitHub, amber means on its way, red and blinking means GitHub could not be reached. Every PC, browser and phone loads the same data from there.</li>
+  <li>If a red banner says changes <b>are not saved</b>, the browser could not store them. Press <b>Save Data/Backup now</b> straight away and keep the file.</li>
+</ul>`},
+ {t:"Printing",h:`<ul>
+  <li><b>Print sheet</b> in the top bar: choose All offices or one (Sunday Duty is in the list), then <b>One line</b> or <b>Two lines</b>, and whether to fit each office on one sheet of paper.</li>
+  <li>The Drivers, Walks, Rest Day, Vehicles, Office Vans and OOS tabs each have their own print button. Drivers, Walks and Rest Day can print one office only.</li></ul>`},
+ {t:"Making the sheets look right",nw:1,h:`<ul>
+  <li>In <b>Settings</b>, the <b>Sheet text</b> section has one box each for <b>Layout 1</b>, <b>Layout 2</b> and <b>V2</b>. Changing one never changes the others.</li>
+  <li>Each box has <b>Text size</b>, <b>Boldness</b>, <b>Italic</b>, <b>Font</b>, <b>Letter spacing</b>, and <b>Heading size</b> and <b>Heading boldness</b> for the column headings. The little preview shows what you are making.</li>
+  <li><b>Reset</b> puts one layout back to normal. <b>Copy to the other two</b> gives the other layouts the same settings.</li>
+  <li>Bigger text may need taller rows: use <b>Row height</b> on an office tab. The colours and themes are further down, under <b>Appearance</b>.</li></ul>`},
+ {t:"Handy tips",h:`<ul>
+  <li>Tap <b>×</b> three times to remove a name, hook or row. That stops accidents.</li>
+  <li>Drag the edge of a column heading to resize it; double-click it to fit the longest entry. <b>↔</b> fits every column and <b>↕</b> makes every row as short as it can be.</li>
+  <li>Drag a tab to move it. Turn on <b>Move rows / columns / drivers</b> to drag rows, columns and names.</li>
+  <li>Hover over a cell on an office sheet to see its full text.</li>
+  <li><b>Pop out</b> opens an office, Sunday Duty or Settings in its own window. Changes show in both windows.</li>
+  <li>Press <b>?</b> to open Help and <b>Esc</b> to close it.</li></ul>`}
+];
+function guideHTML(){return `<div class="hlguide" role="dialog" aria-label="Help guide"><div class="hlg-head"><h3>Guide</h3><span class="hlg-build">Build ${hEsc(window.DA_BUILD||"")}</span></div>
+  <input type="search" id="hlSearch" placeholder="Search the guide, e.g. rest day, photos, print" aria-label="Search the guide" autocomplete="off">
+  <div class="hlg-body">${GUIDE.map((g,i)=>`<details class="hlsec" data-hls="${i}"${g.open?" open":""}><summary>${hEsc(g.t)}${g.nw?'<span class="hlnew">NEW</span>':""}</summary><div>${g.h}</div></details>`).join("")}<p class="hlg-none" hidden>Nothing matches. Try a shorter word.</p></div></div>`}
+function guideWire(root){const q=root.querySelector("#hlSearch"),secs=[...root.querySelectorAll(".hlsec")],none=root.querySelector(".hlg-none");
+  const run=()=>{const w=q.value.toLowerCase().split(/\s+/).filter(Boolean);let n=0;
+    secs.forEach((d,i)=>{const txt=(d.textContent||"").toLowerCase(),ok=w.every(x=>txt.includes(x));d.hidden=!ok;if(ok)n++;d.open=w.length?ok:!!GUIDE[i].open});
+    none.hidden=n>0};
+  q.oninput=run;setTimeout(()=>{try{q.focus()}catch(e){}},0)}
+
 const hlLegacyZoom=(()=>{try{const a=document.createElement("div");a.style.cssText="position:absolute;left:0;top:0;zoom:2;visibility:hidden;pointer-events:none";const b=document.createElement("div");b.style.cssText="width:10px;height:10px";a.appendChild(b);document.body.appendChild(a);const w=b.getBoundingClientRect().width;a.remove();return w<15}catch(e){return false}})();
 // the real on-screen box of an element: corrects old browsers that ignore CSS zoom (Text size) and cuts off any part hidden inside a scrolling box
 function hlRect(el){const R=b=>({left:b.left,top:b.top,right:b.right,bottom:b.bottom});
@@ -6118,22 +6441,22 @@ function hlRect(el){const R=b=>({left:b.left,top:b.top,right:b.right,bottom:b.bo
   const VW=document.documentElement.clientWidth||innerWidth,VH=document.documentElement.clientHeight||innerHeight;
   r={left:Math.max(r.left,0),top:Math.max(r.top,0),right:Math.min(r.right,VW),bottom:Math.min(r.bottom,VH)};
   r.width=r.right-r.left;r.height=r.bottom-r.top;return r}
-function openHelp(){closeHelp();const ov=document.createElement("div");ov.id="helpOv";document.body.appendChild(ov);let page=0,pages=[];
+function openHelp(){closeHelp();const ov=document.createElement("div");ov.id="helpOv";document.body.appendChild(ov);let page=0,pages=[],guide=false;
   const vis=el=>{if(!el||el.closest("#helpOv"))return null;const r=hlRect(el);if(r.width<4||r.height<4)return null;
     if(r.top>(document.documentElement.clientHeight||innerHeight)-70)return null;const cs=getComputedStyle(el);if(cs.visibility==="hidden"||cs.display==="none")return null;return r};
-  const gather=()=>{const out=[];HELP.forEach(([sel,t,d])=>{const el=[...document.querySelectorAll(sel)].find(e=>vis(e));if(el&&!out.some(o=>o.el===el))out.push({el,t,d})});
+  const gather=()=>{const out=[];HELP.forEach(([sel,t,d,nw])=>{const el=[...document.querySelectorAll(sel)].find(e=>vis(e));if(el&&!out.some(o=>o.el===el))out.push({el,t,d,nw})});
     out.sort((a,b)=>{const A=hlRect(a.el),B=hlRect(b.el);return A.top-B.top||A.left-B.left});
     const per=innerWidth<700?3:6;pages=[];for(let i=0;i<out.length;i+=per)pages.push(out.slice(i,i+per));if(page>=pages.length)page=Math.max(0,pages.length-1)};
   const draw=()=>{const P=pages[page]||[];
     let h=`<svg><defs><marker id="hlArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#ffd43b"/></marker></defs></svg>`;
     if(!pages.length)h+=`<div class="hlempty"><b>Nothing to point at here.</b><br>Scroll to another part of the page and press Help again.</div>`;
-    h+=`<div class="hlbar"><button type="button" class="hlprev"${page?"":" disabled"}>‹ Back</button><span>${pages.length?`${page+1} of ${pages.length}`:""}</span><button type="button" class="hlnext"${page<pages.length-1?"":" disabled"}>Next ›</button><button type="button" class="hlx">Close</button></div>`;
+    h+=`<div class="hlbar"><button type="button" class="hlprev"${page?"":" disabled"}>‹ Back</button><span>${pages.length?`${page+1} of ${pages.length}`:""}</span><button type="button" class="hlnext"${page<pages.length-1?"":" disabled"}>Next ›</button><button type="button" class="hlguidebtn" title="Written guide and what's new">Guide</button><button type="button" class="hlx">Close</button></div>`;
     ov.innerHTML=h;const svg=ov.querySelector("svg"),placed=[],W=document.documentElement.clientWidth||innerWidth,H=(document.documentElement.clientHeight||innerHeight)-70,bw=Math.min(240,W-20);
     const hit=(x,y,w,hh)=>placed.some(p=>x<p.x+p.w+6&&x+w+6>p.x&&y<p.y+p.h+6&&y+hh+6>p.y);
-    P.forEach(({el,t,d})=>{const r=hlRect(el);
+    P.forEach(({el,t,d,nw})=>{const r=hlRect(el);
       placed.push({x:r.left-3,y:r.top-3,w:r.width+6,h:r.height+6,box:1});
       const b=document.createElement("div");b.className="hlbox";Object.assign(b.style,{left:r.left-4+"px",top:r.top-4+"px",width:r.width+8+"px",height:r.height+8+"px"});ov.appendChild(b)});
-    P.forEach(({el,t,d})=>{const r=hlRect(el),n=document.createElement("div");n.className="hlnote";n.style.width=bw+"px";n.innerHTML=`<b>${hEsc(t)}</b>${hEsc(d)}`;ov.appendChild(n);
+    P.forEach(({el,t,d,nw})=>{const r=hlRect(el),n=document.createElement("div");n.className="hlnote";n.style.width=bw+"px";n.innerHTML=`<b>${hEsc(t)}${nw?'<span class="hlnew">NEW</span>':""}</b>${hEsc(d)}`;ov.appendChild(n);
       const nh=n.offsetHeight,cx=r.left+r.width/2,cy=r.top+r.height/2,gap=34;
       const cand=[[cx-bw/2,r.bottom+gap],[cx-bw/2,r.top-gap-nh],[r.right+gap,cy-nh/2],[r.left-gap-bw,cy-nh/2]];
       for(let k=1;k<12;k++){cand.push([cx-bw/2,r.bottom+gap+k*40],[cx-bw/2,r.top-gap-nh-k*40],[r.right+gap+k*30,cy-nh/2+k*30],[r.left-gap-bw-k*30,cy-nh/2+k*30])}
@@ -6145,17 +6468,21 @@ function openHelp(){closeHelp();const ov=document.createElement("div");ov.id="he
       const sx=x>r.right?x:x+bw<r.left?x+bw:nx,sy=(x>r.right||x+bw<r.left)?Math.max(y+8,Math.min(y+nh-8,cy)):ny;
       const tx=Math.max(r.left-4,Math.min(r.right+4,sx)),ty=Math.max(r.top-4,Math.min(r.bottom+4,sy));
       const L=document.createElementNS("http://www.w3.org/2000/svg","line");Object.entries({x1:sx,y1:sy,x2:tx,y2:ty,stroke:"#ffd43b","stroke-width":3,"marker-end":"url(#hlArr)"}).forEach(([k,v])=>L.setAttribute(k,v));svg.appendChild(L)});
+    ov.querySelector(".hlguidebtn").onclick=e=>{e.stopPropagation();showGuide()};
     ov.querySelector(".hlprev").onclick=e=>{e.stopPropagation();page--;draw()};
     ov.querySelector(".hlnext").onclick=e=>{e.stopPropagation();page++;draw()};
     ov.querySelector(".hlx").onclick=e=>{e.stopPropagation();closeHelp()}};
+  const showGuide=()=>{guide=true;ov.innerHTML=guideHTML()+`<div class="hlbar"><button type="button" class="hlback">‹ Back to pointers</button><button type="button" class="hlx">Close</button></div>`;
+    guideWire(ov);ov.querySelector(".hlback").onclick=e=>{e.stopPropagation();guide=false;gather();draw()};ov.querySelector(".hlx").onclick=e=>{e.stopPropagation();closeHelp()}};
   gather();draw();
-  ov._c=e=>{if(e.target.closest&&e.target.closest(".hlbar"))return;e.preventDefault();e.stopPropagation();closeHelp()};document.addEventListener("click",ov._c,true);
-  const re=()=>{if(!document.getElementById("helpOv"))return;gather();draw()};
+  ov._c=e=>{if(e.target.closest&&e.target.closest(".hlbar,.hlguide"))return;e.preventDefault();e.stopPropagation();closeHelp()};document.addEventListener("click",ov._c,true);
+  const re=()=>{if(!document.getElementById("helpOv")||guide)return;gather();draw()};
   ov._re=()=>{clearTimeout(ov._t);clearTimeout(ov._t2);ov._t=setTimeout(()=>requestAnimationFrame(re),80);ov._t2=setTimeout(()=>requestAnimationFrame(re),450)};
   try{ov._ro=new ResizeObserver(ov._re);ov._ro.observe(document.body)}catch(e){}addEventListener("resize",ov._re);document.addEventListener("scroll",ov._re,true);
-  ov._k=e=>{if(e.key==="Escape")closeHelp();else if(e.key==="ArrowRight"&&page<pages.length-1){page++;draw()}else if(e.key==="ArrowLeft"&&page){page--;draw()}};document.addEventListener("keydown",ov._k)}
+  ov._k=e=>{if(e.key==="Escape")closeHelp();else if(guide)return;else if(e.key==="ArrowRight"&&page<pages.length-1){page++;draw()}else if(e.key==="ArrowLeft"&&page){page--;draw()}};document.addEventListener("keydown",ov._k)}
 function closeHelp(){const ov=document.getElementById("helpOv");if(!ov)return;clearTimeout(ov._t);clearTimeout(ov._t2);if(ov._ro)ov._ro.disconnect();removeEventListener("resize",ov._re);document.removeEventListener("scroll",ov._re,true);document.removeEventListener("click",ov._c,true);document.removeEventListener("keydown",ov._k);ov.remove()}
-(()=>{const b=document.getElementById("helpBtn");if(b)b.onclick=()=>document.getElementById("helpOv")?closeHelp():openHelp()})();
+(()=>{const b=document.getElementById("helpBtn");if(b)b.onclick=()=>document.getElementById("helpOv")?closeHelp():openHelp();
+  document.addEventListener("keydown",e=>{if(e.key!=="?"||e.ctrlKey||e.metaKey||e.altKey)return;const a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)||a.isContentEditable))return;if(document.documentElement.classList.contains("mob"))return;e.preventDefault();document.getElementById("helpOv")?closeHelp():openHelp()})})();
 
 
 /* click (or tap / Enter) on a ! to read its reason in a small box, as well as hovering */
