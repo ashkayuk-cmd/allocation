@@ -3601,7 +3601,7 @@ function vansHTML(){
   <select id="vanFilter" aria-label="Show"><option value="all">All vans</option><option value="free">Free only</option><option value="used">In use</option><option value="oos">OOS (out of service)</option><option value="chg">Change over</option><option value="coll">Collections</option><option value="oth">Reserved - Other</option><option value="E">Electric</option><option value="D-ab">Diesel</option><option value="share">Same last letters (!)</option><option value="hire">Hire vans</option><option value="custom">Custom types</option></select>
   <button class="addrow" id="vanPrint">Print list</button><button class="vanadd" id="vanAddBtn">Add a van</button></div><div id="vanForm"></div>
   <div class="tablewrap"><table class="vantable"><thead><tr>
-  ${[["h","Hook / name"],["full","Plate"],["pp","PP number"],["model","Model"],["fuel","Fuel"],["image","Image"],["detail","Detail"],["",""]].map(([k,t])=>k==="detail"?`<th class="vdcol">Detail</th>`:k==="image"?`<th class="vaimgcol">Image</th>`:k?`<th><button class="sortbtn" data-sort="${k}" aria-pressed="${vanSort===k}">${t}${vanSort===k?(vanDesc?" ▴":" ▾"):""}</button></th>`:`<th><span class="sr">Actions</span></th>`).join("")}
+  ${[["h","Hook"],["full","Plate"],["pp","PP number"],["model","Model"],["fuel","Fuel"],["image","Image"],["detail","Detail"],["",""]].map(([k,t])=>k==="detail"?`<th class="vdcol">Detail</th>`:k==="image"?`<th class="vaimgcol">Image</th>`:k?`<th><button class="sortbtn" data-sort="${k}" aria-pressed="${vanSort===k}">${t}${vanSort===k?(vanDesc?" ▴":" ▾"):""}</button></th>`:`<th><span class="sr">Actions</span></th>`).join("")}
   </tr></thead><tbody id="vanRows"></tbody></table></div><p class="note" id="vanCount"></p>`;
 }
 function vanRowsHTML(a){
