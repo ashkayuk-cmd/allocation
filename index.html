@@ -269,6 +269,9 @@ tr.flash td{animation:flash 2.2s ease-out}
 .mob-presets{margin-top:6px;margin-bottom:0}
 .mob-presets button{font-size:13px;padding:5px 10px 5px 6px}
 .phonebox{margin-bottom:14px}
+.moblay-opts{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 14px}
+.moblay-opts label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.moblay-opts select{font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:var(--radius);background:var(--field);color:var(--text);min-width:140px}
 .sw{display:inline-flex;border-radius:4px;overflow:hidden;border:1px solid rgba(0,0,0,.2)}
 .sw i{width:12px;height:20px}
 .look{overflow:hidden}
@@ -1093,6 +1096,22 @@ html.mob .mc-pm td:nth-child(3),html.mob .mc-chg td:nth-child(3),html.mob .mc-ot
 html.mob .mc-coll tr{padding-bottom:2px}
 html.mob table.mcard tr{grid-template-columns:20px minmax(0,1fr) minmax(0,1fr) 24px!important}
 html.mob table.mcard td>select,html.mob table.mcard td>:is(select,input).hook{width:100%}
+
+/* Mobile layout: compact cards */
+html.mob.mcard-compact table.mcard tr{padding:5px 6px 7px;gap:5px 4px;margin-bottom:5px}
+html.mob.mcard-compact table.mcard td input,html.mob.mcard-compact table.mcard td select{min-height:36px}
+html.mob.mcard-compact .mview{padding:6px 8px}
+/* Mobile layout: spacious cards */
+html.mob.mcard-spacious table.mcard tr{padding:12px 10px 14px;gap:10px 8px;margin-bottom:12px}
+html.mob.mcard-spacious table.mcard td input,html.mob.mcard-spacious table.mcard td select{min-height:50px}
+/* Mobile text: small */
+html.mob.mtext-small table.mcard td input,html.mob.mtext-small table.mcard td select{font-size:14px!important}
+html.mob.mtext-small table.mcard td[data-label]::before{font-size:11px}
+html.mob.mtext-small .mc-main td:nth-child(5) input{font-size:12px!important}
+/* Mobile text: large */
+html.mob.mtext-large table.mcard td input,html.mob.mtext-large table.mcard td select{font-size:18px!important}
+html.mob.mtext-large table.mcard td[data-label]::before{font-size:14px}
+html.mob.mtext-large nav button{font-size:19px;padding:11px 15px}
 
 }
 
@@ -2016,7 +2035,10 @@ const MOBOFF_KEY="driver-allocation-phone-layout-off";
 let mobBoard=false; // phone only: showing the Key Cupboard tab
 function phoneScreen(){return !!(MOBQ&&MOBQ.matches)}
 function isMob(){if(!phoneScreen())return false;try{return localStorage.getItem(MOBOFF_KEY)!=="1"}catch(e){return true}}
-function applyMob(){const on=isMob(),r=document.documentElement;if(!on)mobBoard=false;r.classList.toggle("mob",on);r.classList.toggle("mobboard",on&&mobBoard)}
+function applyMob(){const on=isMob(),r=document.documentElement;if(!on)mobBoard=false;r.classList.toggle("mob",on);r.classList.toggle("mobboard",on&&mobBoard);
+  const cs=(db.look&&db.look.mobCardSize)||"",ts=(db.look&&db.look.mobTextSize)||"";
+  r.classList.toggle("mcard-compact",on&&cs==="compact");r.classList.toggle("mcard-spacious",on&&cs==="spacious");
+  r.classList.toggle("mtext-small",on&&ts==="small");r.classList.toggle("mtext-large",on&&ts==="large")}
 applyMob();
 if(MOBQ){const ch=()=>{applyMob();applyLook();render()};if(MOBQ.addEventListener)MOBQ.addEventListener("change",ch);else if(MOBQ.addListener)MOBQ.addListener(ch)}
 let nshowOpen=false, moveMode=false, selMode=false, selSet=new Set(), selKey="";
@@ -3322,8 +3344,16 @@ function stBar(){return `<div class="stbar"><label class="stfind"><span class="s
   <nav class="stnav" aria-label="Jump to a section"><span class="stnavlab">Jump to</span>${ST_SECS.map(x=>`<button type="button" data-stgo="${x[0]}">${x[3]}</button>`).join("")}<span class="stnavsep"></span><button type="button" data-stall="1">Open all</button><button type="button" data-stall="0">Close all</button></nav><p class="stnone" hidden>No setting matches. Try a shorter word.</p></div>`}
 function mobLookHTML(){
   const curPreset=(db.look&&db.look.mobPreset)||"";
-  let h=`<p class="note" style="margin-top:0">The phone layout on/off switch only changes <b>this</b> device. The mobile theme applies on any device that uses the phone layout — pick one below to override the main theme just for phones.</p>`;
+  const curCardSize=(db.look&&db.look.mobCardSize)||"";
+  const curTextSize=(db.look&&db.look.mobTextSize)||"";
+  let h=`<p class="note" style="margin-top:0">The phone layout on/off switch only changes <b>this</b> device. The layout and theme options below apply on any device that uses the phone layout.</p>`;
   h+=`<div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on (this device)":"Phone layout: off (this device)"}</button><span class="note">${isMob()?"Turn off to use the full desktop layout on this phone.":"Turn on to use the phone layout on this phone."}</span></div>`;
+  h+=`<h4 style="margin:14px 0 6px;font:600 16px/1 var(--display)">Layout options</h4>`;
+  h+=`<p class="note" style="margin-top:0">Adjust how the cards look on a phone — spacing and text size.</p>`;
+  h+=`<div class="moblay-opts">`;
+  h+=`<label>Card spacing<select id="mobCardSize"><option value=""${!curCardSize?" selected":""}>Normal</option><option value="compact"${curCardSize==="compact"?" selected":""}>Compact — tighter rows</option><option value="spacious"${curCardSize==="spacious"?" selected":""}>Spacious — more room</option></select></label>`;
+  h+=`<label>Text size<select id="mobTextSize"><option value=""${!curTextSize?" selected":""}>Normal</option><option value="small"${curTextSize==="small"?" selected":""}>Small — fits more on screen</option><option value="large"${curTextSize==="large"?" selected":""}>Large — easier to read</option></select></label>`;
+  h+=`</div>`;
   h+=`<h4 style="margin:14px 0 6px;font:600 16px/1 var(--display)">Mobile theme</h4>`;
   h+=`<p class="note" style="margin-top:0">Choose a theme that will be used <b>only</b> when the phone layout is active. "Same as desktop" uses whatever the main theme is set to.</p>`;
   h+=`<div class="presets mob-presets">`;
@@ -4026,6 +4056,8 @@ function refresh(){ // re-render but keep focus position
 function wireSettings(){
   const G=id=>$(id)||{};
   if($("mobToggle"))$("mobToggle").onclick=()=>{const on=!isMob();try{if(on)localStorage.removeItem(MOBOFF_KEY);else localStorage.setItem(MOBOFF_KEY,"1")}catch(e){}applyMob();applyLook();render();toast(on?"Phone layout on":"Desktop layout on this phone")};
+  if($("mobCardSize"))$("mobCardSize").onchange=e=>{db.look=db.look||{};const v=e.target.value;if(v)db.look.mobCardSize=v;else delete db.look.mobCardSize;applyMob();save();toast(v?({compact:"Compact cards",spacious:"Spacious cards"}[v]||v):"Card spacing: normal")};
+  if($("mobTextSize"))$("mobTextSize").onchange=e=>{db.look=db.look||{};const v=e.target.value;if(v)db.look.mobTextSize=v;else delete db.look.mobTextSize;applyMob();save();toast(v?({small:"Smaller text on mobile",large:"Larger text on mobile"}[v]||v):"Mobile text size: normal")};
   document.querySelectorAll("[data-mobpreset]").forEach(b=>b.onclick=()=>{const k=b.dataset.mobpreset;db.look=db.look||{};if(k){db.look.mobPreset=k}else{delete db.look.mobPreset}applyLook();save();render();toast(k&&PRESETS[k]?PRESETS[k].name+" theme for mobile":"Mobile theme removed — using desktop theme")});
   if($("mobPresetClear"))$("mobPresetClear").onclick=()=>{if(db.look)delete db.look.mobPreset;applyLook();save();render();toast("Mobile theme removed — using desktop theme")};
   if($("saveLookDefault"))wireLook();
