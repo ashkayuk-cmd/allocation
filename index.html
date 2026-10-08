@@ -783,8 +783,10 @@ body.rowresizing,body.rowresizing *{cursor:row-resize!important;user-select:none
 .drvpick .dpsw{width:10px;height:10px;border-radius:3px;background:var(--oc,var(--muted))}
 .drvpick .dpi{padding:4px 10px 4px 26px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.drvpick .dpg,.drvpick .dpsort{white-space:nowrap}
 .drvpick .dpi:hover{background:var(--field)}
-.drvpick .dpi.on{background:var(--coll);color:var(--on-coll)}
-.drvpick .dpi.on .vdmut{color:inherit}
+.drvpick .dpi.on{background:var(--ink);color:var(--ink-text)}
+.drvpick .dpi.on .vdmut{color:rgba(255,255,255,.65)}
+.drvpick .dpi.on .dpav{color:rgba(255,255,255,.65)}
+.drvpick .dpi.on .dlt{color:var(--ink)}
 .drvpick .dpe{padding:6px 10px;color:var(--muted);font-size:12.5px}
 .drvpick .dpfull,.dpall{display:block;width:calc(100% - 12px);margin:2px 6px 6px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--text);font:600 13.5px var(--body,inherit);text-align:left;cursor:pointer}
 .drvpick .dpfull:hover{border-color:var(--text)}
@@ -1633,6 +1635,18 @@ html:not(.mob) table.offtbl>tbody>tr>td.l2nu>.nuchk{display:flex!important;align
 .dutytbl th{font:600 12px var(--body);color:var(--muted)}
 .dutytbl .dutyname{font-weight:700;white-space:nowrap}
 .dutytbl select{min-width:220px;max-width:100%}
+.dutytbl select.dutysel-notset{color:var(--clash);font-style:italic}
+.dutytbl select option.dutyopt-notset{color:var(--clash);font-style:italic}
+.dutytypecell{white-space:nowrap}
+.dutytypesel{min-width:0;width:auto;font-size:12px;padding:2px 4px}
+.dutytypesel-nd{color:var(--muted);font-style:italic}
+.dutypaircel{white-space:nowrap}
+.dutypairsel{min-width:0;width:auto;font-size:12px;padding:2px 4px;max-width:160px}
+.dutypairrm{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;padding:0 0 0 2px;vertical-align:middle}
+tr.duty2ndrow{opacity:0.45}
+tr.duty2ndrow:hover{opacity:0.75}
+td.duty2ndcell{font-size:11px;color:var(--muted);padding:2px 8px!important;border-bottom:1px solid var(--line)}
+.duty2ndlabel{font-size:11px;color:var(--muted);margin-left:4px}
 .dutychip{display:inline-flex;align-items:center;gap:3px;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid var(--line);border-radius:999px;font-size:12px;background:var(--field)}
 .dutychip.fix{border-color:color-mix(in srgb,var(--elec) 60%,var(--line))}
 .dutychip.mov{border-style:dashed;color:var(--muted)}
@@ -5104,7 +5118,7 @@ function vdBtn(h){return h&&!(db.look&&db.look.vdOff)?`<button class="vdbtn" dat
       const hit=OFFICES.includes(c)?[c]:m[2]==null?OFFICES.filter(o=>o.startsWith(c)):[];
       if(hit.length){only=hit;q=(m[2]||"").trim()}}
      if(!only&&/^(N\s?\/?\s?A|N\/|NONE|NO\s(O(F(F(I(C(E)?)?)?)?)?)?)$/.test(q)){only=["N/A",""];q=""}}
-    const here=OFFICES.includes(tab)?tab:null;
+    const here=OFFICES.includes(tab)?tab:(inp&&OFFICES.includes(inp.dataset.office)?inp.dataset.office:null);
     if(!only&&here&&!drvPickAll)only=[here]; /* scoped to the current office by default */
     /* Sunday isn't an office someone is assigned to — it's a day some drivers also cover (the Drivers tab's
        "Sunday Drivers" list). So the default Sunday-scoped view groups by that flag, not by Office (Ash, 6 Oct 2026) */
@@ -6224,26 +6238,35 @@ function bulkUndoHTML(o){if(!lastBulk||lastBulk.hp!==hp||lastBulk.day!==day||las
 let dutyOff=null;
 function regOf(o,w){const R=db.dutyReg&&db.dutyReg[o];return R&&w?R[up(w)]||"":""}
 function regDutiesOf(n){const L=[];Object.entries(db.dutyReg||{}).forEach(([o,R])=>Object.entries(R||{}).forEach(([w,d])=>{if(d===n)L.push([o,w])}));return L}
+function dutyPairOf(o,w){const P=db.dutyPair&&db.dutyPair[o];return P&&w?P[up(w)]||"":""}
+function dutyPairOptsFor(o,self,sel){const P2=(db.dutyPair&&db.dutyPair[o])||{};const taken=new Set(Object.values(P2).map(v=>up(v)));const D=officeDuties(o).filter(w=>up(w)!==up(self)&&(!taken.has(up(w))||up(w)===up(sel)));return `<option value="">—</option>${D.map(w=>`<option value="${esc(up(w))}"${up(w)===up(sel)?" selected":""}>${esc(w)}</option>`).join("")}`}
 function subInfo(n){return (db.subDrv||{})[n]||null}
 function subCovers(n,o,w){const S=subInfo(n);if(!S)return false;if((S.duties||[]).includes(up(w)))return true;return !!S.moves&&(!o||!driverOffice(n)||driverOffice(n).replace(/ Manager$/,"")===o)}
 function officeDuties(o){return db.walks.filter(w=>db.walkOffice[w]===o).sort((x,y)=>walkCmp(x,y,"num"))}
 function drvOptsFor(o,sel){const L=db.drivers.filter(n=>!isND(n)),mine=L.filter(n=>driverOffice(n)===o).sort(),oth=L.filter(n=>driverOffice(n)!==o).sort();
   const op=n=>`<option value="${esc(n)}"${n===sel?" selected":""}>${esc(n)}</option>`;
   const othOffs=[...new Set(oth.map(n=>driverOffice(n)||""))].sort((a,b)=>a.localeCompare(b));
-  return `<option value="">— no regular driver —</option>${mine.length?`<optgroup label="${o} drivers">${mine.map(op).join("")}</optgroup>`:""}${othOffs.map(g=>{const gd=oth.filter(n=>(driverOffice(n)||"")===g).sort();return gd.length?`<optgroup label="${g?esc(g):"No office"} drivers">${gd.map(op).join("")}</optgroup>`:""}).join("")}${sel&&!L.includes(sel)?`<option value="${esc(sel)}" selected>${esc(sel)} (not a driver now)</option>`:""}`}
+  const notSet=!sel;
+  return `<option value="" class="dutyopt-notset"${notSet?" selected":""}${notSet?"":" style=\"color:var(--muted)\""}>Not set</option><option value="_nodrv"${sel==="_nodrv"?" selected":""}>— no regular driver —</option>${mine.length?`<optgroup label="${o} drivers">${mine.map(op).join("")}</optgroup>`:""}${othOffs.map(g=>{const gd=oth.filter(n=>(driverOffice(n)||"")===g).sort();return gd.length?`<optgroup label="${g?esc(g):"No office"} drivers">${gd.map(op).join("")}</optgroup>`:""}).join("")}${sel&&sel!=="_nodrv"&&!L.includes(sel)?`<option value="${esc(sel)}" selected>${esc(sel)} (not a driver now)</option>`:""}`}
 function dutiesHTML(a){const o=dutyOff&&OFFICES.includes(dutyOff)?dutyOff:(OFFICES.includes(lastOff)?lastOff:OFFICES[0]);dutyOff=o;
   const D=officeDuties(o),R=(db.dutyReg||{})[o]||{},subs=Object.keys(db.subDrv||{}).filter(n=>db.drivers.includes(n)&&!isND(n));
   const used=new Map();D.forEach(w=>{const n=R[up(w)];if(n)used.set(n,(used.get(n)||0)+1)});
   const noDuty=db.drivers.filter(n=>!isND(n)&&driverOffice(n)===o&&!regDutiesOf(n).length&&!subInfo(n)).sort();
   const nReg=D.filter(w=>R[up(w)]).length;
+  /* walks that are claimed as a 2nd duty by another walk in this office */
+  const P2=(db.dutyPair&&db.dutyPair[o])||{};
+  const claimedAs2nd=new Map(); /* key=UP(walk2) → primary walk name */
+  D.forEach(w=>{const v=P2[up(w)];if(v)claimedAs2nd.set(up(v),w)});
   let h=`<h2>Duties</h2><div class="dutysteps"><div><b>①</b> Pick each duty's <b>regular driver</b>, the one permanently on it. Leave it empty if nobody is.</div><div><b>②</b> Add your <b>substitute drivers</b> and say what they cover: any walk, or only certain duties.</div><div><b>③</b> On ${ovName(o)}, press <b>Fill from regular drivers</b>. Regular drivers go in, and a free substitute covers anyone who's off.</div></div>
   <div class="dutyoffs" role="group" aria-label="Office">${OFFICES.map(x=>`<button type="button" data-dutyoff="${x}" aria-pressed="${x===o}" style="--oc:var(--off-${x})">${ovName(x)}</button>`).join("")}</div>
   <div class="dutybar"><span class="note">${nReg} of ${D.length} ${ovName(o)} duties have a regular driver.</span><button type="button" class="addrow" id="dutySuggest" title="For each duty with no regular driver, put in whoever did it most over the last 12 weeks (or all saved days if there are none), at least 3 times. Substitutes who move between walks are skipped. You can change any of them after.">Suggest from history</button>${nReg?`<button type="button" class="addrow" id="dutyClear" title="Take every regular driver off the ${ovName(o)} duties">Clear all ${ovName(o)}</button>`:""}</div>
-  <h3 class="dutyh3">① Regular drivers for ${ovName(o)}</h3><div class="tablewrap"><table class="dutytbl"><thead><tr><th>Duty</th><th>Regular driver</th><th>Today (${esc(dayShort(day))})</th><th>Covered by when off</th></tr></thead><tbody>`;
+  <h3 class="dutyh3">① Regular drivers for ${ovName(o)}</h3><div class="tablewrap"><table class="dutytbl"><thead><tr><th>Type</th><th>Duty</th><th>2nd duty</th><th>Regular driver</th><th>Today (${esc(dayShort(day))})</th><th>Covered by when off</th></tr></thead><tbody>`;
   D.forEach(w=>{const k=up(w),n=R[k]||"",off=n?availOn(n,day):"",cov=subs.filter(x=>subCovers(x,o,w)),fix=cov.filter(x=>(subInfo(x).duties||[]).includes(k)),mov=cov.filter(x=>!fix.includes(x));
     const twice=n&&used.get(n)>1?`<span class="dutywarn" title="${esc(n)} is the regular driver on more than one ${ovName(o)} duty">on ${used.get(n)} duties</span>`:"";
     const other=n?regDutiesOf(n).filter(([oo,ww])=>oo!==o).map(([oo,ww])=>oo+" "+ww):[];
-    h+=`<tr><td class="dutyname">${esc(w)}</td><td><select data-dutyreg="${esc(w)}" aria-label="Regular driver for ${esc(w)}">${drvOptsFor(o,n)}</select>${twice}${other.length?`<span class="dutywarn">also ${esc(other.join(", "))}</span>`:""}</td><td>${n?(off?`<span class="dutyoff">${esc(off)}</span>`:`<span class="dutyon">working</span>`):`<span class="vdmut">—</span>`}</td><td>${fix.map(x=>`<span class="dutychip fix" title="${esc(x)} covers this duty">${esc(x)}<button type="button" data-subdrop="${esc(x)}" data-w="${esc(k)}" title="${esc(x)} stops covering ${esc(w)}" aria-label="${esc(x)} stops covering ${esc(w)}">×</button></span>`).join("")}${mov.length<=3?mov.map(x=>`<span class="dutychip mov" title="${esc(x)} covers any ${ovName(o)} walk">${esc(x)} <small>any walk</small></span>`).join(""):`<span class="dutychip mov" title="${esc(mov.join(", "))} cover any ${o} walk">${mov.length} who cover any walk</span>`}${(()=>{const can=subs.filter(x=>!(subInfo(x).duties||[]).includes(k)&&((driverOffice(x)||"").replace(/ Manager$/,"")===o));return can.length?`<select class="dutysubadd" data-dutysub="${esc(w)}" aria-label="Add a substitute who covers ${esc(w)}"><option value="">+ substitute</option>${can.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}</select>`:(!cov.length?`<span class="vdmut">no substitute</span>`:"")})()}</td></tr>`});
+    const ndw=isNDW(w),pair=dutyPairOf(o,w),primaryW=claimedAs2nd.get(k);
+    if(primaryW){h+=`<tr class="duty2ndrow" title="${esc(w)} is the 2nd duty on ${esc(primaryW)} — set its regular driver on the ${esc(primaryW)} row"><td colspan="6" class="duty2ndcell">↳ <b>${esc(w)}</b> <span class="duty2ndlabel">2nd duty on ${esc(primaryW)}</span></td></tr>`;return}
+    h+=`<tr><td class="dutytypecell"><select class="dutytypesel${ndw?" dutytypesel-nd":""}" data-dutytype="${esc(w)}" aria-label="Type for ${esc(w)}"><option value=""${!ndw?" selected":""}>Driver</option><option value="nd"${ndw?" selected":""}>Non-driver</option></select></td><td class="dutyname">${esc(w)}</td><td class="dutypaircel"><select class="dutypairsel" data-dutypair="${esc(w)}" aria-label="Second duty paired with ${esc(w)}">${dutyPairOptsFor(o,w,pair)}</select>${pair?`<button type="button" class="dutypairrm" data-dutypairrm="${esc(w)}" title="Remove 2nd duty" aria-label="Remove 2nd duty from ${esc(w)}">×</button>`:""}</td><td><select data-dutyreg="${esc(w)}" aria-label="Regular driver for ${esc(w)}">${drvOptsFor(o,n)}</select>${twice}${other.length?`<span class="dutywarn">also ${esc(other.join(", "))}</span>`:""}</td><td>${n?(off?`<span class="dutyoff">${esc(off)}</span>`:`<span class="dutyon">working</span>`):`<span class="vdmut">—</span>`}</td><td>${fix.map(x=>`<span class="dutychip fix" title="${esc(x)} covers this duty">${esc(x)}<button type="button" data-subdrop="${esc(x)}" data-w="${esc(k)}" title="${esc(x)} stops covering ${esc(w)}" aria-label="${esc(x)} stops covering ${esc(w)}">×</button></span>`).join("")}${mov.length<=3?mov.map(x=>`<span class="dutychip mov" title="${esc(x)} covers any ${ovName(o)} walk">${esc(x)} <small>any walk</small></span>`).join(""):`<span class="dutychip mov" title="${esc(mov.join(", "))} cover any ${o} walk">${mov.length} who cover any walk</span>`}${(()=>{const can=subs.filter(x=>!(subInfo(x).duties||[]).includes(k)&&((driverOffice(x)||"").replace(/ Manager$/,"")===o));return can.length?`<select class="dutysubadd" data-dutysub="${esc(w)}" aria-label="Add a substitute who covers ${esc(w)}"><option value="">+ substitute</option>${can.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}</select>`:(!cov.length?`<span class="vdmut">no substitute</span>`:"")})()}</td></tr>`});
   h+=`</tbody></table></div>`;
   if(!D.length)h+=`<p class="note">No duties are set up for ${ovName(o)} yet. Add them on the Walks tab.</p>`;
   h+=subsHTML(o);
@@ -6251,8 +6274,15 @@ function dutiesHTML(a){const o=dutyOff&&OFFICES.includes(dutyOff)?dutyOff:(OFFIC
   return h}
 function wireDuties(m){m.querySelectorAll("[data-dutyoff]").forEach(b=>b.onclick=()=>{dutyOff=b.dataset.dutyoff;render()});
   const o=dutyOff;
-  m.querySelectorAll("[data-dutyreg]").forEach(sel=>sel.onchange=()=>{const w=sel.dataset.dutyreg,n=sel.value;db.dutyReg=db.dutyReg||{};const R=Object.assign({},db.dutyReg[o]);if(n)R[up(w)]=n;else delete R[up(w)];db.dutyReg[o]=R;
-    save(n?`${n} is now the regular driver on ${ovName(o)} ${w}`:`No regular driver on ${ovName(o)} ${w}`);render()});
+  m.querySelectorAll("[data-dutyreg]").forEach(sel=>{
+    const applyDutySelColor=()=>{const v=sel.value;sel.style.color="";sel.classList.toggle("dutysel-notset",!v)};
+    applyDutySelColor();
+    sel.onchange=()=>{const w=sel.dataset.dutyreg,raw=sel.value,n=raw==="_nodrv"?"":raw;db.dutyReg=db.dutyReg||{};const R=Object.assign({},db.dutyReg[o]);if(n)R[up(w)]=n;else delete R[up(w)];db.dutyReg[o]=R;
+      applyDutySelColor();
+      save(n?`${n} is now the regular driver on ${ovName(o)} ${w}`:raw==="_nodrv"?`No regular driver on ${ovName(o)} ${w}`:`Duty ${w} on ${ovName(o)} not set`);render()}});
+  m.querySelectorAll("[data-dutytype]").forEach(sel=>{sel.onchange=()=>{const w=sel.dataset.dutytype,nd=sel.value==="nd";db.walkND=db.walkND||{};if(nd)db.walkND[up(w)]=true;else delete db.walkND[up(w)];sel.classList.toggle("dutytypesel-nd",nd);save(`${w}: ${nd?"non-driver walk":"driver walk"}`);render()}});
+  m.querySelectorAll("[data-dutypair]").forEach(sel=>{sel.onchange=()=>{const w=sel.dataset.dutypair,v=sel.value;db.dutyPair=db.dutyPair||{};db.dutyPair[o]=db.dutyPair[o]||{};const k=up(w);if(v){db.dutyPair[o][k]=v;save(`${w} paired with ${v} as a 2nd duty`)}else{delete db.dutyPair[o][k];save(`Removed 2nd duty from ${w}`)};render()}});
+  m.querySelectorAll("[data-dutypairrm]").forEach(b=>{b.onclick=()=>{const w=b.dataset.dutypairrm;db.dutyPair=db.dutyPair||{};if(db.dutyPair[o])delete db.dutyPair[o][up(w)];save(`Removed 2nd duty from ${w}`);render()}});
   const sg=$("dutySuggest");if(sg)sg.onclick=()=>{let st=dutyStats(o,12,false);if(!officeDuties(o).some(w=>st.get(up(w))))st=dutyStats(o,0,false);const R=Object.assign({},(db.dutyReg||{})[o]),taken=new Set(Object.values(R));let n=0;
     officeDuties(o).forEach(w=>{const k=up(w);if(R[k])return;const S=st.get(k);if(!S)return;const best=[...S.drv.entries()].filter(([nm,e])=>db.drivers.includes(nm)&&!isND(nm)&&!taken.has(nm)&&!(subInfo(nm)&&subInfo(nm).moves)&&e.n>=3).sort((p,q)=>q[1].n-p[1].n)[0];
       if(best){R[k]=best[0];taken.add(best[0]);n++}});
@@ -6265,7 +6295,7 @@ function subsHTML(o){const S=db.subDrv||{},offOf=n=>(driverOffice(n)||"").replac
   const othOffs=[...new Set(oth.map(n=>offOf(n)||""))].sort((a,b)=>a.localeCompare(b));
   const D=officeDuties(o);
   return `<section id="subSec" class="subsec"><h3>② Substitute drivers for ${ovName(o)} (${L.length})</h3><p class="note">Substitutes cover a duty when its regular driver is off. Some move to whichever walk needs covering that day, and some only cover certain duties.</p>
-  <div class="addline"><input type="text" id="subAdd" data-type="name" placeholder="Pick a driver to add as substitute…" autocomplete="off" spellcheck="false" aria-label="Driver to add as a substitute"><button id="subAddGo" type="button">Add substitute</button></div>
+  <div class="addline"><input type="text" id="subAdd" data-type="name" data-office="${o}" placeholder="Pick a driver to add as substitute…" autocomplete="off" spellcheck="false" aria-label="Driver to add as a substitute"><button id="subAddGo" type="button">Add substitute</button></div>
   <div class="sublist">${L.map(n=>{const I=S[n],reg=regDutiesOf(n),off=availOn(n,day);
     return `<div class="subrow"><span class="subnm">${esc(n)}${offOf(n)&&offOf(n)!==o?` <small>${esc(driverOffice(n))}</small>`:""}${off?` <span class="dutyoff">${esc(off)} today</span>`:""}</span>
     <span class="subkind" role="group" aria-label="What ${esc(n)} covers"><button type="button" data-submoves="${esc(n)}" data-v="1" aria-pressed="${!!I.moves}" title="Covers any ${ovName(o)} walk whose driver is off">Any walk</button><button type="button" data-submoves="${esc(n)}" data-v="0" aria-pressed="${!I.moves}" title="Only covers the duties picked here">Only these duties</button></span>
@@ -6291,7 +6321,7 @@ function openRegFill(o){const d=document.createElement("div");d.className="dlgba
   let noReg=false,pick=null;
   const build=()=>{const a=cur(),Uu=usage(a),inUse=new Set(Uu.drivers.keys()),M=a[o].main,subs=Object.keys(db.subDrv||{}).filter(n=>db.drivers.includes(n)&&!isND(n));
     const rows=M.map((r,i)=>({r,i})).filter(x=>x.r.duty&&!x.r.notUsed);const gotD=new Set(),gotS=new Set();
-    rows.forEach(x=>{const r=x.r,reg=regOf(o,r.duty);x.reg=reg;x.needD=!r.driver&&!r.sub;x.d="";x.why="";
+    rows.forEach(x=>{const r=x.r,pair=dutyPairOf(o,r.duty),pairMatch=pair&&r.two&&up(r.duty2)===up(pair),reg=regOf(o,r.duty);x.reg=reg;x.pair=pair;x.pairMatch=pairMatch;x.needD=!r.driver&&!r.sub;x.d="";x.why="";
       if(x.needD&&reg){if(isND(reg)||!db.drivers.includes(reg))x.why="regular driver isn't on the drivers list";else if(inUse.has(reg))x.why=`${reg} is already in today`;else{x.d=reg;gotD.add(reg)}}});
     rows.forEach(x=>{const r=x.r,drv=r.driver||x.d,off=drv?availOn(drv,day):"";x.off=off;x.needS=!r.sub&&(off?true:(!drv&&noReg&&x.needD&&!x.reg));x.s="";
       x.sc=subs.filter(n=>subCovers(n,o,r.duty)).map(n=>({n,fix:(subInfo(n).duties||[]).includes(up(r.duty)),why:inUse.has(n)?"already in today":availOn(n,day)||(gotD.has(n)?"put in as a driver":"")})).sort((p,q)=>(q.fix-p.fix)||p.n.localeCompare(q.n))});
@@ -6305,7 +6335,7 @@ function openRegFill(o){const d=document.createElement("div");d.className="dlgba
     ${show.length?`<div class="impgrid"><table><thead><tr><th><input type="checkbox" id="rgAll" aria-label="Tick or untick all"${show.filter(x=>x.d||x.s).every(x=>x.on)&&show.some(x=>x.on)?" checked":""}></th><th>Duty</th><th>Driver</th><th>Today</th><th>Substitute</th></tr></thead><tbody>${show.map(x=>{const k=R.indexOf(x),r=x.r;
       const dCell=x.needD?(x.d?`<b>${esc(x.d)}</b>`:x.reg?`<span class="vdmut">${esc(x.why||"—")}</span>`:`<span class="vdmut">no regular driver</span>`):`<span class="vdmut">${esc(r.driver||r.sub)}</span>`;
       const sCell=x.needS?`<select data-rgs="${k}" aria-label="Substitute for ${esc(r.duty)}"><option value="">— leave empty</option>${x.sc.map(c=>`<option value="${esc(c.n)}"${c.n===x.s?" selected":""}${c.why?" disabled":""}>${esc(c.n)}${c.fix?" · covers this duty":" · moves"}${c.why?" ("+esc(c.why)+")":""}</option>`).join("")}</select>${!x.sc.length?`<div class="vdmut">no substitute covers this duty</div>`:""}`:r.sub?`<span class="vdmut">${esc(r.sub)}</span>`:`<span class="vdmut">not needed</span>`;
-      return `<tr><td><input type="checkbox" data-rgon="${k}"${x.on?" checked":""}${x.d||x.s?"":" disabled"}></td><td><b>${esc(r.duty)}</b></td><td>${dCell}</td><td>${x.off?`<span class="dutyoff">${esc(x.off)}</span>`:(r.driver||x.d)?`<span class="dutyon">working</span>`:""}</td><td>${sCell}</td></tr>`}).join("")}</tbody></table></div>`:`<p class="bksum">Every ${ovName(o)} duty already has its driver, and nobody who is off needs covering.</p>`}
+      return `<tr><td><input type="checkbox" data-rgon="${k}"${x.on?" checked":""}${x.d||x.s?"":" disabled"}></td><td><b>${esc(r.duty)}</b>${x.pairMatch?` <small class="vdmut">+ ${esc(r.duty2)}</small>`:x.pair?` <small class="vdmut">(expects + ${esc(x.pair)})</small>`:""}</td><td>${dCell}</td><td>${x.off?`<span class="dutyoff">${esc(x.off)}</span>`:(r.driver||x.d)?`<span class="dutyon">working</span>`:""}</td><td>${sCell}</td></tr>`}).join("")}</tbody></table></div>`:`<p class="bksum">Every ${ovName(o)} duty already has its driver, and nobody who is off needs covering.</p>`}
     <div class="dlgbtns"><button data-x>Cancel</button><button class="dlgok" id="rgGo" style="background:var(--ink);border-color:var(--ink);color:var(--ink-text)"${nOn?"":" disabled"}>Fill ${nOn} row${nOn===1?"":"s"}</button></div></div>`;
     d.querySelectorAll("[data-x]").forEach(b=>b.onclick=close);
     d.querySelector("#rgNoReg").onchange=e=>{noReg=e.target.checked;pick=null;draw()};
