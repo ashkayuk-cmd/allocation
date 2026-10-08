@@ -218,6 +218,8 @@ td :is(select,input).hook.chgsel,td :is(select,input).hook.chgsel:hover,td :is(s
 .platesearch{display:flex;align-items:center;gap:6px;margin:0 0 10px;flex-wrap:wrap}
 .platesearch input{flex:1 1 180px;max-width:280px;border:1px solid var(--line);border-radius:var(--radius);background:var(--field);color:var(--text);padding:6px 8px;font:700 15px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.05em;text-transform:uppercase}
 .platesearch input::placeholder{text-transform:none;letter-spacing:0;font-weight:400}
+.platesearch select{border:1px solid var(--line);border-radius:var(--radius);background:var(--field);color:var(--text);padding:6px 8px;font-size:13px;cursor:pointer}
+.platesearch select option{background:var(--field);color:var(--text)}
 body.popwin .platesearch{position:sticky;left:0;width:max-content;max-width:calc(100vw - 48px)}
 .boardtools{display:flex;gap:6px;margin:0 0 10px}
 .boardtools button{flex:0 0 auto;white-space:nowrap;border:1px solid var(--line);background:var(--field);border-radius:var(--radius);padding:4px 6px;font-size:13px}
@@ -308,6 +310,15 @@ tr.flash td{animation:flash 2.2s ease-out}
 .vantable td{white-space:nowrap}
 .vact button{border:1px solid var(--line);background:var(--field);border-radius:var(--radius);padding:3px 10px;margin-left:4px;font-size:13px}
 .vact button:hover{border-color:var(--text)}
+.vaimgcol{text-align:center;width:80px}
+.vaimgthumb{display:inline-block;cursor:pointer;width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid var(--line);transition:border-color .2s,box-shadow .2s}
+.vaimgthumb:hover{border-color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.vaimgmodal{position:fixed;z-index:9700;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer}
+.vaimgmodal.hidden{display:none}
+.vaimgmodal img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.5);pointer-events:none}
+.vaimgmodal>button{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:2px solid #fff;color:#fff;width:44px;height:44px;border-radius:50%;font:700 24px/1 Arial;cursor:pointer}
+.vaimgmodal>button:hover{background:rgba(255,255,255,.2)}
+.vfimgpreview{width:100px;height:100px;object-fit:cover;border-radius:4px;border:1px solid var(--line);margin-top:6px;display:block}
 .vact button.del:hover{border-color:var(--clash);color:var(--clash)}
 .vanform{border:1px solid var(--line);background:var(--field);border-radius:var(--radius);padding:14px 16px;margin:0 0 14px}
 .vanform h3{margin:0 0 10px}
@@ -1035,9 +1046,9 @@ html.mob table.mcard td{position:relative}
 html.mob table.mcard td[data-label]::before{line-height:22px;margin-bottom:2px}
 html.mob table.mcard .hookcell .vdbtn,html.mob table.mcard .namecell .dhbtn{position:absolute;top:-3px;right:2px;z-index:2;width:28px;height:28px;font-size:14px}
 html.mob table.mcard td:has(.vdbtn,.dhbtn)[data-label]::before{margin-right:34px}
-html.mob table.mcard td.n{grid-row:1;grid-column:1;text-align:left;padding:0;font-size:17px;line-height:42px}
-html.mob table.mcard td.x{grid-row:1;grid-column:4;justify-self:end}
-html.mob table.mcard td.x button{width:36px;height:42px;font-size:24px;padding:0}
+html.mob table.mcard td.n{grid-row:1;grid-column:1;text-align:center;padding:0;font-size:13px;line-height:28px;color:var(--muted);font-weight:600}
+html.mob table.mcard td.x{grid-row:1;grid-column:4;justify-self:center}
+html.mob table.mcard td.x button{width:24px;height:24px;font-size:16px;padding:0;line-height:24px}
 html.mob table.mcard td input,html.mob table.mcard td select{min-height:42px;border-color:var(--line);background:var(--field)}
 html.mob table.mcard td :is(select,input).hook{width:auto;flex:1 1 auto;min-width:0;font-size:17px}
 html.mob table.mcard .hookcell,html.mob table.mcard .namecell{gap:6px}
@@ -1049,18 +1060,19 @@ html.mob table.mcard tr.flash td{animation:none}
 html.mob table.mcard tr.flash{animation:mflash 2.2s ease-out}
 @keyframes mflash{from{box-shadow:inset 0 0 0 3px var(--tag);background:color-mix(in srgb,var(--tag) 30%,var(--field))}to{box-shadow:inset 0 0 0 3px transparent;background:var(--field)}}
 @media (prefers-reduced-motion:reduce){html.mob table.mcard tr.flash{animation:none;background:color-mix(in srgb,var(--tag) 30%,var(--field))}}
-/* where each box sits in the card: row 1 is number, main box, remove; then two boxes side by side */
+/* where each box sits in the card: Layout 2 V2 simplified for mobile */
 html.mob .mc-main td:nth-child(5){grid-row:1;grid-column:2/4}
-html.mob .mc-main td:nth-child(5) input{font:600 18px var(--display)}
+html.mob .mc-main td:nth-child(5) input{font:600 13px var(--display)}
 html.mob .mc-main td:nth-child(2){grid-row:2;grid-column:1/3}
 html.mob .mc-main td:nth-child(3){grid-row:2;grid-column:3/5}
 html.mob .mc-main td:nth-child(6){grid-row:3;grid-column:1/3}
 html.mob .mc-main td:nth-child(4){grid-row:3;grid-column:3/5}
-html.mob .mc-extra td:nth-child(2),html.mob .mc-pm td:nth-child(2),html.mob .mc-oos td:nth-child(2),html.mob .mc-chg td:nth-child(2),html.mob .mc-oth td:nth-child(2),html.mob .mc-coll td:nth-child(2){grid-row:1;grid-column:2/4}
+html.mob .mc-extra td:nth-child(2),html.mob .mc-pm td:nth-child(2),html.mob .mc-oos td:nth-child(2),html.mob .mc-chg td:nth-child(2),html.mob .mc-oth td:nth-child(2),html.mob .mc-coll td:nth-child(2){grid-row:1;grid-column:2/4;font-size:13px!important;font-weight:600}
 html.mob .mc-extra td:nth-child(3),html.mob .mc-oos td:nth-child(3){grid-row:2;grid-column:1/3}
 html.mob .mc-extra td:nth-child(4),html.mob .mc-oos td:nth-child(4){grid-row:2;grid-column:3/5}
 html.mob .mc-pm td:nth-child(3),html.mob .mc-chg td:nth-child(3),html.mob .mc-oth td:nth-child(3){grid-row:2;grid-column:1/5}
-html.mob .mc-coll tr{padding-bottom:8px}
+html.mob .mc-coll tr{padding-bottom:2px}
+html.mob table.mcard tr{grid-template-columns:20px minmax(0,1fr) minmax(0,1fr) 24px!important}
 html.mob table.mcard td>select,html.mob table.mcard td>:is(select,input).hook{width:100%}
 
 }
@@ -1200,14 +1212,14 @@ html.mob #main table.mcard tbody tr:nth-child(even),html.mob #main table.mcard t
 html.mob #main table.mcard tbody tr:nth-child(even){border-color:#b4bcc2!important}
 html.mob #main .mc-main td:nth-child(5),html.mob #main .mc-extra td:nth-child(2),html.mob #main .mc-pm td:nth-child(2){grid-column:1/-1!important}
 html.mob #main>.offh2,html.mob #main>p.sub,html.mob #main>.offtools,html.mob #main .vdbtn,html.mob #main .dhbtn,html.mob #main .dutyadd,html.mob #main td.x,html.mob #main img.nmph,html.mob #main td.n,html.mob #main .tabprint,html.mob #main .offvlim{display:none!important}
-/* phone: compact duty cards */
-html.mob #main table.mcard tr{align-items:start!important;gap:2px 6px!important;padding:4px 6px 6px!important;margin:0 0 4px!important;border-radius:6px}
-html.mob #main table.mcard td[data-label]::before{font-size:10.5px!important;line-height:14px!important;margin:0 0 1px 2px!important;text-transform:uppercase;letter-spacing:.03em}
-html.mob #main table.mcard td input,html.mob #main table.mcard td select{min-height:32px!important;height:32px;padding-top:0;padding-bottom:0;font-size:15px!important}
-html.mob #main table.mcard td :is(select,input).hook{font-size:15px!important}
-html.mob #main .nmclr{width:28px;font-size:16px}
-html.mob #main .mc-main td:nth-child(5)[data-label]::before{display:none!important}
-html.mob #main .mc-main td:nth-child(5) input{font-size:16px!important;font-weight:700}
+/* phone: compact duty cards - Layout 2 V2 only */
+html.mob #main table.mcard tr{align-items:center!important;gap:2px 4px!important;padding:2px 4px 4px!important;margin:0 0 2px!important;border-radius:4px;background:var(--field)!important;border:1px solid var(--line)!important}
+html.mob #main table.mcard td[data-label]::before{font-size:9px!important;line-height:12px!important;margin:0 0 0 1px!important;text-transform:uppercase;letter-spacing:.02em;font-weight:700}
+html.mob #main table.mcard td input,html.mob #main table.mcard td select{min-height:28px!important;height:28px;padding:2px 4px!important;font-size:14px!important}
+html.mob #main table.mcard td :is(select,input).hook{font-size:14px!important}
+html.mob #main .nmclr{width:24px;font-size:14px}
+html.mob #main .mc-main td:nth-child(5)[data-label]::before{display:block!important;font-size:8px!important;line-height:10px!important;margin:0!important}
+html.mob #main .mc-main td:nth-child(5) input{font-size:14px!important;font-weight:600}
 html.mob #main .mabs{margin:2px 0 0 2px;font:700 12px/1.3 var(--body);padding:2px 8px;border-radius:999px;display:inline-block;border:1px solid currentColor}
 html.mob #main .mabs-rd{color:var(--ab-rd-tx,#1e4fbf);background:var(--ab-rd-bg,#dce6ff)}
 html.mob #main .mabs-al{color:var(--ab-al-tx,#1d6b3a);background:var(--ab-al-bg,#d9f2e2)}
@@ -1216,8 +1228,14 @@ html.mob #main .mabs-oa,html.mob #main .mabs-oth{color:var(--warn);background:va
 html.mob #main>.addrow{display:block!important;width:100%;height:38px;margin:2px 0 12px;border-radius:8px;border:1px dashed var(--muted);background:var(--field);color:var(--text);font-weight:700;font-size:14px}
 html.mob #main>.addrow::before{content:"+ "}
 html.mob #main>h3{margin:14px 4px 6px;font-size:14px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+/* Mobile: force Layout 2 V2 only */
+html.mob{--offLayout:2;--l2v2:1}
+html.mob #main table:not(.mcard){display:none!important}
+html.mob #main table.mcard{display:block!important}
+html.mob .mc-main td:nth-child(2),html.mob .mc-main td:nth-child(3),html.mob .mc-main td:nth-child(4),html.mob .mc-main td:nth-child(6){border:none!important}
+html.mob #main table.mcard td{word-break:break-word;overflow-wrap:anywhere}
 /* phone read-only view */
-html.mob #helpBtn,html.mob #moreBtn,html.mob #printBtn,html.mob #exportBtn,html.mob #importBtn,html.mob #mobPages,html.mob header h1,html.mob #status,html.mob #copybar,html.mob #board,html.mob #kcShow,html.mob #barCtl,html.mob #saveWarn,html.mob .datebox .calclr{display:none!important}
+html.mob #helpBtn,html.mob #moreBtn,html.mob #printBtn,html.mob #exportBtn,html.mob #importBtn,html.mob #mobPages,html.mob header h1,html.mob #status,html.mob #copybar,html.mob #board,html.mob #kcShow,html.mob #barCtl,html.mob #saveWarn,html.mob .datebox .calclr,html.mob .laygrp,html.mob .offtsep,html.mob .lay2stk,html.mob .v2link,html.mob [data-v2theme],html.mob [data-v2],html.mob [data-popout]{display:none!important}
 html.mob header,html.mob header.hmore{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px;padding:6px 8px!important}
 html.mob #ghBadge{flex:0 0 auto;font-size:12px;padding:4px 8px;max-width:none}
 html.mob #ghBadge{order:0}
@@ -1334,7 +1352,7 @@ html:not(.mob) table.offtbl td :is(.nmclr,.hkclr):hover,html:not(.mob) table.off
 .opthelp{margin:10px 0}.opthelp>summary{cursor:pointer;font-weight:600;padding:4px 0;color:var(--ink)}.opthelp dl{margin:6px 0 0;display:grid;grid-template-columns:minmax(150px,max-content) 1fr;gap:6px 16px;font-size:13.5px}.opthelp dt{font-weight:700}.opthelp dd{margin:0;color:var(--muted)}
 .lookgrp{border-top:1px solid var(--line);margin-top:6px}.lookgrp[hidden]{display:none}.lookgrp>summary{cursor:pointer;list-style:none;padding:10px 2px;font:600 16px var(--display);color:var(--muted)}.lookgrp>summary::-webkit-details-marker{display:none}
 .lookgrp>summary::before{content:"▸";display:inline-block;width:18px}.lookgrp[open]>summary::before{content:"▾"}.lookgrp[open]>summary{color:var(--text)}.lookgrp>.lookgrid{padding-bottom:8px}
-.sundutylock{background:color-mix(in srgb,var(--warn) 18%,var(--field));border:1px solid color-mix(in srgb,var(--warn) 50%,var(--line));border-radius:10px;padding:12px 16px;margin:6px 0 12px;font-size:14px;line-height:1.5}
+.sundutylock{background:color-mix(in srgb,var(--warn) 18%,var(--field));border:1px solid color-mix(in srgb,var(--warn) 50%,var(--line));border-radius:10px;padding:12px 16px;margin:6px 0 12px;font-size:14px;line-height:1.5;display:flex;align-items:center;gap:12px}.sundutylock button{margin:0;flex-shrink:0}
 .resetbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}.resetcount{font:600 14px var(--body);color:var(--clash)}.resetallbtn{transition:outline .12s}
 .stcols{margin-top:10px}.stcols>summary{cursor:pointer;font:700 13.5px var(--body);padding:4px 0;color:var(--ink);list-style:none}
 .stcols>summary::-webkit-details-marker{display:none}.stcols[open]>summary::after{content:" ▾"}.stcols:not([open])>summary::after{content:" ▸"}
@@ -2590,7 +2608,7 @@ function drvRank(o,w,h){const C=drvCounts(),W=w&&C.byW.get(o+"|"+up(w))||new Map
 function drvSugHTML(r,p){if(up(r.driver)||db.look&&db.look.drvSugOff)return "";const o=p.split(".")[0],w=/\.main\./.test(p)?up(r.duty):"",h=r.hook||0;if(!w&&!h)return "";
   const hk=h?vname(vanBy(h)||{h}):"",lab=x=>[x.a?`${w} ${x.a}×`:"",x.b?`hook ${hk} ${x.b}×`:""].filter(Boolean).join(" · ");
   if(db.look&&db.look.drvSugDrop){const L=drvRank(o,w,h).slice(0,10);if(!L.length)return "";
-    return `<select class="subsugsel drvsugsel" data-usedrvsel="${p}" title="Suggested drivers, best first. Pick one to make them the driver."><option value="">Suggested (${L.length}) ▾</option><option value="__list">☰ Pick from drivers list…</option><option value="__type">✎ Type a name…</option><optgroup label="Suggested">${L.map(x=>`<option value="${esc(x.n)}" title="${esc(lab(x))}">${esc(x.n)} — ${esc(lab(x))}</option>`).join("")}</optgroup></select>`}
+    return `<select class="subsugsel drvsugsel" data-usedrvsel="${p}" title="Suggested drivers, best first. Pick one to make them the driver."><option value="">Suggested (${L.length}) ▾</option><option value="__list">☰ Pick from drivers list…</option><option value="__type">✎ Type a name…</option><option value="__settings">⚙ Go to driver settings…</option><optgroup label="Suggested">${L.map(x=>`<option value="${esc(x.n)}" title="${esc(lab(x))}">${esc(x.n)} — ${esc(lab(x))}</option>`).join("")}</optgroup></select>`}
   const R=drvRank(o,w,h).slice(0,3);if(!R.length)return "";
   return `<div class="hooktips drvtips">`+R.map(x=>`<button type="button" class="hooktip drvtip" data-usedrv="${p}" data-n="${esc(x.n)}" title="${esc(x.n)}: ${esc(lab(x))} (last 6 weeks count double). Tap to make them the driver.">${chipPh(x.n)}${esc(x.n)} <small>${esc(lab(x))}</small></button>`).join("")+`</div>`}
 /* changing the date closes anything that was opened for the old date */
@@ -2998,6 +3016,7 @@ function renderMain(a){
     if(db.look&&db.look.colWs)delete db.look.colWs[c.k];{const fu=db.look&&db.look.fitUndo;if(fu&&fu.prev)delete fu.prev[c.k]}save(`Removed the column ${c.name} from ${ovName(o)}`);render();toast(`Column ${c.name} removed`)}});
   if($("fillUsual"))$("fillUsual").onclick=()=>openUsual(tab);
   if($("fillReg"))$("fillReg").onclick=()=>openRegFill(tab);
+  if($("sunGoNext"))$("sunGoNext").onclick=()=>{const d=parse(day),nextSun=new Date(d);nextSun.setDate(d.getDate()+(7-d.getDay())%7||7);day=iso(nextSun);render();window.scrollTo(0,0);toast("Jumped to next Sunday")};
   if(tab==="Duties")wireDuties(m);
   if($("subSec"))wireSubs(m);
   if($("nsToggle"))$("nsToggle").onclick=()=>{db.look=db.look||{};db.look.nsOff=!db.look.nsOff;if(db.look.nameShow)db.look.nameShow=Object.assign({},db.look.nameShow,{ns:!db.look.nsOff});save(db.look.nsOff?"Hid new driver N":"Showed new driver N");render()};if($("wcolToggle"))$("wcolToggle").onclick=()=>{db.look=db.look||{};db.look.wcolOff=!db.look.wcolOff;save(db.look.wcolOff?"Hid walk colours":"Showed walk colours");render()};
@@ -3177,7 +3196,7 @@ function wireOffDrv(m){m.querySelectorAll("[data-drvgo]").forEach(b=>b.onclick=(
 function officeHTML(a,o){
   const s=a[o];document.documentElement.classList.toggle("l2v2",offLay()===2&&!!(db.look&&db.look.l2v2));{const cx=(db.look&&db.look.clrX)||"on";document.documentElement.classList.toggle("clrx-hover",cx==="hover");document.documentElement.classList.toggle("clrx-off",cx==="off")}document.documentElement.classList.toggle("v2th",!!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2));
   const tOff=!!(db.look&&db.look.offToolsOff);
-  let h=hookDL()+`<h2 class="offh2"><span class="offbadge">${ovName(o)}</span> DRIVER ALLOCATION ${offVanBadge(a,o)}<span class="offtbox">${isMob()?"":`<span class="laygrp" role="group" aria-label="Layout"><span class="laylab">Layout</span><button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="Layout 1: the usual sheet">1</button><span class="lay2stk"><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2&&!(db.look&&db.look.l2v2)}" title="" aria-label="Layout 2, linked to V2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">2</button><span class="v2link" aria-hidden="true" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">🔗</span><button type="button" class="offtoolsbtn laybtn v2sub" data-v2 aria-pressed="${offLay()===2&&!!(db.look&&db.look.l2v2)}" title="" aria-label="V2, linked to Layout 2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">V2</button></span></span><span class="offtsep" aria-hidden="true"></span><span class="laygrp${offLay()===2&&db.look&&db.look.l2v2?" laydis":""}" role="group" aria-label="Look"><span class="laylab">Look</span><button type="button" class="offtoolsbtn laybtn" data-v2theme="0" aria-pressed="${!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2)}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Colour: the normal coloured sheet"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Colour</button><button type="button" class="offtoolsbtn laybtn" data-v2theme="1" aria-pressed="${!!(db.look&&db.look.v2theme)||(offLay()===2&&!!(db.look&&db.look.l2v2))}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Paper: the V2 look (white page, black grid lines, plain text) on Layout 1 and Layout 2, keeping their own columns"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Paper</button></span><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${ovName(o)} in its own window. Changes in either window show in the other.">🗗 Pop out ${ovName(o)}</button><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP?"":`<button type="button" class="offtoolsbtn" data-gosettings title="Open Settings">⚙ Settings</button>`}</span></h2>${vanLineBox(a,o)}${offDriversBox(o)}${o==="W13"&&!isSunday()?'<div class="sundutylock">📅 <b>Sunday Duty can only be edited on a Sunday.</b> The rows and names are shown but can\'t be changed here. Pick a Sunday on the calendar to start allocating.</div>':"" }<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}${subWaitHTML(o)}<div class="offacts">${bulkUndoHTML(o)}<button class="addrow" id="fillReg" title="Fill from regular drivers: puts each duty's regular driver (set on the Duties tab) into the EMPTY driver boxes. If a regular driver is off today, a free substitute driver (set on the Drivers tab) is put in the Substitute box. You see the list first and choose what to fill. Undo puts it all back.">Fill from regular drivers</button><button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from ${o==="W13"?"previous Sunday":"previous day"}: copies the hooks, drivers and substitutes exactly as they were on an earlier ${o==="W13"?"Sunday":"day"} you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from ${o==="W13"?"previous Sunday":"previous day"} copies one day as it was.">Import from ${o==="W13"?"previous Sunday":"previous day"}</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button><button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${walkList(o)}`;
+  let h=hookDL()+`<h2 class="offh2"><span class="offbadge">${ovName(o)}</span> DRIVER ALLOCATION ${offVanBadge(a,o)}<span class="offtbox">${isMob()?"":`<span class="laygrp" role="group" aria-label="Layout"><span class="laylab">Layout</span><button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="Layout 1: the usual sheet">1</button><span class="lay2stk"><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2&&!(db.look&&db.look.l2v2)}" title="" aria-label="Layout 2, linked to V2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">2</button><span class="v2link" aria-hidden="true" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">🔗</span><button type="button" class="offtoolsbtn laybtn v2sub" data-v2 aria-pressed="${offLay()===2&&!!(db.look&&db.look.l2v2)}" title="" aria-label="V2, linked to Layout 2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">V2</button></span></span><span class="offtsep" aria-hidden="true"></span><span class="laygrp${offLay()===2&&db.look&&db.look.l2v2?" laydis":""}" role="group" aria-label="Look"><span class="laylab">Look</span><button type="button" class="offtoolsbtn laybtn" data-v2theme="0" aria-pressed="${!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2)}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Colour: the normal coloured sheet"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Colour</button><button type="button" class="offtoolsbtn laybtn" data-v2theme="1" aria-pressed="${!!(db.look&&db.look.v2theme)||(offLay()===2&&!!(db.look&&db.look.l2v2))}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Paper: the V2 look (white page, black grid lines, plain text) on Layout 1 and Layout 2, keeping their own columns"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Paper</button></span><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${ovName(o)} in its own window. Changes in either window show in the other.">🗗 Pop out ${ovName(o)}</button><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP?"":`<button type="button" class="offtoolsbtn" data-gosettings title="Open Settings">⚙ Settings</button>`}</span></h2>${vanLineBox(a,o)}${offDriversBox(o)}${o==="W13"&&!isSunday()?`<div class="sundutylock">📅 <b>Sunday Duty can only be edited on a Sunday.</b> The rows and names are shown but can't be changed here. <button type="button" class="addrow" id="sunGoNext" style="margin:0">Go to next Sunday</button></div>`:""}<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}${subWaitHTML(o)}<div class="offacts">${bulkUndoHTML(o)}<button class="addrow" id="fillReg" title="Fill from regular drivers: puts each duty's regular driver (set on the Duties tab) into the EMPTY driver boxes. If a regular driver is off today, a free substitute driver (set on the Drivers tab) is put in the Substitute box. You see the list first and choose what to fill. Undo puts it all back.">Fill from regular drivers</button><button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from ${o==="W13"?"previous Sunday":"previous day"}: copies the hooks, drivers and substitutes exactly as they were on an earlier ${o==="W13"?"Sunday":"day"} you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from ${o==="W13"?"previous Sunday":"previous day"} copies one day as it was.">Import from ${o==="W13"?"previous Sunday":"previous day"}</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button><button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${walkList(o)}`;
   const SC=k=>selMode?` class="selcol" data-selcol="${k}" title="Highlight this whole column"`:"",FM=`<button type="button" class="fitmid" data-fitall title="Fit every column to its longest entry" aria-label="Fit every column to its longest entry">↔</button><button type="button" class="fitrows" data-fitrows aria-pressed="${rowsCompactOn()}" title="${rowsCompactOn()?"Tap to put the row height back to how it was":"Make every row as short as it can be"}" aria-label="Make every row as short as it can be">↕</button><button type="button" class="fitdrag" data-rowsdrag title="Drag up or down to make every row in this table taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every row">⇕</button>`,CO=mainCols(),FO=(()=>{const f=CO.slice();f.splice(numPos(),0,"num");return o==="W13"?f.filter(k=>k!=="sub"&&k!=="partner"):f})(),FA=FO.indexOf("hook")===FO.indexOf("num")-1?"num":"hook",
     TH2=(a,b)=>`<span class="thw">${a}</span> <span class="thw">${b}</span>`,CH={hook:[TH2("Hook.","Reg."),SC("hook")],driver:["Driver",SC("driver")],sub:["Substitute",SC("sub")],duty:["Duty",' title="Changing a duty also changes it on every later date"'],partner:["Partner",' title="Changing a partner also changes it on every later date"']},
     mvH=(k,ci)=>moveMode?`<span class="grip gcol" data-dragcol="${ci}" title="Drag to move this column">⠿</span>`:"";
@@ -3419,6 +3438,9 @@ function renderBoard(a){
     else if(u.length){st="used";lab=u[0].office==="W13"?"Sun":u[0].office}
     counts[st]++;
     if(boardMode==="free"&&st!=="free")return "";
+    if(boardOfficeFilter&&st==="used"&&lab!==boardOfficeFilter&&lab!=="Sun")return "";
+    if(boardOfficeFilter&&st==="chg"&&lab!==boardOfficeFilter)return "";
+    if(boardOfficeFilter&&(st==="free"||st==="oos"||st==="coll"||st==="oth"))return "";
     const cls=["tag",db.look&&db.look.fullPlates?"fp":"",st==="free"?"":st,v.fuel==="E"?"e":"",u.length>1?"dup":"",boardPick===v.h?"hl":""].join(" ");
     const sh=sharesWith(v).length;
     const labO=lab==="Sun"?"W13":lab;let oc=st==="used"&&OFFICES.includes(labO)?` style="background:var(--off-${labO});color:${contrastInk(offCol(labO))}"`:"";
@@ -3446,7 +3468,7 @@ function renderBoard(a){
   b.innerHTML=`<div class="board-head${db.look&&db.look.toolsHidden?" tools-off":""}"><h2>Key Cupboard</h2><span class="right"><button class="popbtn" id="kcHide" title="Hide the Key Cupboard so the office tables get the full width">Hide</button><span class="note">${counts.free} free</span><button class="popbtn" data-toolshide aria-pressed="${!!(db.look&&db.look.toolsHidden)}" title="${db.look&&db.look.toolsHidden?"Show the colour key, buttons and search":"Hide the colour key, buttons and search"}">${db.look&&db.look.toolsHidden?"Show tools":"Hide tools"}</button>${popOpen()?`<button class="popbtn" data-popin>Put back</button>`:`<button class="popbtn" data-popout title="Open the Key Cupboard in its own window">Pop out ⧉</button>`}</span></div>
   <div class="boardctl"${db.look&&db.look.toolsHidden?" hidden":""}><div class="legend"><span style="--c:var(--tag)">Free</span>${OFFICES.filter(o=>o!=="W13").map(o=>`<span style="--c:var(--off-${o})">${o}</span>`).join("")}${isSunday()?`<span style="--c:var(--off-W13)">Sunday</span>`:""}<span style="--c:var(--clash)">OOS</span><span style="--c:var(--warn)">Change over</span><span class="lsplit" style="--c:var(--warn)">Change over in an office</span><span style="--c:var(--coll)">Collections</span><span style="--c:var(--oth)">Reserved - Other</span>${db.look&&db.look.boltOff?"":'<span class="lbolt"><i>⚡</i> Electric</span>'}${db.look&&db.look.shareOff?"":'<span class="lshare"><b>!</b> Same last letters</span>'}</div>
   <div class="boardtools"><span class="boardseg" role="group" aria-label="Show"><button aria-pressed="${boardMode==="all"}" data-mode="all" title="Show every van">All vans</button><button aria-pressed="${boardMode==="free"&&!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="0" title="Show only free vans, moved up together so there are no gaps">Free only</button><button aria-pressed="${boardMode==="free"&&!!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="1" title="Show only free vans, each in its usual place (gaps where used vans are)">Free, in place</button></span><button aria-pressed="${lookNow().offOn!==false}" data-offtoggle title="Show or hide office colours">${lookNow().offOn!==false?"Office Colours: on":"Office Colours: off"}</button><button aria-pressed="${!(db.look&&db.look.boltOff)}" data-bolt title="Show or hide the ⚡ on electric vans">${db.look&&db.look.boltOff?"⚡ off":"⚡ on"}</button><button aria-pressed="${!(db.look&&db.look.shareOff)}" data-sharetoggle title="Show or hide the red ! on vans with the same last letters">${db.look&&db.look.shareOff?"! off":"! on"}</button><button aria-pressed="${!!(db.look&&db.look.fullPlates)}" data-fullplates title="Show the whole number plate instead of the last 3 letters">${db.look&&db.look.fullPlates?"Full plates: on":"Full plates: off"}</button><button aria-pressed="${arrange}" data-arrange title="Move hire and custom vans to any empty space">${arrange?"Done moving":"Move vans"}</button></div>${arrange?`<p class="arrangenote">Drag a hire or custom van to an empty space, or tap it then tap where it should go. Tap another hire van to swap. Numbered hooks 1 onwards stay in place.</p>`:""}</div>${popOpen()&&b===popWin.document.getElementById("board")?`<div class="sizetools" role="group" aria-label="Icon size"><span>Icon size</span><button data-zoom="-1" aria-label="Smaller">−</button><output>${Math.round(popZoom()*100)}%</output><button data-zoom="1" aria-label="Larger">+</button><button data-zoom="0">Reset</button></div>`:""}
-  <div class="platesearch"${db.look&&db.look.toolsHidden?" hidden":""}><input type="search" id="plateSearch" placeholder="Search plate, e.g. NXZ or LL75" value="${esc(boardQ)}" autocomplete="off" spellcheck="false" aria-label="Search licence plate"><button class="popbtn" id="plateClear" title="Clear search"${boardQ?"":" hidden"}>Clear</button><span class="note" id="plateCount" aria-live="polite"></span></div>
+  <div class="platesearch"${db.look&&db.look.toolsHidden?" hidden":""}><input type="search" id="plateSearch" placeholder="Search plate, e.g. NXZ or LL75" value="${esc(boardQ)}" autocomplete="off" spellcheck="false" aria-label="Search licence plate"><button class="popbtn" id="plateClear" title="Clear search"${boardQ?"":" hidden"}>Clear</button><select id="boardOfficeSelect" aria-label="Filter by office"><option value="">Show all offices</option>${OFFICES.map(o=>o!=="W13"?`<option value="${o}" ${boardOfficeFilter===o?"selected":""}>${o}</option>`:"").join("")}</select><span class="note" id="plateCount" aria-live="polite"></span></div>
   <div class="groups">${groups.join('<hr class="hookgap">')||'<p class="note">No vans to show.</p>'}</div><p class="where" aria-live="polite">${where}</p>`;
   {const ps=b.querySelector("#plateSearch");applyBoardSearch(b);
    if(plateFocus){ps.focus();try{ps.setSelectionRange(plateFocus,plateFocus)}catch(_){}plateFocus=0}
@@ -3483,11 +3505,12 @@ function renderBoard(a){
   b.querySelectorAll("[data-zoom]").forEach(x=>x.onclick=()=>{const d=+x.dataset.zoom;db.look=db.look||{};
     db.look.popZoom=d===0?1:Math.min(2.5,Math.max(0.5,Math.round((popZoom()+d*0.1)*10)/10));save();syncPopLook();renderBoard(cur())});
   const ot=b.querySelector("[data-offtoggle]");if(ot)ot.onclick=()=>{db.look=db.look||{};db.look.offOn=lookNow().offOn===false;db.look.preset="custom";applyLook();save();render();toast(db.look.offOn?"Office colours on":"Office colours off")};
+  const bof=b.querySelector("#boardOfficeSelect");if(bof)bof.onchange=()=>{boardOfficeFilter=bof.value;renderBoard(cur());toast(bof.value?`Showing vans for ${bof.value} only`:"Showing vans for all offices")};
   const po=b.querySelector("[data-popout]");if(po)po.onclick=popOut;
   const pi=b.querySelector("[data-popin]");if(pi)pi.onclick=popIn;
 }
 
-let popWin=null,popTimer=null,arrange=false,movePick=null,plateFocus=0;
+let popWin=null,popTimer=null,arrange=false,movePick=null,plateFocus=0,boardOfficeFilter="";
 function jumpToHook(h){boardPick=h;renderBoard(cur());
   const b2=popOpen()?popWin.document.getElementById("board"):$("board");const links=b2?[...b2.querySelectorAll(".where .golink")]:[];
   const go=links.find(l=>OFFICES.includes(l.dataset.go))||links[0];
@@ -3519,7 +3542,8 @@ function popOut(){
   const css=document.querySelector("style").textContent;
   const fonts=document.querySelector('link[href*="fonts.googleapis"]');
   w.document.open();
-  w.document.write(`<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><title>Key Cupboard</title>${fonts?fonts.outerHTML:""}<style>${css}</style></head><body class="popwin"><aside id="board"></aside></body></html>`);
+  w.document.write(`<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><title>Key Cupboard</title>${fonts?fonts.outerHTML:""}<style>${css}</style></head><body class="popwin"><aside id="board"></aside><div id="vaimgModal" class="vaimgmodal hidden"><button title="Close" onclick="this.parentElement.classList.add('hidden')">&#x2715;</button></div>
+</body></html>`);
   w.document.close();
   popWin=w;document.body.classList.add("popped");syncPopLook();
   w.addEventListener("pagehide",()=>setTimeout(()=>{if(!popOpen()){popWin=null;document.body.classList.remove("popped");renderBoard(cur())}},50));
@@ -3552,7 +3576,7 @@ function vansHTML(){
   <select id="vanFilter" aria-label="Show"><option value="all">All vans</option><option value="free">Free only</option><option value="used">In use</option><option value="oos">OOS (out of service)</option><option value="chg">Change over</option><option value="coll">Collections</option><option value="oth">Reserved - Other</option><option value="E">Electric</option><option value="D-ab">Diesel</option><option value="share">Same last letters (!)</option><option value="hire">Hire vans</option><option value="custom">Custom types</option></select>
   <button class="addrow" id="vanPrint">Print list</button><button class="vanadd" id="vanAddBtn">Add a van</button></div><div id="vanForm"></div>
   <div class="tablewrap"><table class="vantable"><thead><tr>
-  ${[["h","Hook / name"],["full","Plate"],["pp","PP number"],["model","Model"],["fuel","Fuel"],["detail","Detail"],["",""]].map(([k,t])=>k==="detail"?`<th class="vdcol">Detail</th>`:k?`<th><button class="sortbtn" data-sort="${k}" aria-pressed="${vanSort===k}">${t}${vanSort===k?(vanDesc?" ▴":" ▾"):""}</button></th>`:`<th><span class="sr">Actions</span></th>`).join("")}
+  ${[["h","Hook / name"],["full","Plate"],["pp","PP number"],["model","Model"],["fuel","Fuel"],["image","Image"],["detail","Detail"],["",""]].map(([k,t])=>k==="detail"?`<th class="vdcol">Detail</th>`:k==="image"?`<th class="vaimgcol">Image</th>`:k?`<th><button class="sortbtn" data-sort="${k}" aria-pressed="${vanSort===k}">${t}${vanSort===k?(vanDesc?" ▴":" ▾"):""}</button></th>`:`<th><span class="sr">Actions</span></th>`).join("")}
   </tr></thead><tbody id="vanRows"></tbody></table></div><p class="note" id="vanCount"></p>`;
 }
 function vanRowsHTML(a){
@@ -3569,10 +3593,11 @@ function vanRowsHTML(a){
   return list.map(({v,st})=>{const path=!st.w?"":st.w.sec==="coll"?`coll.${st.w.i}`:st.w.sec==="oos"||st.w.sec==="chg"||st.w.sec==="oth"?`${st.w.sec}.${st.w.i}.hook`:`${st.w.office}.${st.w.sec}.${st.w.i}.hook`;
     const go=st.w?(st.w.sec==="oos"||st.w.sec==="chg"||st.w.sec==="coll"||st.w.sec==="oth"?"OOS":st.w.office):"";
     const badge=st.k==="used"?`<span class="stbadge" style="background:var(--off-${st.o});color:${contrastInk(offCol(st.o))}">${esc(st.t)}</span>`:`<span class="stbadge ${st.k}">${esc(st.t)}</span>`;
-    return `<tr><td class="hk">${esc(vname(v))}${vkind(v)!=="hook"?`<span class="kindtag">${esc(kindLabel(v))}</span>`:""}</td><td class="plate">${v.full||v.reg?`<span class="plateb${v.fuel==="E"?" ev":""}"${v.fuel==="E"?' title="Electric vehicle"':""}>${esc(v.full||v.reg)}</span>`:'<span class="note">No plate yet</span>'}${dup.has(v.h)&&!(db.look&&db.look.shareOff)?`<span class="vshare" role="button" tabindex="0" title="${esc("Same last letters "+v.reg+" as "+sharesWith(v).map(x=>(vkind(x)==="hook"?"hook ":"")+vname(x)+" ("+(x.full||x.reg)+")").join(", "))}" aria-label="Same last letters as another van">!</span>`:""}</td><td>${esc(v.pp||"")}</td><td>${esc(v.model||"")}</td><td>${v.fuel==="E"?"⚡ Electric":v.fuel==="P"?"Petrol":v.fuel?"Diesel":""}</td><td class="vdcol"><button class="vdbtn" data-vd="${v.h}" title="Vehicle details" aria-label="Vehicle details for ${esc(vname(v))}">${iGlyph()}</button></td><td class="vact"><button data-vedit="${v.h}">Edit</button><button data-vdel="${v.h}" class="del">Remove</button></td></tr>`;}).join("")||`<tr><td colspan="7" class="note">No vans match. Clear the search or change the filter.</td></tr>`;
+    return `<tr><td class="hk">${esc(vname(v))}${vkind(v)!=="hook"?`<span class="kindtag">${esc(kindLabel(v))}</span>`:""}</td><td class="plate">${v.full||v.reg?`<span class="plateb${v.fuel==="E"?" ev":""}"${v.fuel==="E"?' title="Electric vehicle"':""}>${esc(v.full||v.reg)}</span>`:'<span class="note">No plate yet</span>'}${dup.has(v.h)&&!(db.look&&db.look.shareOff)?`<span class="vshare" role="button" tabindex="0" title="${esc("Same last letters "+v.reg+" as "+sharesWith(v).map(x=>(vkind(x)==="hook"?"hook ":"")+vname(x)+" ("+(x.full||x.reg)+")").join(", "))}" aria-label="Same last letters as another van">!</span>`:""}</td><td>${esc(v.pp||"")}</td><td>${esc(v.model||"")}</td><td>${v.fuel==="E"?"⚡ Electric":v.fuel==="P"?"Petrol":v.fuel?"Diesel":""}</td><td class="vaimgcol">${v.image?`<img src="${v.image}" class="vaimgthumb" data-vimg="${v.h}" title="Click to enlarge">`:""}</td><td class="vdcol"><button class="vdbtn" data-vd="${v.h}" title="Vehicle details" aria-label="Vehicle details for ${esc(vname(v))}">${iGlyph()}</button></td><td class="vact"><button data-vedit="${v.h}">Edit</button><button data-vdel="${v.h}" class="del">Remove</button></td></tr>`;}).join("")||`<tr><td colspan="8" class="note">No vans match. Clear the search or change the filter.</td></tr>`;
 }
 function wireVans(a){
-  const draw=()=>{$("vanRows").innerHTML=vanRowsHTML(a);$("vanRows").querySelectorAll("[data-gopath]").forEach(x=>x.onclick=e=>{e.preventDefault();goTo(x.dataset.go,x.dataset.gopath)});
+  const draw=()=>{$("vanRows").innerHTML=vanRowsHTML(a);$("vanRows").querySelectorAll("[data-vimg]").forEach(x=>x.onclick=()=>showVanImage(+x.dataset.vimg));
+    $("vanRows").querySelectorAll("[data-gopath]").forEach(x=>x.onclick=e=>{e.preventDefault();goTo(x.dataset.go,x.dataset.gopath)});
     $("vanRows").querySelectorAll("[data-vedit]").forEach(x=>x.onclick=()=>openVanForm(+x.dataset.vedit));
     $("vanRows").querySelectorAll("[data-vdel]").forEach(x=>x.onclick=()=>{const h=+x.dataset.vdel;const first=!(+x.dataset.armn);if(armed(x)){removeVan(h);return}
       if(first){const d=hookRefs(h);if(d.length)toast(`Careful: it's allocated on ${d.length} saved day${d.length>1?"s":""} and will be cleared from them`)}});};
@@ -3611,6 +3636,7 @@ function openVanForm(h){
   <label><span>PP number</span><input id="vfPP" value="${esc(v.pp||"")}" placeholder="e.g. PP46 PEE"></label>
   <label><span>Model</span><input id="vfModel" list="vfModels" value="${esc(v.model||"")}" placeholder="e.g. Peugeot e-Expert"><datalist id="vfModels">${models.map(m=>`<option value="${esc(m)}">`).join("")}</datalist></label>
   <label><span>Fuel</span><select id="vfFuel"><option value="D-ab"${v.fuel==="D-ab"?" selected":""}>Diesel</option><option value="E"${v.fuel==="E"?" selected":""}>Electric</option><option value="P"${v.fuel==="P"?" selected":""}>Petrol</option></select></label>
+  <label style="grid-column:1/-1"><span>Model image <em class="opt">optional</em></span><input type="file" id="vfImage" accept="image/*">${v.image?'<img src="'+v.image+'" id="vfImgPrev" class="vfimgpreview" alt="Current image">':'<img id="vfImgPrev" class="vfimgpreview" hidden>'}</label>
   </div><p class="vferr" id="vfErr" role="alert"></p><div class="vfbtns"><button type="submit" class="vanadd">${h==null?"Add van":"Save changes"}</button><button type="button" class="addrow" id="vfCancel">Cancel</button></div></form>`;
   const setKind=(k,keep)=>{const inp=$("vfName");
     if(k==="hook"){$("vfNameLab").textContent="Hook number";inp.type="number";inp.min="1";inp.max="999";inp.placeholder="";inp.value=keep&&k0==="hook"?v.h:nextHook();}
@@ -3622,6 +3648,7 @@ function openVanForm(h){
   let autoName=true;$("vfName").oninput=()=>{autoName=false};
   $("vfType").oninput=()=>{if(autoName&&$("vfKind").value==="custom"&&!(h!=null&&k0==="custom"))$("vfName").value=nextName("custom")};
   $("vanForm").scrollIntoView({block:"start"});window.scrollBy(0,-10);$("vfFull").focus({preventScroll:true});
+  const _vfImg=$("vfImage");if(_vfImg)_vfImg.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const p=$("vfImgPrev");p.src=ev.target.result;p.removeAttribute("hidden")};r.readAsDataURL(f)};
   $("vfCancel").onclick=()=>{$("vanForm").innerHTML=""};
   $("vf").onsubmit=e=>{e.preventDefault();try{saveVanForm()}catch(ex){console.error(ex);$("vfErr").textContent="Something went wrong saving this van: "+ex.message+". Please send me this message.";}};
   function saveVanForm(){const err=m=>{$("vfErr").textContent=m;$("vfErr").scrollIntoView({block:"nearest"});toast(m)};
@@ -3639,13 +3666,17 @@ function openVanForm(h){
       nh=(h!=null&&k0!=="hook")?h:Math.max(999,...db.vans.map(x=>x.h))+1;}
     const clash=full&&db.vans.find(x=>x.h!==h&&x.full&&x.full.replace(/\s/g,"")===full.replace(/\s/g,""));
     if(clash&&!confirm(`${vname(clash)} already has plate ${full}. Save anyway?`))return;
-    const data={h:nh,kind,typeName:kind==="custom"?$("vfType").value.trim().replace(/\s+/g," "):"",label:kind==="hook"?"":label,full,reg:full?full.slice(-3):"",pp:$("vfPP").value.trim().toUpperCase(),model:$("vfModel").value.trim(),fuel:$("vfFuel").value};
+    const _fi=$("vfImage"),_existImg=(h!=null?vanBy(h):null);
+    function _persist(imgData){
+    const data={h:nh,kind,typeName:kind==="custom"?$("vfType").value.trim().replace(/\s+/g," "):"",label:kind==="hook"?"":label,full,reg:full?full.slice(-3):"",pp:$("vfPP").value.trim().toUpperCase(),model:$("vfModel").value.trim(),fuel:$("vfFuel").value,image:imgData};
     const shown=kind==="hook"?"Hook "+nh:(kind==="custom"?data.typeName:KINDS[kind])+" "+label;
     if(h==null){db.vans.push(data);toast(shown+" added");}
     else{const oldName=vname(v);Object.assign(v,data);if(nh!==h){remapHook(h,nh);if(boardPick===h)boardPick=nh;}
       toast(oldName!==vname(v)?`${oldName} is now ${vname(v)} on every saved day`:shown+" saved");}
     save();vanQ="";vanFilter="all";render();
     requestAnimationFrame(()=>{const row=document.querySelector(`[data-vedit="${nh}"]`);if(row){const tr=row.closest("tr");tr.scrollIntoView({block:"center"});tr.classList.add("flash")}});}
+    if(_fi&&_fi.files[0]){const r=new FileReader();r.onload=e=>_persist(e.target.result);r.readAsDataURL(_fi.files[0]);}
+    else _persist(_existImg&&_existImg.image||"");}
 }
 function removeVan(h){
   const v=vanBy(h),days=hookRefs(h);
@@ -3679,7 +3710,7 @@ function wire(m,a){
     });
   });
   m.querySelectorAll("[data-usesubsel]").forEach(sl=>sl.onchange=()=>{if(!sl.value)return;if(sl.value==="__type"||sl.value==="__list"){const lst=sl.value==="__list";const td=sl.closest("td");td.classList.add("subtyping");const el=td.querySelector("input");sl.value="";if(el){el.focus();if(lst){el.click();el.dispatchEvent(new MouseEvent("mousedown",{bubbles:true}));el.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowDown",bubbles:true}))}el.addEventListener("blur",()=>{if(!el.value.trim())td.classList.remove("subtyping")},{once:true})}return}const el=m.querySelector(`input[data-path="${sl.dataset.usesubsel}.sub"]`);if(!el)return;el.value=sl.value;el.dispatchEvent(new Event("change"))});
-  m.querySelectorAll("[data-usedrvsel]").forEach(sl=>sl.onchange=()=>{if(!sl.value)return;if(sl.value==="__type"||sl.value==="__list"){const lst=sl.value==="__list";const td=sl.closest("td");td.classList.add("subtyping");const el=td.querySelector("input");sl.value="";if(el){el.focus();if(lst){el.click();el.dispatchEvent(new MouseEvent("mousedown",{bubbles:true}));el.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowDown",bubbles:true}))}el.addEventListener("blur",()=>{if(!el.value.trim())td.classList.remove("subtyping")},{once:true})}return}const el=m.querySelector(`input[data-path="${sl.dataset.usedrvsel}.driver"]`);if(!el)return;el.value=sl.value;el.dispatchEvent(new Event("change"))});
+  m.querySelectorAll("[data-usedrvsel]").forEach(sl=>sl.onchange=()=>{if(!sl.value)return;if(sl.value==="__settings"){sl.value="";document.querySelector("nav button[aria-selected='false']")?.click();setTimeout(()=>{const search=document.querySelector(".search");if(search)search.focus()},100);return}if(sl.value==="__type"||sl.value==="__list"){const lst=sl.value==="__list";const td=sl.closest("td");td.classList.add("subtyping");const el=td.querySelector("input");sl.value="";if(el){el.focus();if(lst){el.click();el.dispatchEvent(new MouseEvent("mousedown",{bubbles:true}));el.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowDown",bubbles:true}))}el.addEventListener("blur",()=>{if(!el.value.trim())td.classList.remove("subtyping")},{once:true})}return}const el=m.querySelector(`input[data-path="${sl.dataset.usedrvsel}.driver"]`);if(!el)return;el.value=sl.value;el.dispatchEvent(new Event("change"))});
   if($("shortNmToggle"))$("shortNmToggle").onclick=()=>{db.look=db.look||{};const L=db.look;L.shortNames=!L.shortNames?true:L.shortNames===true?"last":false;const t=L.shortNames==="last"?"Names shown as first name and last initial":L.shortNames?"Names shown as initial and last name":"Names shown in full";save(t);render();toast(t)};
   m.querySelectorAll("[data-vanline]").forEach(b=>b.onclick=()=>{db.look=db.look||{};const md=vanLineMode(),n=md==="off"?"on":"off"; /* the button on the line just hides it / shows it again (Ash, 5 Oct 2026) */if(n==="on")delete db.look.vanLine;else db.look.vanLine=n;
     const t=n==="off"?"Office vans line hidden":n==="nolist"?"Office vans line shown without vans not on the list":"Office vans line shown";save(t);render();toast(t)});
@@ -5558,6 +5589,16 @@ function nameLike(a,b){const A=nmNorm(a),B=nmNorm(b);if(!A||!B)return 0;
   const la=wa[wa.length-1],lb=wb[wb.length-1];
   if(wordLike(la,lb)&&wa[0][0]===wb[0][0])return 55;
   if(A.length>10&&A[0]===B[0]&&lev(A,B)<=2)return 75;
+  /* NEW: catch fuzzy-matched pairs like AHMAD KADEM vs AHMED KADEMI where both words differ slightly in spelling.
+     If both first and last names start with same letter, and both have small edit distances, likely same person (Ash, 8 Oct 2026) */
+  if(wa.length===2&&wb.length===2&&wa[0][0]===wb[0][0]&&wa[1][0]===wb[1][0]){
+    const f_lev=lev(wa[0],wb[0]),l_lev=lev(wa[1],wb[1]);
+    const f_max=Math.max(wa[0].length,wb[0].length),l_max=Math.max(wa[1].length,wb[1].length);
+    /* Allow up to 35% letter difference in each word, or simple squashing variations */
+    const f_tol=Math.ceil(f_max*0.35)+1,l_tol=Math.ceil(l_max*0.35)+1;
+    const f_ok=f_lev<=f_tol||lev(nmSquash(wa[0]),nmSquash(wb[0]))<=f_tol;
+    const l_ok=l_lev<=l_tol||lev(nmSquash(wa[1]),nmSquash(wb[1]))<=l_tol;
+    if(f_ok&&l_ok&&(f_lev+l_lev)<=4)return 75}
   return 0}
 function nameClashes(n,skip){const out=[];db.drivers.forEach(d=>{if(d===skip)return;const v=nameLike(n,d);if(v>=50)out.push({d,v})});return out.sort((x,y)=>y.v-x.v).slice(0,3)}
 function whereIs(d){return isLeft(d)?"Left RM":isMoved(d)?"Moved office":db.nonDrivers&&db.nonDrivers.includes(d)?"Non-Drivers":(driverOffice(d)||"no office")}
@@ -6627,6 +6668,9 @@ function closeHelp(){const ov=document.getElementById("helpOv");if(!ov)return;cl
 
 
 };window.__DA_TRY&&window.__DA_TRY();
+
+function showVanImage(h){var v=vanBy(h);if(!v||!v.image)return;var m=document.getElementById("vaimgModal");var old=m.querySelector("img");if(old)old.remove();var img=document.createElement("img");img.src=v.image;img.alt=vname(v);m.appendChild(img);m.classList.remove("hidden");m.onclick=function(e){if(e.target===m)m.classList.add("hidden")};}
 </script>
+<div id="vaimgModal" class="vaimgmodal hidden"><button title="Close" onclick="this.parentElement.classList.add('hidden')">&#x2715;</button></div>
 </body>
 </html>
