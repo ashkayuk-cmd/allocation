@@ -266,6 +266,9 @@ tr.flash td{animation:flash 2.2s ease-out}
 .presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .presets button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:var(--radius);padding:6px 12px 6px 8px}
 .presets button[aria-pressed=true]{border-color:var(--text);box-shadow:inset 0 0 0 1px var(--text)}
+.mob-presets{margin-top:6px;margin-bottom:0}
+.mob-presets button{font-size:13px;padding:5px 10px 5px 6px}
+.phonebox{margin-bottom:14px}
 .sw{display:inline-flex;border-radius:4px;overflow:hidden;border:1px solid rgba(0,0,0,.2)}
 .sw i{width:12px;height:20px}
 .look{overflow:hidden}
@@ -2015,7 +2018,7 @@ function phoneScreen(){return !!(MOBQ&&MOBQ.matches)}
 function isMob(){if(!phoneScreen())return false;try{return localStorage.getItem(MOBOFF_KEY)!=="1"}catch(e){return true}}
 function applyMob(){const on=isMob(),r=document.documentElement;if(!on)mobBoard=false;r.classList.toggle("mob",on);r.classList.toggle("mobboard",on&&mobBoard)}
 applyMob();
-if(MOBQ){const ch=()=>{applyMob();render()};if(MOBQ.addEventListener)MOBQ.addEventListener("change",ch);else if(MOBQ.addListener)MOBQ.addListener(ch)}
+if(MOBQ){const ch=()=>{applyMob();applyLook();render()};if(MOBQ.addEventListener)MOBQ.addEventListener("change",ch);else if(MOBQ.addListener)MOBQ.addListener(ch)}
 let nshowOpen=false, moveMode=false, selMode=false, selSet=new Set(), selKey="";
 
 function load(){
@@ -3293,6 +3296,7 @@ const stSave=()=>{try{localStorage.setItem(ST_KEY,JSON.stringify([...stOpen]))}c
 const ST_SECS=[["sheets","What the office sheets show","Buttons, names, suggestions and sizes on the W2 to W12 sheets.","Sheets"],
   ["text","Sheet text","Size, boldness, italic and font for Layout 1, Layout 2 and V2, each on its own.","Sheet text"],
   ["colours","Colours and themes","Pick a theme, then change any colour, line or effect.","Colours"],
+  ["mobile","Mobile version","Turn the phone layout on or off, and pick a separate colour theme for it.","Mobile"],
   ["vans","Vans","Update the van list from your spreadsheets.","Vans"],
   ["backups","Backups and sync","Where your data is kept, how to save a copy, and syncing between devices.","Backups and sync"],
   ["customlists","Driver lists","Make your own move lists, such as CSP or Secondment.","Driver lists"],
@@ -3316,11 +3320,25 @@ function optHelpHTML(){return `<details class="opthelp"><summary>What does each 
 function stSec(id,html){const x=ST_SECS.find(a=>a[0]===id);return `<details class="stsec${id==="reset"?" stdanger":""}" id="stsec-${id}" data-stsec="${id}"${stOpen.has(id)?" open":""}><summary><span class="sttitle">${x[1]}</span><span class="stdesc">${x[2]}</span></summary><div class="stbody">${html}</div></details>`}
 function stBar(){return `<div class="stbar"><label class="stfind"><span class="sr">Find a setting</span><input type="search" id="stFind" placeholder="Find a setting, for example colour, names, backup" autocomplete="off"></label>
   <nav class="stnav" aria-label="Jump to a section"><span class="stnavlab">Jump to</span>${ST_SECS.map(x=>`<button type="button" data-stgo="${x[0]}">${x[3]}</button>`).join("")}<span class="stnavsep"></span><button type="button" data-stall="1">Open all</button><button type="button" data-stall="0">Close all</button></nav><p class="stnone" hidden>No setting matches. Try a shorter word.</p></div>`}
+function mobLookHTML(){
+  const curPreset=(db.look&&db.look.mobPreset)||"";
+  let h=`<p class="note" style="margin-top:0">The phone layout on/off switch only changes <b>this</b> device. The mobile theme applies on any device that uses the phone layout — pick one below to override the main theme just for phones.</p>`;
+  h+=`<div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on (this device)":"Phone layout: off (this device)"}</button><span class="note">${isMob()?"Turn off to use the full desktop layout on this phone.":"Turn on to use the phone layout on this phone."}</span></div>`;
+  h+=`<h4 style="margin:14px 0 6px;font:600 16px/1 var(--display)">Mobile theme</h4>`;
+  h+=`<p class="note" style="margin-top:0">Choose a theme that will be used <b>only</b> when the phone layout is active. "Same as desktop" uses whatever the main theme is set to.</p>`;
+  h+=`<div class="presets mob-presets">`;
+  h+=`<button data-mobpreset="" aria-pressed="${!curPreset}" style="font-size:13px"><span class="sw"><i style="background:#1d2a36"></i><i style="background:#f7f8f6"></i><i style="background:#f1c232"></i><i style="background:#c4302b"></i></span>Same as desktop</button>`;
+  Object.entries(PRESETS).forEach(([k,p])=>{const P=Object.assign({},BASE_LOOK,p);
+    h+=`<button data-mobpreset="${k}" aria-pressed="${curPreset===k}"><span class="sw"><i style="background:${P.head}"></i><i style="background:${P.panel}"></i><i style="background:${P.tag}"></i><i style="background:${P.clash}"></i></span>${p.name}</button>`;});
+  h+=`</div>`;
+  if(curPreset&&PRESETS[curPreset]){h+=`<p class="note" style="margin-top:8px">Mobile theme: <b>${PRESETS[curPreset].name}</b>. <button type="button" class="addrow" id="mobPresetClear" style="margin:0;padding:3px 10px;font-size:13px">Remove mobile theme</button></p>`;}
+  return h;
+}
 function settingsHTML(){
   /* "Pop out Settings" removed from the page heading — the ⧉ Pop out button in the main header does the same thing (Ash, 7 Oct 2026) */
-  return `<h2>Settings</h2><p class="sub">Changes here apply to every day.${SETWIN?" This window stays in step with the main window.":""}</p>`+(phoneScreen()?`<h3>Phone layout</h3><div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on":"Phone layout: off"}</button><span class="note">${isMob()?"Turn off to see the full desktop layout on this phone.":"This phone is showing the desktop layout. Turn on for the phone layout."} Only changes this phone.</span></div>`:"")+stBar()+
+  return `<h2>Settings</h2><p class="sub">Changes here apply to every day.${SETWIN?" This window stays in step with the main window.":""}</p>`+stBar()+
   stSec("sheets",`<p class="note" style="margin-top:0">Press a button to change it; its words say what it is set to now. Hover over a button for a short explanation, or open the list underneath. To change a column's width, drag the edge of its heading on an office tab.</p>`+offOptsHTML()+optHelpHTML()+`<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button>`)+
-  stSec("text",sheetTextHTML())+stSec("colours",lookHTML())+stSec("vans",vanUploadHTML())+stSec("backups",storageHTML()+ghHTML())+
+  stSec("text",sheetTextHTML())+stSec("colours",lookHTML())+stSec("mobile",mobLookHTML())+stSec("vans",vanUploadHTML())+stSec("backups",storageHTML()+ghHTML())+
   stSec("customlists",`<p class="note" style="margin-top:0">Make your own driver lists, such as CSP, Maternity or Secondment. Each one appears in the <b>Move ▾</b> drop-down in the Advanced Drivers List, and gets its own section at the bottom of the Drivers tab. People on a list stay on file but aren't offered as drivers on any sheet.</p><div class="cllists">${customLists().map(l=>`<div class="clrow"><input class="clinput" type="text" value="${esc(l.name)}" data-clren="${l.id}" aria-label="List name"><button type="button" class="addrow" data-clren="${l.id}" title="Save the new name">Rename</button><button type="button" class="addrow" data-clrm="${l.id}" title="Tap 3 times to delete. Its people go back to the drivers list.">Delete</button></div>`).join("")||'<p class="note">No lists yet.</p>'}</div><div class="claddrow"><input class="clinput" id="clNewName" placeholder="New list name, e.g. CSP" aria-label="New list name"><button type="button" class="addrow" id="clAdd">＋ Add list</button></div>`)+stSec("reset",`<p class="note" style="margin-top:0">Deletes every saved day and restores the lists from the original spreadsheet. <b>Save a backup first.</b></p><p class="note" style="margin-top:0">Because this can't be undone, you need to click the button 30 times to confirm.</p><div class="resetbar"><button class="addrow resetallbtn" id="resetAll">Reset everything</button><span class="resetcount" id="resetCount" hidden aria-live="polite"></span></div>`)+
   `<p class="buildstamp">Build ${BUILD}</p>`;
 }
@@ -4007,7 +4025,9 @@ function refresh(){ // re-render but keep focus position
 }
 function wireSettings(){
   const G=id=>$(id)||{};
-  if($("mobToggle"))$("mobToggle").onclick=()=>{const on=!isMob();try{if(on)localStorage.removeItem(MOBOFF_KEY);else localStorage.setItem(MOBOFF_KEY,"1")}catch(e){}render();toast(on?"Phone layout on":"Desktop layout on this phone")};
+  if($("mobToggle"))$("mobToggle").onclick=()=>{const on=!isMob();try{if(on)localStorage.removeItem(MOBOFF_KEY);else localStorage.setItem(MOBOFF_KEY,"1")}catch(e){}applyMob();applyLook();render();toast(on?"Phone layout on":"Desktop layout on this phone")};
+  document.querySelectorAll("[data-mobpreset]").forEach(b=>b.onclick=()=>{const k=b.dataset.mobpreset;db.look=db.look||{};if(k){db.look.mobPreset=k}else{delete db.look.mobPreset}applyLook();save();render();toast(k&&PRESETS[k]?PRESETS[k].name+" theme for mobile":"Mobile theme removed — using desktop theme")});
+  if($("mobPresetClear"))$("mobPresetClear").onclick=()=>{if(db.look)delete db.look.mobPreset;applyLook();save();render();toast("Mobile theme removed — using desktop theme")};
   if($("saveLookDefault"))wireLook();
   wireSheetText();
   wireCustomLists();
@@ -4179,8 +4199,12 @@ function fitMark(){if(OFFICES.includes(tab))lastOff=tab;const on=!!(db.look&&db.
 function rowHIdx(){const k=lookNow().rowH||DEF_SIZE.rowH,i=ROWH.findIndex(x=>x[0]===k);return i<0?ROWH.findIndex(x=>x[0]==="normal"):i}
 const NAMEW=[[300,"Light"],[400,"Normal"],[500,"Medium"],[600,"Semi-bold"],[700,"Bold"],[800,"Extra bold"],[900,"Black (heaviest)"]];
 function nameW(v){return v===true?800:+v||400}
+function mobLookNow(){/* returns the effective look for the current state, with mob preset overlaid if active */
+  const base=lookNow();if(!isMob())return base;
+  const mp=(db.look&&db.look.mobPreset)||"";if(!mp||!PRESETS[mp])return base;
+  return Object.assign({},base,PRESETS[mp]);}
 function applyLook(){
-  const L=lookNow(),st=document.documentElement.style,set=(k,v)=>st.setProperty(k,v);
+  const L=mobLookNow(),st=document.documentElement.style,set=(k,v)=>st.setProperty(k,v);
   [["--head","head"],["--steel","steel"],["--panel","panel"],["--field","field"],["--side","side"],["--bar","bar"],["--tabbg","tabbg"],["--text","text"],["--muted","muted"],["--line","line"],["--ink","ink"],["--rowline","rowline"],["--tag","tag"],["--clash","clash"],["--elec","elec"],["--coll","coll"],["--oth","oth"],["--used","used"],["--used-ink","usedInk"],["--warn","warn"],["--warn-bg","warnBg"]].forEach(([v,k])=>set(v,L[k]));
   ["W2","W8","W9","W10","W11","W12","W13"].forEach(o=>set("--off-"+o,L.offOn===false?L.used:L["off"+o]));
   document.documentElement.classList.toggle("nooffcol",L.offOn===false);document.documentElement.classList.toggle("bolddrv",!!L.boldDrv);document.documentElement.classList.toggle("boldsub",!!L.boldSub);set("--drvw",String(nameW(L.boldDrv)));set("--subw",String(nameW(L.boldSub)));
