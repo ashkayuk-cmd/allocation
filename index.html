@@ -310,9 +310,10 @@ tr.flash td{animation:flash 2.2s ease-out}
 .vantable td{white-space:nowrap}
 .vact button{border:1px solid var(--line);background:var(--field);border-radius:var(--radius);padding:3px 10px;margin-left:4px;font-size:13px}
 .vact button:hover{border-color:var(--text)}
-.vaimgcol{text-align:center;width:72px}
+.vaimgcol{text-align:left;width:1%;white-space:nowrap}
+.vaimgrow{display:flex;gap:4px;align-items:center;flex-wrap:nowrap}
 .vantable td.vaimgcol{padding:2px 4px;vertical-align:middle;overflow:hidden}
-.vaimgthumb{display:inline-block;cursor:pointer;height:calc(var(--van-rowh,1.9em) - 6px);max-height:48px;min-height:16px;width:auto;max-width:64px;object-fit:cover;border-radius:3px;border:1px solid var(--line);transition:border-color .15s,box-shadow .15s;vertical-align:middle}
+.vaimgthumb{display:inline-block;cursor:pointer;height:calc(var(--van-rowh,1.9em) - 6px);max-height:48px;min-height:16px;width:auto;max-width:64px;flex:0 0 auto;object-fit:cover;border-radius:3px;border:1px solid var(--line);transition:border-color .15s,box-shadow .15s;vertical-align:middle}
 .vaimgthumb:hover{border-color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .vaimgmodal{position:fixed;z-index:9700;inset:0;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;cursor:pointer}
 .vaimgmodal.hidden{display:none}
@@ -2252,7 +2253,7 @@ function fixOffices(a){if(!a||typeof a!=="object")return a;OFFICES.forEach(o=>{c
     if(!Array.isArray(s.main)||!s.main.length)s.main=Array.from({length:15},()=>({hook:null,driver:"",sub:"",duty:"",partner:""}));
     if(!Array.isArray(s.extra))s.extra=Array.from({length:3},()=>({hook:null,driver:"",note:""}));
     if(!Array.isArray(s.pm))s.pm=Array.from({length:3},()=>({hook:null,driver:""}))});return a}
-function migrateKinds(d){if(d&&d.days)Object.keys(d.days).forEach(k=>fixOffices(d.days[k]));(d.vans||[]).forEach(v=>{if(v.kind==="lease"){v.kind="custom";v.typeName=v.typeName||"Lease van"}else if(v.kind==="other"){v.kind="custom";v.typeName=v.typeName||"Other"}});return d}
+function migrateKinds(d){if(d&&d.days)Object.keys(d.days).forEach(k=>fixOffices(d.days[k]));(d.vans||[]).forEach(v=>{if(v.kind==="lease"){v.kind="custom";v.typeName=v.typeName||"Lease van"}else if(v.kind==="other"){v.kind="custom";v.typeName=v.typeName||"Other"}});/* migrate per-van images (old format) to per-model db.vanImages */(d.vans||[]).forEach(v=>{if(v.image&&v.model){const k=(v.model||"").trim().toLowerCase();d.vanImages=d.vanImages||{};if(!(d.vanImages[k]||[]).includes(v.image)){d.vanImages[k]=(d.vanImages[k]||[]).concat([v.image])}delete v.image}});return d}
 function vkind(v){return v&&v.kind&&v.kind!=="hook"?(KINDS[v.kind]?v.kind:"custom"):"hook"}
 function vname(v){return vkind(v)==="hook"?String(v.h):(v.label||"?")}
 function vsort(x,y){return (KORDER[vkind(x)]-KORDER[vkind(y)])||(vkind(x)==="hook"?x.h-y.h:vname(x).localeCompare(vname(y),undefined,{numeric:true}))}
@@ -3143,7 +3144,7 @@ function placeFits(){document.querySelectorAll(".fitrow").forEach(fr=>{const b=f
   const x=th.getBoundingClientRect().left-fr.getBoundingClientRect().left,w=tw.getBoundingClientRect().width,ok=x>=0&&x<=w;b.style.left=x+"px";b.style.visibility=ok?"visible":"hidden";const r=fr.querySelector(".fitrows");if(r){r.style.left=(x+18)+"px";r.style.visibility=ok?"visible":"hidden"}const g=fr.querySelector(".fitdrag");if(g){g.style.left=(x+48)+"px";g.style.visibility=ok?"visible":"hidden"}})}
 addEventListener("resize",()=>requestAnimationFrame(placeFits));addEventListener("scroll",e=>{if(e.target&&e.target.classList&&e.target.classList.contains("tablewrap"))placeFits()},true);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>placeFits());
-function offLay(){return !isMob()&&db.look&&db.look.offLayout===2?2:1}
+function offLay(){return db.look&&db.look.offLayout===2?2:1}
 function dutyNo(w){const m=String(w||"").trim().match(/^(\d+)/);return m?m[1]:""}
 function dutyTxt(w){return String(w||"").trim().replace(/^(\d+)\.\s*/,"$1 ")}
 /* Layout 1: duty and partner shown as plain text with a ✎ edit button on hover, like Layout 2's CDV Partner (Ash, 5 Oct 2026) */
@@ -3612,16 +3613,43 @@ function vanRowsHTML(a){
   return list.map(({v,st})=>{const path=!st.w?"":st.w.sec==="coll"?`coll.${st.w.i}`:st.w.sec==="oos"||st.w.sec==="chg"||st.w.sec==="oth"?`${st.w.sec}.${st.w.i}.hook`:`${st.w.office}.${st.w.sec}.${st.w.i}.hook`;
     const go=st.w?(st.w.sec==="oos"||st.w.sec==="chg"||st.w.sec==="coll"||st.w.sec==="oth"?"OOS":st.w.office):"";
     const badge=st.k==="used"?`<span class="stbadge" style="background:var(--off-${st.o});color:${contrastInk(offCol(st.o))}">${esc(st.t)}</span>`:`<span class="stbadge ${st.k}">${esc(st.t)}</span>`;
-    return `<tr><td class="hk">${esc(vname(v))}${vkind(v)!=="hook"?`<span class="kindtag">${esc(kindLabel(v))}</span>`:""}</td><td class="plate">${v.full||v.reg?`<span class="plateb${v.fuel==="E"?" ev":""}"${v.fuel==="E"?' title="Electric vehicle"':""}>${esc(v.full||v.reg)}</span>`:'<span class="note">No plate yet</span>'}${dup.has(v.h)&&!(db.look&&db.look.shareOff)?`<span class="vshare" role="button" tabindex="0" title="${esc("Same last letters "+v.reg+" as "+sharesWith(v).map(x=>(vkind(x)==="hook"?"hook ":"")+vname(x)+" ("+(x.full||x.reg)+")").join(", "))}" aria-label="Same last letters as another van">!</span>`:""}</td><td>${esc(v.pp||"")}</td><td>${esc(v.model||"")}</td><td>${v.fuel==="E"?"⚡ Electric":v.fuel==="P"?"Petrol":v.fuel?"Diesel":""}</td><td class="vaimgcol">${(()=>{const imgs=(db.vanImages||{})[vanImgKey(v)]||[];return imgs[0]?'<img src="'+imgs[0]+'" class="vaimgthumb" data-vimg="'+v.h+'" title="Click to view images ('+(imgs.length)+' image'+(imgs.length===1?"":"s")+')">':""})()}</td><td class="vdcol"><button class="vdbtn" data-vd="${v.h}" title="Vehicle details" aria-label="Vehicle details for ${esc(vname(v))}">${iGlyph()}</button></td><td class="vact"><button data-vedit="${v.h}">Edit</button><button data-vdel="${v.h}" class="del">Remove</button></td><td style="width:0;padding:0;border:none;position:relative"><div class="van-rowdrag" data-vanrdrag="${v.h}" title="Drag to resize row"></div></td></tr>`;}).join("")||`<tr><td colspan="9" class="note">No vans match. Clear the search or change the filter.</td></tr>`;
+    return `<tr><td class="hk">${esc(vname(v))}${vkind(v)!=="hook"?`<span class="kindtag">${esc(kindLabel(v))}</span>`:""}</td><td class="plate">${v.full||v.reg?`<span class="plateb${v.fuel==="E"?" ev":""}"${v.fuel==="E"?' title="Electric vehicle"':""}>${esc(v.full||v.reg)}</span>`:'<span class="note">No plate yet</span>'}${dup.has(v.h)&&!(db.look&&db.look.shareOff)?`<span class="vshare" role="button" tabindex="0" title="${esc("Same last letters "+v.reg+" as "+sharesWith(v).map(x=>(vkind(x)==="hook"?"hook ":"")+vname(x)+" ("+(x.full||x.reg)+")").join(", "))}" aria-label="Same last letters as another van">!</span>`:""}</td><td>${esc(v.pp||"")}</td><td>${esc(v.model||"")}</td><td>${v.fuel==="E"?"⚡ Electric":v.fuel==="P"?"Petrol":v.fuel?"Diesel":""}</td><td class="vaimgcol">${(()=>{const imgs=(db.vanImages||{})[vanImgKey(v)]||[];return imgs.length?'<div class="vaimgrow">'+imgs.map((s,i)=>'<img src="'+s+'" class="vaimgthumb" data-vimg="'+v.h+'" data-vidx="'+i+'" title="Click to enlarge ('+(i+1)+' of '+imgs.length+')">').join("")+'</div>':""})()}</td><td class="vdcol"><button class="vdbtn" data-vd="${v.h}" title="Vehicle details" aria-label="Vehicle details for ${esc(vname(v))}">${iGlyph()}</button></td><td class="vact"><button data-vedit="${v.h}">Edit</button><button data-vdel="${v.h}" class="del">Remove</button></td><td style="width:0;padding:0;border:none;position:relative"><div class="van-rowdrag" data-vanrdrag="${v.h}" title="Drag to resize row"></div></td></tr>`;}).join("")||`<tr><td colspan="9" class="note">No vans match. Clear the search or change the filter.</td></tr>`;
 }
+function vanImgKey(v){return (v.model||"").trim().toLowerCase()}
+var _vaimgList=[],_vaimgIdx=0;
+function showVanImages(h,idx){
+  var v=vanBy(h);if(!v)return;
+  var key=vanImgKey(v);
+  var imgs=(db.vanImages||{})[key]||[];
+  if(!imgs.length)return;
+  _vaimgList=imgs;_vaimgIdx=Math.min(idx||0,imgs.length-1);
+  _vaimgRender(v);
+  var m=document.getElementById("vaimgModal");
+  m.classList.remove("hidden");
+  m.onclick=function(e){if(e.target===m)m.classList.add("hidden")};
+  document.getElementById("vaimgPrev").onclick=function(e){e.stopPropagation();if(_vaimgIdx>0){_vaimgIdx--;_vaimgRender(v)}};
+  document.getElementById("vaimgNext").onclick=function(e){e.stopPropagation();if(_vaimgIdx<_vaimgList.length-1){_vaimgIdx++;_vaimgRender(v)}};
+}
+function _vaimgRender(v){
+  var img=document.getElementById("vaimgMain");
+  img.src=_vaimgList[_vaimgIdx];img.alt=(v.model||vname(v))+" image "+(_vaimgIdx+1);
+  document.getElementById("vaimgLabel").textContent=(v.model||vname(v))+" — "+(_vaimgIdx+1)+" of "+_vaimgList.length;
+  var prev=document.getElementById("vaimgPrev"),next=document.getElementById("vaimgNext");
+  prev.disabled=_vaimgIdx===0;next.disabled=_vaimgIdx===_vaimgList.length-1;
+  var dots=document.getElementById("vaimgDots");dots.innerHTML="";
+  _vaimgList.forEach(function(_,i){var s=document.createElement("span");if(i===_vaimgIdx)s.className="active";dots.appendChild(s)});
+  var nav=document.querySelector(".vaimg-nav");if(nav)nav.style.display=_vaimgList.length<2?"none":"flex";
+}
+
 function wireVans(a){
   const draw=()=>{$("vanRows").innerHTML=vanRowsHTML(a);$("vanRows").querySelectorAll("[data-gopath]").forEach(x=>x.onclick=e=>{e.preventDefault();goTo(x.dataset.go,x.dataset.gopath)});
     $("vanRows").querySelectorAll("[data-vedit]").forEach(x=>x.onclick=()=>openVanForm(+x.dataset.vedit));
     $("vanRows").querySelectorAll("[data-vdel]").forEach(x=>x.onclick=()=>{const h=+x.dataset.vdel;const first=!(+x.dataset.armn);if(armed(x)){removeVan(h);return}
-      if(first){const d=hookRefs(h);if(d.length)toast(`Careful: it's allocated on ${d.length} saved day${d.length>1?"s":""} and will be cleared from them`)}});};
+      if(first){const d=hookRefs(h);if(d.length)toast(`Careful: it's allocated on ${d.length} saved day${d.length>1?"s":""} and will be cleared from them`)}});
+    rewireImgs();};
   // thumbnail click → modal
   function rewireImgs(){
-    $("vanRows").querySelectorAll("[data-vimg]").forEach(x=>x.onclick=()=>showVanImages(+x.dataset.vimg));
+    $("vanRows").querySelectorAll("[data-vimg]").forEach(x=>x.onclick=()=>showVanImages(+x.dataset.vimg,+x.dataset.vidx||0));
     // row height drag
     $("vanRows").querySelectorAll("[data-vanrdrag]").forEach(handle=>{
       const tr=handle.closest("tr");let y0,h0,moving=false;
@@ -6728,33 +6756,9 @@ function closeHelp(){const ov=document.getElementById("helpOv");if(!ov)return;cl
   addEventListener("scroll",close,true);addEventListener("resize",close)})();
 
 
+
 };window.__DA_TRY&&window.__DA_TRY();
 
-function vanImgKey(v){return (v.model||"").trim().toLowerCase()}
-var _vaimgList=[],_vaimgIdx=0;
-function showVanImages(h){
-  var v=vanBy(h);if(!v)return;
-  var key=vanImgKey(v);
-  var imgs=(db.vanImages||{})[key]||[];
-  if(!imgs.length)return;
-  _vaimgList=imgs;_vaimgIdx=0;
-  _vaimgRender(v);
-  var m=document.getElementById("vaimgModal");
-  m.classList.remove("hidden");
-  m.onclick=function(e){if(e.target===m)m.classList.add("hidden")};
-  document.getElementById("vaimgPrev").onclick=function(e){e.stopPropagation();if(_vaimgIdx>0){_vaimgIdx--;_vaimgRender(v)}};
-  document.getElementById("vaimgNext").onclick=function(e){e.stopPropagation();if(_vaimgIdx<_vaimgList.length-1){_vaimgIdx++;_vaimgRender(v)}};
-}
-function _vaimgRender(v){
-  var img=document.getElementById("vaimgMain");
-  img.src=_vaimgList[_vaimgIdx];img.alt=(v.model||vname(v))+" image "+(_vaimgIdx+1);
-  document.getElementById("vaimgLabel").textContent=(v.model||vname(v))+" — "+(_vaimgIdx+1)+" of "+_vaimgList.length;
-  var prev=document.getElementById("vaimgPrev"),next=document.getElementById("vaimgNext");
-  prev.disabled=_vaimgIdx===0;next.disabled=_vaimgIdx===_vaimgList.length-1;
-  var dots=document.getElementById("vaimgDots");dots.innerHTML="";
-  _vaimgList.forEach(function(_,i){var s=document.createElement("span");if(i===_vaimgIdx)s.className="active";dots.appendChild(s)});
-  var nav=document.querySelector(".vaimg-nav");if(nav)nav.style.display=_vaimgList.length<2?"none":"flex";
-}
 </script>
 <div id="vaimgModal" class="vaimgmodal hidden"><button class="vaimg-close" title="Close" onclick="this.parentElement.classList.add('hidden')">&#x2715;</button><img class="vaimg-main" id="vaimgMain" src="" alt=""><div class="vaimg-nav"><button id="vaimgPrev" title="Previous">&#8592;</button><div class="vaimg-dots" id="vaimgDots"></div><button id="vaimgNext" title="Next">&#8594;</button></div><div class="vaimg-label" id="vaimgLabel"></div></div>
 </body>
