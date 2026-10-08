@@ -1335,6 +1335,15 @@ html:not(.mob) table.offtbl td :is(.nmclr,.hkclr):hover,html:not(.mob) table.off
 .lookgrp{border-top:1px solid var(--line);margin-top:6px}.lookgrp[hidden]{display:none}.lookgrp>summary{cursor:pointer;list-style:none;padding:10px 2px;font:600 16px var(--display);color:var(--muted)}.lookgrp>summary::-webkit-details-marker{display:none}
 .lookgrp>summary::before{content:"▸";display:inline-block;width:18px}.lookgrp[open]>summary::before{content:"▾"}.lookgrp[open]>summary{color:var(--text)}.lookgrp>.lookgrid{padding-bottom:8px}
 .sundutylock{background:color-mix(in srgb,var(--warn) 18%,var(--field));border:1px solid color-mix(in srgb,var(--warn) 50%,var(--line));border-radius:10px;padding:12px 16px;margin:6px 0 12px;font-size:14px;line-height:1.5}
+.resetbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}.resetcount{font:600 14px var(--body);color:var(--clash)}.resetallbtn{transition:outline .12s}
+.stcols{margin-top:10px}.stcols>summary{cursor:pointer;font:700 13.5px var(--body);padding:4px 0;color:var(--ink);list-style:none}
+.stcols>summary::-webkit-details-marker{display:none}.stcols[open]>summary::after{content:" ▾"}.stcols:not([open])>summary::after{content:" ▸"}
+.stcolsgrid{margin-top:6px;display:flex;flex-direction:column;gap:6px}.stcolrow{display:grid;grid-template-columns:84px 28px 1fr 60px auto;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:color-mix(in srgb,var(--text) 3%,var(--field))}
+.stcolrow.set{background:color-mix(in srgb,var(--ink) 12%,var(--field));outline:1.5px solid color-mix(in srgb,var(--ink) 40%,transparent);outline-offset:-1px}
+.stcolname{font:600 13px var(--body);white-space:nowrap}.stcolrow input[type=color]{width:28px;height:24px;padding:0;border:1px solid var(--line);border-radius:5px;cursor:pointer}
+.stcolrow select{width:100%;min-width:0;font-size:12px}.stcolrow label{font-size:12px;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.stcolrow .addrow{font-size:11px;padding:3px 7px}
+.clrow{display:flex;align-items:center;gap:6px;margin:6px 0}.clinput{flex:1;min-width:0;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text);font:inherit}
+.claddrow{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.cllists{display:flex;flex-direction:column;gap:2px}
 /* top bar Settings + Pop out */
 .hsetgrp{display:inline-flex;gap:0;align-items:stretch}
 .hsetgrp #setTopBtn{border-top-right-radius:0;border-bottom-right-radius:0}
@@ -1542,7 +1551,6 @@ html:not(.mob) .offtbox .laygrp.laydis .laybtn{opacity:.35}
 .boardseg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
 .boardtools .boardseg>button{border:0!important;border-radius:0!important;margin:0!important}
 .boardtools .boardseg>button+button{border-left:1px solid var(--line)!important}
-#boardOfficeFilter{border:1px solid var(--line);background:var(--field);border-radius:var(--radius);padding:4px 6px;font-size:13px;color:inherit;cursor:pointer}
 /* × to clear a driver / substitute (Ash, 5 Oct 2026): shown in every layout (V2, Paper and narrow columns too) unless set
    to "on hover" or "off" in Settings */
 html:not(.mob):not(.clrx-off) table.offtbl.offtbl td .nmwrap>.nmclr{display:block!important}
@@ -1774,7 +1782,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-07.203";window.DA_BUILD=BUILD;
+const BUILD="2026-10-08.206";window.DA_BUILD=BUILD;
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000;let STORE_CAP=localStorage.idb?60000000:5000000;
@@ -1794,7 +1802,7 @@ function moveDriverOffice(n,w){const o=ourOffice(w);db.driverOffice=db.driverOff
   if(o){db.driverOffice[n]=o;return o}
   db.movedOff=[...(db.movedOff||[]),n];if(w&&w.trim()){db.movedTo=db.movedTo||{};db.movedTo[n]=UPC(w.trim())}return ""}
 (function fixMoved(){let ch=0;(db.movedOff||[]).slice().forEach(n=>{const o=ourOffice((db.movedTo||{})[n]);if(o){db.driverOffice=db.driverOffice||{};const from=db.driverOffice[n]||"";db.officeMoves=db.officeMoves||{};(db.officeMoves[n]=db.officeMoves[n]||[]).push({from,to:o,d:iso(new Date())});db.driverOffice[n]=o;db.movedOff=db.movedOff.filter(y=>y!==n);delete db.movedTo[n];ch++}});if(ch)try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}})();
-let tab="W2", day=iso(new Date()), boardMode="all", boardPick=null, boardQ="", boardOfficeFilter="";
+let tab="W2", day=iso(new Date()), boardMode="all", boardPick=null, boardQ="";
 /* an office (W2-W12) opened in its own window: #office=W2&day=2026-10-05 */
 let OFFPOP=(()=>{const m=/(?:^|[#&])office=(W\d+)/.exec(location.hash);return m&&OFFICES.includes(m[1])?m[1]:""})(),OFFWINS={};
 if(OFFPOP){tab=OFFPOP;const md=/(?:^|[#&])day=(\d{4}-\d\d-\d\d)/.exec(location.hash);if(md)day=md[1];document.documentElement.classList.add("offpopwin");
@@ -2395,7 +2403,7 @@ function renderStatus(a){
     [r.driver,r.sub].forEach(n=>{if(n&&!names.has(up(n))&&!(o==="W13"&&extOf(up(n))))unknown++})}));
   const free=db.vans.filter(v=>!U.hooks.has(v.h)&&!U.chg.has(v.h)).length;
   let h=filled<total?`<button type="button" class="pill warn go" id="gapPill" title="Go to the next walk that still needs a van or driver">${filled} of ${total} walks have a van and driver</button>`:`<span class="pill ok">${filled} of ${total} walks have a van and driver</span>`;
-  h+=`<button type="button" class="pill ok" id="freePill" title="Click to ${db.look&&db.look.boardHidden?"show":"hide"} the Key Cupboard">${free} vans free</button>`;
+  h+=`<span class="pill ok">${free} vans free</span>`;
   h+=`<span class="pill ok">${a.oos.filter(x=>x.hook).length} OOS</span>`;{const nc=(a.chg||[]).filter(x=>x.hook).length;if(nc)h+=`<span class="pill ok">${nc} change over</span>`}
   if(U.clashes.length)h+=`<span class="pill bad" id="clashPill" tabindex="0">${U.clashes.length} used twice: ${U.clashes.slice(0,4).map(c=>esc(c.label)).join(", ")}${U.clashes.length>4?"…":""}</span>`;
   else h+=`<span class="pill ok">No double bookings</span>`;
@@ -2404,7 +2412,6 @@ function renderStatus(a){
   const gp=$("gapPill");if(gp)gp.onclick=nextGap;
   const up_=$("unkPill");if(up_)up_.onclick=nextUnknown;
   const cp=$("clashPill"); if(cp){const go=()=>{const c=U.clashes[0].v[0];tab=c.office;mobBoard=false;render();};cp.onclick=go;cp.onkeydown=e=>{if(e.key==="Enter")go()}}
-  const fp=$("freePill");if(fp)fp.onclick=()=>{db.look=db.look||{};db.look.boardHidden=!db.look.boardHidden;save();render();toast(db.look.boardHidden?"Key Cupboard hidden — tap 🔑 Key Cupboard to bring it back":"Key Cupboard shown")}
 }
 let dragTab=null;
 const ALLTABS=[...OFFICES,"OOS","Vans","OffVans","Drivers","Duties","Rest","Walks","Settings"];
@@ -3244,6 +3251,7 @@ const ST_SECS=[["sheets","What the office sheets show","Buttons, names, suggesti
   ["colours","Colours and themes","Pick a theme, then change any colour, line or effect.","Colours"],
   ["vans","Vans","Update the van list from your spreadsheets.","Vans"],
   ["backups","Backups and sync","Where your data is kept, how to save a copy, and syncing between devices.","Backups and sync"],
+  ["customlists","Driver lists","Make your own move lists, such as CSP or Secondment.","Driver lists"],
   ["reset","Start again","Delete everything and begin again. Save a backup first.","Start again"]];
 const OPT_HELP=[["Van details button (i)","Shows or hides the small i next to each hook. It opens that van's details."],
   ["Office vans line","The list of this office's vans at the top of the sheet. Press to show it, show it without the vans that aren't on the office's list, or hide it."],
@@ -3269,7 +3277,7 @@ function settingsHTML(){
   return `<h2>Settings</h2><p class="sub">Changes here apply to every day.${SETWIN?" This window stays in step with the main window.":""}</p>`+(phoneScreen()?`<h3>Phone layout</h3><div class="phonebox"><button class="addrow" id="mobToggle" aria-pressed="${isMob()}">${isMob()?"Phone layout: on":"Phone layout: off"}</button><span class="note">${isMob()?"Turn off to see the full desktop layout on this phone.":"This phone is showing the desktop layout. Turn on for the phone layout."} Only changes this phone.</span></div>`:"")+stBar()+
   stSec("sheets",`<p class="note" style="margin-top:0">Press a button to change it; its words say what it is set to now. Hover over a button for a short explanation, or open the list underneath. To change a column's width, drag the edge of its heading on an office tab.</p>`+offOptsHTML()+optHelpHTML()+`<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button>`)+
   stSec("text",sheetTextHTML())+stSec("colours",lookHTML())+stSec("vans",vanUploadHTML())+stSec("backups",storageHTML()+ghHTML())+
-  stSec("reset",`<p class="note" style="margin-top:0">Deletes every saved day and restores the lists from the original spreadsheet. Save a backup first.</p><button class="addrow" id="resetAll">Reset everything</button>`)+
+  stSec("customlists",`<p class="note" style="margin-top:0">Make your own driver lists, such as CSP, Maternity or Secondment. Each one appears in the <b>Move ▾</b> drop-down in the Advanced Drivers List, and gets its own section at the bottom of the Drivers tab. People on a list stay on file but aren't offered as drivers on any sheet.</p><div class="cllists">${customLists().map(l=>`<div class="clrow"><input class="clinput" type="text" value="${esc(l.name)}" data-clren="${l.id}" aria-label="List name"><button type="button" class="addrow" data-clren="${l.id}" title="Save the new name">Rename</button><button type="button" class="addrow" data-clrm="${l.id}" title="Tap 3 times to delete. Its people go back to the drivers list.">Delete</button></div>`).join("")||'<p class="note">No lists yet.</p>'}</div><div class="claddrow"><input class="clinput" id="clNewName" placeholder="New list name, e.g. CSP" aria-label="New list name"><button type="button" class="addrow" id="clAdd">＋ Add list</button></div>`)+stSec("reset",`<p class="note" style="margin-top:0">Deletes every saved day and restores the lists from the original spreadsheet. <b>Save a backup first.</b></p><p class="note" style="margin-top:0">Because this can't be undone, you need to click the button 30 times to confirm.</p><div class="resetbar"><button class="addrow resetallbtn" id="resetAll">Reset everything</button><span class="resetcount" id="resetCount" hidden aria-live="polite"></span></div>`)+
   `<p class="buildstamp">Build ${BUILD}</p>`;
 }
 /* wires the Settings layout: remembers which sections are open, jump buttons, search, and folds each colour group under its heading */
@@ -3313,7 +3321,7 @@ function driversHTML(){
   <h4 class="sunexth">From other offices</h4><p class="note">Drivers from offices outside this building (W3, W7 and so on) who come in for Sunday Duty. They are only offered on the Sunday Duty sheet, never on W2 to W12.</p>
   <div class="addline"><input id="sunExtName" placeholder="Full name" aria-label="Name of driver from another office" autocomplete="off"><input id="sunExtOff" placeholder="Office: W3" aria-label="Their office" list="dl-sunoff" autocomplete="off" style="flex:0 0 130px"><datalist id="dl-sunoff">${["W1","W3","W4","W5","W6","W7","W14"].map(o=>`<option value="${o}">`).join("")}</datalist><button id="sunExtGo" type="button">Add</button></div>
   <div class="sublist">${sunExt().slice().sort((x,y)=>x.n.localeCompare(y.n)).map(e=>`<div class="subrow"><span class="subnm">${esc(e.n)} <small>${esc(e.from)}</small></span><button type="button" class="subrm" data-sunextrm="${esc(e.n)}" title="Take ${esc(e.n)} off the list">Remove</button></div>`).join("")||`<p class="vdmut">Nobody yet.</p>`}</div></section>
-  <section class="ndlist"><h3>Non-Drivers (${(db.nonDrivers||[]).filter(n=>db.drivers.includes(n)&&!isLeft(n)&&!isMoved(n)).length})</h3><p class="note">People moved here stay on file but aren't offered as drivers or substitutes on W2 to W12. Use <b>Move ▾ → Non-driver</b> on a name above.</p><div class="listbox" id="ndList"></div></section><section class="ndlist"><h3>Moved office (${(db.movedOff||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have moved to another office. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Moved office</b> on a name above. Moving someone to W2–W12 just changes their office and keeps them as a driver.</p><div class="listbox" id="moList"></div></section><section class="ndlist"><h3>Left RM (${(db.leftRM||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have left Royal Mail. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Left RM</b> on a name above.</p><div class="listbox" id="lrList"></div></section>`+`</div>`;
+  <section class="ndlist"><h3>Non-Drivers (${(db.nonDrivers||[]).filter(n=>db.drivers.includes(n)&&!isLeft(n)&&!isMoved(n)).length})</h3><p class="note">People moved here stay on file but aren't offered as drivers or substitutes on W2 to W12. Use <b>Move ▾ → Non-driver</b> on a name above.</p><div class="listbox" id="ndList"></div></section><section class="ndlist"><h3>Moved office (${(db.movedOff||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have moved to another office. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Moved office</b> on a name above. Moving someone to W2–W12 just changes their office and keeps them as a driver.</p><div class="listbox" id="moList"></div></section><section class="ndlist"><h3>Left RM (${(db.leftRM||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have left Royal Mail. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Left RM</b> on a name above.</p><div class="listbox" id="lrList"></div></section>${customLists().map(l=>`<section class="ndlist"><h3>${esc(l.name)} (${((db.customListMembers||{})[l.id]||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People on this list stay on file but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → To: ${esc(l.name)}</b> in the Advanced Drivers List to add someone.</p><div class="listbox" id="cl-${esc(l.id)}"></div></section>`).join("")}`+`</div>`;
 }
 function walksHTML(){
   return `<h2>Walks</h2><p class="sub">Add, edit and remove walks and set which office they belong to.</p><div class="onecol">`+`<section><h3>Walks (${db.walks.length})</h3><div class="addline"><input id="newWalk" placeholder="e.g. 36. NEW WALK" aria-label="New walk"><select id="newWalkOffice" aria-label="Office">${OFFICES.map(o=>`<option value="${o}">${ovName(o)}</option>`).join("")}</select><label class="ndwadd" title="A walk done without a driver or van"><input type="checkbox" id="newWalkND"> Non-driver walk</label><button id="addWalk">Add</button></div><input class="search" id="findWalk" placeholder="Search walks" aria-label="Search walks"><div class="azbar wsort" role="group" aria-label="Sort walks"><span class="note" style="margin:0 6px 0 0;align-self:center">Sort by</span>${[["num","Number"],["name","Name"]].map(([v,t])=>`<button type="button" data-wsort="${v}" aria-pressed="${walkSortM()===v}">${t}</button>`).join("")}</div><div class="azbar woff" role="group" aria-label="Show walks for office"><span class="note" style="margin:0 6px 0 0;align-self:center">Office</span>${[["","All"],...OFFICES.map(o=>[o,ovName(o)]),["-","N/A"]].map(([v,t])=>`<button type="button" data-woff="${v}" aria-pressed="${walkOffF()===v}"${OFFICES.includes(v)?` style="--oc:var(--off-${v})" class="wofb"`:""}>${t}</button>`).join("")}</div><div class="listbox" id="walkList"></div></section>`+`</div>`;
@@ -3338,6 +3346,7 @@ function fillLists(){
     dl.querySelectorAll("[data-ndmove]").forEach(b=>b.onclick=()=>{const n=b.dataset.ndmove;db.nonDrivers=[...new Set([...(db.nonDrivers||[]),n])];save(`Moved ${n} to Non-Drivers`);render();toast(n+" moved to Non-Drivers")});
     dl.querySelectorAll("[data-doff]").forEach(x=>x.onchange=()=>{if(x.value.startsWith("act:")){const n=x.dataset.doff,v=x.value.slice(4);x.value=driverOffice(n);driverMoveAct(n,v);return}db.driverOffice=db.driverOffice||{};db.driverOffice[x.dataset.doff]=x.value;save();fillLists();toast(x.dataset.doff+(x.value?" set to "+x.value:" has no office"))});}
   dl&&dl.querySelectorAll("[data-dact]").forEach(x=>x.onchange=()=>{const n=x.dataset.dact,v=x.value;x.value="";driverMoveAct(n,v)});
+  customLists().forEach(l=>{const clb=document.getElementById("cl-"+l.id);if(!clb)return;const Q=drQuery($("findDriver").value),Lc=((db.customListMembers||{})[l.id]||[]).filter(n=>db.drivers.includes(n)&&nameMatch(n,Q.name)&&drQOk(driverOffice(n),Q)).sort();clb.innerHTML=Lc.map(n=>`<div class="drow"><span class="dname">${esc(n)}</span><span class="note">${esc(driverOffice(n)||"")}</span><button data-clback="${esc(n)}" data-clid="${esc(l.id)}">Move back to drivers</button></div>`).join("")||'<div class="note">Nobody here yet.</div>';clb.querySelectorAll("[data-clback]").forEach(b=>b.onclick=()=>{const nm=b.dataset.clback,id=b.dataset.clid;if(db.customListMembers&&db.customListMembers[id])db.customListMembers[id]=db.customListMembers[id].filter(x=>x!==nm);save(`Moved ${nm} back to drivers`);render();toast(nm+" is a driver again")})});
   const ll=$("lrList");if(ll){const Q=drQuery($("findDriver").value),L=(db.leftRM||[]).filter(n=>db.drivers.includes(n)&&nameMatch(n,Q.name)&&drQOk(driverOffice(n),Q)).sort();
     ll.innerHTML=L.map(n=>`<div class="drow"><span class="dname">${esc(n)}</span><span class="note">${esc(driverOffice(n)||"")}</span><button data-lrback="${esc(n)}">Move back to drivers</button></div>`).join("")||'<div class="note">Nobody here yet.</div>';
     ll.querySelectorAll("[data-lrback]").forEach(b=>b.onclick=()=>{const n=b.dataset.lrback;db.leftRM=(db.leftRM||[]).filter(x=>x!==n);save(`Moved ${n} back to drivers`);render();toast(n+" is a driver again")})}
@@ -3410,8 +3419,6 @@ function renderBoard(a){
     else if(u.length){st="used";lab=u[0].office==="W13"?"Sun":u[0].office}
     counts[st]++;
     if(boardMode==="free"&&st!=="free")return "";
-    if(boardOfficeFilter&&st==="used"){const labO=lab==="Sun"?"W13":lab;if(labO!==boardOfficeFilter)return ""}
-    if(boardOfficeFilter&&(st==="free"||st==="chg"||st==="coll"||st==="oth"||st==="oos"))return "";
     const cls=["tag",db.look&&db.look.fullPlates?"fp":"",st==="free"?"":st,v.fuel==="E"?"e":"",u.length>1?"dup":"",boardPick===v.h?"hl":""].join(" ");
     const sh=sharesWith(v).length;
     const labO=lab==="Sun"?"W13":lab;let oc=st==="used"&&OFFICES.includes(labO)?` style="background:var(--off-${labO});color:${contrastInk(offCol(labO))}"`:"";
@@ -3438,7 +3445,7 @@ function renderBoard(a){
       return `<a href="#" class="golink" data-go="${w.sec==="oos"||w.sec==="chg"||w.sec==="coll"||w.sec==="oth"?"OOS":w.office}" data-gopath="${path}">${esc(txt)}</a>`}).join(" and "):"Free.");}
   b.innerHTML=`<div class="board-head${db.look&&db.look.toolsHidden?" tools-off":""}"><h2>Key Cupboard</h2><span class="right"><button class="popbtn" id="kcHide" title="Hide the Key Cupboard so the office tables get the full width">Hide</button><span class="note">${counts.free} free</span><button class="popbtn" data-toolshide aria-pressed="${!!(db.look&&db.look.toolsHidden)}" title="${db.look&&db.look.toolsHidden?"Show the colour key, buttons and search":"Hide the colour key, buttons and search"}">${db.look&&db.look.toolsHidden?"Show tools":"Hide tools"}</button>${popOpen()?`<button class="popbtn" data-popin>Put back</button>`:`<button class="popbtn" data-popout title="Open the Key Cupboard in its own window">Pop out ⧉</button>`}</span></div>
   <div class="boardctl"${db.look&&db.look.toolsHidden?" hidden":""}><div class="legend"><span style="--c:var(--tag)">Free</span>${OFFICES.filter(o=>o!=="W13").map(o=>`<span style="--c:var(--off-${o})">${o}</span>`).join("")}${isSunday()?`<span style="--c:var(--off-W13)">Sunday</span>`:""}<span style="--c:var(--clash)">OOS</span><span style="--c:var(--warn)">Change over</span><span class="lsplit" style="--c:var(--warn)">Change over in an office</span><span style="--c:var(--coll)">Collections</span><span style="--c:var(--oth)">Reserved - Other</span>${db.look&&db.look.boltOff?"":'<span class="lbolt"><i>⚡</i> Electric</span>'}${db.look&&db.look.shareOff?"":'<span class="lshare"><b>!</b> Same last letters</span>'}</div>
-  <div class="boardtools"><span class="boardseg" role="group" aria-label="Show"><button aria-pressed="${boardMode==="all"}" data-mode="all" title="Show every van">All vans</button><button aria-pressed="${boardMode==="free"&&!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="0" title="Show only free vans, moved up together so there are no gaps">Free only</button><button aria-pressed="${boardMode==="free"&&!!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="1" title="Show only free vans, each in its usual place (gaps where used vans are)">Free, in place</button></span><select id="boardOfficeFilter" aria-label="Filter by office"><option value="">All offices</option>${OFFICES.filter(o=>o!=="W13").map(o=>`<option value="${o}">Only ${o} vans</option>`).join("")}</select><button aria-pressed="${lookNow().offOn!==false}" data-offtoggle title="Show or hide office colours">${lookNow().offOn!==false?"Office Colours: on":"Office Colours: off"}</button><button aria-pressed="${!(db.look&&db.look.boltOff)}" data-bolt title="Show or hide the ⚡ on electric vans">${db.look&&db.look.boltOff?"⚡ off":"⚡ on"}</button><button aria-pressed="${!(db.look&&db.look.shareOff)}" data-sharetoggle title="Show or hide the red ! on vans with the same last letters">${db.look&&db.look.shareOff?"! off":"! on"}</button><button aria-pressed="${!!(db.look&&db.look.fullPlates)}" data-fullplates title="Show the whole number plate instead of the last 3 letters">${db.look&&db.look.fullPlates?"Full plates: on":"Full plates: off"}</button><button aria-pressed="${arrange}" data-arrange title="Move hire and custom vans to any empty space">${arrange?"Done moving":"Move vans"}</button></div>${arrange?`<p class="arrangenote">Drag a hire or custom van to an empty space, or tap it then tap where it should go. Tap another hire van to swap. Numbered hooks 1 onwards stay in place.</p>`:""}</div>${popOpen()&&b===popWin.document.getElementById("board")?`<div class="sizetools" role="group" aria-label="Icon size"><span>Icon size</span><button data-zoom="-1" aria-label="Smaller">−</button><output>${Math.round(popZoom()*100)}%</output><button data-zoom="1" aria-label="Larger">+</button><button data-zoom="0">Reset</button></div>`:""}
+  <div class="boardtools"><span class="boardseg" role="group" aria-label="Show"><button aria-pressed="${boardMode==="all"}" data-mode="all" title="Show every van">All vans</button><button aria-pressed="${boardMode==="free"&&!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="0" title="Show only free vans, moved up together so there are no gaps">Free only</button><button aria-pressed="${boardMode==="free"&&!!(db.look&&db.look.keepPlaces)}" data-mode="free" data-kp="1" title="Show only free vans, each in its usual place (gaps where used vans are)">Free, in place</button></span><button aria-pressed="${lookNow().offOn!==false}" data-offtoggle title="Show or hide office colours">${lookNow().offOn!==false?"Office Colours: on":"Office Colours: off"}</button><button aria-pressed="${!(db.look&&db.look.boltOff)}" data-bolt title="Show or hide the ⚡ on electric vans">${db.look&&db.look.boltOff?"⚡ off":"⚡ on"}</button><button aria-pressed="${!(db.look&&db.look.shareOff)}" data-sharetoggle title="Show or hide the red ! on vans with the same last letters">${db.look&&db.look.shareOff?"! off":"! on"}</button><button aria-pressed="${!!(db.look&&db.look.fullPlates)}" data-fullplates title="Show the whole number plate instead of the last 3 letters">${db.look&&db.look.fullPlates?"Full plates: on":"Full plates: off"}</button><button aria-pressed="${arrange}" data-arrange title="Move hire and custom vans to any empty space">${arrange?"Done moving":"Move vans"}</button></div>${arrange?`<p class="arrangenote">Drag a hire or custom van to an empty space, or tap it then tap where it should go. Tap another hire van to swap. Numbered hooks 1 onwards stay in place.</p>`:""}</div>${popOpen()&&b===popWin.document.getElementById("board")?`<div class="sizetools" role="group" aria-label="Icon size"><span>Icon size</span><button data-zoom="-1" aria-label="Smaller">−</button><output>${Math.round(popZoom()*100)}%</output><button data-zoom="1" aria-label="Larger">+</button><button data-zoom="0">Reset</button></div>`:""}
   <div class="platesearch"${db.look&&db.look.toolsHidden?" hidden":""}><input type="search" id="plateSearch" placeholder="Search plate, e.g. NXZ or LL75" value="${esc(boardQ)}" autocomplete="off" spellcheck="false" aria-label="Search licence plate"><button class="popbtn" id="plateClear" title="Clear search"${boardQ?"":" hidden"}>Clear</button><span class="note" id="plateCount" aria-live="polite"></span></div>
   <div class="groups">${groups.join('<hr class="hookgap">')||'<p class="note">No vans to show.</p>'}</div><p class="where" aria-live="polite">${where}</p>`;
   {const ps=b.querySelector("#plateSearch");applyBoardSearch(b);
@@ -3475,7 +3482,6 @@ function renderBoard(a){
   b.querySelectorAll("[data-gopath]").forEach(x=>x.onclick=e=>{e.preventDefault();goTo(x.dataset.go,x.dataset.gopath);try{window.focus()}catch(_){}});
   b.querySelectorAll("[data-zoom]").forEach(x=>x.onclick=()=>{const d=+x.dataset.zoom;db.look=db.look||{};
     db.look.popZoom=d===0?1:Math.min(2.5,Math.max(0.5,Math.round((popZoom()+d*0.1)*10)/10));save();syncPopLook();renderBoard(cur())});
-  const bof=b.querySelector("#boardOfficeFilter");if(bof){bof.value=boardOfficeFilter;bof.onchange=()=>{boardOfficeFilter=bof.value;renderBoard(cur());toast(boardOfficeFilter?`Showing only ${boardOfficeFilter} vans`:"Showing all offices")}};
   const ot=b.querySelector("[data-offtoggle]");if(ot)ot.onclick=()=>{db.look=db.look||{};db.look.offOn=lookNow().offOn===false;db.look.preset="custom";applyLook();save();render();toast(db.look.offOn?"Office colours on":"Office colours off")};
   const po=b.querySelector("[data-popout]");if(po)po.onclick=popOut;
   const pi=b.querySelector("[data-popin]");if(pi)pi.onclick=popIn;
@@ -3879,6 +3885,7 @@ function wireSettings(){
   if($("mobToggle"))$("mobToggle").onclick=()=>{const on=!isMob();try{if(on)localStorage.removeItem(MOBOFF_KEY);else localStorage.setItem(MOBOFF_KEY,"1")}catch(e){}render();toast(on?"Phone layout on":"Desktop layout on this phone")};
   if($("saveLookDefault"))wireLook();
   wireSheetText();
+  wireCustomLists();
   wireSettingsLayout();
   fillLists();
   G("findDriver").oninput=()=>{drLetter="";fillLists()};G("findWalk").oninput=fillLists;
@@ -3899,7 +3906,20 @@ function wireSettings(){
   };
   G("setBackup").onclick=exportJSON;
   if(G("resetColW"))G("resetColW").onclick=()=>{delete db.colW;save();render();toast("Column widths reset")};
-  G("resetAll").onclick=e=>{const rb=e.currentTarget,first=!(+rb.dataset.armn);rb.dataset.armverb="reset";if(!armed(rb)){if(first)toast("This deletes every saved day and starts again from the spreadsheet data.",4000);return}{const keep=db.look,keepD=db.lookDefault,keepF=db.lookFactory,keepC=db.colW;try{localStorage.removeItem(KEY)}catch(e){}clearArc();autoMade.clear();db=load();db.look=keep;db.lookDefault=keepD;if(keepF)db.lookFactory=keepF;if(keepC)db.colW=keepC;save("Reset everything (all saved days)");day=defaultDay();tab="W2";render();toast("Reset done")}};
+  G("resetAll").onclick=function(){
+  const rb=this,NEED=30;let n=+(rb.dataset.resetN||0)+1;rb.dataset.resetN=n;
+  const cd=$("resetCount");
+  if(n<NEED){
+    if(cd){cd.hidden=false;cd.textContent=`${n} of ${NEED} — keep clicking to confirm`}
+    // grow and redden the counter as they get closer
+    const pct=n/NEED;rb.style.outline=`${Math.round(2+pct*4)}px solid color-mix(in srgb,var(--clash) ${Math.round(pct*100)}%,var(--line))`;
+    return}
+  // reached 30 — do the reset
+  if(cd){cd.hidden=true}rb.style.outline="";rb.dataset.resetN=0;
+  const keep=db.look,keepD=db.lookDefault,keepF=db.lookFactory,keepC=db.colW;
+  try{localStorage.removeItem(KEY)}catch(e){}clearArc();autoMade.clear();db=load();
+  db.look=keep;db.lookDefault=keepD;if(keepF)db.lookFactory=keepF;if(keepC)db.colW=keepC;
+  save("Reset everything (all saved days)");day=defaultDay();tab="W2";render();toast("Reset done — everything has been cleared.")};
 }
 
 
@@ -4083,6 +4103,41 @@ function applyLook(){
    Saved in db.look.sheetTxt = {l1:{...}, l2:{...}, v2:{...}}. Only values that differ from normal are stored.
    Size works by giving that layout its own --fs (the app's text size variable) and, for V2 whose paper look fixes its own
    pixel sizes, by setting those too. Nothing is zoomed, so dragging column and row edges keeps working. */
+/* ===== Per-column text style (colour, bold, italic) for each layout (Ash, 7 Oct 2026) =====
+   db.look.sheetTxt[k].cols = { hook:{col,w,it}, driver:{col,w,it}, sub:{col,w,it},
+                                duty:{col,w,it}, partner:{col,w,it} }
+   Each field is optional; missing / empty means "use the layout default". */
+const COL_NAMES={hook:"Hook / Reg.",driver:"Driver",sub:"Substitute",duty:"Duty",partner:"Partner"};
+const COL_KEYS=Object.keys(COL_NAMES);
+const COL_SC={  /* CSS selectors to target each column's editable text, per layout */
+  l1:{
+    hook:"${SC} td :is(input,select).hook,${SC} td .hooktip",
+    driver:"${SC} td input[data-path$='.driver'],${SC} td .nmtxt,${SC} td .dpna,${SC} td .drvtip",
+    sub:"${SC} td input[data-path$='.sub'],${SC} td .drvtip",
+    duty:"${SC} td input[data-path$='.duty'],${SC} td .l1wv",
+    partner:"${SC} td input[data-path$='.partner']"},
+  l2:{
+    hook:"${SC} td:first-child :is(input,select).hook,${SC} td.l2reg input",
+    driver:"${SC} td input[data-path$='.driver'],${SC} td .nmtxt,${SC} td .dpna",
+    sub:"${SC} td input[data-path$='.sub']",
+    duty:"${SC} td input[data-path$='.duty'],${SC} td.l2t",
+    partner:"${SC} td input[data-path$='.partner']"},
+  v2:{
+    hook:"${SC} td:first-child :is(input,select).hook",
+    driver:"${SC} td input[data-path$='.driver'],${SC} td .nmtxt",
+    sub:"${SC} td input[data-path$='.sub']",
+    duty:"${SC} td input[data-path$='.duty']",
+    partner:"${SC} td input[data-path$='.partner']"}
+};
+function colCfg(k,col){const C=(((db.look&&db.look.sheetTxt)||{})[k]||{});const cv=(C.cols&&C.cols[col])||{};
+  return {col:cv.col||"",w:ST_WEIGHTS.some(x=>x[0]&&x[0]===String(cv.w))?String(cv.w):"",it:!!cv.it}}
+function colIsDefault(c){return !c.col&&!c.w&&!c.it}
+function setColCfg(k,col,key,val){db.look=db.look||{};db.look.sheetTxt=db.look.sheetTxt||{};db.look.sheetTxt[k]=db.look.sheetTxt[k]||{};db.look.sheetTxt[k].cols=db.look.sheetTxt[k].cols||{};db.look.sheetTxt[k].cols[col]=db.look.sheetTxt[k].cols[col]||{};
+  if(key==="it")db.look.sheetTxt[k].cols[col].it=!!val;else if(key==="col"||key==="w")db.look.sheetTxt[k].cols[col][key]=val||"";
+  const c=db.look.sheetTxt[k].cols[col];if(!c.col&&!c.w&&!c.it)delete db.look.sheetTxt[k].cols[col];
+  if(!Object.keys(db.look.sheetTxt[k].cols).length)delete db.look.sheetTxt[k].cols;
+  if(!Object.keys(db.look.sheetTxt[k]).length)delete db.look.sheetTxt[k];
+  if(db.look.sheetTxt&&!Object.keys(db.look.sheetTxt).length)delete db.look.sheetTxt}
 const ST_STACK={barlow:FONTS.barlow[1],narrow:'"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif',arial:FONTS.arial[1],verdana:FONTS.verdana[1],tahoma:FONTS.tahoma[1],calibri:FONTS.calibri[1],segoe:FONTS.segoe[1],georgia:FONTS.georgia[1],mono:'Consolas,"Courier New",monospace'};
 const ST_FONTS=[["","Default"],["barlow","Barlow"],["narrow","Barlow Condensed (narrow)"],["arial","Arial"],["verdana","Verdana (easy to read)"],["tahoma","Tahoma"],["calibri","Calibri"],["segoe","Segoe UI / System"],["georgia","Georgia (serif)"],["mono","Typewriter (monospace)"]];
 const ST_WEIGHTS=[["","Default"],["400","Normal"],["500","Medium"],["600","Semi-bold"],["700","Bold"],["800","Extra bold"]];
@@ -4110,8 +4165,17 @@ function sheetTxtCss(){let css="";const fs=+(lookNow().fs)||15;
     if(fam)css+=`${SC} th,${SC} td,${TXT}{font-family:${fam}!important}\n`;
     if(c.sp)css+=`${SC} th,${SC} td,${TXT}{letter-spacing:${c.sp/100}em!important}\n`});
   return css}
+function colCss(){let css="";
+  ST_LAYS.forEach(([k])=>{const SC=ST_SC[k],sc=COL_SC[k];
+    COL_KEYS.forEach(col=>{const c=colCfg(k,col);if(colIsDefault(c))return;
+      const sel=sc[col].replace(/\$\{SC\}/g,SC);
+      if(c.col)css+=`${sel}{color:${c.col}!important}\n`;
+      if(c.w)css+=`${sel}{font-weight:${c.w}!important}\n`;
+      if(c.it)css+=`${sel}{font-style:italic!important}\n`;
+    })});
+  return css}
 function applySheetText(){let el=document.getElementById("sheetTxtCss");if(!el){el=document.createElement("style");el.id="sheetTxtCss";document.head.appendChild(el)}
-  const css=sheetTxtCss();if(el.textContent!==css)el.textContent=css}
+  const css=sheetTxtCss()+colCss();if(el.textContent!==css)el.textContent=css}
 /* the little preview in each Settings box, built from the same numbers */
 function stPreview(k){const c=stCfg(k),fs=+(lookNow().fs)||15,kk=c.size/100,hh=c.hsize/100,fam=c.font?ST_STACK[c.font]:"",paper=k==="v2";
   const cellPx=k==="l1"?fs*.92*kk:k==="l2"?(fs+1)*kk:(fs+1)*kk,headPx=paper?10*kk*hh:fs*kk*hh;
@@ -4132,8 +4196,31 @@ function sheetTextHTML(){if(isMob())return "";
     ${ctl(k,"font","Font",sel(k,"font",ST_FONTS,c.font))}
     ${ctl(k,"sp","Letter spacing",sel(k,"sp",ST_SPACING,c.sp))}
     ${ctl(k,"hsize","Heading size",rng(k,"hsize",c.hsize))}
-    ${ctl(k,"hw","Heading boldness",sel(k,"hw",ST_WEIGHTS,c.hw))}
+    ${ctl(k,'hw','Heading boldness',sel(k,'hw',ST_WEIGHTS,c.hw))}
+    <details class="stcols"><summary>Column colours and text</summary><div class="stcolsgrid">${COL_KEYS.map(col=>{const cv=colCfg(k,col),def=colIsDefault(cv);return `<div class="stcolrow${def?"":" set"}" data-stco="${k}:${col}"><span class="stcolname">${esc(COL_NAMES[col])}</span><input type="color" value="${cv.col||"#000000"}" data-stcol="${k}" data-stcn="${col}" title="Text colour for the ${esc(COL_NAMES[col])} column"><select data-stcol="${k}" data-stcn="${col}" data-stck="w" aria-label="Bold — ${esc(COL_NAMES[col])}">${ST_WEIGHTS.map(([v,t])=>`<option value="${v}"${String(v)===String(cv.w)?" selected":""}>${t}</option>`).join('')}</select><label title="Italic — ${esc(COL_NAMES[col])}"><input type="checkbox" data-stcol="${k}" data-stcn="${col}" data-stck="it"${cv.it?" checked":""}>Italic</label><button type="button" class="addrow" data-stcolrst="${k}:${col}"${def?" disabled":""} title="Put the ${esc(COL_NAMES[col])} column back to the layout default">Reset</button></div>`}).join('')}</div></details>
     <div class="stbtns"><button type="button" class="addrow" data-streset="${k}"${stIsDefault(c)?" disabled":""} title="Put ${name}'s text back to normal">Reset ${name}</button><button type="button" class="addrow" data-stcopy="${k}"${stIsDefault(c)?" disabled":""} title="Give the other two layouts the same text settings as ${name}">Copy to the other two</button></div></div>`}).join("")+`</div></section>`}
+function wireCustomLists(){const m=document.querySelector("main");if(!m)return;
+  const nb=$("clNewName"),ab=$("clAdd");
+  const mkId=()=>"cl"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  if(ab)ab.onclick=()=>{const name=(nb.value||"").trim();if(!name)return toast("Type a name for the list");
+    if(customLists().some(l=>l.name.toLowerCase()===name.toLowerCase()))return toast("A list called "+name+" already exists");
+    db.customLists=[...customLists(),{id:mkId(),name}];save("Created list "+name);render();toast("List "+name+" made. It's now in Move ▾ on the Drivers tab")};
+  if(nb)nb.addEventListener("keydown",e=>{if(e.key==="Enter"&&ab)ab.click()});
+  m.querySelectorAll("input[data-clren]").forEach(i=>i.addEventListener("keydown",e=>{if(e.key==="Enter"){const b=m.querySelector(`button[data-clren="${i.dataset.clren}"]`);if(b)b.click()}}));
+  m.querySelectorAll("button[data-clren]").forEach(b=>{b.onclick=()=>{
+      const id=b.dataset.clren,el=m.querySelector(`input[data-clren="${id}"]`);
+      const name=(el&&el.value||"").trim();if(!name)return toast("Type a name for the list");
+      if(customLists().some(l=>l.id!==id&&l.name.toLowerCase()===name.toLowerCase()))return toast("A list called "+name+" already exists");
+      const old=(customLists().find(l=>l.id===id)||{}).name||"";if(old===name)return;
+      db.customLists=customLists().map(l=>l.id===id?{id,name}:l);
+      save("Renamed list "+old+" to "+name);render();toast("Renamed to "+name)}});
+  m.querySelectorAll("[data-clrm]").forEach(b=>{b.dataset.armverb="delete";
+    b.onclick=()=>{if(!armed(b))return;
+      const id=b.dataset.clrm,cl=customLists().find(l=>l.id===id);if(!cl)return;
+      db.customLists=customLists().filter(l=>l.id!==id);
+      if(db.customListMembers){delete db.customListMembers[id];if(!Object.keys(db.customListMembers).length)delete db.customListMembers}
+      save("Deleted list "+cl.name);render();toast("List "+cl.name+" deleted. Its people are back on the drivers list")}})
+}
 function wireSheetText(){const box=document.querySelector("main .sheettxt");if(!box)return;
   const cur=k=>{db.look=db.look||{};db.look.sheetTxt=db.look.sheetTxt||{};return db.look.sheetTxt[k]=db.look.sheetTxt[k]||{}};
   const tidy=k=>{const C=cur(k),c=stCfg(k),o={};if(c.size!==100)o.size=c.size;if(c.w)o.w=c.w;if(c.it)o.it=true;if(c.font)o.font=c.font;if(c.sp)o.sp=c.sp;if(c.hsize!==100)o.hsize=c.hsize;if(c.hw)o.hw=c.hw;
@@ -4146,9 +4233,16 @@ function wireSheetText(){const box=document.querySelector("main .sheettxt");if(!
   const put=(el)=>{const k=el.dataset.stl,key=el.dataset.stk,v=val(el),C=cur(k);
     if(key==="it")C.it=!!v;else if(key==="size"||key==="hsize"||key==="sp")C[key]=+v;else C[key]=v;tidy(k);applySheetText();paint(k)};
   const NAME={size:"text size",w:"boldness",it:"italic",font:"font",sp:"letter spacing",hsize:"heading size",hw:"heading boldness"},LN=Object.fromEntries(ST_LAYS.map(x=>[x[0],x[1]]));
-  box.querySelectorAll("[data-stk]").forEach(el=>{const live=el.type==="range";
-    if(live)el.oninput=()=>put(el);
-    el.onchange=()=>{put(el);save(`${LN[el.dataset.stl]} ${NAME[el.dataset.stk]} changed`)}});
+  box.querySelectorAll("[data-stcol]").forEach(el=>{const k=el.dataset.stcol,col=el.dataset.stcn,key=el.dataset.stck||"col";
+    const val=()=>el.type==="checkbox"?el.checked:el.value,tag=el.type;
+    const go=()=>{setColCfg(k,col,key,val());applySheetText();paintColRow(k,col)};
+    if(tag==="color"){el.oninput=go;el.onchange=()=>{go();save(`${COL_NAMES[col]||col} colour on ${ST_LAYS.find(x=>x[0]===k)?.[1]||k} changed`)}}
+    else if(tag==="checkbox"){el.onchange=()=>{go();save(`${COL_NAMES[col]||col} column italic changed`)}}
+    else{el.onchange=()=>{go();save(`${COL_NAMES[col]||col} column boldness changed`)}}});
+  box.querySelectorAll("[data-stcolrst]").forEach(b=>b.onclick=()=>{const[k,col]=b.dataset.stcolrst.split(":");setColCfg(k,col,"col","");setColCfg(k,col,"w","");setColCfg(k,col,"it",false);applySheetText();paintColRow(k,col);save(`${COL_NAMES[col]||col} column on ${ST_LAYS.find(x=>x[0]===k)?.[1]||k} put back to default`)});
+  const paintColRow=(k,col)=>{const row=box.querySelector(`[data-stco="${k}:${col}"]`);if(!row)return;const c=colCfg(k,col);row.classList.toggle("set",!colIsDefault(c));const rst=row.querySelector("[data-stcolrst]");if(rst)rst.disabled=colIsDefault(c);const ci=row.querySelector("input[type=color]");if(ci&&c.col)ci.value=c.col;const ch=row.querySelector("input[type=checkbox]");if(ch)ch.checked=!!c.it};
+  box.querySelectorAll("[data-stk]").forEach(el=>{const live=el.type==="range";  if(live)el.oninput=()=>put(el);
+    el.onchange=()=>{put(el);save(`${LN[el.dataset.stl]||el.dataset.stl} ${NAME[el.dataset.stk]||el.dataset.stk} changed`)}});
   box.querySelectorAll("[data-streset]").forEach(b=>b.onclick=()=>{const k=b.dataset.streset;if(db.look&&db.look.sheetTxt){delete db.look.sheetTxt[k];if(!Object.keys(db.look.sheetTxt).length)delete db.look.sheetTxt}
     applySheetText();save(`${LN[k]} text put back to normal`);render();toast(`${LN[k]} text is back to normal`)});
   box.querySelectorAll("[data-stcopy]").forEach(b=>b.onclick=()=>{const k=b.dataset.stcopy,others=ST_LAYS.map(x=>x[0]).filter(x=>x!==k);
@@ -5153,15 +5247,15 @@ const ADVCOLS=[
 const ADVDEF=["name","office","r","age","role","licExpiry","assessExpiry","mobile","worked","last","flags"];
 function advCols(){if(db.advCols&&db.advCols.length&&!db.advColsM){db.advColsM=1;if(!db.advCols.includes("move"))db.advCols.unshift("move");try{save()}catch(e){}}if(db.advCols&&db.advCols.length&&!db.advColsM2){db.advColsM2=1;const L=db.advCols.filter(x=>x!=="move"&&x!=="office");if(db.advCols.includes("office"))L.unshift("office");L.push("move");db.advCols=L;try{save()}catch(e){}}if(db.advCols&&db.advCols.length&&!db.advColsR){db.advColsR=1;if(!db.advCols.includes("r"))db.advCols.splice(db.advCols[0]==="office"?1:0,0,"r");try{save()}catch(e){}}return (db.advCols&&db.advCols.length?db.advCols:ADVDEF).filter(id=>ADVCOLS.some(c=>c[0]===id))}
 function driverMoveAct(n,v){if(!v)return;
-    const only=k=>{["nonDrivers","leftRM","movedOff"].forEach(j=>{db[j]=(db[j]||[]).filter(y=>y!==n)});db[k]=[...db[k],n]};
+    const clearAll=()=>{["nonDrivers","leftRM","movedOff"].forEach(j=>{db[j]=(db[j]||[]).filter(y=>y!==n)});customLists().forEach(l=>{if(db.customListMembers&&db.customListMembers[l.id])db.customListMembers[l.id]=db.customListMembers[l.id].filter(y=>y!==n)})};const only=k=>{clearAll();db[k]=[...db[k],n]};
     if(v==="nd"){only("nonDrivers");save(`Moved ${n} to Non-Drivers`);render();toast(n+" moved to Non-Drivers")}
     else if(v==="lr"){only("leftRM");save(`Moved ${n} to Left RM`);render();toast(n+" moved to Left RM")}
     else if(v==="mo"){const cur=driverOffice(n),w=prompt(`Which office has ${n} moved to?\n\nW2, W8, W9, W10, W11 or W12: they stay a driver and their office changes.\nAny other office, or leave blank: they go on the Moved office list.`,"");if(w===null)return;
       const o=moveDriverOffice(n,w);if(o){save(`${n} moved office ${cur||"none"} to ${ovName(o)}`);render();toast(`${n} is now in ${ovName(o)}`)}else{save(`Moved ${n} to Moved office`);render();toast(n+" moved to Moved office"+(w.trim()?" ("+up(w.trim())+")":""))}}
     else if(v==="rm"){if(!confirm(`Remove ${n} completely?\n\nTo keep their history, use Non-driver, Moved office or Left RM instead.`))return;db.drivers=db.drivers.filter(y=>y!==n);if(db.driverOffice)delete db.driverOffice[n];save(`Removed ${n}`);render();toast("Driver removed")}
-  else if(v==="back"){["nonDrivers","leftRM","movedOff"].forEach(j=>{db[j]=(db[j]||[]).filter(y=>y!==n)});save(`Moved ${n} back to drivers`);render();toast(n+" is a driver again")}}
-function driverStatus(n){return (db.leftRM||[]).includes(n)?"Left RM":(db.movedOff||[]).includes(n)?"Moved office":(db.nonDrivers||[]).includes(n)?"Non-driver":""}
-function driverMoveSel(n){const st=driverStatus(n);return `<select class="dact" data-advact="${esc(n)}" aria-label="Move or remove ${esc(n)}" title="Move to Non-Drivers, Moved office or Left RM, or remove"><option value="">Move ▾</option>${st?'<option value="back">Back to drivers</option>':""}${st==="Non-driver"?"":'<option value="nd">Non-driver</option>'}${st==="Moved office"?"":'<option value="mo">Moved office</option>'}${st==="Left RM"?"":'<option value="lr">Left RM</option>'}<option value="rm">Remove…</option></select>`}
+  else if(v==="back"){clearAll();save(`Moved ${n} back to drivers`);render();toast(n+" is a driver again")}else if(v&&v.startsWith("cl:")){const id=v.slice(3),cl=customLists().find(l=>l.id===id);if(!cl)return;clearAll();db.customListMembers=db.customListMembers||{};db.customListMembers[id]=[...(db.customListMembers[id]||[]),n];save(`Moved ${n} to ${cl.name}`);render();toast(`${n} moved to ${cl.name}`)}}
+function driverStatus(n){const cl=customLists().find(l=>inCustomList(n,l.id));if(cl)return cl.name;return (db.leftRM||[]).includes(n)?"Left RM":(db.movedOff||[]).includes(n)?"Moved office":(db.nonDrivers||[]).includes(n)?"Non-driver":""}
+function driverMoveSel(n){const st=driverStatus(n);return `<select class="dact" data-advact="${esc(n)}" aria-label="Move or remove ${esc(n)}" title="Move to Non-Drivers, Moved office or Left RM, or remove"><option value="">Move ▾</option>${st?'<option value="back">Back to drivers</option>':""}${st==="Non-driver"?"":'<option value="nd">Non-driver</option>'}${st==="Moved office"?"":'<option value="mo">Moved office</option>'}${st==="Left RM"?"":'<option value="lr">Left RM</option>'}${customLists().filter(l=>!inCustomList(n,l.id)).map(l=>`<option value="cl:${esc(l.id)}">To: ${esc(l.name)}</option>`).join("")}<option value="rm">Remove…</option></select>`}
 function driversAdvHTML(){
   const cols=advCols();
   return `<div class="advtop"><h2>Advanced Drivers List</h2><button class="addrow" id="advBack">◂ Go Back</button></div><p class="sub">Every detail you keep on each driver. Tap a name to open their card. Saved on this device only, like the rest of the app.</p>
@@ -5593,9 +5687,13 @@ function openShortCheck(){const d=document.createElement("div");d.className="dlg
     const r=B.querySelector("[data-snreset]");if(r)r.onclick=()=>{db.shortOk=[];save();changed=true;draw()}};
   draw()}
 /* ---------- full driver list pop-up ---------- */
+/* Custom move lists (CSP, Maternity...): db.customLists=[{id,name}], db.customListMembers={id:[names]} */
+function customLists(){return db.customLists||[]}
+function inCustomList(n,id){return !!((db.customListMembers||{})[id]||[]).includes(n)}
+function inAnyCustomList(n){return customLists().some(l=>inCustomList(n,l.id))}
 function isLeft(n){return !!(db.leftRM&&db.leftRM.includes(n))}
 function isMoved(n){return !!(db.movedOff&&db.movedOff.includes(n))}
-function isND(n){return !!(db.nonDrivers&&db.nonDrivers.includes(n))||isLeft(n)||isMoved(n)}
+function isND(n){return !!(db.nonDrivers&&db.nonDrivers.includes(n))||isLeft(n)||isMoved(n)||inAnyCustomList(n)}
 const DLGROUPS=["office","mgr","r","sex","role","contract","autoOnly","evTrained","hireOk"];
 function dlF(){try{const v=JSON.parse(localStorage.getItem("dlFilter")||"{}");const t=v.tags||["r","sex"];if(v.tags&&!v.rTag){t.unshift("r");v.rTag=1;v.tags=t;localStorage.setItem("dlFilter",JSON.stringify(v))}return {sel:v.sel||{},tags:t,rTag:1}}catch(e){return {sel:{},tags:["r","sex"],rTag:1}}}
 function dlSave(F){try{localStorage.setItem("dlFilter",JSON.stringify(F))}catch(e){}}
@@ -6320,7 +6418,7 @@ const HELP=[
  ["#resetColW","Reset column widths","Undo any column widths you dragged on the office tabs."],
  ["#dsRun","Sort offices from past days","Puts each driver in the office they've worked most. You see the changes before anything is saved."],
  ["#setBackup","Save Data/Backup now","Saves everything to a file. Keep it somewhere safe."],
- ["#resetAll","Reset","Clears data. Save a backup first."],
+ ["#resetAll","Reset","Clears data. Save a backup first. You need to click it 30 times to confirm — a counter appears as you go."],
  // top bar
  ["#ghBadge","GitHub light","Green: your latest changes are on GitHub, the copy every PC and phone shares. Amber: on their way. Red, blinking: GitHub could not be reached."],
  ["#saveWarn","Storage warning","Appears if this browser can not store your latest changes. Save a backup straight away so nothing is lost."],
