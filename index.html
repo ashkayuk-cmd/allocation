@@ -4897,7 +4897,9 @@ function smallNeed(tb,i){let w=0;
   [...tb.tBodies].flatMap(x=>[...x.rows]).forEach(tr=>{const c=tr.cells[i];if(!c)return;const cs=getComputedStyle(c);let t=0;
     c.querySelectorAll("input:not([type=checkbox]):not([type=radio]),select").forEach(el=>{if(el.offsetParent===null)return;const st=getComputedStyle(el);const v=el.tagName==="SELECT"?((el.options[el.selectedIndex]||{}).text||""):(el.value||el.placeholder||"");t+=tw(st,v)+parseFloat(st.paddingLeft)+parseFloat(st.paddingRight)+parseFloat(st.borderLeftWidth)+parseFloat(st.borderRightWidth)+(el.tagName==="SELECT"?22:2)});
     c.querySelectorAll("button:not(.colgrip),.nmtag,.abstag,.vdbtn,.dhbtn,.nmph,input[type=checkbox]").forEach(el=>{if(el.offsetParent===null)return;t+=el.getBoundingClientRect().width/zOf(tb)+4});
-    if(!c.querySelector("input,select"))t=Math.max(t,tw(cs,c.textContent.trim()));
+    if(!c.querySelector("input,select")){t=Math.max(t,tw(cs,c.textContent.trim()));
+      /* badges and chips (e.g. the yellow number plates) have their own font, padding and border: measure what is really drawn (Ash, 8 Oct 2026) */
+      c.querySelectorAll("*").forEach(el=>{if(el.offsetParent===null)return;const d=getComputedStyle(el).display;if(d==="inline")return;const cr=c.getBoundingClientRect(),er=el.getBoundingClientRect(),pl=parseFloat(cs.paddingLeft)*zOf(tb);t=Math.max(t,(er.right-cr.left-pl)/zOf(tb))})}
     w=Math.max(w,t+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+2)});
   const th=tb.tHead&&tb.tHead.rows[0]&&tb.tHead.rows[0].cells[i];if(th&&th.textContent.trim())w=Math.max(w,smHeadW(th));
   return Math.max(36,Math.ceil(w))}
