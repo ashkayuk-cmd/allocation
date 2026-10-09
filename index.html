@@ -4377,7 +4377,13 @@ function measureCols(tbl){
     const w=Math.ceil(sp.getBoundingClientRect().width+px(cs,["paddingLeft","paddingRight","borderLeftWidth","borderRightWidth"])+(el.tagName==="SELECT"?22:2));
     undo.push([el,el.getAttribute("style")]);["width",Math.max(w,40)+"px","flex","none","min-width","0","max-width","none"].forEach((v,i,A)=>{if(i%2===0)el.style.setProperty(v,A[i+1],"important")})});
   const cf=[...tbl.classList].filter(c=>c==="colfix"||c==="colslim");cf.forEach(c=>tbl.classList.remove(c));tbl.classList.add("measuring");const out={};
-  tbl.querySelectorAll("thead th").forEach(th=>{const r=th.querySelector("[data-colrs]");if(r)out[r.dataset.colrs]=Math.min(700,Math.max(36,Math.ceil(th.getBoundingClientRect().width/zOf(tbl))+2))});
+  /* Driver and Substitute boxes hide their suggestion chips/dropdowns while measuring (so a long list of
+     suggestions can't inflate the column), but that means a column with nothing actually typed in yet has
+     nothing left to measure and collapses to the bare minimum — so narrow the name boxes basically vanish
+     and the row looks like it's shifted. Give those two a floor wide enough to stay usable even when empty
+     (Ash, 9 Oct 2026, fixing a regression from the 5 Oct 2026 suggestion-hiding change) */
+  const MINW={driver:110,sub:110};
+  tbl.querySelectorAll("thead th").forEach(th=>{const r=th.querySelector("[data-colrs]");if(r)out[r.dataset.colrs]=Math.min(700,Math.max(MINW[r.dataset.colrs]||36,Math.ceil(th.getBoundingClientRect().width/zOf(tbl))+2))});
   tbl.classList.remove("measuring");cf.forEach(c=>tbl.classList.add(c));undo.forEach(([el,st])=>st==null?el.removeAttribute("style"):el.setAttribute("style",st));
   return out}
 function colNeed(th){const r=th.querySelector("[data-colrs]");return r?measureCols(th.closest("table"))[r.dataset.colrs]:0}
