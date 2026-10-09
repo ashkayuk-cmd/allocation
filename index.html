@@ -626,6 +626,9 @@ html.l2v2 table.lay2 td input.hook,html.l2v2 table.lay2 td.l2dn,html.l2v2 table.
 html:not(.mob) table.offtbl>tbody>tr>td:has(>.hooktips)>.namecell{width:min(120px,38%)!important;min-width:0!important;vertical-align:middle}
 html:not(.mob) table.offtbl>tbody>tr>td>.hooktips{max-width:calc(100% - min(120px,38%) - 6px);min-width:0;flex-wrap:nowrap;overflow:hidden;vertical-align:middle}
 table.offtbl td>.hooktips>.hooktip{max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* once a column is fitted, the empty typing box beside a suggestion chip only needs to be big enough to click, so the chip gets the room instead of a wide blank gap (Ash, 10 Oct 2026) */
+html:not(.mob) table.offtbl.colfix>tbody>tr>td:has(>.hooktips)>.namecell{width:30px!important}
+html:not(.mob) table.offtbl.colfix>tbody>tr>td>.hooktips{max-width:calc(100% - 36px)}
 .datebox .calclr button{white-space:normal!important;height:auto!important;min-height:30px;line-height:1.2;overflow-wrap:anywhere}
 .offacts .bulkundo{background:var(--warn-bg,#fff3cd);border-color:var(--warn,#b8860b);font-weight:700}
 [data-fitall][aria-pressed=true]{background:var(--ink)!important;color:var(--ink-text)!important}
@@ -4383,9 +4386,9 @@ function measureCols(tbl){
   const chipFloor={};const ths0=[...tbl.querySelectorAll("thead th")];
   tbl.querySelectorAll("tbody tr").forEach(tr=>[...tr.cells].forEach(td=>{const tips=td.querySelectorAll(":scope>.hooktips .hooktip");if(!tips.length||td.offsetParent===null)return;
     const th=ths0[td.cellIndex],r=th&&th.querySelector("[data-colrs]");if(!r)return;
-    let cw=0;tips.forEach(c=>{cw=Math.max(cw,Math.min(150,c.scrollWidth))});
+    let cw=0;tips.forEach(c=>{cw=Math.max(cw,Math.min(66,c.scrollWidth))});
     const cs=getComputedStyle(td),pad=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
-    chipFloor[r.dataset.colrs]=Math.max(chipFloor[r.dataset.colrs]||0,Math.ceil((cw+6)/0.62+pad))}));
+    chipFloor[r.dataset.colrs]=Math.max(chipFloor[r.dataset.colrs]||0,Math.ceil(cw+36+pad))}));
   const cf=[...tbl.classList].filter(c=>c==="colfix"||c==="colslim");cf.forEach(c=>tbl.classList.remove(c));tbl.classList.add("measuring");const out={};
   /* Driver and Substitute boxes hide their suggestion chips/dropdowns while measuring (so a long list of
      suggestions can't inflate the column), but that means a column with nothing actually typed in yet has
