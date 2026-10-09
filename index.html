@@ -4376,6 +4376,16 @@ function measureCols(tbl){
     sp.textContent=t;if(!sp.isConnected)document.body.appendChild(sp);
     const w=Math.ceil(sp.getBoundingClientRect().width+px(cs,["paddingLeft","paddingRight","borderLeftWidth","borderRightWidth"])+(el.tagName==="SELECT"?22:2));
     undo.push([el,el.getAttribute("style")]);["width",Math.max(w,40)+"px","flex","none","min-width","0","max-width","none"].forEach((v,i,A)=>{if(i%2===0)el.style.setProperty(v,A[i+1],"important")})});
+  /* An empty Driver / Substitute box shows a suggestion chip (e.g. "JOHN LYONS 1. ALFRED 1×") beside the typing box. The
+     chips are left out of the measuring below, so the column used to shrink to the typing box alone and squeeze the chip
+     down to a sliver, cutting the text off. Work out how wide the column must be for the chip to stay readable (the chip
+     is capped at 150px, longer ones end in "…" with the full text on hover) and use that as a floor (Ash, 9 Oct 2026) */
+  const chipFloor={};const ths0=[...tbl.querySelectorAll("thead th")];
+  tbl.querySelectorAll("tbody tr").forEach(tr=>[...tr.cells].forEach(td=>{const tips=td.querySelectorAll(":scope>.hooktips .hooktip");if(!tips.length||td.offsetParent===null)return;
+    const th=ths0[td.cellIndex],r=th&&th.querySelector("[data-colrs]");if(!r)return;
+    let cw=0;tips.forEach(c=>{cw=Math.max(cw,Math.min(150,c.scrollWidth))});
+    const cs=getComputedStyle(td),pad=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
+    chipFloor[r.dataset.colrs]=Math.max(chipFloor[r.dataset.colrs]||0,Math.ceil((cw+6)/0.62+pad))}));
   const cf=[...tbl.classList].filter(c=>c==="colfix"||c==="colslim");cf.forEach(c=>tbl.classList.remove(c));tbl.classList.add("measuring");const out={};
   /* Driver and Substitute boxes hide their suggestion chips/dropdowns while measuring (so a long list of
      suggestions can't inflate the column), but that means a column with nothing actually typed in yet has
@@ -4383,7 +4393,7 @@ function measureCols(tbl){
      and the row looks like it's shifted. Give those two a floor wide enough to stay usable even when empty
      (Ash, 9 Oct 2026, fixing a regression from the 5 Oct 2026 suggestion-hiding change) */
   const MINW={driver:110,sub:110};
-  tbl.querySelectorAll("thead th").forEach(th=>{const r=th.querySelector("[data-colrs]");if(r)out[r.dataset.colrs]=Math.min(700,Math.max(MINW[r.dataset.colrs]||36,Math.ceil(th.getBoundingClientRect().width/zOf(tbl))+2))});
+  tbl.querySelectorAll("thead th").forEach(th=>{const r=th.querySelector("[data-colrs]");if(r)out[r.dataset.colrs]=Math.min(700,Math.max(MINW[r.dataset.colrs]||36,chipFloor[r.dataset.colrs]||0,Math.ceil(th.getBoundingClientRect().width/zOf(tbl))+2))});
   tbl.classList.remove("measuring");cf.forEach(c=>tbl.classList.add(c));undo.forEach(([el,st])=>st==null?el.removeAttribute("style"):el.setAttribute("style",st));
   return out}
 function colNeed(th){const r=th.querySelector("[data-colrs]");return r?measureCols(th.closest("table"))[r.dataset.colrs]:0}
