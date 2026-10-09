@@ -536,6 +536,21 @@ html.mob main.inoff{box-shadow:inset 3px 0 0 var(--oc)}
 main:not(.inoff){border-top:0}
 nav#tabs:has(button[aria-selected=true]:not(.offtab)){background-image:linear-gradient(var(--line),var(--line));background-size:100% 1px;background-repeat:no-repeat;background-position:left bottom}
 nav#tabs button[aria-selected=true]:not(.offtab){background:var(--panel);color:var(--text);box-shadow:none;position:relative;z-index:1}
+/* tab separators: divider (thin line) and spacer (flexible gap) */
+nav#tabs .tab-div{width:1px;background:color-mix(in srgb,var(--text) 30%,transparent);margin:6px 4px 4px;flex-shrink:0;cursor:grab;align-self:stretch;border-radius:1px;position:relative}
+nav#tabs .tab-div::before{content:"";position:absolute;inset:-4px;cursor:grab}
+nav#tabs .tab-div:hover{background:color-mix(in srgb,var(--text) 60%,transparent)}
+nav#tabs .tab-div.dropL{box-shadow:-3px 0 0 var(--elec,#4a90d9)}
+nav#tabs .tab-div.dropR{box-shadow:3px 0 0 var(--elec,#4a90d9)}
+nav#tabs .tab-spc{flex:.5 .5 0;min-width:12px;cursor:grab;align-self:stretch;position:relative}
+nav#tabs .tab-spc::before{content:"";position:absolute;inset:-2px;cursor:grab}
+nav#tabs .tab-spc.dropL{box-shadow:-3px 0 0 var(--elec,#4a90d9)}
+nav#tabs .tab-spc.dropR{box-shadow:3px 0 0 var(--elec,#4a90d9)}
+/* tab context menu */
+.tabctxmenu{position:fixed;z-index:9999;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 4px 14px rgba(0,0,0,.25);padding:4px 0;min-width:170px}
+.tabctxmenu button{display:block;width:100%;padding:7px 14px;font:500 14px var(--body);background:none;border:0;color:var(--text);cursor:pointer;text-align:left;white-space:nowrap}
+.tabctxmenu button:hover{background:color-mix(in srgb,var(--text) 8%,transparent)}
+.tabctxmenu hr{border:0;border-top:1px solid var(--line);margin:3px 0}
 
 /* photo editor + full photo viewer */
 .phov{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:12px}
@@ -1861,7 +1876,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-08.206";window.DA_BUILD=BUILD;
+const BUILD="2026-10-09.207";window.DA_BUILD=BUILD;
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000;let STORE_CAP=localStorage.idb?60000000:5000000;
@@ -2497,22 +2512,77 @@ function renderStatus(a){
 }
 let dragTab=null;
 const ALLTABS=[...OFFICES,"OOS","Vans","OffVans","Drivers","Duties","Rest","Walks","Settings"];
-function tabOrder(){const o=(db.tabOrder||[]).filter(x=>ALLTABS.includes(x));if(o.length&&!o.includes("Rest")){const i=o.indexOf("Drivers");o.splice(i<0?o.length:i+1,0,"Rest")}if(o.length&&!o.includes("OffVans")){const i=o.indexOf("Vans");o.splice(i<0?o.length:i+1,0,"OffVans")}if(o.length&&!o.includes("Duties")){const i=o.indexOf("Drivers");o.splice(i<0?o.length:i+1,0,"Duties")}return [...new Set([...o,...ALLTABS])]}
+function isSep(x){return typeof x==="string"&&(x.startsWith("__div_")||x.startsWith("__spc_"))}
+function newSepId(kind){const used=(db.tabOrder||[]).filter(isSep).map(x=>parseInt(x.split("_")[2])||0);const n=used.length?Math.max(...used)+1:1;return `__${kind}_${n}`}
+function tabOrder(){const o=(db.tabOrder||[]).filter(x=>ALLTABS.includes(x)||isSep(x));if(o.length&&!o.filter(x=>!isSep(x)).includes("Rest")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Rest")}if(o.length&&!o.filter(x=>!isSep(x)).includes("OffVans")){const i=o.map((x,i)=>x==="Vans"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"OffVans")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Duties")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Duties")}return [...o,...ALLTABS.filter(x=>!o.includes(x))]}
 function tabName(x){return x==="OffVans"?"Office Vans":x==="OOS"?"OOS, Change Over & Collections":x==="Vans"?"Vehicles":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}
 function renderTabs(){
   const bad=new Set();U.clashes.forEach(c=>c.v.forEach(w=>bad.add(w.office)));
-  const t0=tabOrder(),t=isMob()?t0.filter(x=>OFFICES.includes(x)):t0.filter(x=>x!=="Settings"); /* Settings isn't a tab here — reached from each office's own ⚙ Settings button, or Other pages on the phone (Ash, 7 Oct 2026) */
-  const mp=$("mobPages");if(mp){const L=t0.filter(x=>!OFFICES.includes(x));mp.innerHTML=`<option value="">Other pages…</option>`+L.map(x=>`<option value="${x}"${x===tab&&!mobBoard?" selected":""}>${esc(tabName(x))}</option>`).join("")+`<option value="__board"${mobBoard?" selected":""}>Key Cupboard</option>`}
-  $("tabs").innerHTML=t.map(x=>`<button role="tab" aria-selected="${x===tab&&!mobBoard}" data-tab="${x}"${OFFICES.includes(x)?` style="--oc:var(--off-${x})" class="offtab"`:""}>${x==="OOS"?"OOS, Change Over &amp; Collections":x==="OffVans"?"Office Vans":x==="Vans"?"Vehicles":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}${bad.has(x)?'<span class="dot" title="Something here is used twice"></span>':""}</button>`+"").join("");
-  $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.hasAttribute("data-boardtab"))mobBoard=true;else{if(b.dataset.tab==="Drivers"&&tab==="Drivers"&&drvAdv){drvAdv=false;render();return}mobBoard=false;tab=b.dataset.tab;if(b.dataset.tab==="Drivers")drvAdv=false}render();if(isMob())mobTop()});
-  $("tabs").querySelectorAll("button[data-tab]").forEach(b=>{b.draggable=true;b.title=b.title||"Drag to move this tab";
+  const t0=tabOrder(),t=isMob()?t0.filter(x=>OFFICES.includes(x)):t0.filter(x=>isSep(x)||x!=="Settings"); /* Settings isn't a tab here — reached from each office's own ⚙ Settings button, or Other pages on the phone (Ash, 7 Oct 2026) */
+  const mp=$("mobPages");if(mp){const L=t0.filter(x=>!OFFICES.includes(x)&&!isSep(x));mp.innerHTML=`<option value="">Other pages…</option>`+L.map(x=>`<option value="${x}"${x===tab&&!mobBoard?" selected":""}>${esc(tabName(x))}</option>`).join("")+`<option value="__board"${mobBoard?" selected":""}>Key Cupboard</option>`}
+  const nav=$("tabs");
+  nav.innerHTML=t.map(x=>{
+    if(isSep(x)){const kind=x.startsWith("__div_")?"div":"spc";return `<span class="tab-sep tab-${kind}" data-sep="${esc(x)}" draggable="true" title="${kind==="div"?"Divider — drag to move, right-click to remove":"Spacer — drag to move, right-click to remove"}"></span>`}
+    return `<button role="tab" aria-selected="${x===tab&&!mobBoard}" data-tab="${x}"${OFFICES.includes(x)?` style="--oc:var(--off-${x})" class="offtab"`:""}>${x==="OOS"?"OOS, Change Over &amp; Collections":x==="OffVans"?"Office Vans":x==="Vans"?"Vehicles":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}${bad.has(x)?'<span class="dot" title="Something here is used twice"></span>':""}</button>`
+  }).join("");
+  nav.querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.hasAttribute("data-boardtab"))mobBoard=true;else{if(b.dataset.tab==="Drivers"&&tab==="Drivers"&&drvAdv){drvAdv=false;render();return}mobBoard=false;tab=b.dataset.tab;if(b.dataset.tab==="Drivers")drvAdv=false}render();if(isMob())mobTop()});
+  /* drag for regular tabs */
+  nav.querySelectorAll("button[data-tab]").forEach(b=>{b.draggable=true;b.title=b.title||"Drag to move this tab";
     b.ondragstart=e=>{dragTab=b.dataset.tab;b.classList.add("dragging");e.dataTransfer.effectAllowed="move";try{e.dataTransfer.setData("text/plain",dragTab)}catch(x){}};
-    b.ondragend=()=>{dragTab=null;$("tabs").querySelectorAll("button").forEach(x=>x.classList.remove("dragging","dropL","dropR"))};
-    b.ondragover=e=>{if(!dragTab||dragTab===b.dataset.tab)return;e.preventDefault();const r=b.getBoundingClientRect(),right=e.clientX>r.left+r.width/2;b.classList.toggle("dropR",right);b.classList.toggle("dropL",!right)};
+    b.ondragend=()=>{dragTab=null;nav.querySelectorAll("button,.tab-sep").forEach(x=>x.classList.remove("dragging","dropL","dropR"))};
+    b.ondragover=e=>{if(!dragTab)return;e.preventDefault();const r=b.getBoundingClientRect(),right=e.clientX>r.left+r.width/2;b.classList.toggle("dropR",right);b.classList.toggle("dropL",!right)};
     b.ondragleave=()=>b.classList.remove("dropL","dropR");
     b.ondrop=e=>{e.preventDefault();const right=b.classList.contains("dropR");b.classList.remove("dropL","dropR");if(!dragTab||dragTab===b.dataset.tab)return;
       const L=tabOrder().filter(x=>x!==dragTab);L.splice(L.indexOf(b.dataset.tab)+(right?1:0),0,dragTab);db.tabOrder=L;dragTab=null;save("Moved a tab");render()}});
-  if(isMob()){const n=$("tabs"),s=n.querySelector('[aria-selected="true"]');if(s)n.scrollLeft=s.offsetLeft-(n.clientWidth-s.offsetWidth)/2}
+  /* drag for separators */
+  nav.querySelectorAll(".tab-sep").forEach(s=>{
+    s.ondragstart=e=>{dragTab=s.dataset.sep;s.classList.add("dragging");e.dataTransfer.effectAllowed="move";try{e.dataTransfer.setData("text/plain",dragTab)}catch(x){}};
+    s.ondragend=()=>{dragTab=null;nav.querySelectorAll("button,.tab-sep").forEach(x=>x.classList.remove("dragging","dropL","dropR"))};
+    s.ondragover=e=>{if(!dragTab||dragTab===s.dataset.sep)return;e.preventDefault();const r=s.getBoundingClientRect(),right=e.clientX>r.left+r.width/2;s.classList.toggle("dropR",right);s.classList.toggle("dropL",!right)};
+    s.ondragleave=()=>s.classList.remove("dropL","dropR");
+    s.ondrop=e=>{e.preventDefault();const right=s.classList.contains("dropR");s.classList.remove("dropL","dropR");if(!dragTab||dragTab===s.dataset.sep)return;
+      const L=tabOrder().filter(x=>x!==dragTab);const idx=L.indexOf(s.dataset.sep);L.splice(idx+(right?1:0),0,dragTab);db.tabOrder=L;dragTab=null;save("Moved tab");render()};
+    s.oncontextmenu=e=>{e.preventDefault();tabCtxMenu(e.clientX,e.clientY,s.dataset.sep,null)};
+  });
+  /* right-click on tab bar background or on a button to show insert menu */
+  nav.oncontextmenu=e=>{
+    if(e.target.closest(".tab-sep"))return; /* handled above */
+    e.preventDefault();
+    const btn=e.target.closest("button[data-tab]");
+    tabCtxMenu(e.clientX,e.clientY,null,btn?btn.dataset.tab:null);
+  };
+  if(isMob()){const n=nav,s=n.querySelector('[aria-selected="true"]');if(s)n.scrollLeft=s.offsetLeft-(n.clientWidth-s.offsetWidth)/2}
+}
+/* Tab bar context menu: pass sepId to show "remove" option; tabId = clicked tab (for insert-before/after); both null = insert at end */
+function tabCtxMenu(cx,cy,sepId,tabId){
+  document.querySelectorAll(".tabctxmenu").forEach(m=>m.remove());
+  const menu=document.createElement("div");menu.className="tabctxmenu";
+  function addBtn(label,fn){const b=document.createElement("button");b.textContent=label;b.onclick=()=>{menu.remove();fn()};menu.appendChild(b)}
+  const insertAt=pos=>{const L=tabOrder();if(pos!=null)L.splice(pos,0,newSepId("div"));else L.push(newSepId("div"));db.tabOrder=L;save("Added divider");render()};
+  const insertSpcAt=pos=>{const L=tabOrder();if(pos!=null)L.splice(pos,0,newSepId("spc"));else L.push(newSepId("spc"));db.tabOrder=L;save("Added spacer");render()};
+  if(sepId){
+    const kind=sepId.startsWith("__div_")?"Divider":"Spacer";
+    addBtn(`Remove this ${kind}`,()=>{db.tabOrder=tabOrder().filter(x=>x!==sepId);save("Removed tab separator");render()});
+    menu.appendChild(document.createElement("hr"));
+  }
+  if(tabId){
+    const L=tabOrder(),pos=L.indexOf(tabId);
+    addBtn("Add divider before this tab",()=>insertAt(pos));
+    addBtn("Add divider after this tab",()=>insertAt(pos+1));
+    menu.appendChild(document.createElement("hr"));
+    addBtn("Add spacer before this tab",()=>insertSpcAt(pos));
+    addBtn("Add spacer after this tab",()=>insertSpcAt(pos+1));
+  } else if(!sepId){
+    addBtn("Add divider at end",()=>insertAt(null));
+    addBtn("Add spacer at end",()=>insertSpcAt(null));
+  }
+  if(!menu.children.length)return;
+  document.body.appendChild(menu);
+  const mw=menu.offsetWidth,mh=menu.offsetHeight,vw=innerWidth,vh=innerHeight;
+  menu.style.left=Math.min(cx,vw-mw-6)+"px";
+  menu.style.top=Math.min(cy,vh-mh-6)+"px";
+  const close=e=>{if(!menu.contains(e.target)){menu.remove();document.removeEventListener("mousedown",close,true)}};
+  setTimeout(()=>document.addEventListener("mousedown",close,true),0);
 }
 /* phone: after changing tab, start at the top of the new tab (just under the tabs) */
 function mobTop(){const st=$("status"),y=st.offsetTop+st.offsetHeight;if(scrollY>y)window.scrollTo(0,y)}
@@ -3443,7 +3513,7 @@ function fillLists(){
     $("drSortBox").querySelectorAll("[data-dsort]").forEach(b=>b.onclick=()=>{try{localStorage.setItem("rdSort",b.dataset.dsort)}catch(x){}drLetter="";fillLists()});
     $("drAZ").querySelectorAll("[data-daz]").forEach(b=>b.onclick=()=>{drLetter=drLetter===b.dataset.daz?"":b.dataset.daz;fillLists()});
     $("drAZ").querySelectorAll("[data-doffbtn]").forEach(b=>b.onclick=()=>{const v=b.dataset.doffbtn,sel=$("driverOffFilter");sel.value=sel.value===v?"":v;drLetter="";fillLists()});
-    dl.innerHTML=shown.map(({n,o})=>`<div class="drow"><span class="offchip" style="background:${OFFICES.includes(roleOffice(o))?`var(--off-${roleOffice(o)})`:o?"var(--muted)":"transparent"}"></span><button type="button" class="dname dnlink" data-opencard="${esc(n)}" title="Open ${esc(n)}'s details">${boldHTML(n)} ${nsDot(n)}</button><button type="button" class="bkbtn boldbtn" data-boldpick="${esc(n)}" title="Make the name ${esc(n)} goes by bold (e.g. their middle name)" aria-label="Choose bold name for ${esc(n)}">B</button>${(()=>{const M=(db.officeMoves||{})[n];const L=M&&M[M.length-1];return L&&L.to===o&&L.from&&L.from!==o?`<span class="movedfrom" title="Moved office on ${esc(L.d)}">from ${esc(L.from)}</span>`:""})()}<label class="nsrow" title="New starter (unticks itself after a year)"><input type="checkbox" data-nsrow="${esc(n)}"${isNS(n)?" checked":""}> New starter</label><label class="nsrow sunrow" title="Also works Sunday Duty. Their office stays the same."><input type="checkbox" data-sunrow="${esc(n)}"${DI(n).sunday?" checked":""}> Sunday</label><select data-doff="${esc(n)}" aria-label="Office, move or remove ${esc(n)}" title="Office, or move to Non-Drivers, Moved office or Left RM, or remove"><option value="">—</option>${roleOptions(o)}<option disabled>──────────</option><option value="act:nd">Non-driver</option><option value="act:mo">Moved office</option><option value="act:lr">Left RM</option><option value="act:rm">Remove…</option></select></div>`).join("")||'<div>No match</div>';
+    dl.innerHTML=shown.map(({n,o})=>`<div class="drow"><span class="offchip" style="background:${OFFICES.includes(roleOffice(o))?`var(--off-${roleOffice(o)})`:o?"var(--muted)":"transparent"}"></span><button type="button" class="dname dnlink" data-opencard="${esc(n)}" title="Open ${esc(n)}'s details">${boldHTML(n)} ${nsDot(n)}</button><button type="button" class="bkbtn boldbtn" data-boldpick="${esc(n)}" title="Make the name ${esc(n)} goes by bold (e.g. their middle name)" aria-label="Choose bold name for ${esc(n)}">B</button>${(()=>{const M=(db.officeMoves||{})[n];const L=M&&M[M.length-1];return L&&L.to===o&&L.from&&L.from!==o?`<span class="movedfrom" title="Moved office on ${esc(L.d)}">from ${esc(L.from)}</span>`:""})()}<label class="nsrow" title="New starter (unticks itself after a year)"><input type="checkbox" data-nsrow="${esc(n)}"${isNS(n)?" checked":""}> New starter</label><label class="nsrow sunrow" title="Also works Sunday Duty. Their office stays the same."><input type="checkbox" data-sunrow="${esc(n)}"${DI(n).sunday?" checked":""}> Sunday</label><select data-doff="${esc(n)}" aria-label="Office, move or remove ${esc(n)}" title="Office, or move to Non-Drivers, Moved office or Left RM, or remove"><option value="">—</option>${roleOptions(o)}<option disabled>──────────</option><option value="act:nd">Non-driver</option>${["W2","W8","W9","W10","W11","W12"].map(o=>`<option value="act:nd:${o}">${o} Non-driver</option>`).join("")}<option value="act:mo">Moved office</option><option value="act:lr">Left RM</option><option value="act:rm">Remove…</option></select></div>`).join("")||'<div>No match</div>';
     dl.querySelectorAll("[data-boldpick]").forEach(b=>b.onclick=()=>openBoldPick(b.dataset.boldpick,fillLists));
     dl.querySelectorAll("[data-opencard]").forEach(b=>b.onclick=()=>{const n=b.dataset.opencard;drvAdv=true;advQ="";advOff="";advFlagOnly=false;render();window.scrollTo(0,0);const L=advRows().list;openDriverCard(n,L.includes(n)?L:db.drivers.slice())});
     dl.querySelectorAll("[data-sunrow]").forEach(c=>c.onchange=()=>{const n=c.dataset.sunrow;setDI(n,"sunday",c.checked?true:"");save(`${n} ${c.checked?"added to":"taken off"} Sunday Duty`);render()});
@@ -4136,6 +4206,12 @@ const PRESETS={
   purple:{name:"Plum",head:"#3d2352",ink:"#5b3478",steel:"#e8e3ee",panel:"#faf8fc",side:"#ede8f3",bar:"#f3eff7",tabbg:"#e5ddee",line:"#cdc2da",rowline:"#e3dcec",text:"#24162f",muted:"#655873",tag:"#f2c544"},
   midnight:{name:"Midnight blue",head:"#0b1a2e",steel:"#0f1f35",panel:"#142740",field:"#1b3352",side:"#11233a",bar:"#12243c",tabbg:"#1a3050",text:"#e4ecf6",muted:"#93a7c0",line:"#2c4568",ink:"#3b7bd1",rowline:"#223a5a",tag:"#f0c03a",tagInk:"#1a1400",clash:"#ff6b63",elec:"#43c98d",coll:"#6aa4ea",used:"#2c4568",usedInk:"#a9bbd2",warn:"#f1cf6b",warnBg:"#3a3115"},
   contrast:{name:"High contrast",head:"#000000",steel:"#ffffff",panel:"#ffffff",side:"#f2f2f2",bar:"#ffffff",tabbg:"#e6e6e6",text:"#000000",muted:"#222222",line:"#000000",ink:"#000000",rowline:"#000000",tag:"#ffd400",tagInk:"#000000",clash:"#b00000",elec:"#006b2e",coll:"#003e99",used:"#bdbdbd",usedInk:"#000000",cellWeight:"600",hookWeight:"700",fs:16,font:"verdana"},
+  ft:{name:"FT Pink",head:"#33302E",headInk:"#FCD0B1",steel:"#F5EBDD",panel:"#FFFAF5",side:"#F5EBDD",bar:"#FAF1E8",tabbg:"#F0E6D8",field:"#FFFFFF",text:"#33302E",muted:"#66615C",line:"#C8BFB5",rowline:"#E8DDD3",ink:"#990F3D",inkText:"#FCD0B1",tag:"#FCD0B1",tagInk:"#33302E",clash:"#990F3D",elec:"#0D7680",coll:"#0F5499",used:"#D8CFC6",usedInk:"#66615C",warn:"#7B5800",warnBg:"#FFF3D0"},
+  slate:{name:"Slate",head:"#2c3e50",steel:"#dde3ea",panel:"#f4f6f8",side:"#dce3eb",bar:"#e8edf2",tabbg:"#d5dde6",line:"#b0bec9",rowline:"#d8e0e8",text:"#1a2634",muted:"#5a6b7a",ink:"#2c7bb6",tag:"#f0c040",tagInk:"#1a1200",coll:"#2c7bb6",elec:"#1e8c55"},
+  rose:{name:"Rose gold",head:"#6b3a3a",steel:"#f2e8e5",panel:"#fdf7f6",side:"#ede0dc",bar:"#f5ebe7",tabbg:"#e8d8d3",field:"#fffaf9",text:"#2e1a1a",muted:"#7a5a58",line:"#d4b8b3",rowline:"#ead8d4",ink:"#8b3a3a",tag:"#f5c97a",tagInk:"#2e1a00",coll:"#5b7ab5",elec:"#2a7d50"},
+  teal:{name:"Ocean teal",head:"#0a3a42",steel:"#daeaec",panel:"#f5fbfc",side:"#d8eaec",bar:"#e5f3f5",tabbg:"#cfe5e8",line:"#9ecdd3",rowline:"#d0e8eb",text:"#062028",muted:"#3d6b72",ink:"#0d7680",tag:"#f0c440",tagInk:"#1a1200",coll:"#1a6ebd",elec:"#1e9e5e",clash:"#c4302b"},
+  charcoal:{name:"Charcoal",head:"#2a2a2a",steel:"#e4e4e4",panel:"#f8f8f8",side:"#e0e0e0",bar:"#ebebeb",tabbg:"#d8d8d8",text:"#1a1a1a",muted:"#666666",line:"#b8b8b8",rowline:"#dcdcdc",ink:"#444444",tag:"#f5c542",tagInk:"#1a1200",clash:"#c4302b",elec:"#1e7a4d",coll:"#2b5c9e"},
+  solarized:{name:"Solarized",head:"#002b36",steel:"#eee8d5",panel:"#fdf6e3",side:"#e8e2d0",bar:"#f0ead8",tabbg:"#ddd6c2",field:"#fdf6e3",text:"#073642",muted:"#657b83",line:"#bdb9a8",rowline:"#ddd6c2",ink:"#268bd2",tag:"#b58900",tagInk:"#002b36",clash:"#dc322f",elec:"#859900",coll:"#268bd2",warn:"#cb4b16",warnBg:"#fef1e7"},
 };
 function offCol(o){const L=lookNow();return L.offOn===false?L.used:L["off"+o]}
 /* "Lines and layout" and "Effects" can be set for Layout 1, Layout 2 or both (Ash, 4 Oct 2026) */
@@ -5445,6 +5521,7 @@ function advCols(){if(db.advCols&&db.advCols.length&&!db.advColsM){db.advColsM=1
 function driverMoveAct(n,v){if(!v)return;
     const clearAll=()=>{["nonDrivers","leftRM","movedOff"].forEach(j=>{db[j]=(db[j]||[]).filter(y=>y!==n)});customLists().forEach(l=>{if(db.customListMembers&&db.customListMembers[l.id])db.customListMembers[l.id]=db.customListMembers[l.id].filter(y=>y!==n)})};const only=k=>{clearAll();db[k]=[...db[k],n]};
     if(v==="nd"){only("nonDrivers");save(`Moved ${n} to Non-Drivers`);render();toast(n+" moved to Non-Drivers")}
+    else if(v.startsWith("nd:")){const off=v.slice(3);only("nonDrivers");db.driverOffice=db.driverOffice||{};db.driverOffice[n]=off;save(`Moved ${n} to Non-Drivers (${ovName(off)})`);render();toast(n+" moved to Non-Drivers")}
     else if(v==="lr"){only("leftRM");save(`Moved ${n} to Left RM`);render();toast(n+" moved to Left RM")}
     else if(v==="mo"){const cur=driverOffice(n),w=prompt(`Which office has ${n} moved to?\n\nW2, W8, W9, W10, W11 or W12: they stay a driver and their office changes.\nAny other office, or leave blank: they go on the Moved office list.`,"");if(w===null)return;
       const o=moveDriverOffice(n,w);if(o){save(`${n} moved office ${cur||"none"} to ${ovName(o)}`);render();toast(`${n} is now in ${ovName(o)}`)}else{save(`Moved ${n} to Moved office`);render();toast(n+" moved to Moved office"+(w.trim()?" ("+up(w.trim())+")":""))}}
