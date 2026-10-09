@@ -3316,7 +3316,7 @@ function offDrvCell(n,wk){const I=DI(n);
     return `<span class="rdchip${x.k===day?" cur":""}${w?" work":""}" title="${esc(lg)}${w?" (working on their rest day)":""}">${esc(lab)}${w?" · working":""}</span>`}).join(" ")}
 function offDriversBox(o){if(o==="W13")return "";
   const L=db.drivers.filter(n=>!isND(n)&&roleOffice(driverOffice(n))===o),open=offDrvOpen.has(o),nm=esc(ovName(o));
-  const head=`<button type="button" class="drvbtn" data-drvlist="${o}" aria-expanded="${open}" title="${open?"Close the list":"Show "+nm+"'s drivers and their rest days this week and next week"}"><span aria-hidden="true">${open?"▾":"▸"}</span> ${nm} Drivers (${L.length})</button><span class="drvhint">${open?"Tap again to close":"Tap to see rest days this week and next week"}</span>`;
+  const head=`<button type="button" class="drvbtn" data-drvlist="${o}" aria-expanded="${open}" title="${open?"Close the list":"Show "+nm+" rest days this week and next week"}"><span aria-hidden="true">${open?"▾":"▸"}</span> ${nm} Rest days (${L.length})</button><span class="drvhint">${open?"Tap again to close":"Tap to see rest days this week and next week"}</span>`;
   if(!open)return `<div class="offvline offdrv">${head}</div>`;
   const W=offDrvWeeks(),sm=rdSortM();L.sort((x,y)=>nameKey(x,sm).localeCompare(nameKey(y,sm)));
   const rows=L.map(n=>`<tr><td class="drvnm">${restListed(n,o)&&!isMob()?`<button type="button" class="drvgo" data-drvgo="${esc(n)}" title="Edit ${esc(n.split(" ")[0])}'s rest days on the Rest Day tab">${esc(n)}</button>`:esc(n)}${/Manager$/.test(driverOffice(n))?' <span class="drvmgr" title="Managers are not on the Rest Day list">manager</span>':""}</td><td>${offDrvCell(n,W[0])}</td><td>${offDrvCell(n,W[1])}</td></tr>`).join("");
@@ -6669,7 +6669,7 @@ const HELP=[
  ["main [data-rowsdrag]","Resize every row","Hold ⇕ and drag up or down to make every row in that table taller or shorter at once. Double-click ⇕ to put them back."],
  ["#clrXToggle","Clear name ×","The × next to a driver or substitute clears the name when tapped 3 times. Show it always, only when the mouse is over the row, or hide it."],
  ["#fillReg","Fill from regular drivers","Puts each duty's regular driver (Duties tab) into the empty driver boxes, and a free substitute (Drivers tab) in the Substitute box for anyone off today. You check the list first, and Undo puts it back."],
- ["main [data-drvlist]","Office drivers","Opens this office's drivers with their rest days this week and next week. Tap a name to edit their rest days. Tap the button again to close it.",1],
+ ["main [data-drvlist]","Office rest days","Opens this office's rest days for each driver this week and next week. Tap a name to edit their rest days. Tap the button again to close it.",1],
   ["main [data-offwin]","Pop out","Opens this office in its own window. Changes in either window show in the other."],
  ["#vanLineToggle","Office vans line","The W2 vans: line at the top of the sheet. Tap to show it, show it without Not on list (vans used here that aren't on this office's list), or hide it."],
  ["main .hookcell select","Hook","Pick the van for this walk. Only free vans are offered."],
@@ -6786,7 +6786,7 @@ const hEsc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const GUIDE=[
  {t:"What's new",nw:1,open:1,h:`<h4>7 October 2026</h4><ul>
   <li><b>Sunday Duty</b> has its own tab. On the Drivers tab, tick <b>Sunday</b> next to any driver who also does Sundays. They are offered on Sunday Duty and their own office does not change. Drivers from other offices (W3, W7 and so on) can be added by typing their name and office, and you can add your own named columns.</li>
-  <li><b>Office drivers</b>: every office tab has a button under the vans line (for example <b>W2 Drivers</b>). Tap it to see each driver's rest days this week and next week. Tap a name to jump to the Rest Day tab and change their rest days.</li>
+  <li><b>Office rest days</b>: every office tab has a button under the vans line (for example <b>W2 Rest days</b>). Tap it to see each driver's rest days this week and next week. Tap a name to jump to the Rest Day tab and change their rest days.</li>
   <li><b>Photos to assign later</b>: on the Drivers tab, upload a batch of photos now and match each one to a driver whenever you are ready.</li>
   <li>The <b>names not on the driver list</b> pill at the top is now clickable: it takes you to the next name that isn't on the list.</li>
   <li><b>Your own columns</b> on every sheet: under the table of any office (W2 to W12) press <b>＋ Add a column</b>, give it a name such as Start time or Notes, and type in it row by row. Each office keeps its own columns, and they show in Layout 1, Layout 2 and V2 and on the printed sheet.</li>
@@ -6817,7 +6817,7 @@ const GUIDE=[
   <li>Open the <b>Rest Day</b> tab, pick the office, and choose a <b>Start from</b> pattern that looks like your rota sheet. Change the days, and how many weeks it repeats.</li>
   <li>For each driver, tap what they have off <i>this week</i> (the date picked on the calendar). The pattern moves them on every week after. <b>Not on it</b> takes someone off the pattern and <b>Custom days</b> sets days off by hand.</li>
   <li>People who are off are marked on the office sheets, and a line above the table says who is off that day.</li>
-  <li>On any office tab, the <b>Drivers</b> button under the vans line lists every driver's rest days for this week and next week. Tap a name to jump straight to their row on the Rest Day tab.</li></ol>`},
+  <li>On any office tab, the <b>Rest days</b> button under the vans line lists every driver's rest days for this week and next week. Tap a name to jump straight to their row on the Rest Day tab.</li></ol>`},
  {t:"Sunday Duty",nw:1,h:`<ul>
   <li>Sunday Duty is its own sheet and works like the office sheets, with Hook, Driver and Duty columns.</li>
   <li>Sunday is optional. On the Drivers tab, tick <b>Sunday</b> next to a driver, or pick them under <b>Sunday Duty drivers</b>. They stay in their own office too. In the driver box on Sunday Duty they are listed first; press <b>Show all offices</b> to pick anyone else.</li>
