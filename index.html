@@ -1535,6 +1535,23 @@ html.mob #main>.offvline,html.mob #main>.restline{padding-left:12px;padding-righ
 html:not(.mob):not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){width:22px!important;min-width:22px!important;height:22px!important;min-height:22px!important;max-height:none!important;margin-block:min(0px,calc((var(--rowh) - 24px) / 2))!important;position:relative;z-index:1}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn) .iglyph{height:.96em!important}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.namecell,.hookcell):has(>:is(.vdbtn,.dhbtn)){overflow:clip!important;overflow-clip-margin:4px}
+/* the grey "Suggested" pills/box (.hooktips) are a direct child of the td, so a very short row (↕ "compact rows", 1.3em,
+   or the small ↕ next to a table) caps them to max-height:var(--rowh) with overflow:hidden (see table.offtbl>tbody>tr>td>*
+   above). But the pills inside have their own protected minimum height and can be a pixel or two taller than that cap,
+   so their bottom edge got sliced off at the shortest row heights. Letting the box itself overflow isn't enough on its
+   own — the row needs to actually grow to make room, or the next row's background paints over the part that pokes out —
+   so the cell and row holding it are also let grow past --rowh, in height as well as max-height, whenever a suggestion
+   box is there (Ash, 9 Oct 2026) */
+html:not(.mob) table.offtbl>tbody>tr>td:has(.hooktips){height:auto!important;max-height:none!important}
+html:not(.mob) table.offtbl>tbody>tr:has(td .hooktips){height:auto!important}
+html:not(.mob) table.offtbl>tbody>tr>td>.hooktips{max-height:none!important;height:auto!important;overflow:visible!important}
+/* the Hook/Reg. column's version of the same suggestion (the usual-van pill next to the empty hook box) sits inside
+   .hkline instead, so .hkline itself is the td's direct child that was getting capped and clipped — same fix, one level
+   further in. Scoped to rows that actually hold a suggestion, so ordinary rows still compact down normally (Ash, 9 Oct 2026) */
+html:not(.mob) table.offtbl>tbody>tr>td>.hkline:has(.hooktips){max-height:none!important;height:auto!important;overflow:visible!important}
+html:not(.mob) table.offtbl>tbody>tr>td:has(>.hkline .hooktips){height:auto!important;max-height:none!important}
+html:not(.mob) table.offtbl>tbody>tr:has(td>.hkline .hooktips){height:auto!important}
+html:not(.mob) table.offtbl>tbody>tr>td .hkline .hooktips{max-height:none!important;height:auto!important;overflow:visible!important}
 /* "Not used" tick box stays the same size whatever the row height or column width (Ash, 5 Oct 2026) */
 html table.offtbl>tbody>tr>td.l2nu .nuchk>input[type=checkbox][data-notused]{width:20px!important;height:20px!important;min-width:20px!important;min-height:20px!important;max-width:20px!important;max-height:20px!important;flex:none!important;padding:0!important;margin:0!important;box-sizing:border-box!important;transform:none!important}
 /* fitting a column (double-click its edge, or ↔) only measures what's typed in: suggestion chips and "Suggested" lists
