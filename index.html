@@ -3506,7 +3506,7 @@ function walksHTML(){
 }
 function fillLists(){
   const q=id=>up($(id)?$(id).value:"");
-  const dl=$("driverList");if(dl){const f=$("driverOffFilter").value;
+  const dl=$("driverList");if(dl){const _dofs=$("driverOffFilter");if(_dofs&&drOffF&&!_dofs.value)_dofs.value=drOffF;const f=_dofs?_dofs.value:"";
     const Q=drQuery($("findDriver").value),offOk=(o,F)=>!F||(F==="none"?!o:F==="mgr"?/Manager$/.test(o||""):F.endsWith("*")?roleOffice(o)===F.slice(0,-1):o===F);
     const sm=rdSortM(),pre=db.drivers.filter(n=>!isND(n)&&nameMatch(n,Q.name)).map(n=>({n,o:driverOffice(n)})).filter(({o})=>drQOk(o,Q)),base=pre.filter(x=>f==="sun"?!!DI(x.n).sunday:offOk(x.o,f));
     if(drLetter&&!base.some(x=>azOf(x.n,sm)===drLetter))drLetter="";
@@ -3515,7 +3515,7 @@ function fillLists(){
     $("drCount").textContent=shown.length<db.drivers.filter(n=>!isND(n)).length?`Showing ${shown.length}`:"";
     $("drSortBox").querySelectorAll("[data-dsort]").forEach(b=>b.onclick=()=>{try{localStorage.setItem("rdSort",b.dataset.dsort)}catch(x){}drLetter="";fillLists()});
     $("drAZ").querySelectorAll("[data-daz]").forEach(b=>b.onclick=()=>{drLetter=drLetter===b.dataset.daz?"":b.dataset.daz;fillLists()});
-    $("drAZ").querySelectorAll("[data-doffbtn]").forEach(b=>b.onclick=()=>{const v=b.dataset.doffbtn,sel=$("driverOffFilter");sel.value=sel.value===v?"":v;drLetter="";fillLists()});
+    $("drAZ").querySelectorAll("[data-doffbtn]").forEach(b=>b.onclick=()=>{const v=b.dataset.doffbtn,sel=$("driverOffFilter");const nv=sel.value===v?"":v;sel.value=nv;drOffF=nv;drLetter="";fillLists()});
     dl.innerHTML=shown.map(({n,o})=>`<div class="drow"><span class="offchip" style="background:${OFFICES.includes(roleOffice(o))?`var(--off-${roleOffice(o)})`:o?"var(--muted)":"transparent"}"></span><button type="button" class="dname dnlink" data-opencard="${esc(n)}" title="Open ${esc(n)}'s details">${boldHTML(n)} ${nsDot(n)}</button><button type="button" class="bkbtn boldbtn" data-boldpick="${esc(n)}" title="Make the name ${esc(n)} goes by bold (e.g. their middle name)" aria-label="Choose bold name for ${esc(n)}">B</button>${(()=>{const M=(db.officeMoves||{})[n];const L=M&&M[M.length-1];return L&&L.to===o&&L.from&&L.from!==o?`<span class="movedfrom" title="Moved office on ${esc(L.d)}">from ${esc(L.from)}</span>`:""})()}<label class="nsrow" title="New starter (unticks itself after a year)"><input type="checkbox" data-nsrow="${esc(n)}"${isNS(n)?" checked":""}> New starter</label><label class="nsrow sunrow" title="Also works Sunday Duty. Their office stays the same."><input type="checkbox" data-sunrow="${esc(n)}"${DI(n).sunday?" checked":""}> Sunday</label><select data-doff="${esc(n)}" aria-label="Office, move or remove ${esc(n)}" title="Office, or move to Non-Drivers, Moved office or Left RM, or remove"><option value="">—</option>${roleOptions(o)}<option disabled>──────────</option><option value="act:nd">Non-driver</option>${["W2","W8","W9","W10","W11","W12"].map(o=>`<option value="act:nd:${o}">${o} Non-driver</option>`).join("")}<option value="act:mo">Moved office</option><option value="act:lr">Left RM</option><option value="act:rm">Remove…</option></select></div>`).join("")||'<div>No match</div>';
     dl.querySelectorAll("[data-boldpick]").forEach(b=>b.onclick=()=>openBoldPick(b.dataset.boldpick,fillLists));
     dl.querySelectorAll("[data-opencard]").forEach(b=>b.onclick=()=>{const n=b.dataset.opencard;drvAdv=true;advQ="";advOff="";advFlagOnly=false;render();window.scrollTo(0,0);const L=advRows().list;openDriverCard(n,L.includes(n)?L:db.drivers.slice())});
@@ -4153,7 +4153,7 @@ function wireSettings(){
   wireSettingsLayout();
   fillLists();
   G("findDriver").oninput=()=>{drLetter="";fillLists()};G("findWalk").oninput=fillLists;
-  G("driverOffFilter").onchange=fillLists;
+  G("driverOffFilter").onchange=()=>{drOffF=$("driverOffFilter").value;fillLists()};
   G("addDriver").onclick=()=>{const n=up($("newDriver").value).replace(/\s+/g," ");if(!n)return;
     if(db.drivers.includes(n))return toast(n+" is already on the list");if(nameClashes(n).length)return openBulkAdd({n,o:$("newDriverOffice").value});db.drivers.push(n);if($("newDriverOffice").value){db.driverOffice=db.driverOffice||{};db.driverOffice[n]=$("newDriverOffice").value}db.drivers.sort((x,y)=>x.split(" ").pop().localeCompare(y.split(" ").pop()));save();render();toast(n+" added")};
   G("addDrivers").onclick=()=>openBulkAdd();
@@ -5360,7 +5360,7 @@ function offTxt(d){return !d||!d.length?"working all week":d.length>=6?"week off
 function restLine(o){const L=[];db.drivers.forEach(n=>{if(isND(n))return;if(roleOffice(driverOffice(n))!==o)return;const a=availOn(n,day);if(a&&a!=="absent")L.push([n,a])});
   if(!L.length)return "";
   return `<p class="restline"><b>${esc(ovName(o))} off on ${esc(dayShort(day))} (${L.length}):</b> ${L.map(([n,a])=>`<span${U.drivers.has(n)?' class="used" title="Allocated on this day even though they are off"':""}>${esc(n)}${nsDot(n)?" "+nsDot(n):""}${a!=="rest day"?` <small>(${esc(a)})</small>`:""}</span>`).join(", ")}</p>`}
-let rdQ="",rdLetter="",drLetter="",rdCustomOpen="";
+let rdQ="",rdLetter="",drLetter="",rdCustomOpen="",drOffF="";
 /* driver search: an office typed in the box (W2, w10, "W2 manager", "no office") filters by office; the rest searches names */
 function drQuery(raw){let s=up(raw||"").replace(/\s+/g," ").trim(),off="",mgr=false,none=false;
   s=s.replace(/\bNO\s+OFFICE\b/,()=>{none=true;return " "});
