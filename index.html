@@ -3506,6 +3506,7 @@ function walksHTML(){
 }
 function fillLists(){
   const q=id=>up($(id)?$(id).value:"");
+  {const _fd=$("findDriver");if(_fd&&drFindQ&&!_fd.value)_fd.value=drFindQ;}{const _fw=$("findWalk");if(_fw&&wlFindQ&&!_fw.value)_fw.value=wlFindQ;}
   const dl=$("driverList");if(dl){const _dofs=$("driverOffFilter");if(_dofs&&drOffF&&!_dofs.value)_dofs.value=drOffF;const f=_dofs?_dofs.value:"";
     const Q=drQuery($("findDriver").value),offOk=(o,F)=>!F||(F==="none"?!o:F==="mgr"?/Manager$/.test(o||""):F.endsWith("*")?roleOffice(o)===F.slice(0,-1):o===F);
     const sm=rdSortM(),pre=db.drivers.filter(n=>!isND(n)&&nameMatch(n,Q.name)).map(n=>({n,o:driverOffice(n)})).filter(({o})=>drQOk(o,Q)),base=pre.filter(x=>f==="sun"?!!DI(x.n).sunday:offOk(x.o,f));
@@ -4152,7 +4153,7 @@ function wireSettings(){
   wireCustomLists();
   wireSettingsLayout();
   fillLists();
-  G("findDriver").oninput=()=>{drLetter="";fillLists()};G("findWalk").oninput=fillLists;
+  G("findDriver").oninput=()=>{drFindQ=$("findDriver").value;drLetter="";fillLists()};G("findWalk").oninput=()=>{wlFindQ=$("findWalk").value;fillLists()};
   G("driverOffFilter").onchange=()=>{drOffF=$("driverOffFilter").value;fillLists()};
   G("addDriver").onclick=()=>{const n=up($("newDriver").value).replace(/\s+/g," ");if(!n)return;
     if(db.drivers.includes(n))return toast(n+" is already on the list");if(nameClashes(n).length)return openBulkAdd({n,o:$("newDriverOffice").value});db.drivers.push(n);if($("newDriverOffice").value){db.driverOffice=db.driverOffice||{};db.driverOffice[n]=$("newDriverOffice").value}db.drivers.sort((x,y)=>x.split(" ").pop().localeCompare(y.split(" ").pop()));save();render();toast(n+" added")};
@@ -5360,7 +5361,7 @@ function offTxt(d){return !d||!d.length?"working all week":d.length>=6?"week off
 function restLine(o){const L=[];db.drivers.forEach(n=>{if(isND(n))return;if(roleOffice(driverOffice(n))!==o)return;const a=availOn(n,day);if(a&&a!=="absent")L.push([n,a])});
   if(!L.length)return "";
   return `<p class="restline"><b>${esc(ovName(o))} off on ${esc(dayShort(day))} (${L.length}):</b> ${L.map(([n,a])=>`<span${U.drivers.has(n)?' class="used" title="Allocated on this day even though they are off"':""}>${esc(n)}${nsDot(n)?" "+nsDot(n):""}${a!=="rest day"?` <small>(${esc(a)})</small>`:""}</span>`).join(", ")}</p>`}
-let rdQ="",rdLetter="",drLetter="",rdCustomOpen="",drOffF="";
+let rdQ="",rdLetter="",drLetter="",rdCustomOpen="",drOffF="",drFindQ="",wlFindQ="";
 /* driver search: an office typed in the box (W2, w10, "W2 manager", "no office") filters by office; the rest searches names */
 function drQuery(raw){let s=up(raw||"").replace(/\s+/g," ").trim(),off="",mgr=false,none=false;
   s=s.replace(/\bNO\s+OFFICE\b/,()=>{none=true;return " "});
