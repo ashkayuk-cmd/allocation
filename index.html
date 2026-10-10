@@ -2399,8 +2399,8 @@ function offV(o){db.offVans=db.offVans||{};return db.offVans[o]||{limit:"",vans:
 function offVset(o,x){db.offVans=db.offVans||{};db.offVans[o]=Object.assign({limit:"",vans:[]},db.offVans[o],x)}
 function offUsedHooks(a,o){const S=new Set();if(o==="COLL"){(a&&a.coll||[]).forEach(h=>{if(h)S.add(h)});return S}const s=a&&a[o];if(!s)return S;["main","extra","pm"].forEach(k=>(s[k]||[]).forEach(r=>{if(r.hook)S.add(r.hook)}));return S}
 function offVanBadge(a,o){const c=offV(o),lim=+c.limit||0,n=c.vans.filter(h=>vanBy(h)).length;if(!lim&&!n)return "";
-  const used=offUsedHooks(a,o).size,over=lim&&used>lim;let free=0;try{free=db.vans.filter(v=>vanStatus(a,v).k==="free").length}catch(e){}
-  return `<span class="offvbadge${over?" over":""}" title="${esc(ovName(o))} is allowed ${lim||"?"} vans. ${used} used today. ${free} vans free in the key cupboard (not assigned, OOS, change over, collections or reserved).">${lim?`${lim} vans allowed`:`${n} vans`} <small>· ${used} used today${over?" — over the limit":""} · ${free} free in key cupboard</small></span>`}
+  const used=offUsedHooks(a,o).size,over=lim&&used>lim;
+  return `<span class="offvbadge${over?" over":""}" title="${esc(ovName(o))} is allowed ${lim||"?"} vans. ${used} used today.">${lim?`${lim} vans allowed`:`${n} vans`} <small>· ${used} used today${over?" — over the limit":""}</small></span>`}
 /* cross-office driver badge: shows when a driver whose home office differs from the tab's office is used here.
    Clicking the badge jumps to that row (cycles if multiple). Works for driver, substitute, extra and PM vans.
    Applies to all office tabs W2-W12. (Ash, 9 Oct 2026) */
@@ -2616,7 +2616,8 @@ function renderStatus(a){
     [r.driver,r.sub].forEach(n=>{if(n&&!names.has(up(n))&&!(o==="W13"&&extOf(up(n))))unknown++})}));
   const free=db.vans.filter(v=>!U.hooks.has(v.h)&&!U.chg.has(v.h)).length;
   let h=filled<total?`<button type="button" class="pill warn go" id="gapPill" title="Go to the next walk that still needs a van or driver">${filled} of ${total} walks have a van and driver</button>`:`<span class="pill ok">${filled} of ${total} walks have a van and driver</span>`;
-  h+=`<span class="pill ok">${free} vans free</span>`;
+  let kcFree=free;try{kcFree=db.vans.filter(v=>vanStatus(a,v).k==="free").length}catch(e){}
+  h+=`<span class="pill ok" title="Vans sitting free in the key cupboard: not assigned to a row, and not OOS, on change over, in collections or reserved.">${kcFree} ${kcFree===1?"van":"vans"} free in key cupboard</span>`;
   h+=`<span class="pill ok">${a.oos.filter(x=>x.hook).length} OOS</span>`;{const nc=(a.chg||[]).filter(x=>x.hook).length;if(nc)h+=`<span class="pill ok">${nc} change over</span>`}
   if(U.clashes.length)h+=`<span class="pill bad" id="clashPill" tabindex="0">${U.clashes.length} used twice: ${U.clashes.slice(0,4).map(c=>esc(c.label)).join(", ")}${U.clashes.length>4?"…":""}</span>`;
   else h+=`<span class="pill ok">No double bookings</span>`;
