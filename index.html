@@ -2876,14 +2876,14 @@ function carryForward(path,oldV,newV){const m=/^(W\d+)\.main\.(\d+)\.(hook|drive
     const cv=norm(r[f]);if(cv===null||cv===""||cv===ov){r[f]=f==="hook"?nv:(nv||"");if(f==="driver"&&(!r.driver||!r.sub))delete r.away;n++}});
   return n}
 /* the 3 top bars (top bar, status strip, tabs): normal, small or hidden */
-const BARS=[["head","Top bar (Driver Allocation)"],["copy","Copy-from bar (Nothing allocated…)"],["status","Status strip"],["tabs","Tabs (W2, W8, W9…)"]];
+const BARS=[["head","Top bar (Driver Allocation)"],["status","Status strip"],["tabs","Tabs (W2, W8, W9…)"]];
 function barMode(k){const m=db.look&&db.look.bars&&db.look.bars[k];return m==="hide"?m:"normal"}
-const BARSEL={head:"header",copy:"#copybar",status:".status",tabs:"nav#tabs"};
+const BARSEL={head:"header",status:".status",tabs:"nav#tabs"};
 function barSize(k){const v=db.look&&db.look.barSize&&db.look.barSize[k];if(v)return v;return (db.look&&db.look.bars&&db.look.bars[k]==="small")?80:100}
-const BARDEF={copy:150};
+const BARDEF={};
 (()=>{const set=()=>{const h=document.querySelector("header");document.documentElement.style.setProperty("--headh",(h&&document.documentElement.classList.contains("lockhead")?h.offsetHeight:0)+"px")};
   addEventListener("load",set);addEventListener("resize",set);try{new ResizeObserver(set).observe(document.querySelector("header")||document.body);new MutationObserver(set).observe(document.documentElement,{attributes:true,attributeFilter:["class"]})}catch(e){}})();
-function applyBars(){const h=document.documentElement;h.classList.toggle("lockhead",!!(db.look&&db.look.lockHead));BARS.forEach(([k])=>{h.classList.remove("bs-"+k);h.classList.toggle("bh-"+k,barMode(k)==="hide");const el=document.querySelector(BARSEL[k]);{const z=barSize(k)*(BARDEF[k]||100)/10000;if(el)el.style.zoom=z===1?"":String(z)}});
+function applyBars(){const h=document.documentElement;h.classList.remove("bh-copy","bs-copy");{const cb=document.querySelector("#copybar");if(cb)cb.style.zoom="1.5"} /* the Copy-from bar always shows when a day is empty, so it has no Bars Setting (Ash, 10 Oct 2026) */ h.classList.toggle("lockhead",!!(db.look&&db.look.lockHead));BARS.forEach(([k])=>{h.classList.remove("bs-"+k);h.classList.toggle("bh-"+k,barMode(k)==="hide");const el=document.querySelector(BARSEL[k]);{const z=barSize(k)*(BARDEF[k]||100)/10000;if(el)el.style.zoom=z===1?"":String(z)}});
   const p=$("barPop");if(p&&!p.hidden)drawBars()}
 function drawBars(){$("barPop").innerHTML=`<div class="barph">Top bars</div>`+BARS.map(([k,l])=>`<div class="barrow"><span>${l}</span><span style="display:inline-flex;gap:8px;align-items:center"><span class="barseg"><button type="button" data-barsz="${k}" data-d="-10" title="Smaller"${barSize(k)<=40?" disabled":""}>−</button><button type="button" data-barsz="${k}" data-d="0" title="Back to default size" style="min-width:58px">${barSize(k)}%</button><button type="button" data-barsz="${k}" data-d="10" title="Bigger"${barSize(k)>=200?" disabled":""}>+</button></span><span class="barseg">${[["normal","Show"],["hide","Hide"]].map(([m,t])=>`<button type="button" data-bar="${k}" data-bm="${m}" aria-pressed="${barMode(k)===m}">${t}</button>`).join("")}</span></span></div>`).join("")+`<div class="barrow"><span></span><span style="display:inline-flex;gap:6px"><button type="button" class="addrow" style="margin:0" data-barhideall>Hide all</button><button type="button" class="addrow" style="margin:0" data-barreset>Show all normal</button></span></div><label class="barlock" title="Keep the date bar at the top of the screen when you scroll down"><input type="checkbox" data-barlock${db.look&&db.look.lockHead?" checked":""}> Lock top bar (follows you down the page)</label>`}
 document.addEventListener("click",e=>{const c=$("barCtl");if(!c)return;
@@ -2891,7 +2891,7 @@ document.addEventListener("click",e=>{const c=$("barCtl");if(!c)return;
   const lk=e.target.closest("[data-barlock]");if(lk){db.look=db.look||{};db.look.lockHead=lk.checked;save(lk.checked?"Locked top bar":"Unlocked top bar");applyBars();return}
   const sz=e.target.closest("[data-barsz]");if(sz){const k=sz.dataset.barsz,d=+sz.dataset.d;db.look=db.look||{};const v=d?Math.min(200,Math.max(40,barSize(k)+d)):100;db.look.barSize=Object.assign({},db.look.barSize,{[k]:v});if(db.look.bars&&db.look.bars[k]==="small")db.look.bars=Object.assign({},db.look.bars,{[k]:"normal"});save("Top bar size "+v+"%");applyBars();drawBars();return}
   const b=e.target.closest("[data-bar]");if(b){db.look=db.look||{};db.look.bars=Object.assign({},db.look.bars,{[b.dataset.bar]:b.dataset.bm});save("Top bars changed");applyBars();drawBars();return}
-  if(e.target.closest("[data-barhideall]")){db.look=db.look||{};db.look.bars={head:"hide",copy:"hide",status:"hide",tabs:"hide"};save("Hid all top bars");applyBars();drawBars();return}
+  if(e.target.closest("[data-barhideall]")){db.look=db.look||{};db.look.bars={head:"hide",status:"hide",tabs:"hide"};save("Hid all top bars");applyBars();drawBars();return}
   if(e.target.closest("[data-barreset]")){db.look=db.look||{};db.look.bars={};db.look.barSize={};save("Top bars back to normal");applyBars();drawBars();return}
   if(!c.contains(e.target)){const p=$("barPop");if(p&&!p.hidden){p.hidden=true;$("barBtn").setAttribute("aria-expanded","false")}}});
 function hookSelect(val,path,star){
