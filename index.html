@@ -929,7 +929,7 @@ body.rowresizing,body.rowresizing *{cursor:row-resize!important;user-select:none
 .nmwrap{position:relative;flex:1;min-width:0;display:flex}
 .nsdot{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#fff;color:#000;border:1px solid #000;box-sizing:border-box;cursor:help;font:700 10px/1 system-ui,sans-serif;vertical-align:middle;margin-right:4px;flex:0 0 auto}
 .nmwrap>.nsdot{position:absolute;left:-999px;top:50%;transform:translateY(-50%);z-index:2;pointer-events:auto;margin:0}
-.nmwrap>.abstag{position:absolute;right:24px;top:50%;transform:translateY(-50%);z-index:1;pointer-events:none;font:700 11px/1 var(--body);padding:3px 5px;border-radius:999px;border:1px solid currentColor}.abstag{color:var(--ab-sl-tx,#c00);background:var(--ab-sl-bg,#f6dbdb)}.abstag.ab-sl{color:var(--ab-sl-tx);background:var(--ab-sl-bg)}.nmwrap>.abstag.ab-sl{border-color:var(--ab-sl-ln)}.abstag.ab-rd{color:var(--ab-rd-tx);background:var(--ab-rd-bg)}.nmwrap>.abstag.ab-rd{border-color:var(--ab-rd-ln)}.abstag.ab-al{color:var(--ab-al-tx);background:var(--ab-al-bg)}.nmwrap>.abstag.ab-al{border-color:var(--ab-al-ln)}.abstag.ab-oa{color:var(--ab-oa-tx);background:var(--ab-oa-bg)}.nmwrap>.abstag.ab-oa{border-color:var(--ab-oa-ln)}.nmwrap.hasabs>input{padding-right:62px!important}.nmwrap.hasabs.haswcol>.wcol{right:62px}.nmwrap.hasabs.haswcol>input{padding-right:82px!important}
+.nmwrap>.abstag{position:absolute;right:24px;top:50%;transform:translateY(-50%);z-index:1;pointer-events:none;font:700 11px/1 var(--body);padding:3px 5px;border-radius:999px;border:1px solid currentColor}.abstag{color:var(--ab-sl-tx,#c00);background:var(--ab-sl-bg,#f6dbdb)}.abstag.ab-sl{color:var(--ab-sl-tx);background:var(--ab-sl-bg)}.nmwrap>.abstag.ab-sl{border-color:var(--ab-sl-ln)}.abstag.ab-rd{color:var(--ab-rd-tx);background:var(--ab-rd-bg)}.nmwrap>.abstag.ab-rd{border-color:var(--ab-rd-ln)}.abstag.ab-al{color:var(--ab-al-tx);background:var(--ab-al-bg)}.nmwrap>.abstag.ab-al{border-color:var(--ab-al-ln)}.abstag.ab-oa{color:var(--ab-oa-tx);background:var(--ab-oa-bg)}.nmwrap>.abstag.ab-oa{border-color:var(--ab-oa-ln)}.abstag.ab-lta{color:var(--ab-lta-tx,#fff);background:var(--ab-lta-bg,#cc0000)}.nmwrap>.abstag.ab-lta{border-color:var(--ab-lta-ln,#cc0000)}.nmwrap.hasabs>input{padding-right:62px!important}.nmwrap.hasabs.haswcol>.wcol{right:62px}.nmwrap.hasabs.haswcol>input{padding-right:82px!important}
 .absmenu{position:fixed;z-index:9900;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:4px;display:flex;flex-direction:column;min-width:190px}.absmenu .abshd{font:700 13px var(--body);padding:5px 8px}.absmenu .abshd span{font-weight:400;color:var(--muted)}.absmenu button{text-align:left;border:0;background:none;color:var(--text);padding:8px 10px;border-radius:6px;font:600 14px var(--body);cursor:pointer;white-space:pre}.absmenu button:hover{background:var(--field)}.absmenu button.on{background:var(--ink);color:var(--ink-text)}.nmwrap input{width:100%}
 .nmwrap input:has(+ .nmclr){padding-right:24px}
 .nmclr{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:20px;height:20px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font:700 16px/20px Arial,sans-serif;cursor:pointer;opacity:.7}
@@ -1493,6 +1493,7 @@ html.mob #main .mabs{margin:1px 0 0 1px;font:600 10px/1.2 var(--body);padding:1p
 html.mob #main .mabs-rd{color:var(--ab-rd-tx,#1e4fbf);background:var(--ab-rd-bg,#dce6ff)}
 html.mob #main .mabs-al{color:var(--ab-al-tx,#1d6b3a);background:var(--ab-al-bg,#d9f2e2)}
 html.mob #main .mabs-sl{color:var(--ab-sl-tx,#b00);background:var(--ab-sl-bg,#f6dbdb)}
+html.mob #main .mabs-lta{color:var(--ab-lta-tx,#fff);background:var(--ab-lta-bg,#cc0000)}
 html.mob #main .mabs-oa,html.mob #main .mabs-oth{color:var(--warn);background:var(--warn-bg)}
 html.mob #main>.addrow{display:block!important;width:100%;height:32px;margin:1px 0 8px;border-radius:4px;border:1px dashed var(--muted);background:var(--field);color:var(--text);font-weight:700;font-size:13px}
 html.mob #main>.addrow::before{content:"+ "}
@@ -1566,6 +1567,7 @@ html.mob #main{padding:0}
 .abstag.ab-rdw{color:#1d6b3a;background:#d9f2e2;border-color:#1d6b3a}
 html.mob #main .mabs-rdw{color:#1d6b3a;background:#d9f2e2}
 .absmenu [data-rdw].on{background:#d9f2e2;color:#1d6b3a}
+.absmenu .ltabtn{color:var(--ab-lta-bg,#cc0000);font-weight:700}.absmenu .ltabtn.on{background:var(--ab-lta-bg,#cc0000);color:var(--ab-lta-tx,#fff)}
 
 /* + / − second-duty buttons: the circle and the +/− are both drawn in one square SVG, so they stay round and sharp whatever the button, table, row height, browser or layout settings do (Ash, 5 Oct 2026) */
 .dutyadd,html:not(.mob) table.offtbl>tbody>tr>td button.dutyadd,html.rowtiny:not(.mob) table.offtbl>tbody>tr>td button.dutyadd{display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:content-box!important;flex:0 0 auto!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;outline-offset:1px;line-height:0!important;font-size:inherit!important;color:inherit;-webkit-appearance:none;appearance:none;cursor:pointer}
@@ -1763,6 +1765,15 @@ html.mob #main>.offvline,html.mob #main>.restline{padding-left:12px;padding-righ
 html:not(.mob):not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){width:22px!important;min-width:22px!important;height:22px!important;min-height:22px!important;max-height:none!important;margin-block:min(0px,calc((var(--rowh) - 24px) / 2))!important;position:relative;z-index:1}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn) .iglyph{height:.96em!important}
 html:not(.mob) table.offtbl>tbody>tr>td :is(.namecell,.hookcell):has(>:is(.vdbtn,.dhbtn)){overflow:clip!important;overflow-clip-margin:4px}
+/* SAFETY NET (14 Oct 2026): the ⓘ came back squashed (a wide flat oval) — the cell and its name/hook wrapper clip to the row
+   height (td overflow:hidden, td>* max-height:var(--rowh)), and Firefox cut the 22px circle top and bottom on short rows
+   even with the clip margin above. So a cell holding a ⓘ now only clips sideways (overflow-x:clip keeps fitted columns
+   tidy) and never up or down, and the button itself is hard-pinned to a 22px circle: max sizes, no transform, no shrinking.
+   The negative margin-block above still keeps short rows from growing, the circle just overlaps the row edge a little. */
+html:not(.mob) table.offtbl.offtbl>tbody>tr>td:has(:is(.vdbtn,.dhbtn)){overflow-x:clip!important;overflow-y:visible!important}
+html:not(.mob) table.offtbl.offtbl>tbody>tr>td>:is(.namecell,.hookcell,.nmwrap,.hkwrap):has(:is(.vdbtn,.dhbtn)),html:not(.mob) table.offtbl.offtbl>tbody>tr>td :is(.namecell,.hookcell):has(>:is(.vdbtn,.dhbtn)){max-height:none!important;overflow-x:clip!important;overflow-y:visible!important;overflow-clip-margin:4px}
+html:not(.mob):not(.mob) table.offtbl.offtbl.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn){width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;max-width:22px!important;max-height:22px!important;flex:0 0 22px!important;aspect-ratio:1/1!important;transform:none!important;padding:0!important;box-sizing:border-box!important;border-radius:50%!important;overflow:visible!important;line-height:1!important}
+html:not(.mob) table.offtbl>tbody>tr>td :is(.vdbtn,.dhbtn)>.iglyph{width:auto!important;height:.96em!important;max-width:none!important;max-height:none!important;flex:none!important;transform:none!important}
 /* the grey "Suggested" pills/box (.hooktips) are a direct child of the td, so a very short row (↕ "compact rows", 1.3em,
    or the small ↕ next to a table) caps them to max-height:var(--rowh) with overflow:hidden (see table.offtbl>tbody>tr>td>*
    above). But the pills inside have their own protected minimum height and can be a pixel or two taller than that cap,
@@ -2027,6 +2038,11 @@ input.hook.permwarn{outline:2px dashed var(--warn);outline-offset:-2px}
 .hkbolt.hkret{font-size:11px;padding:0 1px;border-radius:3px;background:color-mix(in srgb,var(--field) 72%,transparent)}
 .hpi.hpperm{color:var(--muted)}.hpi.hpperm span{color:var(--warn)}
 .hpi.hpbusy span{color:var(--warn)}
+/* On a fuel-coloured row (green electric, blue diesel, pale-blue petrol) the amber "permanent van" / "in use" note and the grey
+   main text were unreadable: keep the row's own black/white ink there instead; the ⚠ still marks it (Ash, 14 Oct 2026) */
+.hpi.fuelc.hpperm,.hpi.fuelc.hpbusy{color:inherit}.hpi.fuel-e.hpperm,.hpi.fuel-e.hpbusy{color:var(--fuel-e-ink)}.hpi.fuel-d.hpperm,.hpi.fuel-d.hpbusy{color:var(--fuel-d-ink)}.hpi.fuel-p.hpperm,.hpi.fuel-p.hpbusy{color:var(--fuel-p-ink)}
+.hpi.fuelc.hpperm span,.hpi.fuelc.hpbusy span{color:inherit;opacity:.9;font-weight:600}
+table.offtbl>tbody>tr>td.fuel-e .chgnote{color:var(--fuel-e-ink)}table.offtbl>tbody>tr>td.fuel-d .chgnote{color:var(--fuel-d-ink)}table.offtbl>tbody>tr>td.fuel-p .chgnote{color:var(--fuel-p-ink)}
 /* OOS tab lists: hook box with a ▾ (Ash, 14 Oct 2026) */
 .hkwrap.hkdd input.hook{padding-right:46px;border-color:var(--line);background:var(--field)}
 .hkwrap.hkdd input.hook::placeholder{color:var(--muted);font-style:italic;font-weight:400}
@@ -2360,7 +2376,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-14.247";window.DA_BUILD=BUILD;
+const BUILD="2026-10-14.250";window.DA_BUILD=BUILD;
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000;let STORE_CAP=localStorage.idb?60000000:5000000;
@@ -2700,7 +2716,7 @@ const TIPS=[
  ["[data-bw='-1']","Don't make any of this name bold"],["[data-bw]","Make this part of the name bold, so you know what they go by"],
  ["[data-nshowall='1']","Show everything beside driver names"],["[data-nshowall='0']","Show nothing beside driver names"],
  ["[data-rdw='0']","Undo: they are not working on their rest day"],["[data-rdw='1']","Mark that they are working on their rest day"],
- ["[data-abs='SL']","Mark as off sick (S/L)"],["[data-abs='AL']","Mark as on annual leave (A/L)"],["[data-abs='OA']","Mark as other absence (O/A)"],["[data-abs='']","Clear the absence: they are back at work"],["[data-absbackbtn]","Pick the day they come back, or Unknown"],["[data-absedit]","Type a different name in this box"],
+ ["[data-abs='SL']","Mark as off sick (S/L)"],["[data-abs='AL']","Mark as on annual leave (A/L)"],["[data-abs='OA']","Mark as other absence (O/A)"],["[data-abs='LTA']","Mark as long-term absence (LTA): ticks Long-term absence in their details, so they stay off every day until cleared"],["[data-abs='']","Clear the absence: they are back at work"],["[data-absbackbtn]","Pick the day they come back, or Unknown"],["[data-absedit]","Type a different name in this box"],
  ["[data-wtype]","Type the walk instead of picking from the list"],["[data-w]","Use this walk"],
  ["[data-selall='none']","Unhighlight everything you've selected"],
  ["[data-add$='.main']","Add a new row to this office. It stays on later dates too"],["[data-add$='.extra']","Add a row for an additional vehicle"],["[data-add$='.pm']","Add a row for a 1pm van"],
@@ -3301,7 +3317,7 @@ function render(){/* Sunday: W2–W12 are hidden, only Sunday Duty shows (Ash, 1
 /* phone: spell out when a driver or sub is on a rest day, A/L, S/L etc. */
 function mobAbsence(){document.querySelectorAll('#main input[data-type="name"]').forEach(el=>{const n=up(el.value.trim());if(!n||!db.drivers.includes(n))return;
   let av=availOn(n,day);const rdw=!av&&worksRD(n,day)&&RDRX.test(availOn0(n,day));if(rdw)av="working rest day";if(!av)return;const td=el.closest("td");if(!td||td.querySelector(".mabs"))return;
-  const ab=absOn(n,day),cls=rdw?"rdw":ab==="SL"?"sl":ab==="AL"?"al":ab?"oa":/rest day|day off|week off/.test(av)?"rd":"oth";
+  const ab=absOn(n,day),cls=rdw?"rdw":ab==="SL"?"sl":ab==="AL"?"al":ab?"oa":av==="long-term absence"?"lta":/rest day|day off|week off/.test(av)?"rd":"oth";
   const d=document.createElement("div");d.className="mabs mabs-"+cls;d.textContent=av.charAt(0).toUpperCase()+av.slice(1)+" today";td.appendChild(d);td.closest("tr")&&td.closest("tr").classList.add("mhasabs")})}
 /* ---------- phone: read-only view. Office tabs only, each walk as plain text ---------- */
 function mobView(a){const o=OFFICES.includes(tab)?tab:"W2",A=a[o];if(!A)return"";
@@ -3725,12 +3741,13 @@ function absCal(btn,sel,unk,done,host,title){let c=document.getElementById("absC
     setTimeout(()=>{document.addEventListener("pointerdown",out,true);document.addEventListener("keydown",k,true)},0)}const r=btn.getBoundingClientRect(),hr=(host||document.body).getBoundingClientRect();
   c.style.position="fixed";c.style.left=Math.max(4,Math.min(r.left,innerWidth-c.offsetWidth-4))+"px";c.style.top=(r.bottom+c.offsetHeight+4>innerHeight?Math.max(4,r.top-c.offsetHeight-4):r.bottom+4)+"px"}
 function absMenu(t){let m=document.getElementById("absMenu");if(m&&m.dataset.for===t.dataset.path){m.remove();return}if(m)m.remove();
-  const n=up(t.value.trim());if(!n)return;const cur=absOn(n,day);
+  const n=up(t.value.trim());if(!n)return;const cur=absOn(n,day)||(DI(n).absent==="Yes"?"LTA":""); /* LTA = the Long-term absence tick in their details (Ash, 14 Oct 2026) */
   m=document.createElement("div");m.id="absMenu";m.className="absmenu";m.dataset.for=t.dataset.path;
   m.innerHTML=`<div class="abshd">${esc(n)} <span>${esc(dayShort(day))}</span></div>`+(()=>{const t=nextRestTag(n);return t?`<div class="absrest">Next ${t}</div>`:`<div class="absrest absrest0">Next rest: not set up</div>`})()+
     (!cur&&RDRX.test(availOn0(n,day))?(worksRD(n,day)?`<button type="button" data-rdw="0" class="on">✓ Working on rest day <small>(tap to undo)</small></button>`:`<button type="button" data-rdw="1">Working on rest day</button>`):"")+
-    [["SL","S/L  Sick leave"],["AL","A/L  Annual leave"],["OA","O/A  Other absence"]].map(([v,l])=>`<button type="button" data-abs="${v}"${cur===v?' class="on"':""}>${l}${cur===v?" ✓":""}</button>`).join("")+
-    (cur?(()=>{const RR=(db.absRange||{})[up(n)],unk=!!(RR&&RR.unk&&!RR.back);return `<div class="absback">Back at work on <button type="button" class="absbackbtn" data-absbackbtn aria-haspopup="dialog">${absBack(n)?esc(dayShort(absBack(n))):unk?"Unknown":"Pick a date…"} 📅</button></div><div class="absnote">${absBack(n)?`Clears itself on ${esc(dayShort(absBack(n)))}`:unk?"Stays off every day until you clear it":"Pick a date and it clears itself that day, or pick Unknown in the calendar"}</div><button type="button" data-abs="">Clear (back at work)</button>`})():"")+`<button type="button" data-absedit>Change name…</button>`;
+    [["SL","S/L  Sick leave"],["AL","A/L  Annual leave"],["OA","O/A  Other absence"],["LTA","LTA  Long-term absence"]].map(([v,l])=>`<button type="button" data-abs="${v}"${v==="LTA"?' class="ltabtn'+(cur===v?" on":"")+'" title="Ticks Long-term absence in their details: they stay off every day until it is cleared"':cur===v?' class="on"':""}>${l}${cur===v?" ✓":""}</button>`).join("")+
+    (cur==="LTA"?`<div class="absnote">Long-term absence is ticked in ${esc(n)}'s details. They show LTA every day until you clear it.</div><button type="button" data-abs="">Clear (back at work)</button>`:"")+
+    (cur&&cur!=="LTA"?(()=>{const RR=(db.absRange||{})[up(n)],unk=!!(RR&&RR.unk&&!RR.back);return `<div class="absback">Back at work on <button type="button" class="absbackbtn" data-absbackbtn aria-haspopup="dialog">${absBack(n)?esc(dayShort(absBack(n))):unk?"Unknown":"Pick a date…"} 📅</button></div><div class="absnote">${absBack(n)?`Clears itself on ${esc(dayShort(absBack(n)))}`:unk?"Stays off every day until you clear it":"Pick a date and it clears itself that day, or pick Unknown in the calendar"}</div><button type="button" data-abs="">Clear (back at work)</button>`})():"")+`<button type="button" data-absedit>Change name…</button>`;
   document.body.appendChild(m);const r=t.getBoundingClientRect();m.style.left=Math.max(4,Math.min(r.left,innerWidth-m.offsetWidth-4))+"px";
   m.style.top=(r.bottom+m.offsetHeight+4>innerHeight?Math.max(4,r.top-m.offsetHeight-4):r.bottom+4)+"px";
   const shut=()=>{m.remove();{const ac=document.getElementById("absCal");if(ac)ac.remove()}document.removeEventListener("pointerdown",out,true);document.removeEventListener("keydown",esc1,true)};
@@ -3760,6 +3777,9 @@ function absMenu(t){let m=document.getElementById("absMenu");if(m&&m.dataset.for
     document.querySelectorAll('#walkDlg input[name="rdwch"]').forEach(x=>x.onchange=()=>{if(x.checked)ch=x.value})}}
   m.querySelectorAll("[data-abs]").forEach(b=>b.onclick=()=>{const v=b.dataset.abs;db.absence=db.absence||{};const D=db.absence[day]=db.absence[day]||{};
     const R=(db.absRange||{})[n];
+    /* LTA: tick (or clear) Long-term absence in the driver's details, the same box as under (i) → Full detail (Ash, 14 Oct 2026) */
+    if(v==="LTA"){setDI(n,"absent","Yes");delete D[n];if(R)delete db.absRange[n];if(!Object.keys(D).length)delete db.absence[day];shut();save(`${n} marked long-term absence`);render();toast(`${n}: LTA (long-term absence)`);return}
+    if(!v&&cur==="LTA"){setDI(n,"absent","");delete D[n];if(!Object.keys(D).length)delete db.absence[day];shut();save(`${n} back at work — long-term absence cleared`);render();toast(`${n}: long-term absence cleared`);return}
     if(v){D[n]=v;if(R&&R.back&&day<R.back)R.v=v}
     else{if(carryFrom(n,day))D[n]="IN";else delete D[n];if(R){if(R.from<day)R.back=day;else delete db.absRange[n]}}
     if(!Object.keys(D).length)delete db.absence[day];shut();
@@ -3780,7 +3800,7 @@ function nameInput(val,path,label){
   /* small coloured office tag when a name typed here belongs to a different office, so it's clear at a glance it's a
      visiting driver (e.g. AHMED KADEMI typed on W10 shows a little W2) (Ash, 6 Oct 2026) */
   const here=path.split(".")[0],homeOff=k&&known?roleOffice(driverOffice(k)):"",away=homeOff&&OFFICES.includes(homeOff)&&OFFICES.includes(here)&&homeOff!==here?homeOff:"";
-  let bt="",bn="",rdx="";if(k){const ab=absOn(k,day);if(ab){bt=absTag(ab);bn=absName(ab);if(known&&(ab==="SL"||ab==="OA")){const rd=restOn(k,day);if(rd)rdx=rd}}else if(known){const av=availOn(k,day);if(/^(rest day|day off|week off)$/.test(av)){bt="R/D";bn=av}else if(!av&&worksRD(k,day)&&RDRX.test(availOn0(k,day))){bt="RDW";bn="working on their rest day"}}}
+  let bt="",bn="",rdx="";if(k){const ab=absOn(k,day);if(ab){bt=absTag(ab);bn=absName(ab);if(known&&(ab==="SL"||ab==="OA")){const rd=restOn(k,day);if(rd)rdx=rd}}else if(known&&DI(k).absent==="Yes"){bt="LTA";bn="long-term absence (Long-term absence ticked in their details)"}else if(known){const av=availOn(k,day);if(/^(rest day|day off|week off)$/.test(av)){bt="R/D";bn=av}else if(!av&&worksRD(k,day)&&RDRX.test(availOn0(k,day))){bt="RDW";bn="working on their rest day"}}}
   return `<input value="${esc(val)}" data-path="${path}" data-type="name" class="${clashCls(U.drivers,k,known||ext?"":"unknown")}${k&&known&&availOn(k,day)?" offday":""}${bt==="RDW"?" rdwnm":""}" aria-label="${label}" autocomplete="off"${known?(k&&availOn(k,day)?` title="${esc(k+": "+availOn(k,day)+" on "+dayShort(day))}"`:""):ext?` title="${esc(k)} is from ${esc(ext)}"`:' title="Not on the driver list"'}>${SHN?`<span class="nmshort" aria-hidden="true">${esc(shortName(k))}</span>`:""}`.replace(/^/,`<span class="nmwrap${SHN?" shortnm":""}${bt?" hasabs":""}${rdx?" hasabs2":""}${known&&nsDot(k)?" hasns":""}">`)+(known?nsDot(k):"")+(bt?`<span class="abstag ab-${bt.replace("/","").toLowerCase()}${rdx?" abs2":""}" title="${esc(bn)} on ${esc(dayShort(day))}">${bt}</span>`:"")+(rdx?`<span class="abstag ab-rd" title="Also their ${esc(rdx)} on ${esc(dayShort(day))}">R/D</span>`:"")+(away?(()=>{const c=offCol(away);return `<span class="abstag ab-away" style="--oc:var(--off-${away});color:${esc(contrastInk(c))}" title="${esc(k)}'s own office is ${esc(ovName(away))}">${esc(away)}</span>`})():"")+(ext?`<span class="abstag ab-away ab-ext" title="${esc(k)} is from ${esc(ext)}, outside W2 to W12">${esc(ext)}</span>`:"")+(val?`<button type="button" class="nmclr" data-nmclr="${path}" title="Tap 3 times to remove ${esc(val)}" aria-label="Tap 3 times to remove ${esc(label.toLowerCase())} ${esc(val)}">×</button>`:"")+`</span>`;
 }
 /* walk colours: Blue, Yellow, White, Pink or N/A, set on the Walks tab */
@@ -5294,7 +5314,7 @@ function wireSettings(){
 
 /* ---------- appearance ---------- */
 const FONTS={barlow:['Barlow','"Barlow","Segoe UI",system-ui,sans-serif'],arial:['Arial','Arial,Helvetica,sans-serif'],verdana:['Verdana (easy to read)','Verdana,Geneva,sans-serif'],tahoma:['Tahoma','Tahoma,Geneva,sans-serif'],calibri:['Calibri','Calibri,Carlito,"Segoe UI",sans-serif'],segoe:['Segoe UI / System','"Segoe UI",system-ui,-apple-system,Roboto,sans-serif'],georgia:['Georgia','Georgia,"Times New Roman",serif']};
-const BASE_LOOK={rbT:2,rbL:94,rbG:5,cbT:3,cbL:60,cbG:9,abSLTx:"#cc0000",abSLBg:"#f6dbdb",abSLLn:"#cc0000",abRDTx:"#1d5fd1",abRDBg:"#f6dbdb",abRDLn:"#1d5fd1",abALTx:"#d96a00",abALBg:"#f6dbdb",abALLn:"#cc0000",abOATx:"#a07800",abOABg:"#f6dbdb",abOALn:"#cc0000",preset:"standard",head:"#1d2a36",steel:"#dfe3e1",panel:"#f7f8f6",field:"#ffffff",side:"#e7eae8",bar:"#eef0ef",tabbg:"#e9ecea",text:"#1d2a36",muted:"#5d6b75",line:"#c3cac7",ink:"#1d2a36",rowline:"#e3e7e5",tag:"#f1c232",clash:"#c4302b",elec:"#1f7a4d",coll:"#2b5c9e",oth:"#1d8a8a",used:"#cfd5d2",usedInk:"#56615c",tagInk:"#3a2e05",warn:"#9a6a00",warnBg:"#fff3d1",
+const BASE_LOOK={rbT:2,rbL:94,rbG:5,cbT:3,cbL:60,cbG:9,abSLTx:"#cc0000",abSLBg:"#f6dbdb",abSLLn:"#cc0000",abRDTx:"#1d5fd1",abRDBg:"#f6dbdb",abRDLn:"#1d5fd1",abALTx:"#d96a00",abALBg:"#f6dbdb",abALLn:"#cc0000",abOATx:"#a07800",abOABg:"#f6dbdb",abOALn:"#cc0000",abLTATx:"#ffffff",abLTABg:"#cc0000",abLTALn:"#cc0000",preset:"standard",head:"#1d2a36",steel:"#dfe3e1",panel:"#f7f8f6",field:"#ffffff",side:"#e7eae8",bar:"#eef0ef",tabbg:"#e9ecea",text:"#1d2a36",muted:"#5d6b75",line:"#c3cac7",ink:"#1d2a36",rowline:"#e3e7e5",tag:"#f1c232",clash:"#c4302b",elec:"#1f7a4d",coll:"#2b5c9e",oth:"#1d8a8a",used:"#cfd5d2",usedInk:"#56615c",tagInk:"#3a2e05",warn:"#9a6a00",warnBg:"#fff3d1",
   offW2:"#c8c039",offW8:"#498059",offW9:"#af349f",offW10:"#501f6e",offW11:"#004d9d",offW12:"#c6883f",offW13:"#7a7a7a",offOn:true,
   fs:15,font:"barlow",heading:"condensed",cellWeight:"400",hookWeight:"600",lines:"light",vlines:false,zebra:false,rowH:"normal",density:"normal",radius:"rounded",
   headInk:"auto",inkText:"auto",tabInk:"auto",tabSel:"auto",tabSelInk:"auto",focus:"auto",hover:"auto",zebraCol:"auto",del:"auto",toast:"auto",qhit:"#e63946",calData:"auto",calToday:"auto",calSel:"auto",
@@ -5484,7 +5504,7 @@ function applyLook(){
   document.documentElement.classList.toggle("rowhover",!!L.rowHover);
   document.documentElement.classList.toggle("nomotion",L.motion===false);
   document.documentElement.classList.toggle("noshadow",L.shadows===false);
-  ["SL","RD","AL","OA"].forEach(k=>{const l=k.toLowerCase();set(`--ab-${l}-tx`,L[`ab${k}Tx`]);set(`--ab-${l}-bg`,L[`ab${k}Bg`]);set(`--ab-${l}-ln`,L[`ab${k}Ln`])});
+  ["SL","RD","AL","OA","LTA"].forEach(k=>{const l=k.toLowerCase();set(`--ab-${l}-tx`,L[`ab${k}Tx`]);set(`--ab-${l}-bg`,L[`ab${k}Bg`]);set(`--ab-${l}-ln`,L[`ab${k}Ln`])});
   set("--fs",L.fs+"px");
   const f=(FONTS[L.font]||FONTS.barlow)[1];set("--body",f);
   set("--display",L.heading==="condensed"?'"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif':f);
@@ -5672,7 +5692,7 @@ function lookHTML(){
   h+=`<div class="looksub">Copy-from bar (Nothing allocated…)</div>`+colA("cbBg","Background",L.warnBg)+colA("cbInk","Text",L.text)+colA("cbBtn","Copy button",L.ink)+colA("cbBtnInk","Copy button text",contrastInk(L.ink));
   h+=`<div class="looksub">Other top bar bits</div>`+colA("barBtnBg","Bars Setting button",L.panel)+colA("barBtnInk","Bars Setting text",L.text)+colA("dueDot","Backup due dot",L.tag);
   h+=`<div class="looksub">Calendar</div>`+colA("calData","Days with data",L.elec)+colA("calToday","Today ring",L.tag)+colA("calSel","Day you're viewing",L.head);
-  h+=`<div class="looksub">Driver badges (S/L, R/D, A/L, O/A)</div>`+[["SL","S/L sick leave"],["RD","R/D rest day"],["AL","A/L annual leave"],["OA","O/A other absence"]].map(([k,t])=>col(`ab${k}Tx`,t+" letters")+col(`ab${k}Bg`,t+" background")+col(`ab${k}Ln`,t+" outline")).join("");
+  h+=`<div class="looksub">Driver badges (S/L, R/D, A/L, O/A, LTA)</div>`+[["SL","S/L sick leave"],["RD","R/D rest day"],["AL","A/L annual leave"],["OA","O/A other absence"],["LTA","LTA long-term absence"]].map(([k,t])=>col(`ab${k}Tx`,t+" letters")+col(`ab${k}Bg`,t+" background")+col(`ab${k}Ln`,t+" outline")).join("");
   h+=`<div class="looksub">Hook colours (all layouts and hook lists)</div>`+chk("fuelColOff","Don't colour Hook No. by fuel")+colA("fuelE","Electric","#5fae5f")+colA("fuelEInk","Electric text","#000000")+colA("fuelD","Diesel","#8fc1e8")+colA("fuelDInk","Diesel text","#000000")+colA("fuelP","Petrol","#cfe8f7")+colA("fuelPInk","Petrol text","#000000");
   h+=`<div class="looksub">Office sheet (W2 to W12, Layout 1 and Layout 2)</div><p class="note" style="margin:0 0 4px">Auto keeps the normal look. The Paper look and V2 keep their black-and-white look, apart from the hook colours.</p>`+colA("sheetBg","Sheet background","#ffffff")+colA("thBg","Column headings background","#eeeeee")+colA("thInk","Column headings text","#333333")+chk("thBold","Bold column headings")+colA("rowNumInk","Row numbers","#555555")+colA("drvInk","Driver names","#000000")+colA("subInk","Substitute names","#000000")+colA("dutyInk","Duty and partner","#000000")+colA("selRowBg","Row being edited","#fff6c2");
   h+=`<div class="looksub">Office colours</div>`+chk("offOn","Show office colours")+["W2","W8","W9","W10","W11","W12","W13"].map(o=>col("off"+o,ovName(o))).join("");
@@ -6582,7 +6602,7 @@ function rotaAdopt(o,id,dry){const p=rmPat(id);if(!p)return null;const old=rotaO
   ds.forEach(n=>{if(best){const li=best.m.get(best.used.get(n));if(li!=null){rotaSetPos(n,r,li,0);return}}setDI(n,"rotaLine","");setDI(n,"rotaShift","")});
   return {kept,reset}}
 function offTxt(d){return !d||!d.length?"working all week":d.length>=6?"week off":d.join(", ")+" off"}
-function restLine(o){const L=[];db.drivers.forEach(n=>{if(isND(n))return;if(roleOffice(driverOffice(n))!==o)return;const a=availOn(n,day);if(a&&a!=="absent")L.push([n,a])});
+function restLine(o){const L=[];db.drivers.forEach(n=>{if(isND(n))return;if(roleOffice(driverOffice(n))!==o)return;const a=availOn(n,day);if(a&&a!=="long-term absence")L.push([n,a])});
   if(!L.length)return "";
   return `<p class="restline"><b>${esc(ovName(o))} off on ${esc(dayShort(day))} (${L.length}):</b> ${L.map(([n,a])=>`<span${U.drivers.has(n)?' class="used" title="Allocated on this day even though they are off"':""}>${esc(n)}${nsDot(n)?" "+nsDot(n):""}${a!=="rest day"?` <small>(${esc(a)})</small>`:""}</span>`).join(", ")}</p>`}
 let rdQ="",rdLetter="",drLetter="",rdCustomOpen="",drOffF="",drFindQ="",wlFindQ="",drTagF="";
@@ -6699,8 +6719,8 @@ function carryAbs(n,k){n=up(n||"");k=k||day;if(!n||absOn(n,k)||(((db.absence||{}
     if(db.days&&db.days[p]&&dayFill(db.days[p]).n)return ""}return ""}
 function carryFrom(n,k){let p=k;for(let i=0;i<7;i++){p=prevIso(p);if(absOn(n,p))return 1;if(db.days&&db.days[p]&&dayFill(db.days[p]).n)return 0}return 0}
 function carryAbsDay(a,o){let c=[];if(a)(o?[o]:OFFICES).forEach(x=>{if(a[x])(a[x].main||[]).forEach(r=>[r.driver,r.sub].forEach(nm=>{const v=carryAbs(nm);if(v)c.push(up(nm)+" "+absTag(v))}))});return c}
-function absTag(v){return v==="SL"?"S/L":v==="AL"?"A/L":v==="OA"?"O/A":""}
-function absName(v){return v==="SL"?"sick leave":v==="AL"?"annual leave":v==="OA"?"other absence":""}
+function absTag(v){return v==="SL"?"S/L":v==="AL"?"A/L":v==="OA"?"O/A":v==="LTA"?"LTA":""}
+function absName(v){return v==="SL"?"sick leave":v==="AL"?"annual leave":v==="OA"?"other absence":v==="LTA"?"long-term absence":""}
 /* their own rest day (fixed days off or rota), ignoring any absence mark */
 function restOn(n,k){const I=DI(n),w=WEEK[(parse(k).getDay()+6)%7];if(I.daysOff&&I.daysOff.includes(w))return "day off";
   const r=rotaOffDays(n,k);return r&&r.includes(w)?(r.length>=6?"week off":"rest day"):""}
@@ -6708,7 +6728,7 @@ function restOn(n,k){const I=DI(n),w=WEEK[(parse(k).getDay()+6)%7];if(I.daysOff&
 const RDRX=/^(rest day|day off|week off)$/;
 function worksRD(n,k){return !!(((db.rdWork||{})[k]||{})[up(n||"")])}
 function availOn(n,k){const a=availOn0(n,k);return a&&RDRX.test(a)&&worksRD(n,k)?"":a}
-function availOn0(n,k){const I=DI(n);{const ab=absOn(n,k);if(ab)return absName(ab)}if(I.absent==="Yes")return "absent";
+function availOn0(n,k){const I=DI(n);{const ab=absOn(n,k);if(ab)return absName(ab)}if(I.absent==="Yes")return "long-term absence";
   if((I.leave||[]).some(r=>r.from&&k>=r.from&&k<=(r.to||r.from)))return "on leave";
   if(I.daysOff&&I.daysOff.length){const w=WEEK[(parse(k).getDay()+6)%7];if(I.daysOff.includes(w))return "day off"}
   {const r=rotaOffDays(n,k);if(r&&r.includes(WEEK[(parse(k).getDay()+6)%7]))return r.length>=6?"week off":"rest day"}
@@ -8094,7 +8114,7 @@ function offHas(a,o){return offRows(a,o).some(r=>r.hook||r.driver||r.sub)}
 function prevDayFor(o,k){return Object.keys(db.days||{}).filter(x=>x<k&&offHas(db.days[x],o)).sort().pop()||""}
 function rowMap(rows){const m=new Map();rows.forEach((r,i)=>{if(r.notUsed)return;const n=up(r.driver);if(n&&!m.has(n))m.set(n,Object.assign({i},r))});return m}
 function dutyTxt(r){return r.duty?(r.two&&r.duty2?r.duty+" + "+r.duty2:r.duty):""}
-function hookTxt(h){return h?hookLabel(h):"no van"}
+function vanTxt(h){return h?hookLabel(h):"no van"} /* was a second hookTxt: it overrode the sheet's hookTxt and put the words "no van" in every empty Hook box (Ash, 14 Oct 2026) */
 function realDuty(r){return !!r.duty&&!/^(DPR|FIRMS|RLE)/i.test(r.duty)}
 function whyOff(n,k){let a="";try{a=availOn(n,k)}catch(e){}if(a==="covered by a sub")a="";if(a)return a;const ab=(((db.absence||{})[k])||{})[up(n)];return ab&&ab!=="IN"?absName(ab):""}
 function sameRow(p,n){return (p.hook||null)===(n.hook||null)&&up(dutyTxt(p))===up(dutyTxt(n))&&up(p.sub)===up(n.sub)&&up(p.partner)===up(n.partner)&&(p.away||"")===(n.away||"")}
@@ -8109,26 +8129,26 @@ function dayChanges(k){
     PM.forEach((r,n)=>{if(NM.has(n))return;
       const asSub=N.find(x=>up(x.sub)===n&&!x.notUsed);let other="";offs.forEach(o2=>{if(o2!==o&&rowMap(offRows(A,o2)).has(n))other=o2});
       const ex=asSub?`now substitute on duty ${dutyTxt(asSub)||"?"}`:other?`working in ${ovName(other)} today`:(whyOff(n,k)||"not on the sheet"),d=dutyTxt(r);
-      add("off",`<b>${esc(n)}</b> off <span class="itag off">${esc(ex)}</span>${d?` <small>(was duty ${esc(d)}, ${esc(hookTxt(r.hook))})</small>`:""}`,`OFF: ${n} — ${ex}${d?" (was duty "+d+", "+hookTxt(r.hook)+")":""}`)});
+      add("off",`<b>${esc(n)}</b> off <span class="itag off">${esc(ex)}</span>${d?` <small>(was duty ${esc(d)}, ${esc(vanTxt(r.hook))})</small>`:""}`,`OFF: ${n} — ${ex}${d?" (was duty "+d+", "+vanTxt(r.hook)+")":""}`)});
     NM.forEach((r,n)=>{if(PM.has(n))return;
       const w=whyOff(n,k),d=dutyTxt(r);let reg=[];try{reg=regDutiesOf(n).filter(x=>x[0]===o).map(x=>x[1])}catch(e){}
       const note=w?` <span class="itag off">marked ${esc(w)}</span>`:(reg.length&&d&&!reg.includes(up(d))?` <span class="itag chg">usually duty ${esc(reg.join("/"))}</span>`:"");
-      add("on",`<b>${esc(n)}</b> in — ${esc(hookTxt(r.hook))}${d?`, duty <b>${esc(d)}</b>`:""}${r.sub?`, sub ${esc(r.sub)}`:""}${r.partner?`, with ${esc(r.partner)}`:""}${note}`,`IN: ${n} — ${hookTxt(r.hook)}${d?", duty "+d:""}${r.sub?", sub "+r.sub:""}${r.partner?", with "+r.partner:""}${w?" (marked "+w+")":""}`)});
+      add("on",`<b>${esc(n)}</b> in — ${esc(vanTxt(r.hook))}${d?`, duty <b>${esc(d)}</b>`:""}${r.sub?`, sub ${esc(r.sub)}`:""}${r.partner?`, with ${esc(r.partner)}`:""}${note}`,`IN: ${n} — ${vanTxt(r.hook)}${d?", duty "+d:""}${r.sub?", sub "+r.sub:""}${r.partner?", with "+r.partner:""}${w?" (marked "+w+")":""}`)});
     NM.forEach((r,n)=>{const p=PM.get(n);if(!p||sameRow(p,r))return;const ch=[],ct=[];
-      if((p.hook||null)!==(r.hook||null)){ch.push(`van ${esc(hookTxt(p.hook))} → <b>${esc(hookTxt(r.hook))}</b>`);ct.push(`van ${hookTxt(p.hook)} → ${hookTxt(r.hook)}`)}
+      if((p.hook||null)!==(r.hook||null)){ch.push(`van ${esc(vanTxt(p.hook))} → <b>${esc(vanTxt(r.hook))}</b>`);ct.push(`van ${vanTxt(p.hook)} → ${vanTxt(r.hook)}`)}
       if(up(dutyTxt(p))!==up(dutyTxt(r))){ch.push(`duty ${esc(dutyTxt(p)||"none")} → <b>${esc(dutyTxt(r)||"none")}</b>`);ct.push(`duty ${dutyTxt(p)||"none"} → ${dutyTxt(r)||"none"}`)}
       if(up(p.sub)!==up(r.sub)){ch.push(r.sub?`now covered by <b>${esc(r.sub)}</b>`:`no longer covered by ${esc(p.sub)}`);ct.push(r.sub?`now covered by ${r.sub}`:`no longer covered by ${p.sub}`)}
       if(up(p.partner)!==up(r.partner)){ch.push(`partner ${esc(p.partner||"none")} → <b>${esc(r.partner||"none")}</b>`);ct.push(`partner ${p.partner||"none"} → ${r.partner||"none"}`)}
       if((p.away||"")!==(r.away||"")){ch.push(r.away?"marked <b>SICK</b>":"no longer marked sick");ct.push(r.away?"marked SICK":"no longer marked sick")}
       add("chg",`<b>${esc(n)}</b>: ${ch.join("; ")}`,`CHANGED: ${n} — ${ct.join("; ")}`)});
     N.forEach(r=>{if(!r.sub||r.notUsed)return;const d=dutyTxt(r),same=P.some(p=>!p.notUsed&&up(p.sub)===up(r.sub)&&up(p.driver)===up(r.driver)&&up(dutyTxt(p))===up(d));
-      add("sub",`<b>${esc(r.sub)}</b> covering ${r.driver?`<b>${esc(r.driver)}</b>`:"the walk"}${d?` on duty <b>${esc(d)}</b>`:""} <small>(${esc(hookTxt(r.hook))})</small>${same?' <span class="itag">same as last sheet</span>':' <span class="itag chg">new</span>'}`,`SUB: ${r.sub} covering ${r.driver||"the walk"}${d?" on duty "+d:""} (${hookTxt(r.hook)})${same?" (same as last sheet)":" (new)"}`)});
+      add("sub",`<b>${esc(r.sub)}</b> covering ${r.driver?`<b>${esc(r.driver)}</b>`:"the walk"}${d?` on duty <b>${esc(d)}</b>`:""} <small>(${esc(vanTxt(r.hook))})</small>${same?' <span class="itag">same as last sheet</span>':' <span class="itag chg">new</span>'}`,`SUB: ${r.sub} covering ${r.driver||"the walk"}${d?" on duty "+d:""} (${vanTxt(r.hook)})${same?" (same as last sheet)":" (new)"}`)});
     N.forEach(r=>{if(r.notUsed)return;const d=dutyTxt(r);
-      if(realDuty(r)&&!r.driver&&!r.sub)add("bad",`Duty <b>${esc(d)}</b> has <b>no driver</b>${r.hook?` <small>(${esc(hookTxt(r.hook))})</small>`:""}`,`GAP: duty ${d} has no driver${r.hook?" ("+hookTxt(r.hook)+")":""}`);
+      if(realDuty(r)&&!r.driver&&!r.sub)add("bad",`Duty <b>${esc(d)}</b> has <b>no driver</b>${r.hook?` <small>(${esc(vanTxt(r.hook))})</small>`:""}`,`GAP: duty ${d} has no driver${r.hook?" ("+vanTxt(r.hook)+")":""}`);
       else if((r.driver||r.sub)&&!r.hook&&!r.rdwElse)add("bad",`<b>${esc(r.driver||r.sub)}</b> has <b>no van</b>${d?` <small>(duty ${esc(d)})</small>`:""}`,`GAP: ${r.driver||r.sub} has no van${d?" (duty "+d+")":""}`)});
     N.forEach(r=>{if(r.away==="SICK"&&r.driver&&!r.notUsed){const p=PM.get(up(r.driver));if(p&&p.away==="SICK")add("off",`<b>${esc(r.driver)}</b> still marked <b>SICK</b>`,`SICK: ${r.driver} (still)`)}});
-    ((A&&A[o]&&A[o].extra)||[]).forEach(r=>{if(r.driver||r.hook)add("",`Additional: <b>${esc(r.driver||"no driver")}</b> — ${esc(hookTxt(r.hook))}${r.note?" — "+esc(r.note):""}`,`ADDITIONAL: ${r.driver||"no driver"} — ${hookTxt(r.hook)}${r.note?" — "+r.note:""}`)});
-    ((A&&A[o]&&A[o].pm)||[]).forEach(r=>{if(r.driver||r.hook)add("",`1pm: <b>${esc(r.driver||"no driver")}</b> — ${esc(hookTxt(r.hook))}`,`1PM: ${r.driver||"no driver"} — ${hookTxt(r.hook)}`)});
+    ((A&&A[o]&&A[o].extra)||[]).forEach(r=>{if(r.driver||r.hook)add("",`Additional: <b>${esc(r.driver||"no driver")}</b> — ${esc(vanTxt(r.hook))}${r.note?" — "+esc(r.note):""}`,`ADDITIONAL: ${r.driver||"no driver"} — ${vanTxt(r.hook)}${r.note?" — "+r.note:""}`)});
+    ((A&&A[o]&&A[o].pm)||[]).forEach(r=>{if(r.driver||r.hook)add("",`1pm: <b>${esc(r.driver||"no driver")}</b> — ${esc(vanTxt(r.hook))}`,`1PM: ${r.driver||"no driver"} — ${vanTxt(r.hook)}`)});
     const has=offHas(A,o);
     S.push({t:ovName(o),sub:pk?"compared with "+dayShort(pk):(has?"no earlier sheet to compare with":""),items,empty:has?(pk?"No changes — same as "+dayShort(pk):"First sheet for this office"):"Nothing allocated for "+ovName(o)+" yet"});
   });
@@ -8191,15 +8211,15 @@ function sumHTML(k){
   h+=`<div class="tiles">${tile(T.filled+" / "+T.walks,"walks with a van and driver",T.filled<T.walks?"warn":"")}${tile(T.drivers,"drivers on the sheet")}${tile(T.subs,"substitutes covering")}${tile(T.sick,"marked sick",T.sick?"warn":"")}${tile(T.gaps,"gaps (no driver or no van)",T.gaps?"bad":"")}${tile(S.used.size,"vans in use")}${tile(S.free.length,"vans free")}${tile(S.oos.length,"OOS",S.oos.length?"warn":"")}${tile(S.chg.length,"change over")}${tile(S.clashes.length,"used twice",S.clashes.length?"bad":"")}</div>`;
   h+=`<h3>Offices</h3><div class="itblwrap"><table class="itbl"><thead><tr><th>Office</th><th title="Walks with a van and driver">Filled</th><th>Drivers</th><th>Subs</th><th>Sick</th><th>Vans</th><th>Gaps</th><th title="Additional rows / 1pm rows">Extra/1pm</th></tr></thead><tbody>${S.rows.map(r=>`<tr><td><b>${esc(ovName(r.o))}</b></td><td class="n${r.filled<r.walks?" warn":""}">${r.filled} / ${r.walks}</td><td class="n">${r.drivers}</td><td class="n">${r.subs}</td><td class="n${r.sick?" warn":""}">${r.sick}</td><td class="n">${r.vans}</td><td class="n${r.gaps+r.noVan?" bad":""}">${r.gaps+r.noVan}</td><td class="n">${r.extra.length} / ${r.pm.length}</td></tr>`).join("")}</tbody></table></div>`;
   S.rows.forEach(r=>{const items=[];
-    r.gapRows.forEach(g=>items.push(`<li class="bad">Duty <b>${esc(g.d)}</b> has <b>no driver</b>${g.h?` <small>(${esc(hookTxt(g.h))})</small>`:""}</li>`));
+    r.gapRows.forEach(g=>items.push(`<li class="bad">Duty <b>${esc(g.d)}</b> has <b>no driver</b>${g.h?` <small>(${esc(vanTxt(g.h))})</small>`:""}</li>`));
     r.noVanRows.forEach(n=>items.push(`<li class="bad"><b>${esc(n)}</b> has <b>no van</b></li>`));
-    r.subRows.forEach(s=>items.push(`<li class="sub"><b>${esc(s.sub)}</b> covering ${s.drv?`<b>${esc(s.drv)}</b>`:"the walk"}${s.d?` on duty <b>${esc(s.d)}</b>`:""} <small>(${esc(hookTxt(s.h))})</small></li>`));
+    r.subRows.forEach(s=>items.push(`<li class="sub"><b>${esc(s.sub)}</b> covering ${s.drv?`<b>${esc(s.drv)}</b>`:"the walk"}${s.d?` on duty <b>${esc(s.d)}</b>`:""} <small>(${esc(vanTxt(s.h))})</small></li>`));
     r.sickNames.forEach(n=>items.push(`<li class="off"><b>${esc(n)}</b> marked <b>SICK</b></li>`));
     r.off.filter(x=>x.why!=="not allocated").forEach(x=>items.push(`<li class="off"><b>${esc(x.n)}</b> not working <span class="itag off">${esc(x.why)}</span></li>`));
     {const na=r.off.filter(x=>x.why==="not allocated");if(na.length)items.push(`<li class="muted"><details><summary>${na.length} other ${esc(ovName(r.o))} driver${na.length===1?"":"s"} not on any sheet today (no rest day or absence recorded)</summary>${na.map(x=>esc(x.n)).join(" · ")}</details></li>`)}
     r.cross.forEach(c=>items.push(`<li class="on"><b>${esc(c.name)}</b> from ${esc(ovName(c.home))} working here${c.field==="sub"?" as substitute":""}</li>`));
-    r.extra.forEach(x=>items.push(`<li>Additional: <b>${esc(x.driver||"no driver")}</b> — ${esc(hookTxt(x.hook))}${x.note?" — "+esc(x.note):""}</li>`));
-    r.pm.forEach(x=>items.push(`<li>1pm: <b>${esc(x.driver||"no driver")}</b> — ${esc(hookTxt(x.hook))}</li>`));
+    r.extra.forEach(x=>items.push(`<li>Additional: <b>${esc(x.driver||"no driver")}</b> — ${esc(vanTxt(x.hook))}${x.note?" — "+esc(x.note):""}</li>`));
+    r.pm.forEach(x=>items.push(`<li>1pm: <b>${esc(x.driver||"no driver")}</b> — ${esc(vanTxt(x.hook))}</li>`));
     h+=`<h3>${esc(ovName(r.o))} <small>${r.filled} of ${r.walks} walks have a van and driver</small><span class="cnt">${r.drivers} driver${r.drivers===1?"":"s"}</span></h3>`+(items.length?`<ul>${items.join("")}</ul>`:`<div class="none">${offHas(A,r.o)?"Fully covered — nobody off, no substitutes, no gaps":"Nothing allocated"}</div>`)});
   const vl=(t,L,f)=>{h+=`<h3>${t}<span class="cnt">${L.length}</span></h3>`+(L.length?`<ul>${L.map(f).join("")}</ul>`:`<div class="none">None</div>`)};
   vl("Vans OOS",S.oos,x=>`<li class="chg"><b>${esc(hookLabel(x.hook))}</b>${x.reason?" — "+esc(x.reason):""}${x.note?" — "+esc(x.note):""}</li>`);
@@ -8215,10 +8235,10 @@ function sumHTML(k){
 }
 function sumText(k){const S=daySummary(k),T=S.T,L=[`SUMMARY FOR ${pretty(k).toUpperCase()}`,"",`${T.filled} of ${T.walks} walks have a van and driver · ${T.drivers} drivers · ${T.subs} subs · ${T.sick} sick · ${T.gaps} gaps · ${S.used.size} vans in use · ${S.free.length} free · ${S.oos.length} OOS · ${S.chg.length} change over · ${S.clashes.length} used twice`,""];
   S.rows.forEach(r=>{L.push(`${ovName(r.o).toUpperCase()}: ${r.filled}/${r.walks} walks, ${r.drivers} drivers, ${r.subs} subs, ${r.sick} sick, ${r.vans} vans, ${r.gaps+r.noVan} gaps`);
-    r.gapRows.forEach(g=>L.push(`  GAP: duty ${g.d} has no driver${g.h?" ("+hookTxt(g.h)+")":""}`));r.noVanRows.forEach(n=>L.push(`  GAP: ${n} has no van`));
-    r.subRows.forEach(s=>L.push(`  SUB: ${s.sub} covering ${s.drv||"the walk"}${s.d?" on duty "+s.d:""} (${hookTxt(s.h)})`));r.sickNames.forEach(n=>L.push(`  SICK: ${n}`));
+    r.gapRows.forEach(g=>L.push(`  GAP: duty ${g.d} has no driver${g.h?" ("+vanTxt(g.h)+")":""}`));r.noVanRows.forEach(n=>L.push(`  GAP: ${n} has no van`));
+    r.subRows.forEach(s=>L.push(`  SUB: ${s.sub} covering ${s.drv||"the walk"}${s.d?" on duty "+s.d:""} (${vanTxt(s.h)})`));r.sickNames.forEach(n=>L.push(`  SICK: ${n}`));
     r.off.filter(x=>x.why!=="not allocated").forEach(x=>L.push(`  OFF: ${x.n} — ${x.why}`));{const na=r.off.filter(x=>x.why==="not allocated");if(na.length)L.push(`  NOT ON ANY SHEET (${na.length}): `+na.map(x=>x.n).join(", "))}r.cross.forEach(c=>L.push(`  FROM ${ovName(c.home)}: ${c.name}`));
-    r.extra.forEach(x=>L.push(`  ADDITIONAL: ${x.driver||"no driver"} — ${hookTxt(x.hook)}${x.note?" — "+x.note:""}`));r.pm.forEach(x=>L.push(`  1PM: ${x.driver||"no driver"} — ${hookTxt(x.hook)}`));L.push("")});
+    r.extra.forEach(x=>L.push(`  ADDITIONAL: ${x.driver||"no driver"} — ${vanTxt(x.hook)}${x.note?" — "+x.note:""}`));r.pm.forEach(x=>L.push(`  1PM: ${x.driver||"no driver"} — ${vanTxt(x.hook)}`));L.push("")});
   L.push("VANS OOS: "+(S.oos.length?S.oos.map(x=>hookLabel(x.hook)+(x.reason?" ("+x.reason+")":"")).join(", "):"none"));
   L.push("CHANGE OVER: "+(S.chg.length?S.chg.map(x=>hookLabel(x.hook)).join(", "):"none"));
   L.push("COLLECTIONS: "+(S.coll.length?S.coll.map(x=>hookLabel(x)).join(", "):"none"));
@@ -8688,6 +8708,13 @@ const GUIDE=[
   <li><b>W9 is on Two Saturdays off in every five weeks (1)</b>, and <b>W10 and W12 are on 9 Day Fortnight (1)</b>. Set once as the data loads, on every copy (this browser, GitHub, backups). Drivers whose rest days already matched a line of the page kept them; anyone else shows as <i>not set</i> on the Rest Day tab until you tap the line they are on.</li></ul>
 <h4>14 October 2026 — the phone has everything (build 228)</h4><ul>
   <li><b>Phone layout now has every feature the desktop has</b>, packed tight: every tab (All Offices, Sunday Duty, OOS, Vehicles, Plate finder, Office Vans, Drivers, Duties, Regular Driver Vans, Personal Cars, Rest Day, Walks), a <b>🔑 Key Cupboard</b> tab at the end of the tab strip (the vans free pill opens it too), the status pills, the "copy from" bar, the save warning, Bars Setting, and in the top bar Find, Changes, Summary, Undo, Redo, History, Settings, Help, Print, Save and Load. The office tabs get their actions and settings button, custom columns and the rest-days list links. Only the pop-out-window buttons stay off a phone. Cards and Sheet views are unchanged; <b>Phone layout: off</b> in Settings still gives the full desktop screen.</li></ul>
+<h4>14 October 2026 — Van list readability (build 230)</h4><ul>
+  <li><b>Pick a van list:</b> on a green (electric), blue (diesel) or pale-blue (petrol) row the small note — model, <i>⚠ …'s permanent van</i>, <i>in use</i> — was amber on colour and hard to read. It now uses the row's own hook text colour (black unless changed under Look → Hook colours). The same fix applies to the "change over" note inside a coloured Hook cell on the sheets.</li></ul>
+<h4>14 October 2026 — LTA badge (build 229)</h4><ul>
+  <li><b>LTA badge:</b> a driver with <b>Long-term absence</b> ticked under (i) → Full detail now shows a red <b>LTA</b> pill after their name, like S/L, A/L, O/A and R/D, and their row is faded. Its colours can be changed under Look → Driver badges.</li>
+  <li><b>Click a driver's name → LTA  Long-term absence</b>, under O/A. It ticks the same Long-term absence box in their details (no return date: they stay off every day until cleared). <b>Clear (back at work)</b> unticks it.</li></ul>
+<h4>14 October 2026 — Hook box fix (build 228)</h4><ul>
+  <li><b>Fixed:</b> every empty Hook box on the office sheets showed the words <b>no van</b> and would not take a hook number or open the van list. This crept in with build 226 (Changes and Summary). The box is blank again: click it to type a hook number or plate, and the list of free vans opens as you type.</li></ul>
 <h4>14 October 2026 — Personal Cars (build 227)</h4><ul>
   <li><b>Personal Cars tab</b> (after Regular Driver Vans): a list of each driver's own car — driver, office, reg, make and model, colour and notes — so a car in the yard can be matched to its driver. Add one at the top (the driver box offers names from the driver list), type straight into the list to change anything, sort by clicking a column heading, search or show one office, and <b>Print list</b> or <b>Save as CSV</b>. Remove needs three taps like every other remove button. Two cars with the same reg are flagged. It syncs and backs up with everything else.</li></ul>
 <h4>14 October 2026 — Changes and Summary (build 226)</h4><ul>
