@@ -81,6 +81,21 @@ header h1{margin:0;font:700 var(--h1) /1 var(--display);letter-spacing:.01em}
 .hbadge.undone{background:var(--used);color:var(--used-ink)}
 .histlist li.empty{padding:14px;color:var(--muted)}
 @media print{.histpanel{display:none!important}}
+/* ===== Personal Cars tab (Ash, 14 Oct 2026) ===== */
+.cartools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}.cartools .search{flex:1 1 220px;margin:0;min-width:0}.cartools select{width:auto}.cartools .addrow{margin:0}
+.caradd{display:grid;grid-template-columns:minmax(170px,1.4fr) minmax(90px,.6fr) minmax(110px,.8fr) minmax(140px,1.2fr) minmax(90px,.7fr) minmax(140px,1.4fr) auto;gap:6px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:var(--radius);background:var(--field);margin:0 0 12px}
+.caradd input,.caradd select{width:100%;box-sizing:border-box;min-width:0}.caradd .carf{display:flex;flex-direction:column;gap:2px;min-width:0}.caradd .carf span{font:600 12px var(--body);color:var(--muted)}.caradd .vanadd{white-space:nowrap;align-self:end}.caradd .lbl{grid-column:1/-1;font:700 14px var(--display);margin:0 0 2px}
+.carwrap{overflow-x:auto}
+table.cartbl{min-width:0}table.cartbl th{cursor:pointer;user-select:none;white-space:nowrap}table.cartbl th.on::after{content:" ▾";color:var(--text)}table.cartbl th.on.asc::after{content:" ▴"}
+table.cartbl td input{width:100%;box-sizing:border-box;min-width:70px;background:transparent;border:1px solid transparent;border-radius:4px;padding:4px 6px;color:var(--text);font:inherit}
+table.cartbl td input:hover{border-color:var(--line)}table.cartbl td input:focus{background:var(--field);border-color:var(--text);outline:none}
+table.cartbl td.carreg input{font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-family:var(--display)}
+table.cartbl td.caro select{width:auto;min-width:0;font-size:13px}table.cartbl td.carnm{font-weight:700;white-space:nowrap}table.cartbl td.carnm small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+table.cartbl td.carx{white-space:nowrap;text-align:right}table.cartbl tr.carediting td{background:var(--field)}table.cartbl tr.carediting td input{border-color:var(--line);background:var(--panel)}table.cartbl td.carx .carsave{background:var(--ink);color:var(--ink-text);border-color:var(--ink);font-weight:700}table.cartbl td.carx .carsave:hover{color:var(--ink-text);border-color:var(--ink)}table.cartbl td.carnote{white-space:pre-wrap}table.cartbl td.carx button{background:none;border:1px solid var(--line);border-radius:var(--radius);color:var(--muted);padding:2px 8px;cursor:pointer}table.cartbl td.carx button:hover{color:var(--clash);border-color:var(--clash)}
+.carnone{padding:18px 12px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted)}
+.carcount{color:var(--muted);font-size:13px;margin-left:auto}
+.cardup{color:var(--warn);font-size:12px;font-weight:700}
+html.mob .caradd{grid-template-columns:1fr 1fr}html.mob .caradd .vanadd{grid-column:1/-1}
 /* ===== Changes for tomorrow (handover) and Summary panels (Ash, 14 Oct 2026) ===== */
 .infoback{position:fixed;inset:0;z-index:8990;background:rgba(0,0,0,.35)}
 .infoback[hidden]{display:none}
@@ -1188,7 +1203,6 @@ html.mob header.hmore #histBtn,html.mob header.hmore #printBtn,html.mob header.h
 html.mob header.hmore #chgBtn{grid-column:1/7;grid-row:3}html.mob header.hmore #sumBtn{grid-column:7/13;grid-row:3}
 html.mob header.hmore #histBtn{grid-column:1/7;grid-row:4}html.mob header.hmore #printBtn{grid-column:7/13;grid-row:4}
 html.mob header.hmore #exportBtn{grid-column:1/7;grid-row:5}html.mob header.hmore #importBtn{grid-column:7/13;grid-row:5}
-html.mob .infopanel{width:100vw;border-left:0}
 html.mob .status{padding:8px 10px;gap:6px}
 html.mob .pill{font-size:13px;padding:3px 10px}
 html.mob .copybar{padding:10px}
@@ -1391,19 +1405,22 @@ html.mob .datebox .todaybtn{height:40px}
 #ghBadge .ghdot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:#9e9e9e;box-shadow:0 0 0 2px color-mix(in srgb,currentColor 18%,transparent)}
 #ghBadge.gh-ok .ghdot{background:#2e9e3a}#ghBadge.gh-busy .ghdot,#ghBadge.gh-wait .ghdot{background:#f0a400}#ghBadge.gh-err .ghdot{background:#d32f2f;animation:ghblink 1.2s infinite}
 #ghBadge.gh-busy .ghdot{animation:ghblink 1s infinite}@keyframes ghblink{50%{opacity:.35}}
-html.mob #ghBadge .ghlab{display:none}html.mob #ghBadge .ghdot{margin-right:0;width:13px;height:13px}
+html.mob #ghBadge .ghlab{display:inline;font-size:11px}html.mob #ghBadge .ghdot{margin-right:4px;width:11px;height:11px}
 html.mob #ghBadge{grid-column:1/5;grid-row:1;justify-self:start;max-width:100%;font-size:13px;padding:6px 10px;overflow:hidden;text-overflow:ellipsis}
 html.mob header:has(#ghBadge:not([hidden])) h1{display:none}
 #ghBadge.gh-ok{border-color:#2e7d32;color:#2e7d32}#ghBadge.gh-err{border-color:var(--clash);color:var(--clash)}#ghBadge.gh-wait{border-color:#b26a00;color:#b26a00}
 @media print{#ghBadge{display:none}}
 #mobPages{display:none}
 html.mob header.hmore #mobPages{display:block;grid-column:1/-1;grid-row:6;width:100%;height:42px;border-radius:var(--radius);border:1px solid var(--line);background:var(--field);color:var(--text);font-weight:600;padding:0 10px}
-html.mob #tabs button[data-tab]{flex:1 1 0;min-width:0;padding-left:2px;padding-right:2px}
+html.mob #tabs button[data-tab],html.mob #tabs button[data-boardtab]{flex:0 0 auto;min-width:0;padding-left:9px;padding-right:9px;white-space:nowrap;font-size:14px}
+html.mob #tabs button.offtab[data-tab]{min-width:46px;text-align:center}
+html.mob #tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
 /* phone: just the boxes */
 html.mob #main table.mcard tbody tr:nth-child(even),html.mob #main table.mcard tbody tr:nth-child(even) td{background:#d3d8dc!important}
 html.mob #main table.mcard tbody tr:nth-child(even){border-color:#b4bcc2!important}
 html.mob #main .mc-main td:nth-child(5),html.mob #main .mc-extra td:nth-child(2),html.mob #main .mc-pm td:nth-child(2){grid-column:1/-1!important}
-html.mob #main>.offh2,html.mob #main>p.sub,html.mob #main>.offtools,html.mob #main .vdbtn,html.mob #main .dhbtn,html.mob #main .dutyadd,html.mob #main td.x,html.mob #main img.nmph,html.mob #main td.n,html.mob #main .tabprint,html.mob #main .offvlim{display:none!important}
+html.mob #main>p.sub,html.mob #main img.nmph,html.mob #main td.n{display:none!important}
+html.mob #main>.offh2{font-size:17px;flex-wrap:wrap;gap:4px 6px;margin:6px 0 4px}html.mob #main>.offh2 .offtbox{margin-left:0;width:100%}html.mob #main .offvbadge{font-size:11px}html.mob #main>.offtools{flex-wrap:wrap;gap:4px;margin:0 0 6px}html.mob #main>.offtools .addrow{font-size:12px;padding:4px 8px;min-height:32px}html.mob #main .tabprint{font-size:12px}
 /* phone: ultra-compact duty cards - Layout 2 V2 */
 html.mob #main table.mcard tr{align-items:center!important;gap:1px 2px!important;padding:1px 2px 1px!important;margin:0 0 12px!important;border-radius:2px;background:var(--field)!important;border:1px solid var(--line)!important}
 html.mob #main table.mcard td[data-label]::before{font-size:7px!important;line-height:9px!important;margin:0 0 1px 0!important;text-transform:uppercase;letter-spacing:.01em;font-weight:700}
@@ -1431,22 +1448,39 @@ html.mob .status{padding:6px 8px;gap:4px}
 html.mob .pill{font-size:12px;padding:2px 8px}
 html.mob nav{padding:4px 6px 0}
 html.mob nav button{font-size:15px;padding:8px 10px}
-/* phone read-only view */
-html.mob #helpBtn,html.mob #moreBtn,html.mob #printBtn,html.mob #exportBtn,html.mob #importBtn,html.mob #mobPages,html.mob header h1,html.mob #status,html.mob #copybar,html.mob #board,html.mob #kcShow,html.mob #barCtl,html.mob #saveWarn,html.mob .datebox .calclr,html.mob .laygrp,html.mob .offtsep,html.mob .lay2stk,html.mob .v2link,html.mob [data-v2theme],html.mob [data-v2],html.mob [data-popout]{display:none!important}
-html.mob header,html.mob header.hmore{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px;padding:6px 8px!important}
-html.mob #ghBadge{flex:0 0 auto;font-size:12px;padding:4px 8px;max-width:none}
-html.mob #ghBadge{order:0}
-html.mob header .datebox{order:1;flex:1 1 60%!important}
-html.mob #undoBtn,html.mob #redoBtn,html.mob #histBtn,html.mob header.hmore #histBtn{order:2;display:flex!important;align-items:center;justify-content:center;flex:1 1 28%;height:30px!important;min-height:0;padding:0 6px!important;font-size:13px!important;line-height:1;grid-column:auto!important;grid-row:auto!important;width:auto!important}
-html.mob #undoBtn::before,html.mob #redoBtn::before{font-size:15px!important;margin-right:4px}
-html.mob #undoBtn{font-size:0!important}html.mob #redoBtn{font-size:0!important}
-html.mob #undoBtn::after{content:"Undo";font-size:13px}html.mob #redoBtn::after{content:"Redo";font-size:13px}
-html.mob .datebox,html.mob .datebox:has(#todayBtn:not([hidden])){flex:1;min-width:0;display:grid!important;grid-template-columns:36px minmax(0,1fr) 36px!important;gap:4px}
+/* ===== Phone layout: every desktop feature, packed tight (Ash, 14 Oct 2026). Only window pop-outs stay off a phone. ===== */
+html.mob #moreBtn,html.mob #mobPages,html.mob header h1,html.mob #kcShow,html.mob .datebox .calclr,html.mob [data-popout],html.mob [data-offwin],html.mob #setTopPop{display:none!important}
+html.mob header,html.mob header.hmore{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;padding:5px 6px!important;align-items:center}
+html.mob #ghBadge{grid-row:1;grid-column:1/3;font-size:11px;padding:3px 6px;max-width:none;overflow:hidden;text-overflow:ellipsis;justify-self:start;max-width:100%}
+html.mob header .datebox{grid-row:1;grid-column:3/7;order:0}
+html.mob header:not(:has(#ghBadge:not([hidden]))) .datebox{grid-column:1/7}
+html.mob .datebox,html.mob .datebox:has(#todayBtn:not([hidden])){flex:none;min-width:0;display:grid!important;grid-template-columns:32px minmax(0,1fr) 32px!important;gap:3px}
 html.mob .datebox .todaybtn,html.mob .datebox .dayname{display:none!important}
 html.mob .datebox .calwrap{min-width:0}html.mob .datebox .calbtn{width:100%!important;min-width:0!important;max-width:100%!important;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html.mob .datebox>button,html.mob .datebox .calbtn{height:36px!important;font-size:15px!important}
-/* Changes and Summary on a phone: one row under the date (Ash, 14 Oct 2026) */
-html.mob #chgBtn,html.mob #sumBtn,html.mob header.hmore #chgBtn,html.mob header.hmore #sumBtn{order:3;display:flex!important;align-items:center;justify-content:center;flex:1 1 45%;height:30px!important;min-height:0;padding:0 6px!important;font-size:13px!important;line-height:1;grid-column:auto!important;grid-row:auto!important;width:auto!important}
+html.mob .datebox>button,html.mob .datebox .calbtn{height:34px!important;font-size:14px!important}
+html.mob header .spacer{display:none}
+html.mob header .hsetgrp{display:contents!important}
+html.mob header .hbtn,html.mob header.hmore .hbtn{display:flex!important;align-items:center;justify-content:center;grid-column:auto!important;grid-row:auto!important;width:auto!important;height:30px!important;min-height:0;padding:0 3px!important;font-size:12px!important;font-weight:600;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;order:0}
+html.mob #findBtn{order:1}html.mob #chgBtn{order:2}html.mob #sumBtn{order:3}html.mob #undoBtn{order:4}html.mob #redoBtn{order:5}html.mob #histBtn{order:6}
+html.mob #setTopBtn{order:7;font-size:0!important}html.mob #setTopBtn::after{content:"⚙ Settings";font-size:12px}html.mob #helpBtn{order:8}html.mob #printBtn{order:9}html.mob #exportBtn{order:10}html.mob #importBtn{order:11}
+html.mob #undoBtn,html.mob #redoBtn,html.mob #printBtn,html.mob #exportBtn,html.mob #importBtn,html.mob #histBtn,html.mob #findBtn,html.mob #chgBtn,html.mob #sumBtn{font-size:0!important}
+html.mob #undoBtn::before,html.mob #redoBtn::before{font-size:14px!important;margin-right:3px}
+html.mob #undoBtn::after{content:"Undo";font-size:12px}html.mob #redoBtn::after{content:"Redo";font-size:12px}
+html.mob #printBtn::after{content:"🖨 Print";font-size:12px}html.mob #exportBtn::after{content:"💾 Save";font-size:12px}html.mob #importBtn::after{content:"📂 Load";font-size:12px}
+html.mob #histBtn::after{content:"History";font-size:12px}html.mob #findBtn::after{content:"🔍 Find";font-size:12px}html.mob #chgBtn::after{content:"Changes";font-size:12px}html.mob #sumBtn::after{content:"Summary";font-size:12px}
+html.mob #exportBtn.due::after{content:"💾 Save ●"}
+html.mob .status{display:flex;flex-wrap:wrap;gap:4px;padding:5px 6px}
+html.mob .status .pill{font-size:11px;padding:2px 7px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.mob .copybar{padding:8px;gap:6px;font-size:13px}html.mob .copybar .note{font-size:12px}
+html.mob .savewarn{padding:8px;gap:6px 10px;font-size:13px}
+html.mob .barctl{top:auto;bottom:10px;right:8px;left:auto}html.mob .barctl #barBtn{font-size:12px;padding:5px 8px}
+html.mob .totop{bottom:48px;right:8px;padding:5px 9px;font-size:12px}
+html.mob #tabs button[data-boardtab]{--oc:var(--coll)}
+html.mob .offtbox{display:flex;flex-wrap:wrap;gap:4px}html.mob .offtoolsbtn,html.mob .laybtn{font-size:12px;padding:4px 8px}
+html.mob .suncolbar{font-size:12px}
+html.mob.mobboard #board{display:block!important;position:static;max-height:none;overflow:visible;border:0;padding:10px 8px 32px;min-height:60vh}
+html.mob:not(.mobboard) #board{display:none!important}
+html.mob .infopanel{width:100vw;border-left:0}
 html.mob #tabs{position:sticky;top:var(--mobhead,0px);z-index:50;padding:4px 6px 0;background:var(--steel)}
 html.mob #tabs button[data-tab]{padding-top:6px;padding-bottom:6px}
 html.mob .layout{display:block;padding:0}
@@ -1568,7 +1602,7 @@ html:not(.mob) table.offtbl td :is(.nmclr,.hkclr):hover,html:not(.mob) table.off
 .hsetgrp #setTopPop[aria-pressed=true]{box-shadow:inset -2px 0 0 0 currentColor,inset 0 2px 0 0 currentColor,inset 0 -2px 0 0 currentColor}
 .hsetgrp #setTopPop{margin-left:-1px;border-top-left-radius:0;border-bottom-left-radius:0;padding-left:7px;padding-right:7px;min-width:28px;font-weight:700}
 #setTopBtn[aria-pressed=true],#setTopPop[aria-pressed=true]{box-shadow:inset 0 0 0 2px currentColor}
-html.mob .hsetgrp,html.offpopwin .hsetgrp,html.setwin .hsetgrp{display:none!important}
+html.offpopwin .hsetgrp,html.setwin .hsetgrp{display:none!important}
 /* Substitutes to place (RDW moved them off a row) */
 .subwait{margin:0 0 12px;border:2px solid var(--warn,#b45309);border-radius:10px;background:color-mix(in srgb,var(--warn,#b45309) 10%,var(--panel,#fff));padding:6px 10px;font-size:14px;transition:box-shadow .3s}
 .subwait.done{border-color:var(--line);background:var(--panel)}
@@ -1697,6 +1731,15 @@ table.offtbl.measuring>tbody>tr>td :is(.hooktips,.drvtips,.subsugsel,.drvsugsel,
 .smfit:hover,.smfit[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}
 html.mob .smfitrow{display:none}
 @media print{.smfitrow{display:none!important}}
+/* Duties, Regular Driver Vans and Personal Cars tables (table.rsz) get the office sheets' row tools: drag the bottom edge of a
+   row's first cell, ↔ ↕ ⇕ above the table, and columns dragged by their headings (Ash, 14 Oct 2026) */
+html:not(.mob) table.rsz>tbody>tr{height:var(--rowh)}
+html:not(.mob) table.rsz>tbody>tr[style*="--rowh"]>td{padding-top:1px;padding-bottom:1px;height:var(--rowh);box-sizing:border-box;overflow:hidden}
+html:not(.mob) table.rsz>tbody>tr[style*="--rowh"]>td :is(input,select,button){padding-top:0;padding-bottom:0;min-height:0}
+html:not(.mob) table.rsz>tbody>tr[style*="--rowh"]>td>:is(small,.cardup){display:inline;margin-left:4px}
+html:not(.mob) table.rsz>tbody>tr>td:first-child.rowrs-hot,html:not(.mob) table.rsz>tbody>tr>td:first-child.rowrs-hot *{cursor:row-resize!important}
+/* Walks list rows, all adjusted at once by ↕ ⇕ above the list (Ash, 14 Oct 2026) */
+html:not(.mob) #walkList[style*="--wrh"]>div{height:var(--wrh);min-height:var(--wrh);box-sizing:border-box;padding-top:0;padding-bottom:0;overflow:hidden}
 /* the last column only holds the × — keep it just as wide as the × (Ash, 5 Oct 2026) */
 html:not(.mob) table.offtbl>tbody>tr>td.x,html:not(.mob) table.offtbl>thead>tr>th:last-child:empty{width:26px!important;min-width:26px!important;max-width:26px!important;padding:0!important;text-align:center;box-sizing:border-box}
 html:not(.mob) table.offtbl>tbody>tr>td.x button{padding:2px 0!important;width:100%;min-width:0!important;font-size:17px}
@@ -2058,7 +2101,7 @@ html.mob main.alloff .allrow{display:block}
 /* ↑ Top */
 .totop{position:fixed;right:14px;bottom:14px;z-index:8500;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font:700 13px var(--body);cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);opacity:.9}
 .totop:hover{opacity:1;background:var(--ink);color:var(--ink-text);border-color:var(--ink)}
-html.mob #findBtn,html.offpopwin #findBtn,html.setwin #findBtn,html.optswin #findBtn,html.mob .totop,html.mob .offnav{display:none!important}
+html.offpopwin #findBtn,html.setwin #findBtn,html.optswin #findBtn,html.mob .offnav{display:none!important}
 @media print{.findback,.findpop,.totop,nav#tabs .tabsc{display:none!important}html.locktabs nav#tabs{position:static}}
 </style>
 </head>
@@ -2227,7 +2270,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-14.226";window.DA_BUILD=BUILD;
+const BUILD="2026-10-14.235";window.DA_BUILD=BUILD;
 /* lz-string 1.5.0, MIT licence, (c) 2013 pieroxy. Packs old months small so the save never runs out of room. */
 const LZ=(function(){try{var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();return LZString}catch(e){return null}})();
 const ARC=KEY+":old:",ARC_TAG="LZ1|",BK_KEY=KEY+":lastBackup",PACK_AT=1500000;let STORE_CAP=localStorage.idb?60000000:5000000;
@@ -2349,6 +2392,131 @@ function rmPatMigrate(d){try{if(!d||(d.oneOff||{}).rmPat1)return d;const r=d.rot
   Object.keys(d.driverInfo||{}).forEach(n=>{const I=d.driverInfo[n];if(!I||((d.driverOffice||{})[n]||"").split(" ")[0]!=="W2")return;const sh=I.rotaShift;if(sh==null||sh===""||sh==="none"||I.rotaLine)return;
     const li=LW.findIndex(w=>key(w)===key(rot(w0,+sh||0)));if(li<0)return;I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine});
   d.oneOff=Object.assign({},d.oneOff,{rmPat1:1})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 229): Ash said which booklet page W9, W10 and W12 work to. Put each office on it. If the office had
+   an own pattern of the same length, every driver whose days off match a line of the booklet page keeps them (they are only
+   named differently); anyone else shows as "not set" until they are tapped onto a line. Runs on any copy of the data until done. */
+const RM_OFFICE_PATS={W9:"d4w1",W10:"ndf1",W12:"ndf1"}; /* W9 was first set to ts5a (build 229); its week-27 sheet showed two-day blocks, which is 4 Day Week (1) (build 234) */
+function rmPatMigrate2(d){try{if(!d||(d.oneOff||{}).rmPat2)return d;d.rota=d.rota||{};const info={};
+  const key=w=>w.map(x=>RDAYS.filter(dd=>x.includes(dd)).join("")).join(","),rot=(w,s)=>w.map((_,i)=>w[(i+s)%w.length]);
+  Object.keys(RM_OFFICE_PATS).forEach(o=>{const id=RM_OFFICE_PATS[o],p=rmPat(id);if(!p)return;const r=d.rota[o];if(r&&r.pat===id)return;
+    const lines=rmLines(p),LW=lines.map(L=>cellsToOff(L.c)),N=LW[0].length;
+    const ds=Object.keys(d.driverInfo||{}).filter(n=>{const I=d.driverInfo[n];if(!I||((d.driverOffice||{})[n]||"").split(" ")[0]!==o)return false;const sh=I.rotaShift;return !(sh==null||sh===""||sh==="none")});
+    let start=iso(monOf(iso(new Date()))),best=null;
+    if(r&&r.start&&Array.isArray(r.weeks)&&r.weeks.length===N){
+      const oldL=r.lines&&r.lines.length?r.lines.map(L=>cellsToOff(L.c)):[r.weeks],used=new Map();
+      ds.forEach(n=>{const I=d.driverInfo[n],w=oldL[+I.rotaLine||0]||oldL[0];used.set(n,key(rot(w,+I.rotaShift||0)))});
+      const ks=[...new Set(used.values())],cands=[];
+      for(let e=0;e<N;e++){const m=new Map();LW.forEach((w,li)=>{const k=key(rot(w,e));if(!m.has(k))m.set(k,li)});if(ks.every(k=>m.has(k)))cands.push({e,m,first:m.get(key(oldL[0]))===0})}
+      best=cands.find(c=>c.first)||cands[0]||null;if(best){const m0=monOf(r.start);start=iso(new Date(m0.getFullYear(),m0.getMonth(),m0.getDate()-7*best.e));best.used=used}}
+    d.rota[o]={start,weeks:LW[0],pat:id,lines};let kept=0,reset=0;
+    ds.forEach(n=>{const I=d.driverInfo[n];if(best){const li=best.m.get(best.used.get(n));if(li!=null){I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;kept++;return}}delete I.rotaLine;I.rotaShift="";reset++});
+    info[o]={kept,reset}});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat2:1,rmPat2Info:info})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 230): Ash's printed W2 sheet for 5-10 October says which two days each driver had off that week.
+   Put each named driver on the line of W2's booklet page (4 Day Week (1)) that gives those days off in that week. Names are
+   matched to the driver list ignoring case; a one-word name matches a driver whose first name is that word, if only one has it.
+   Drivers the sheet left unclear (part-timers, blanks, days off that fit no line) are not touched. Runs on any copy of the data until done. */
+const W2_SHEET_5OCT={wk:"2026-10-05",off:{MonTue:["Javed Ahmed","Dinesh Carsane","Riteshkumar Gor","Anesha Carbon","Aston Brinkley","Ignasio Vani","Praveen"],
+  WedThu:["Shuhad Miah","Fahd Lekmihi","Ousamane Dia","Mickelle Gordon","Harshad Kathiriya","Melardo Bane","Hardy Rahman","Princess Williams"],
+  FriSat:["Lee Turner","Trinity Gilliland","Jasmin Pocker","Samuel Lambrianou"]}};
+function rmPatMigrate3(d){try{if(!d||(d.oneOff||{}).rmPat3)return d;const r=d.rota&&d.rota.W2;if(!r||r.pat!=="d4w1"||!r.start||!r.lines||!r.lines.length)return d;
+  const N=r.lines[0].c.length,idx=(((Math.round((monOf(W2_SHEET_5OCT.wk)-parse(r.start))/6048e5))%N)+N)%N,byKey={};
+  r.lines.forEach((L,li)=>{const k=cellsToOff(L.c)[idx].join("");if(byKey[k]==null)byKey[k]=li});
+  const norm=x=>String(x||"").trim().replace(/\s+/g," ").toUpperCase(),all=(d.drivers||[]).slice(),info={set:[],missing:[],notW2:[],noLine:[]};
+  const find=nm=>{const k=norm(nm);let m=all.filter(n=>norm(n)===k);if(!m.length&&!/\s/.test(k))m=all.filter(n=>norm(n).split(" ")[0]===k);return m.length===1?m[0]:""};
+  Object.keys(W2_SHEET_5OCT.off).forEach(k=>{const li=byKey[k];W2_SHEET_5OCT.off[k].forEach(nm=>{const n=find(nm);if(!n){info.missing.push(nm);return}
+    if(((d.driverOffice||{})[n]||"").split(" ")[0]!=="W2"){info.notW2.push(n);return}if(li==null){info.noLine.push(n);return}
+    d.driverInfo=d.driverInfo||{};const I=d.driverInfo[n]=d.driverInfo[n]||{};I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;info.set.push(n)})});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat3:1,rmPat3Info:info})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 232): Ash's W12 sign-in sheet for 12-17 October ("Rest week 3") gives each driver's rest days that
+   week as MON/TUE, FRI/SAT or WED. W12 is on 9 Day Fortnight (1), so the week of 12 October is made week 3 of the page and each
+   named driver goes on the line that gives those days off in week 3 (Wed = Duty 1, Mon+Tue = Duty 2, Fri+Sat = Duty 3). The sheet
+   names drivers as an initial and surname, so they are matched to W12 drivers by surname and first initial (surname alone if
+   only one W12 driver has it). Rows that were crossed out or lapsed are not touched. Runs on any copy of the data until done. */
+const W12_SHEET_12OCT={wk:"2026-10-12",wkNo:3,off:{MonTue:["I Wilding","P Patel","C Pansheriya","M Ennakhoui","S Buha","M Premgi","H Thakkar","H Lokuciejew"],
+  FriSat:["J Pires","M Lewin","K Senghani","G Whiteman","R Poltorak","R Bell","V Rajnicant","S Rebba","R Pitalis"],
+  Wed:["P Hiren","F Adan","M Naeem","S White","P Monahan","D Ifield","A Khunt","J Smith","S Sharma"]}};
+function rmPatMigrate4(d){try{if(!d||(d.oneOff||{}).rmPat4)return d;const r=d.rota&&d.rota.W12;if(!r||r.pat!=="ndf1"||!r.lines||!r.lines.length)return d;
+  const N=r.lines[0].c.length,Q=W12_SHEET_12OCT,m0=monOf(Q.wk);
+  /* make the sheet's week number that week's place on the page */
+  r.start=iso(new Date(m0.getFullYear(),m0.getMonth(),m0.getDate()-7*(Q.wkNo-1)));
+  const idx=(((Math.round((monOf(Q.wk)-parse(r.start))/6048e5))%N)+N)%N,byKey={};
+  r.lines.forEach((L,li)=>{const k=cellsToOff(L.c)[idx].join("");if(byKey[k]==null)byKey[k]=li});
+  const norm=x=>String(x||"").trim().replace(/[^A-Z ]/gi,"").replace(/\s+/g," ").toUpperCase();
+  const w12=(d.drivers||[]).filter(n=>((d.driverOffice||{})[n]||"").split(" ")[0]==="W12"),info={set:[],missing:[],noLine:[]};
+  const find=nm=>{const w=norm(nm).split(" "),ini=w[0][0],sur=w[w.length-1];let m=w12.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur&&x[0][0]===ini});
+    if(m.length!==1)m=w12.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur});return m.length===1?m[0]:""};
+  Object.keys(Q.off).forEach(k=>{const li=byKey[k];Q.off[k].forEach(nm=>{const n=find(nm);if(!n){info.missing.push(nm);return}if(li==null){info.noLine.push(n);return}
+    d.driverInfo=d.driverInfo||{};const I=d.driverInfo[n]=d.driverInfo[n]||{};I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;info.set.push(n)})});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat4:1,rmPat4Info:info})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 233): Ash's W12 weekly rota sheets for weeks 28 (5 Oct) and 29 (12 Oct) give each person's own
+   rest days (the sign-in sheet used in build 232 shows the DUTY's rest days, which is wrong for anyone covering a duty). The two
+   weeks match 9 Day Fortnight (1) weeks 2 and 3 exactly, so each named person goes on the line that gives their days off in the
+   week of 12 October (week 3): Wed = Duty 1, Mon+Tue = Duty 2, Fri+Sat = Duty 3, Thu = DOC. The PM-shift people on the sheet
+   (A Byron, D Patel, Yash Patel, Hardik Patel, Hiren Patel, A Kothiya, C Rajoopillai) don't follow the page and are not touched. */
+const W12_ROTA_12OCT={wk:"2026-10-12",wkNo:3,off:{MonTue:["Q Mansha","L Shepherd"],FriSat:["M Lewin","V Rajnicant"],Wed:["F Adan","H Thakkar"],
+  Thu:["I Wilding","M Premgi","M Ennakhoui","A Khunt","C Pansheriya","Parth Patel","S Buha","Y Alistewani"]}};
+function rmPatMigrate5(d){try{if(!d||(d.oneOff||{}).rmPat5)return d;const r=d.rota&&d.rota.W12;if(!r||r.pat!=="ndf1"||!r.lines||!r.lines.length)return d;
+  const N=r.lines[0].c.length,Q=W12_ROTA_12OCT,m0=monOf(Q.wk);
+  r.start=iso(new Date(m0.getFullYear(),m0.getMonth(),m0.getDate()-7*(Q.wkNo-1)));
+  const idx=(((Math.round((monOf(Q.wk)-parse(r.start))/6048e5))%N)+N)%N,byKey={};
+  r.lines.forEach((L,li)=>{const k=cellsToOff(L.c)[idx].join("");if(byKey[k]==null)byKey[k]=li});
+  const norm=x=>String(x||"").trim().replace(/[^A-Z ]/gi,"").replace(/\s+/g," ").toUpperCase();
+  const w12=(d.drivers||[]).filter(n=>((d.driverOffice||{})[n]||"").split(" ")[0]==="W12"),info={set:[],missing:[],noLine:[]};
+  const find=nm=>{const k=norm(nm),w=k.split(" "),ini=w[0][0],sur=w[w.length-1];let m=w[0].length>1?w12.filter(n=>norm(n)===k):[];
+    if(m.length!==1)m=w12.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur&&x[0][0]===ini});
+    if(m.length!==1&&w[0].length===1)m=w12.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur});return m.length===1?m[0]:""};
+  Object.keys(Q.off).forEach(k=>{const li=byKey[k];Q.off[k].forEach(nm=>{const n=find(nm);if(!n){info.missing.push(nm);return}if(li==null){info.noLine.push(n);return}
+    d.driverInfo=d.driverInfo||{};const I=d.driverInfo[n]=d.driverInfo[n]||{};I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;info.set.push(n)})});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat5:1,rmPat5Info:info})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 234): Ash's W9 sheet for the week of 5 October (week 27) shows everyone off in two-day blocks
+   (Mon+Tue, Wed+Thu or Fri+Sat), which is the booklet's 4 Day Week (1), not the Two Saturdays off in five weeks page W9 was
+   put on in build 229. So W9 goes on 4 Day Week (1) with the week of 5 October as week 1 (Fri+Sat = Duty 1, Mon+Tue = Duty 2,
+   Wed+Thu = DOC that week) and each named driver goes on their line. W9 drivers not on the sheet are left "not set" (their old
+   place was on a different page and means nothing now). Runs on any copy of the data until done. */
+const W9_SHEET_5OCT={wk:"2026-10-05",wkNo:1,off:{FriSat:["Patrick Lewis","Susan Williams","Jason Mulqueen","Ahmed Kademi","Everton Daniels","Noel Skyers","Michael Alfred","Raymond Baxter"],
+  MonTue:["Fran Llorente","Michael Kelly","Rezawal Islam","Jack Maguire","Hugo Carvalho","Stephen Croft"],
+  WedThu:["Damien Coleman","John Lyons","William Farrell","Thomas Lacey","Doming Nunes","Mickelle Gordon","William Porter","Martyna Gwozdz","Guy Mutoke","Katy McCarthy","Princess"]}};
+function rmPatMigrate6(d){try{if(!d||(d.oneOff||{}).rmPat6)return d;const p=rmPat("d4w1");if(!p)return d;d.rota=d.rota||{};
+  const Q=W9_SHEET_5OCT,lines=rmLines(p),N=lines[0].c.length,m0=monOf(Q.wk);
+  const start=iso(new Date(m0.getFullYear(),m0.getMonth(),m0.getDate()-7*(Q.wkNo-1)));
+  d.rota.W9={start,weeks:cellsToOff(lines[0].c),pat:"d4w1",lines};const r=d.rota.W9;
+  const idx=(((Math.round((monOf(Q.wk)-parse(r.start))/6048e5))%N)+N)%N,byKey={};
+  r.lines.forEach((L,li)=>{const k=cellsToOff(L.c)[idx].join("");if(byKey[k]==null)byKey[k]=li});
+  const norm=x=>String(x||"").trim().replace(/[^A-Z ]/gi,"").replace(/\s+/g," ").toUpperCase();
+  const w9=(d.drivers||[]).filter(n=>((d.driverOffice||{})[n]||"").split(" ")[0]==="W9"),info={set:[],missing:[],noLine:[],cleared:[]};
+  const find=nm=>{const k=norm(nm),w=k.split(" "),ini=w[0][0],sur=w[w.length-1];let m=w.length>1?w9.filter(n=>norm(n)===k):[];
+    if(w.length===1)m=w9.filter(n=>norm(n).split(" ")[0]===k);
+    if(m.length!==1&&w.length>1)m=w9.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur&&x[0][0]===ini});
+    if(m.length!==1&&w.length>1&&w[0].length===1)m=w9.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur});return m.length===1?m[0]:""};
+  d.driverInfo=d.driverInfo||{};const done=new Set();
+  Object.keys(Q.off).forEach(k=>{const li=byKey[k];Q.off[k].forEach(nm=>{const n=find(nm);if(!n){info.missing.push(nm);return}if(li==null){info.noLine.push(n);return}
+    const I=d.driverInfo[n]=d.driverInfo[n]||{};I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;info.set.push(n);done.add(n)})});
+  /* anyone else in W9 who had a place on the old page: not set now */
+  w9.forEach(n=>{if(done.has(n))return;const I=d.driverInfo[n];if(!I)return;const sh=I.rotaShift;if(sh==null||sh===""||sh==="none")return;I.rotaShift="";delete I.rotaLine;info.cleared.push(n)});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat6:1,rmPat6Info:info})}catch(x){console.error(x)}return d}
+/* one-off (14 Oct 2026, build 235): Ash's W8 sheet for the week of 28 September (WK27, "Rest wk 5") has a "Duty Rest Wk" number
+   (1-5) on every duty: the week of the five in which that duty has its whole week off. That is the booklet's Two Saturdays off in
+   every five weeks (2) (Existing Banked Units Only): Duty 1 has week 1 off, Duty 2 week 2, ... and DOC week 5, with a Saturday
+   off in the week before. The sheet agrees (rest-wk-1 duties have Saturday off, rest-wk-5 duties are on R/W all week, the rest
+   work six days). So W8 goes on that page with the week of 28 September as week 5, and each holder goes on the line their rest
+   week number names. The reserves (RES2-6, LAT) have no rest week number and single days off, so they are not touched. */
+const W8_SHEET_28SEP={wk:"2026-09-28",wkNo:5,lines:{1:["J Rosairo","T Jacobs","A Fernandes","S Toth","M Victorio"],2:["K Sealy","E Soliman","J McLeish","L Santos"],
+  3:["P Potter","G Hammerton","A Morta","K Henwood","M Marston"],4:["O Cassidy","P Ellis","J Jaro","M Snee","George O'Brian"],5:["E McClooney","K Manfo","K Walton","F Shayegan","L Keightley"]}};
+function rmPatMigrate7(d){try{if(!d||(d.oneOff||{}).rmPat7)return d;const p=rmPat("ts5b");if(!p)return d;d.rota=d.rota||{};
+  const Q=W8_SHEET_28SEP,lines=rmLines(p),m0=monOf(Q.wk);
+  const start=iso(new Date(m0.getFullYear(),m0.getMonth(),m0.getDate()-7*(Q.wkNo-1)));
+  d.rota.W8={start,weeks:cellsToOff(lines[0].c),pat:"ts5b",lines};
+  const norm=x=>String(x||"").trim().replace(/[^A-Z ]/gi,"").replace(/\s+/g," ").toUpperCase();
+  const w8=(d.drivers||[]).filter(n=>((d.driverOffice||{})[n]||"").split(" ")[0]==="W8"),info={set:[],missing:[],cleared:[]};
+  const find=nm=>{const k=norm(nm),w=k.split(" "),ini=w[0][0],sur=w[w.length-1];let m=w.length>1&&w[0].length>1?w8.filter(n=>norm(n)===k):[];
+    if(m.length!==1&&w.length>1)m=w8.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur&&x[0][0]===ini});
+    if(m.length!==1&&w.length>1&&w[0].length===1)m=w8.filter(n=>{const x=norm(n).split(" ");return x[x.length-1]===sur});return m.length===1?m[0]:""};
+  d.driverInfo=d.driverInfo||{};const done=new Set();
+  Object.keys(Q.lines).forEach(k=>{const li=+k-1;if(!lines[li])return;Q.lines[k].forEach(nm=>{const n=find(nm);if(!n){info.missing.push(nm);return}
+    const I=d.driverInfo[n]=d.driverInfo[n]||{};I.rotaShift="0";if(li)I.rotaLine=li;else delete I.rotaLine;info.set.push(n);done.add(n)})});
+  w8.forEach(n=>{if(done.has(n))return;const I=d.driverInfo[n];if(!I)return;const sh=I.rotaShift;if(sh==null||sh===""||sh==="none")return;I.rotaShift="";delete I.rotaLine;info.cleared.push(n)});
+  d.oneOff=Object.assign({},d.oneOff,{rmPat7:1,rmPat7Info:info})}catch(x){console.error(x)}return d}
 let db=load();
 function UPC(x){return String(x||"").trim().toUpperCase()}
 /* "Moved office": if they moved to one of our offices (W2-W12) they stay a driver and just change office; only moves elsewhere go on the Moved office list */
@@ -2798,7 +2966,7 @@ function fixOffices(a){if(!a||typeof a!=="object")return a;OFFICES.forEach(o=>{c
     if(!Array.isArray(s.main)||!s.main.length)s.main=Array.from({length:15},()=>({hook:null,driver:"",sub:"",duty:"",partner:""}));
     if(!Array.isArray(s.extra))s.extra=Array.from({length:3},()=>({hook:null,driver:"",note:""}));
     if(!Array.isArray(s.pm))s.pm=Array.from({length:3},()=>({hook:null,driver:""}))});return a}
-function migrateKinds(d){try{rmPatMigrate(d)}catch(e){}if(d&&d.days)Object.keys(d.days).forEach(k=>fixOffices(d.days[k]));(d.vans||[]).forEach(v=>{if(v.kind==="lease"){v.kind="custom";v.typeName=v.typeName||"Lease van"}else if(v.kind==="other"){v.kind="custom";v.typeName=v.typeName||"Other"}});/* migrate per-van images (old format) to per-model db.vanImages */(d.vans||[]).forEach(v=>{if(v.image&&v.model){const k=(v.model||"").trim().toLowerCase();d.vanImages=d.vanImages||{};if(!(d.vanImages[k]||[]).includes(v.image)){d.vanImages[k]=(d.vanImages[k]||[]).concat([v.image])}delete v.image}});return d}
+function migrateKinds(d){try{rmPatMigrate(d)}catch(e){}try{rmPatMigrate2(d)}catch(e){}try{rmPatMigrate3(d)}catch(e){}try{rmPatMigrate4(d)}catch(e){}try{rmPatMigrate5(d)}catch(e){}try{rmPatMigrate6(d)}catch(e){}try{rmPatMigrate7(d)}catch(e){}if(d&&d.days)Object.keys(d.days).forEach(k=>fixOffices(d.days[k]));(d.vans||[]).forEach(v=>{if(v.kind==="lease"){v.kind="custom";v.typeName=v.typeName||"Lease van"}else if(v.kind==="other"){v.kind="custom";v.typeName=v.typeName||"Other"}});/* migrate per-van images (old format) to per-model db.vanImages */(d.vans||[]).forEach(v=>{if(v.image&&v.model){const k=(v.model||"").trim().toLowerCase();d.vanImages=d.vanImages||{};if(!(d.vanImages[k]||[]).includes(v.image)){d.vanImages[k]=(d.vanImages[k]||[]).concat([v.image])}delete v.image}});return d}
 function vkind(v){return v&&v.kind&&v.kind!=="hook"?(KINDS[v.kind]?v.kind:"custom"):"hook"}
 function vname(v){return vkind(v)==="hook"?String(v.h):(v.label||"?")}
 function vsort(x,y){return (KORDER[vkind(x)]-KORDER[vkind(y)])||(vkind(x)==="hook"?x.h-y.h:vname(x).localeCompare(vname(y),undefined,{numeric:true}))}
@@ -2973,23 +3141,33 @@ function render(){/* Sunday: W2–W12 are hidden, only Sunday Duty shows (Ash, 1
   document.body.classList.toggle("kcoff",!!(db.look&&db.look.boardHidden));
   $("date").value=day; $("dayname").textContent=pretty(day); $("calBtnTxt").textContent=isMob()?parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(/,/g,""):((lookNow().wkFmt||"long")==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:lookNow().wkFmt||"long"})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}); fixCalW(); if(isMob()){const cb=$("calBtn");if(cb&&cb.scrollWidth>cb.clientWidth+1)$("calBtnTxt").textContent=parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}).replace(/,/g,"")} $("todayBtn").hidden=(day===todayDay()); document.documentElement.classList.toggle("nottoday",day!==todayDay()); if(!$("calPop").hidden)drawCal();
   renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)||tab==="ALL"){setupColResize();tblWidthFixAll([...document.querySelectorAll("#main table.offtbl.colfix")],t=>v=>t.style.setProperty("--tw",v+"px"));setupTopScroll()}
-  else if(tab==="Vans")setupColResize(); /* give the Vehicles table the same drag-to-resize columns as W2-W12 (Ash, 6 Oct 2026) */ renderBoard(a);
+  else if(tab==="Vans"||tab==="Duties"||tab==="RegVan"||tab==="Cars"){setupColResize();try{smMark()}catch(e){}} /* give the Vehicles table the same drag-to-resize columns as W2-W12 (Ash, 6 Oct 2026), and light up ↔ when its columns are fitted (14 Oct 2026) */ renderBoard(a);
 }
-{const _rnd=render;render=function(){
+{const _rnd=render;let mhT=0;render=function(){
   /* keep each table's sideways scroll where it was when the page redraws (e.g. after resizing a column) */
   const m=$("main"),sl=m?[...m.querySelectorAll(".tablewrap")].map(w=>w.scrollLeft):[],tk=m?m.dataset.tabkey:"",sx=scrollX,sy=scrollY;
+  /* keep the page where it was scrolled to when the same tab redraws (Ash, 14 Oct 2026: picking a custom day on the Rest Day tab
+     jumped to the top). While the tab is rebuilt the page is briefly shorter (photos and the like are laid out a moment later in
+     some browsers), so the scroll gets clamped towards the top before it can be put back. Hold the old height until the new
+     content has settled, then put the scroll back; the hold is dropped straight away when a different tab is drawn. */
+  const mh=m&&sy>0?m.offsetHeight:0;if(mh){clearTimeout(mhT);m.style.minHeight=mh+"px"}
   const r=_rnd.apply(this,arguments);
-  if(m&&m.dataset.tabkey===tk){const ws=[...m.querySelectorAll(".tablewrap")];ws.forEach((w,i)=>{if(sl[i]){w.scrollLeft=sl[i];const ts=w.previousElementSibling;if(ts&&ts.classList.contains("topscroll"))ts.scrollLeft=sl[i]}});if(scrollX!==sx||scrollY!==sy)scrollTo(sx,sy)}
+  const same=!!(m&&m.dataset.tabkey===tk);
+  if(same){const ws=[...m.querySelectorAll(".tablewrap")];ws.forEach((w,i)=>{if(sl[i]){w.scrollLeft=sl[i];const ts=w.previousElementSibling;if(ts&&ts.classList.contains("topscroll"))ts.scrollLeft=sl[i]}});if(scrollX!==sx||scrollY!==sy)scrollTo(sx,sy)}
+  if(mh){if(same){const clamped=Math.abs(scrollY-sy)>1;mhT=setTimeout(()=>{m.style.minHeight=""},450);
+      /* only if the hold was not enough and the scroll still got clamped: try once more a frame later, when the content has its size */
+      if(clamped)requestAnimationFrame(()=>{if(scrollY<sy&&document.documentElement.scrollHeight-innerHeight>=sy)scrollTo(sx,sy)})}
+    else m.style.minHeight=""}
   requestAnimationFrame(placeNS);fitMark();if(window.__dpKeep)window.__dpKeep();return r}}
 /* ---------- row height: drag the thick line at the bottom-left of a row (W2 to W12) to set that row's height.
    Double-click it to fit the row to what's in it; double-click again to put it back (Ash, 4 Oct 2026) ---------- */
 {const RS=()=>Math.max(2,+(lookNow().rbG)||5),isM=()=>document.documentElement.classList.contains("mob");let hot=null;
-  const tables=()=>[...document.querySelectorAll("#main table.offtbl")];
-  const rowKey=tr=>{const t=tr.closest("table.offtbl");return offLay()+":"+tab+":"+tables().indexOf(t)+":"+[...tr.parentNode.children].indexOf(tr)};
+  const tables=()=>[...document.querySelectorAll("#main :is(table.offtbl,table.rsz)")];
+  const rowKey=tr=>{const t=tr.closest("table.offtbl,table.rsz");return offLay()+":"+tab+":"+tables().indexOf(t)+":"+[...tr.parentNode.children].indexOf(tr)};
   window.applyRowHs=function(){if(isM())return;const H=(db.look&&db.look.rowHs)||{};
     tables().forEach((t,ti)=>{[...t.tBodies].forEach(tb=>[...tb.children].forEach((tr,ri)=>{const v=H[offLay()+":"+tab+":"+ti+":"+ri];if(v)tr.style.setProperty("--rowh",v+"px");else tr.style.removeProperty("--rowh")}))})};
   /* is the pointer on the thick line at the bottom of a row's first cell? */
-  const hit=e=>{if(isM()||!e.target||!e.target.closest)return null;const td=e.target.closest("table.offtbl>tbody>tr>td:first-child");if(!td)return null;
+  const hit=e=>{if(isM()||!e.target||!e.target.closest)return null;const td=e.target.closest(":is(table.offtbl,table.rsz)>tbody>tr>td:first-child");if(!td)return null;
     const r=td.getBoundingClientRect();return e.clientY>=r.bottom-RS()&&e.clientY<=r.bottom+1?td.parentNode:null};
   /* a row is a few pixels taller than --rowh (borders, input padding), so work out the --rowh that gives the row the height we want */
   const calib=(tr,want)=>{want=Math.round(want);tr.style.setProperty("--rowh",want+"px");const a=tr.getBoundingClientRect().height/zOf(tr);if(a-want>.5){const v=Math.max(0,Math.round(want-(a-want)));tr.style.setProperty("--rowh",v+"px");return v}return want};
@@ -3033,7 +3211,7 @@ function mobView(a){const o=OFFICES.includes(tab)?tab:"W2",A=a[o];if(!A)return""
   const sec=(L,title)=>{L=(L||[]).filter(r=>r.hook||r.driver||r.note);if(!L.length)return"";return `<div class="mvh">${title}</div>`+L.map(r=>`<div class="mvr">${line("Hook",van(r.hook))}${line("Driver",T(r.driver))}${line("Note",T(r.note))}</div>`).join("")};
   if(tab!=="W13")h+=sec(A.extra,"ADDITIONAL VEHICLES REQUIRED")+sec(A.pm,"1PM VANS");
   return h+`</div>`}
-{const _rnd2=render;render=function(){if(isMob()){mobBoard=false;if(!OFFICES.includes(tab))tab="W2"}const r=_rnd2.apply(this,arguments);
+{const _rnd2=render;render=function(){if(!isMob())mobBoard=false;document.documentElement.classList.toggle("mobboard",isMob()&&mobBoard);const r=_rnd2.apply(this,arguments);
   if(isMob()){try{mobAbsence()}catch(e){console.error(e)}requestAnimationFrame(()=>{const hd=document.querySelector("header"),st=hd&&getComputedStyle(hd).position;document.documentElement.style.setProperty("--mobhead",(st==="sticky"||st==="fixed"?hd.offsetHeight:0)+"px")})}return r}}
 function renderCopybar(a){
   const bar=$("copybar"); const prev=lastDayBefore(day);
@@ -3062,20 +3240,20 @@ function renderStatus(a){
   const cp=$("clashPill"); if(cp){const go=()=>{const c=U.clashes[0].v[0];tab=c.office;mobBoard=false;render();};cp.onclick=go;cp.onkeydown=e=>{if(e.key==="Enter")go()}}
 }
 let dragTab=null;
-const ALLTABS=[...OFFICES.filter(o=>o!=="W13"),"ALL","W13","OOS","Vans","Plates","OffVans","Drivers","Duties","RegVan","Rest","Walks","Settings"]; /* "ALL" is the W2–W12 tab: every office on one page in a line (Ash, 13 Oct 2026) */
+const ALLTABS=[...OFFICES.filter(o=>o!=="W13"),"ALL","W13","OOS","Vans","Plates","OffVans","Drivers","Duties","RegVan","Cars","Rest","Walks","Settings"]; /* "ALL" is the W2–W12 tab: every office on one page in a line (Ash, 13 Oct 2026) */
 function isSep(x){return typeof x==="string"&&(x.startsWith("__div_")||x.startsWith("__spc_"))}
 function newSepId(kind){const used=(db.tabOrder||[]).filter(isSep).map(x=>parseInt(x.split("_")[2])||0);const n=used.length?Math.max(...used)+1:1;return `__${kind}_${n}`}
-function tabOrder(){const o=(db.tabOrder||[]).filter(x=>ALLTABS.includes(x)||isSep(x));if(o.length&&!o.filter(x=>!isSep(x)).includes("Rest")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Rest")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Plates")){const i=o.map((x,i)=>x==="Vans"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Plates")}if(o.length&&!o.filter(x=>!isSep(x)).includes("OffVans")){const i=o.map((x,i)=>x==="Vans"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"OffVans")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Duties")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Duties")}if(o.length&&!o.filter(x=>!isSep(x)).includes("RegVan")){const i=o.map((x,i)=>x==="Duties"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"RegVan")}if(o.length&&!o.includes("ALL")){const i=o.map((x,i)=>OFFICES.includes(x)&&x!=="W13"?i:-1).filter(i=>i>=0).pop();o.splice(i==null?0:i+1,0,"ALL")}return [...o,...ALLTABS.filter(x=>!o.includes(x))]}
-function tabName(x){return x==="RegVan"?"Regular Driver Vans":x==="ALL"?"All Offices":x==="Plates"?"Plate finder":x==="OffVans"?"Office Vans":x==="OOS"?"OOS, Change Over & Collections":x==="Vans"?"Vehicles":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}
+function tabOrder(){const o=(db.tabOrder||[]).filter(x=>ALLTABS.includes(x)||isSep(x));if(o.length&&!o.filter(x=>!isSep(x)).includes("Rest")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Rest")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Plates")){const i=o.map((x,i)=>x==="Vans"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Plates")}if(o.length&&!o.filter(x=>!isSep(x)).includes("OffVans")){const i=o.map((x,i)=>x==="Vans"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"OffVans")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Duties")){const i=o.map((x,i)=>x==="Drivers"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Duties")}if(o.length&&!o.filter(x=>!isSep(x)).includes("RegVan")){const i=o.map((x,i)=>x==="Duties"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"RegVan")}if(o.length&&!o.filter(x=>!isSep(x)).includes("Cars")){const i=o.map((x,i)=>x==="RegVan"?i:-1).filter(i=>i>=0)[0];o.splice(i==null?o.length:i+1,0,"Cars")}if(o.length&&!o.includes("ALL")){const i=o.map((x,i)=>OFFICES.includes(x)&&x!=="W13"?i:-1).filter(i=>i>=0).pop();o.splice(i==null?0:i+1,0,"ALL")}return [...o,...ALLTABS.filter(x=>!o.includes(x))]}
+function tabName(x){return x==="Cars"?"Personal Cars":x==="RegVan"?"Regular Driver Vans":x==="ALL"?"All Offices":x==="Plates"?"Plate finder":x==="OffVans"?"Office Vans":x==="OOS"?"OOS, Change Over & Collections":x==="Vans"?"Vehicles":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}
 function renderTabs(){
   const bad=new Set();U.clashes.forEach(c=>c.v.forEach(w=>bad.add(w.office)));
-  const t0=tabOrder().filter(x=>!(isSunday()&&(OFFICES.includes(x)||x==="ALL")&&x!=="W13")),t=isMob()?t0.filter(x=>OFFICES.includes(x)):t0.filter(x=>isSep(x)||x!=="Settings"); /* Settings isn't a tab here — reached from each office's own ⚙ Settings button, or Other pages on the phone (Ash, 7 Oct 2026) */
+  const t0=tabOrder().filter(x=>!(isSunday()&&(OFFICES.includes(x)||x==="ALL")&&x!=="W13")),t=t0.filter(x=>isSep(x)||x!=="Settings"); /* Settings isn't a tab here — reached from each office's own ⚙ Settings button, or Other pages on the phone (Ash, 7 Oct 2026) */
   const mp=$("mobPages");if(mp){const L=t0.filter(x=>!OFFICES.includes(x)&&!isSep(x));mp.innerHTML=`<option value="">Other pages…</option>`+L.map(x=>`<option value="${x}"${x===tab&&!mobBoard?" selected":""}>${esc(tabName(x))}</option>`).join("")+`<option value="__board"${mobBoard?" selected":""}>Key Cupboard</option>`}
   const nav=$("tabs");
   nav.innerHTML=t.map(x=>{
     if(isSep(x)){const kind=x.startsWith("__div_")?"div":"spc";return `<span class="tab-sep tab-${kind}" data-sep="${esc(x)}" draggable="true" title="${kind==="div"?"Divider — drag to move, right-click to remove":"Spacer — drag to move, right-click to remove"}"></span>`}
-    return `<button role="tab" aria-selected="${x===tab&&!mobBoard}" data-tab="${x}"${OFFICES.includes(x)?` style="--oc:var(--off-${x})" class="offtab"`:x==="ALL"?' class="offtab alltab" style="--oc:var(--off-ALL,#a3adb8)" title="Every office on one page, side by side"':""}>${x==="RegVan"?"Regular Driver Vans":x==="ALL"?"All Offices":x==="OOS"?"OOS, Change Over &amp; Collections":x==="OffVans"?"Office Vans":x==="Vans"?"Vehicles":x==="Plates"?"Plate finder":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}${bad.has(x)?'<span class="dot" title="Something here is used twice"></span>':""}</button>`
-  }).join("");
+    return `<button role="tab" aria-selected="${x===tab&&!mobBoard}" data-tab="${x}"${OFFICES.includes(x)?` style="--oc:var(--off-${x})" class="offtab"`:x==="ALL"?' class="offtab alltab" style="--oc:var(--off-ALL,#a3adb8)" title="Every office on one page, side by side"':""}>${x==="Cars"?"Personal Cars":x==="RegVan"?"Regular Driver Vans":x==="ALL"?"All Offices":x==="OOS"?"OOS, Change Over &amp; Collections":x==="OffVans"?"Office Vans":x==="Vans"?"Vehicles":x==="Plates"?"Plate finder":x==="Rest"?"Rest Day":x==="W13"?"Sunday Duty":x}${bad.has(x)?'<span class="dot" title="Something here is used twice"></span>':""}</button>`
+  }).join("")+(isMob()?`<button role="tab" data-boardtab aria-selected="${mobBoard}" class="offtab" title="The Key Cupboard: every van and where it is">🔑 Key Cupboard</button>`:"");
   nav.querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.hasAttribute("data-boardtab"))mobBoard=true;else{if(b.dataset.tab==="Drivers"&&tab==="Drivers"&&drvAdv){drvAdv=false;render();return}mobBoard=false;tab=b.dataset.tab;if(b.dataset.tab==="Drivers")drvAdv=false}render();if(isMob())mobTop()});
   /* drag for regular tabs */
   nav.querySelectorAll("button[data-tab]").forEach(b=>{b.draggable=true;b.title=b.title||"Drag to move this tab";
@@ -3704,6 +3882,7 @@ function renderMain(a){
   else if(tab==="Drivers") m.innerHTML=drvAdv?driversAdvHTML():driversHTML();
   else if(tab==="Duties") m.innerHTML=dutiesHTML(a);
   else if(tab==="RegVan") m.innerHTML=regVanTabHTML(a);
+  else if(tab==="Cars") m.innerHTML=carsHTML();
   else if(tab==="Rest") m.innerHTML=`<h2>Rest Day</h2><p class="sub">Each office's days-off pattern. Drivers who are off are marked in the name list and on the office tabs.</p>`+rotaHTML();
   else if(tab==="Walks") m.innerHTML=walksHTML();
   else m.innerHTML=settingsHTML();
@@ -3739,6 +3918,7 @@ function renderMain(a){
   if($("sunGoNext"))$("sunGoNext").onclick=()=>{const d=parse(day),nextSun=new Date(d);nextSun.setDate(d.getDate()+(7-d.getDay())%7||7);day=iso(nextSun);render();window.scrollTo(0,0);toast("Jumped to next Sunday")};
   if(tab==="Duties")wireDuties(m);
   if(tab==="RegVan")wireRegVans(m);
+  if(tab==="Cars")wireCars(m);
   if($("subSec"))wireSubs(m);
   if($("nsToggle"))$("nsToggle").onclick=()=>{db.look=db.look||{};db.look.nsOff=!db.look.nsOff;if(db.look.nameShow)db.look.nameShow=Object.assign({},db.look.nameShow,{ns:!db.look.nsOff});save(db.look.nsOff?"Hid new driver N":"Showed new driver N");render()};if($("wcolToggle"))$("wcolToggle").onclick=()=>{db.look=db.look||{};db.look.wcolOff=!db.look.wcolOff;save(db.look.wcolOff?"Hid walk colours":"Showed walk colours");render()};
   if($("subVanToggle"))$("subVanToggle").onclick=()=>{db.look=db.look||{};db.look.subVanOff=!db.look.subVanOff;save();render();toast(db.look.subVanOff?"Only the driver's usual van is suggested":"Substitute's own usual van is suggested too")};
@@ -3765,8 +3945,8 @@ addEventListener("resize",()=>requestAnimationFrame(syncShort));
 /* ↔ / ↕ for the small tables (ADDITIONAL VEHICLES REQUIRED, 1PM VANS): each table has its own pair, separate from the
    main table's. ↔ fits every column to its longest entry, ↕ makes every row as short as it can be; tap again to put back (Ash, 5 Oct 2026) */
 function smTbl(b){const fr=b.closest(".smfitrow");let e=fr&&fr.nextElementSibling;while(e&&!e.classList.contains("tablewrap"))e=e.nextElementSibling;return e?e.querySelector("table"):null}
-function smColKey(tb){return [...tb.querySelectorAll("thead th")].map(t=>t.textContent.trim()).join("|")}
-function smRowKey(tb){return offLay()+":"+tab+":"+[...document.querySelectorAll("#main table.offtbl")].indexOf(tb)}
+function smColKey(tb){return tb.dataset.ck||[...tb.querySelectorAll("thead th")].map(t=>t.textContent.trim()).join("|")}
+function smRowKey(tb){return offLay()+":"+tab+":"+[...document.querySelectorAll("#main :is(table.offtbl,table.rsz)")].indexOf(tb)}
 function smMark(){document.querySelectorAll(".smfitrow").forEach(fr=>{const tb=smTbl(fr.firstElementChild);if(!tb)return;
   const a=fr.querySelector("[data-smfitall]"),r=fr.querySelector("[data-smfitrows]"),cw=db.colW||{},rp=(db.look&&db.look.rowSmPrev)||{};
   if(a)a.setAttribute("aria-pressed",String(!!cw[smColKey(tb)+"#fitprev"]));if(r)r.setAttribute("aria-pressed",String(!!rp[smRowKey(tb)]))})}
@@ -3792,8 +3972,8 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-smfitrows]
 
 /* ⇕ next to ↔ ↕: hold and drag up or down to make every row in that table taller or shorter at once; double-click to put
    them back. Saved like the row bars (per layout, office tab and table) and can be undone (Ash, 5 Oct 2026) */
-function rowsDragTbl(b){const fr=b.closest(".fitrow,.smfitrow");let e=fr&&fr.nextElementSibling;while(e&&!e.classList.contains("tablewrap"))e=e.nextElementSibling;return e?e.querySelector("table.offtbl"):null}
-function rowsDragKey(tb,ri){return offLay()+":"+tab+":"+[...document.querySelectorAll("#main table.offtbl")].indexOf(tb)+":"+ri}
+function rowsDragTbl(b){const fr=b.closest(".fitrow,.smfitrow");let e=fr&&fr.nextElementSibling;while(e&&!e.classList.contains("tablewrap"))e=e.nextElementSibling;return e?e.querySelector("table.offtbl,table.rsz"):null}
+function rowsDragKey(tb,ri){return offLay()+":"+tab+":"+[...document.querySelectorAll("#main :is(table.offtbl,table.rsz)")].indexOf(tb)+":"+ri}
 document.addEventListener("pointerdown",e=>{const b=e.target.closest("[data-rowsdrag]");if(!b||e.button)return;e.preventDefault();e.stopPropagation();
   const tb=rowsDragTbl(b);if(!tb)return;const rows=[...tb.tBodies].flatMap(x=>[...x.rows]);if(!rows.length)return;const Z=zOf(tb),y0=e.clientY;
   const had=rows.map(tr=>tr.style.getPropertyValue("--rowh")),h0=rows.map(tr=>tr.getBoundingClientRect().height/Z);
@@ -3907,7 +4087,7 @@ function offDriversBox(o){if(o==="W13")return "";
   const head=`<button type="button" class="drvbtn" data-drvlist="${o}" aria-expanded="${open}" title="${open?"Close the list":"Show "+nm+" rest days this week and next week"}"><span aria-hidden="true">${open?"▾":"▸"}</span> ${nm} Rest days (${L.length})</button><span class="drvhint">${open?"Tap again to close":"Tap to see rest days this week and next week"}</span>`;
   if(!open)return `<div class="offvline offdrv">${head}</div>`;
   const W=offDrvWeeks(),sm=rdSortM();L.sort((x,y)=>nameKey(x,sm).localeCompare(nameKey(y,sm)));
-  const rows=L.map(n=>`<tr><td class="drvnm">${restListed(n,o)&&!isMob()?`<button type="button" class="drvgo" data-drvgo="${esc(n)}" title="Edit ${esc(n.split(" ")[0])}'s rest days on the Rest Day tab">${esc(n)}</button>`:esc(n)}${/Manager$/.test(driverOffice(n))?' <span class="drvmgr" title="Managers are not on the Rest Day list">manager</span>':""}</td><td>${offDrvCell(n,W[0])}</td><td>${offDrvCell(n,W[1])}</td></tr>`).join("");
+  const rows=L.map(n=>`<tr><td class="drvnm">${restListed(n,o)?`<button type="button" class="drvgo" data-drvgo="${esc(n)}" title="Edit ${esc(n.split(" ")[0])}'s rest days on the Rest Day tab">${esc(n)}</button>`:esc(n)}${/Manager$/.test(driverOffice(n))?' <span class="drvmgr" title="Managers are not on the Rest Day list">manager</span>':""}</td><td>${offDrvCell(n,W[0])}</td><td>${offDrvCell(n,W[1])}</td></tr>`).join("");
   return `<div class="offvline offdrv">${head}<div class="drvpanel"><p class="drvnote">Rest days for each ${nm} driver. Tap a name to change their rest days. Weeks run Monday to Sunday and follow the date you are looking at, which is outlined.</p>${L.length?`<div class="drvwrap"><table class="drvtbl"><thead><tr><th>Driver</th><th>This week<small>${esc(offDrvRange(W[0]))}</small></th><th>Next week<small>${esc(offDrvRange(W[1]))}</small></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<p class="drvnone">No drivers are set to ${nm} yet. Set a driver's office on the Drivers tab.</p>`}</div></div>`}
 /* tap a driver's name in the "W2 Drivers" list: land on the Rest Day tab, on that driver's row, to change their rest days (Ash, 7 Oct 2026) */
 let rdFocus="";
@@ -3981,7 +4161,7 @@ function wireAllOffices(m){
 function officeHTML(a,o){
   const s=a[o],ON=offNavHTML(o);document.documentElement.classList.toggle("l2v2",offLay()===2&&v2On());{const cx=(db.look&&db.look.clrX)||"on";document.documentElement.classList.toggle("clrx-hover",cx==="hover");document.documentElement.classList.toggle("clrx-off",cx==="off")}document.documentElement.classList.toggle("v2th",!!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2));
   const tOff=!!(db.look&&db.look.offToolsOff);
-  let h=hookDL()+(isMob()?`<div class="mobviewbar" role="group" aria-label="Phone view"><span>View</span><button type="button" data-mobsheet="0" aria-pressed="${!mobSheetOn()}">Cards</button><button type="button" data-mobsheet="1" aria-pressed="${mobSheetOn()}">V2 sheet</button></div>`:"")+`<h2 class="offh2">${ON[0]}<span class="offbadge">${ovName(o)}</span>${ON[1]} DRIVER ALLOCATION ${offVanBadge(a,o)}${crossOfficeDrvBadge(a,o)}${awayDrvBadge(a,o)}<span class="offtbox">${isMob()?"":`<span class="laygrp" role="group" aria-label="Layout"><span class="laylab">Layout</span><button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="Layout 1: the usual sheet">1</button><span class="lay2stk"><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2&&!(db.look&&db.look.l2v2)}" title="" aria-label="Layout 2, linked to V2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">2</button><span class="v2link" aria-hidden="true" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">🔗</span><button type="button" class="offtoolsbtn laybtn v2sub" data-v2 aria-pressed="${offLay()===2&&!!(db.look&&db.look.l2v2)}" title="" aria-label="V2, linked to Layout 2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">V2</button></span></span><span class="offtsep" aria-hidden="true"></span><span class="laygrp${offLay()===2&&db.look&&db.look.l2v2?" laydis":""}" role="group" aria-label="Look"><span class="laylab">Look</span><button type="button" class="offtoolsbtn laybtn" data-v2theme="0" aria-pressed="${!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2)}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Colour: the normal coloured sheet"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Colour</button><button type="button" class="offtoolsbtn laybtn" data-v2theme="1" aria-pressed="${!!(db.look&&db.look.v2theme)||(offLay()===2&&!!(db.look&&db.look.l2v2))}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Paper: the V2 look (white page, black grid lines, plain text) on Layout 1 and Layout 2, keeping their own columns"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Paper</button></span><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${ovName(o)} in its own window. Changes in either window show in the other.">🗗 Pop out ${ovName(o)}</button>`}${isMob()?"":`<button type="button" class="offtoolsbtn" id="offPopSetBtn" aria-pressed="${offSetPanelOpen}" title="Show or hide actions and settings">${offSetPanelOpen?"▲":"⚙"} Preferences</button>`}</span></h2><div id="offPopSettingsPanel" class="offpopsetpanel"${offSetPanelOpen?"":" hidden"}><div class="offacts offacts-panel">${bulkUndoHTML(o)}<button class="addrow" id="fillReg" title="Fill from regular drivers: puts each duty's regular driver (set on the Duties tab) into the EMPTY driver boxes. If a regular driver is off today, a free substitute driver (set on the Drivers tab) is put in the Substitute box. You see the list first and choose what to fill. Undo puts it all back.">Fill from regular drivers</button><button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from ${o==="W13"?"previous Sunday":"previous day"}: copies the hooks, drivers and substitutes exactly as they were on an earlier ${o==="W13"?"Sunday":"day"} you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from ${o==="W13"?"previous Sunday":"previous day"} copies one day as it was.">Import from ${o==="W13"?"previous Sunday":"previous day"}</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button>${moveMode?`<label class="mvall" style="display:inline-flex;align-items:center;gap:5px;margin:0 8px;font-size:13px" title="Row moves and driver / substitute drags are repeated on every other office, using the same row positions. Columns are already the same for every office."><input type="checkbox" id="mvAllOff"${moveAllOff?" checked":""}> Apply to all offices</label>`:""}<button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${offOptsHTML()}${optHelpHTML()}<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><label class="selalloff" style="display:inline-flex;align-items:center;gap:5px;margin:0 8px;font-size:13px" title="Makes the Clear all hooks / drivers / substitutes / 3 buttons act on every office instead of just this tab. Highlighting boxes and Clear selected still work on this tab only."><input type="checkbox" id="selAllOffCk"${selAllOff?" checked":""}> Apply to all offices</label><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${vanLineBox(a,o)}${offDriversBox(o)}${o==="W13"&&!isSunday()?`<div class="sundutylock">📅 <b>Sunday Duty can only be edited on a Sunday.</b> The rows and names are shown but can't be changed here. <button type="button" class="addrow" id="sunGoNext" style="margin:0">Go to next Sunday</button></div>`:""}<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}${subWaitHTML(o)}${walkList(o)}`;
+  let h=hookDL()+(isMob()?`<div class="mobviewbar" role="group" aria-label="Phone view"><span>View</span><button type="button" data-mobsheet="0" aria-pressed="${!mobSheetOn()}">Cards</button><button type="button" data-mobsheet="1" aria-pressed="${mobSheetOn()}">V2 sheet</button></div>`:"")+`<h2 class="offh2">${ON[0]}<span class="offbadge">${ovName(o)}</span>${ON[1]} DRIVER ALLOCATION ${offVanBadge(a,o)}${crossOfficeDrvBadge(a,o)}${awayDrvBadge(a,o)}<span class="offtbox">${isMob()&&!mobSheetOn()?"":`<span class="laygrp" role="group" aria-label="Layout"><span class="laylab">Layout</span><button type="button" class="offtoolsbtn laybtn" data-offlay="1" aria-pressed="${offLay()===1}" title="Layout 1: the usual sheet">1</button><span class="lay2stk"><button type="button" class="offtoolsbtn laybtn" data-offlay="2" aria-pressed="${offLay()===2&&!(db.look&&db.look.l2v2)}" title="" aria-label="Layout 2, linked to V2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">2</button><span class="v2link" aria-hidden="true" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">🔗</span><button type="button" class="offtoolsbtn laybtn v2sub" data-v2 aria-pressed="${offLay()===2&&!!(db.look&&db.look.l2v2)}" title="" aria-label="V2, linked to Layout 2" data-redtip="V2 is linked to Layout 2 🔗 Any change to the content (drivers, substitutes, vans, duties and partners), row height or column width in Layout 2 also changes V2, and a change in V2 also changes Layout 2.">V2</button></span></span><span class="offtsep" aria-hidden="true"></span><span class="laygrp${offLay()===2&&db.look&&db.look.l2v2?" laydis":""}" role="group" aria-label="Look"><span class="laylab">Look</span><button type="button" class="offtoolsbtn laybtn" data-v2theme="0" aria-pressed="${!(db.look&&db.look.v2theme)&&!(offLay()===2&&db.look&&db.look.l2v2)}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Colour: the normal coloured sheet"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Colour</button><button type="button" class="offtoolsbtn laybtn" data-v2theme="1" aria-pressed="${!!(db.look&&db.look.v2theme)||(offLay()===2&&!!(db.look&&db.look.l2v2))}" title="${offLay()===2&&db.look&&db.look.l2v2?"V2 always uses the paper look":"Paper: the V2 look (white page, black grid lines, plain text) on Layout 1 and Layout 2, keeping their own columns"}"${offLay()===2&&db.look&&db.look.l2v2?" disabled":""}>Paper</button></span><span class="offtsep" aria-hidden="true"></span>`}${OFFPOP||isMob()?"":`<button type="button" class="offtoolsbtn" data-offwin="${o}" title="Open ${ovName(o)} in its own window. Changes in either window show in the other.">🗗 Pop out ${ovName(o)}</button>`}${`<button type="button" class="offtoolsbtn" id="offPopSetBtn" aria-pressed="${offSetPanelOpen}" title="Show or hide actions and settings">${offSetPanelOpen?"▲":"⚙"} Preferences</button>`}</span></h2><div id="offPopSettingsPanel" class="offpopsetpanel"${offSetPanelOpen?"":" hidden"}><div class="offacts offacts-panel">${bulkUndoHTML(o)}<button class="addrow" id="fillReg" title="Fill from regular drivers: puts each duty's regular driver (set on the Duties tab) into the EMPTY driver boxes. If a regular driver is off today, a free substitute driver (set on the Drivers tab) is put in the Substitute box. You see the list first and choose what to fill. Undo puts it all back.">Fill from regular drivers</button><button class="addrow" id="fillUsual" title="Fill from usual: fills the EMPTY hook and driver boxes with whoever normally does each duty and the van they normally use, worked out from past weeks. It follows the rota patterns. Drivers on rest day, sick or annual leave are still put in, with their badge showing. You choose which rows to fill.&#10;&#10;The difference: Import from previous day copies exactly what was on one earlier day. Fill from usual picks the most likely person and van for each duty from the history.">Fill from usual</button><button class="addrow" id="impPrev" title="Import from ${o==="W13"?"previous Sunday":"previous day"}: copies the hooks, drivers and substitutes exactly as they were on an earlier ${o==="W13"?"Sunday":"day"} you pick. You choose what to bring over, and can come back and add more later.&#10;&#10;The difference: Fill from usual looks at past weeks and picks the person and van who most often do each duty. Import from ${o==="W13"?"previous Sunday":"previous day"} copies one day as it was.">Import from ${o==="W13"?"previous Sunday":"previous day"}</button><button class="addrow" id="mvToggle" aria-pressed="${moveMode}" title="Move rows up or down, columns left or right, and drag drivers between rows">${moveMode?"Done moving":"Move rows / columns / drivers"}</button>${moveMode?`<label class="mvall" style="display:inline-flex;align-items:center;gap:5px;margin:0 8px;font-size:13px" title="Row moves and driver / substitute drags are repeated on every other office, using the same row positions. Columns are already the same for every office."><input type="checkbox" id="mvAllOff"${moveAllOff?" checked":""}> Apply to all offices</label>`:""}<button class="addrow" id="selToggle" aria-pressed="${selMode}" title="Highlight hooks, drivers or substitutes, then clear them all at once">${selMode?"Done selecting":"Select to clear"}</button></div>${offOptsHTML()}${optHelpHTML()}<button class="addrow" id="resetColW"${db.colW&&Object.keys(db.colW).length?"":" disabled"}>Reset dragged column widths</button></div>${selMode?`<div class="selbar" role="group" aria-label="Clear several boxes"><span class="selmsg">${isMob()?"Tap hooks or names to highlight them, then Clear selected. The Clear all buttons empty a whole column (3 clicks).":"Tap hooks or names to highlight them, or tap a Hook, Driver or Substitute heading to highlight that whole column."}</span><span class="selbtns"><label class="selalloff" style="display:inline-flex;align-items:center;gap:5px;margin:0 8px;font-size:13px" title="Makes the Clear all hooks / drivers / substitutes / 3 buttons act on every office instead of just this tab. Highlighting boxes and Clear selected still work on this tab only."><input type="checkbox" id="selAllOffCk"${selAllOff?" checked":""}> Apply to all offices</label><button class="addrow" data-selall="hook" title="Click 3 times to clear every hook on this tab">Clear all hooks</button><button class="addrow" data-selall="driver" title="Click 3 times to clear every driver on this tab">Clear all drivers</button><button class="addrow" data-selall="sub" title="Click 3 times to clear every substitute on this tab">Clear all substitutes</button><button class="addrow" data-selall="all" title="Click 3 times to clear every hook, driver and substitute on this tab" aria-label="Clear all 3: hooks, drivers and substitutes">Clear all 3</button><button class="addrow" data-selall="none">Unselect all</button><button class="selclear" id="selClear" disabled title="Click 3 times to empty the highlighted boxes">Clear selected</button><button class="selclearall" id="selClearAll" title="Click 3 times to empty every hook, driver and substitute on W2 to W12 for this day">Clear all offices</button></span></div>`:""}${vanLineBox(a,o)}${offDriversBox(o)}${o==="W13"&&!isSunday()?`<div class="sundutylock">📅 <b>Sunday Duty can only be edited on a Sunday.</b> The rows and names are shown but can't be changed here. <button type="button" class="addrow" id="sunGoNext" style="margin:0">Go to next Sunday</button></div>`:""}<p class="sub">${esc(pretty(day))}. Dropdowns only offer vans, drivers and walks that aren't already used today. Red means something is used twice.</p>${restLine(o)}${subWaitHTML(o)}${walkList(o)}`;
   const SC=k=>selMode?` class="selcol" data-selcol="${k}" title="Highlight this whole column"`:"",FM=`<button type="button" class="fitmid" data-fitall title="Fit every column to its longest entry" aria-label="Fit every column to its longest entry">↔</button><button type="button" class="fitrows" data-fitrows aria-pressed="${rowsCompactOn()}" title="${rowsCompactOn()?"Tap to put the row height back to how it was":"Make every row as short as it can be"}" aria-label="Make every row as short as it can be">↕</button><button type="button" class="fitdrag" data-rowsdrag title="Drag up or down to make every row in this table taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every row">⇕</button>`,CO=mainCols(),FO=(()=>{const f=CO.slice();f.splice(numPos(),0,"num");return o==="W13"?f.filter(k=>k!=="sub"&&k!=="partner"):f})(),FA=FO.indexOf("hook")===FO.indexOf("num")-1?"num":"hook",
     TH2=(a,b)=>`<span class="thw">${a}</span> <span class="thw">${b}</span>`,CH={hook:[TH2("Hook.","Reg."),SC("hook")],driver:["Driver",SC("driver")],sub:["Substitute",SC("sub")],duty:["Duty",' title="Changing a duty also changes it on every later date"'],partner:["Partner",' title="Changing a partner also changes it on every later date"']},
     mvH=(k,ci)=>moveMode?`<span class="grip gcol" data-dragcol="${ci}" title="Drag to move this column">⠿</span>`:"";
@@ -4010,7 +4190,7 @@ function officeHTML(a,o){
     C.num=`<td class="n" style="text-align:center;padding-right:0;width:${NW}px;min-width:${NW}px;max-width:${NW}px;box-sizing:border-box">${mvR(p,i,s.main.length)}</td>`;
     h+=`<tr${r.notUsed?' class="nurow" title="Not used today"':""}>${FO.map(k=>C[k]).join("")}${offColTD(o,r,p)}${o==="W13"?"":`<td class="l2nu"><label class="nuchk" title="Tick if this row isn't used today. Its van can then be used in another row, and it no longer counts towards the vans used today."><input type="checkbox" data-notused="${o}.main.${i}"${r.notUsed?" checked":""} aria-label="Row ${i+1} not used"></label></td>`}<td class="x"><button data-del="${o}.main.${i}" aria-label="Remove row ${i+1}" title="Removes this row on this date and every later date">×</button></td></tr>`;});
   h+=`</tbody></table></div><button class="addrow" data-add="${o}.main">Add a row</button>${o==="W13"&&!isSunday()?"</fieldset>":""}`;
-  if(o==="W13"&&!isSunday()){}else if(!isMob())h+=`<div class="suncolbar"><span class="note" style="margin:0">Your columns:</span>${colsOf(o).map(c=>`<span class="suncolchip"><b>${esc(c.name)}</b><button type="button" data-sccren="${c.k}" data-sco="${o}" title="Rename this column" aria-label="Rename ${esc(c.name)}">✎</button><button type="button" data-sccrm="${c.k}" data-sco="${o}" title="Tap 3 times to remove this column and what's written in it" aria-label="Remove ${esc(c.name)}">×</button></span>`).join("")||'<span class="vdmut">none yet</span>'}<button type="button" class="addrow" data-sccadd data-sco="${o}" style="margin:0">＋ Add a column</button></div>`;
+  if(o==="W13"&&!isSunday()){}else h+=`<div class="suncolbar"><span class="note" style="margin:0">Your columns:</span>${colsOf(o).map(c=>`<span class="suncolchip"><b>${esc(c.name)}</b><button type="button" data-sccren="${c.k}" data-sco="${o}" title="Rename this column" aria-label="Rename ${esc(c.name)}">✎</button><button type="button" data-sccrm="${c.k}" data-sco="${o}" title="Tap 3 times to remove this column and what's written in it" aria-label="Remove ${esc(c.name)}">×</button></span>`).join("")||'<span class="vdmut">none yet</span>'}<button type="button" class="addrow" data-sccadd data-sco="${o}" style="margin:0">＋ Add a column</button></div>`;
   if(o==="W13"){/* Sunday: no extra vans or 1PM vans */}else if(offLay()!==2){
   h+=`<h3 class="v2sec">ADDITIONAL VEHICLES REQUIRED</h3><div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column in this table to its longest entry (tap again to put the widths back)" aria-label="Fit every column in this table to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row in this table as short as it can be (tap again to put them back)" aria-label="Make every row in this table as short as it can be">↕</button><button type="button" class="smfit smdrag" data-rowsdrag title="Drag up or down to make every row in this table taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every row in this table">⇕</button></div><div class="tablewrap"><table class="offtbl v2extra"><thead><tr><th class="numth">Row</th><th${selMode?' class="selcol" data-selcol="hook" title="Highlight this whole column"':""}>Hook</th><th${selMode?' class="selcol" data-selcol="driver" title="Highlight this whole column"':""}>Driver</th><th>Reason</th><th></th></tr></thead><tbody>`;
   s.extra.forEach((r,i)=>{const p=`${o}.extra.${i}`;
@@ -4151,7 +4331,7 @@ function driversHTML(){
   <section class="ndlist"><h3>Non-Drivers (${(db.nonDrivers||[]).filter(n=>db.drivers.includes(n)&&!isLeft(n)&&!isMoved(n)).length})</h3><p class="note">People moved here stay on file but aren't offered as drivers or substitutes on W2 to W12. Use <b>Move ▾ → Non-driver</b> on a name above.</p><div class="listbox" id="ndList"></div></section><section class="ndlist"><h3>Moved office (${(db.movedOff||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have moved to another office. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Moved office</b> on a name above. Moving someone to W2–W12 just changes their office and keeps them as a driver.</p><div class="listbox" id="moList"></div></section><section class="ndlist"><h3>Left RM (${(db.leftRM||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People who have left Royal Mail. They stay on file for the history but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → Left RM</b> on a name above.</p><div class="listbox" id="lrList"></div></section>${customLists().map(l=>`<section class="ndlist"><h3>${esc(l.name)} (${((db.customListMembers||{})[l.id]||[]).filter(n=>db.drivers.includes(n)).length})</h3><p class="note">People on this list stay on file but aren't offered as drivers or substitutes anywhere. Use <b>Move ▾ → To: ${esc(l.name)}</b> in the Advanced Drivers List to add someone.</p><div class="listbox" id="cl-${esc(l.id)}"></div></section>`).join("")}`+`</div>`;
 }
 function walksHTML(){
-  return `<h2>Walks</h2><p class="sub">Add, edit and remove walks and set which office they belong to.</p><div class="onecol">`+`<section><h3>Walks (${db.walks.length})</h3><div class="addline"><input id="newWalk" placeholder="e.g. 36. NEW WALK" aria-label="New walk"><select id="newWalkOffice" aria-label="Office">${OFFICES.map(o=>`<option value="${o}">${ovName(o)}</option>`).join("")}</select><label class="ndwadd" title="A walk done without a driver or van"><input type="checkbox" id="newWalkND"> Non-driver walk</label><button id="addWalk">Add</button></div><input class="search" id="findWalk" placeholder="Search walks" aria-label="Search walks"><div class="azbar wsort" role="group" aria-label="Sort walks"><span class="note" style="margin:0 6px 0 0;align-self:center">Sort by</span>${[["num","Number"],["name","Name"]].map(([v,t])=>`<button type="button" data-wsort="${v}" aria-pressed="${walkSortM()===v}">${t}</button>`).join("")}</div><div class="azbar woff" role="group" aria-label="Show walks for office"><span class="note" style="margin:0 6px 0 0;align-self:center">Office</span>${[["","All"],...OFFICES.map(o=>[o,ovName(o)]),["-","N/A"]].map(([v,t])=>`<button type="button" data-woff="${v}" aria-pressed="${walkOffF()===v}"${OFFICES.includes(v)?` style="--oc:var(--off-${v})" class="wofb"`:""}>${t}</button>`).join("")}</div><div class="listbox" id="walkList"></div></section>`+`</div>`;
+  return `<h2>Walks</h2><p class="sub">Add, edit and remove walks and set which office they belong to.</p><div class="onecol">`+`<section><h3>Walks (${db.walks.length})</h3><div class="addline"><input id="newWalk" placeholder="e.g. 36. NEW WALK" aria-label="New walk"><select id="newWalkOffice" aria-label="Office">${OFFICES.map(o=>`<option value="${o}">${ovName(o)}</option>`).join("")}</select><label class="ndwadd" title="A walk done without a driver or van"><input type="checkbox" id="newWalkND"> Non-driver walk</label><button id="addWalk">Add</button></div><input class="search" id="findWalk" placeholder="Search walks" aria-label="Search walks"><div class="azbar wsort" role="group" aria-label="Sort walks"><span class="note" style="margin:0 6px 0 0;align-self:center">Sort by</span>${[["num","Number"],["name","Name"]].map(([v,t])=>`<button type="button" data-wsort="${v}" aria-pressed="${walkSortM()===v}">${t}</button>`).join("")}</div><div class="azbar woff" role="group" aria-label="Show walks for office"><span class="note" style="margin:0 6px 0 0;align-self:center">Office</span>${[["","All"],...OFFICES.map(o=>[o,ovName(o)]),["-","N/A"]].map(([v,t])=>`<button type="button" data-woff="${v}" aria-pressed="${walkOffF()===v}"${OFFICES.includes(v)?` style="--oc:var(--off-${v})" class="wofb"`:""}>${t}</button>`).join("")}</div><div class="smfitrow"><button type="button" class="smfit" data-wlfit aria-pressed="${!!(db.look&&db.look.walkRowPrev)}" title="${db.look&&db.look.walkRowPrev?"Tap to put the row height back to how it was":"Make every walk row as short as it can be (tap again to put them back)"}" aria-label="Make every walk row as short as it can be">↕</button><button type="button" class="smfit smdrag" data-wldrag title="Drag up or down to make every walk row taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every walk row">⇕</button></div><div class="listbox" id="walkList"${db.look&&db.look.walkRowH?` style="--wrh:${+db.look.walkRowH}px"`:""}></div></section>`+`</div>`;
 }
 function fillLists(){
   const q=id=>up($(id)?$(id).value:"");
@@ -4403,12 +4583,59 @@ function vanStatus(a,v){const u=U.hooks.get(v.h)||[];
   if(u.length){const w=u[0];return {k:"used",o:w.office,t:`${ovName(w.office)} ${w.sec==="main"?"row":w.sec==="extra"?"additional":"1pm"} ${w.i+1}`+(u.length>1?" (used twice)":""),w}}
   return {k:"free",t:"Free"};}
 function vanRowHIdx(){const v=db.look&&db.look.vanRowH;const i=ROWH.findIndex(r=>r[0]===v);return i<0?5:i}
+/* ↔ ↕ ⇕ above the Vehicles table, like the ones on W2-W12 (Ash, 14 Oct 2026). ↔ reuses the small-table fit (same column
+   keys as the drag-to-resize headings). ↕ makes every row as short as it goes: the Row height goes to Smallest and any
+   rows dragged by hand are cleared; tap again to put both back. ⇕ drags every row shown taller or shorter at once;
+   double-click puts them back. Row heights live in db.vanRowHeights (per van) and db.look.vanRowH (the scale). */
+/* the ↔ ↕ ⇕ bar used above the Duties, Regular Driver Vans and Personal Cars tables (14 Oct 2026) */
+function tblToolsHTML(){return `<div class="smfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column to its longest entry (tap again to put the widths back)" aria-label="Fit every column to its longest entry">↔</button><button type="button" class="smfit" data-smfitrows title="Make every row as short as it can be (tap again to put them back)" aria-label="Make every row as short as it can be">↕</button><button type="button" class="smfit smdrag" data-rowsdrag title="Drag up or down to make every row taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every row">⇕</button></div>`}
+/* Walks list: ↕ makes every row as short as its contents allow (tap again to put back), ⇕ drags every row at once,
+   double-click puts them back. Saved in db.look.walkRowH (px) and db.look.walkRowPrev (what ↕ replaced) (14 Oct 2026) */
+function walkRowNeed(wl){let need=18;[...wl.children].forEach(d=>{[...d.children].forEach(c=>{need=Math.max(need,c.getBoundingClientRect().height/zOf(wl)+2)})});return Math.ceil(need)}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-wlfit]");if(!b)return;e.preventDefault();const wl=$("walkList");if(!wl)return;db.look=db.look||{};
+  if(db.look.walkRowPrev){const v=db.look.walkRowPrev.h;delete db.look.walkRowPrev;if(v)db.look.walkRowH=v;else delete db.look.walkRowH;save("Walk rows put back");render();toast("Row heights put back");return}
+  const need=walkRowNeed(wl),cur=db.look.walkRowH||0;if(cur&&cur<=need){toast("Every row is already as short as it goes");return}
+  db.look.walkRowPrev={h:cur};db.look.walkRowH=need;save("Compacted the walk rows");render();toast("All rows made as short as they go. Tap ↕ again to undo")});
+document.addEventListener("pointerdown",e=>{const b=e.target.closest("[data-wldrag]");if(!b||e.button)return;e.preventDefault();e.stopPropagation();const wl=$("walkList");if(!wl||!wl.children.length)return;
+  const Z=zOf(wl),y0=e.clientY,had=wl.style.getPropertyValue("--wrh"),rows=[...wl.children].filter(d=>!d.classList.contains("wgrp")),h0=rows.map(d=>d.getBoundingClientRect().height/Z),base=h0.slice().sort((a,b)=>a-b)[Math.floor(h0.length/2)]||30;let want=null,moved=false;
+  document.body.classList.add("rowresizing");b.classList.add("on");
+  const mv=ev=>{const dy=(ev.clientY-y0)/Z;if(Math.abs(dy)>=1)moved=true;if(!moved)return;want=Math.max(16,Math.min(200,Math.round(base+dy)));wl.style.setProperty("--wrh",want+"px")};
+  const up=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",up);removeEventListener("pointercancel",up);document.body.classList.remove("rowresizing");b.classList.remove("on");
+    if(!moved||want==null){if(had)wl.style.setProperty("--wrh",had);else wl.style.removeProperty("--wrh");return}
+    db.look=db.look||{};db.look.walkRowH=want;delete db.look.walkRowPrev;save("Resized every walk row");render();toast("Every row resized. Double-click ⇕ to put them back")};
+  addEventListener("pointermove",mv);addEventListener("pointerup",up);addEventListener("pointercancel",up)},true);
+document.addEventListener("dblclick",e=>{const b=e.target.closest("[data-wldrag]");if(!b)return;e.preventDefault();e.stopPropagation();
+  if(!(db.look&&db.look.walkRowH)){toast("These rows are already at their normal height");return}
+  delete db.look.walkRowH;delete db.look.walkRowPrev;save("Put every walk row back to its normal height");render();toast("Rows put back")},true);
+function vanRowsCompactOn(){const U=db.look&&db.look.vanRowUndo;return !!(U&&ROWH[vanRowHIdx()][0]===ROWH[0][0]&&!Object.keys(db.vanRowHeights||{}).length)}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-vanfitrows]");if(!b)return;e.preventDefault();
+  db.look=db.look||{};const small=ROWH[0][0],cur=ROWH[vanRowHIdx()][0],U=db.look.vanRowUndo,mine=Object.keys(db.vanRowHeights||{}).length;
+  if(U&&cur===small&&!mine){db.look.vanRowH=U.rowH;if(U.rows&&Object.keys(U.rows).length)db.vanRowHeights=Object.assign({},U.rows);delete db.look.vanRowUndo;
+    save("Vehicles rows put back to "+(ROWH.find(x=>x[0]===U.rowH)||[0,"Normal"])[1]);render();toast("Row heights put back");return}
+  if(cur===small&&!mine){toast("Every row is already as short as it goes");return}
+  const u=U?{rowH:U.rowH,rows:Object.assign({},U.rows)}:{rowH:cur,rows:{}};if(!U||cur!==small)u.rowH=cur;Object.assign(u.rows,db.vanRowHeights||{});
+  db.look.vanRowUndo=u;delete db.vanRowHeights;db.look.vanRowH=small;save("Compacted the Vehicles rows");render();toast("All rows made as short as they go. Tap ↕ again to undo")});
+document.addEventListener("pointerdown",e=>{const b=e.target.closest("[data-vanrowsdrag]");if(!b||e.button)return;e.preventDefault();e.stopPropagation();
+  const tb=document.querySelector("#main table.vantable");if(!tb)return;const rows=[...tb.tBodies].flatMap(x=>[...x.rows]).filter(tr=>tr.querySelector("[data-vanrdrag]"));if(!rows.length)return;
+  const Z=zOf(tb),y0=e.clientY,had=rows.map(tr=>tr.style.getPropertyValue("--van-row-h")),h0=rows.map(tr=>tr.getBoundingClientRect().height/Z);
+  const base=h0.slice().sort((a,b)=>a-b)[Math.floor(h0.length/2)];let want=null,moved=false;
+  document.body.classList.add("rowresizing");b.classList.add("on");
+  const mv=ev=>{const dy=(ev.clientY-y0)/Z;if(Math.abs(dy)>=1)moved=true;if(!moved)return;want=Math.max(24,Math.min(200,Math.round(base+dy)));rows.forEach(tr=>tr.style.setProperty("--van-row-h",want+"px"))};
+  const up=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",up);removeEventListener("pointercancel",up);document.body.classList.remove("rowresizing");b.classList.remove("on");
+    if(!moved||want==null){rows.forEach((tr,i)=>{if(had[i])tr.style.setProperty("--van-row-h",had[i]);else tr.style.removeProperty("--van-row-h")});return}
+    db.vanRowHeights=db.vanRowHeights||{};rows.forEach(tr=>{db.vanRowHeights[+tr.querySelector("[data-vanrdrag]").dataset.vanrdrag]=want});
+    save("Resized every Vehicles row");render();toast("Every row resized. Double-click ⇕ to put them back")};
+  addEventListener("pointermove",mv);addEventListener("pointerup",up);addEventListener("pointercancel",up)},true);
+document.addEventListener("dblclick",e=>{const b=e.target.closest("[data-vanrowsdrag]");if(!b)return;e.preventDefault();e.stopPropagation();
+  if(!Object.keys(db.vanRowHeights||{}).length){toast("These rows are already at their normal height");return}
+  delete db.vanRowHeights;save("Put every Vehicles row back to its normal height");render();toast("Rows put back")},true);
 function vanTickTitle(){return ((db.look&&db.look.vanTickTitle)||"Tracker").trim()||"Tracker"}
 function vansHTML(){
   return `<h2>Vehicles and plates</h2><p class="sub">All ${db.vans.length} vans with their full registration.</p>
   <div class="vantools"><span class="sizetools" style="margin:0"><span>Row height</span><button type="button" data-vanrowh="-1" aria-label="Shorter rows"${vanRowHIdx()?"":" disabled"}>▼</button><o>${ROWH[vanRowHIdx()][1]}</o><button type="button" data-vanrowh="1" aria-label="Taller rows"${vanRowHIdx()<ROWH.length-1?"":" disabled"}>▲</button></span><input class="search" id="vanSearch" placeholder="Search hook, plate, PP number or model" value="${esc(vanQ)}" aria-label="Search vans">
   <select id="vanFilter" aria-label="Show"><option value="all">All vans</option><option value="free">Free only</option><option value="used">In use</option><option value="oos">OOS (out of service)</option><option value="chg">Change over</option><option value="coll">Collections</option><option value="oth">Reserved - Other</option><option value="E">Electric</option><option value="D-ab">Diesel</option><option value="share">Same last letters (!)</option><option value="hire">Hire vans</option><option value="custom">Custom types</option></select>
   <button class="addrow" id="vanPrint">Print list</button><button class="vanadd" id="vanAddBtn">Add a van</button></div><div id="vanForm"></div>
+  <div class="smfitrow vanfitrow"><button type="button" class="smfit" data-smfitall title="Fit every column to its longest entry (tap again to put the widths back)" aria-label="Fit every column to its longest entry">↔</button><button type="button" class="smfit" data-vanfitrows aria-pressed="${vanRowsCompactOn()}" title="${vanRowsCompactOn()?"Tap to put the row heights back to how they were":"Make every row as short as it can be, including rows you resized by hand (tap again to put them back)"}" aria-label="Make every row as short as it can be">↕</button><button type="button" class="smfit smdrag" data-vanrowsdrag title="Drag up or down to make every row taller or shorter at once. Double-click to put them back" aria-label="Drag to resize every row">⇕</button></div>
   <div class="tablewrap"><table class="vantable"><thead><tr>
   ${[["h","Hook"],["full","Plate"],["pp","PP number"],["model","Model"],["fuel","Fuel"],["tick",vanTickTitle()],["image","Image"],["detail","Detail"],["",""]].map(([k,t])=>k==="detail"?`<th class="vdcol">Detail</th>`:k==="tick"?`<th class="vtickcol"><span class="vtickttl"><button class="sortbtn" data-sort="tick" aria-pressed="${vanSort==="tick"}">${esc(t)}${vanSort==="tick"?(vanDesc?" ▴":" ▾"):""}</button><button type="button" class="vtickren" id="vanTickRen" title="Rename this column" aria-label="Rename the ${esc(t)} column">✎</button></span></th>`:k==="image"?`<th class="vaimgcol">Image</th>`:k?`<th><button class="sortbtn" data-sort="${k}" aria-pressed="${vanSort===k}">${t}${vanSort===k?(vanDesc?" ▴":" ▾"):""}</button></th>`:`<th><span class="sr">Actions</span></th>`).join("")}
   </tr></thead><tbody id="vanRows"></tbody></table></div><p class="note" id="vanCount"></p>`;
@@ -5832,7 +6059,7 @@ function setupColResize(){
     const ths=[...tb.querySelectorAll("thead th")];if(ths.length<3)return;
     /* the main W2–W12 tables have their own column sizing (the bars in each heading); leave them alone or they'd get a second set of columns */
     if(tb.querySelector("thead [data-colrs]"))return;
-    const key=ths.map(t=>t.textContent.trim()).join("|");
+    const key=tb.dataset.ck||ths.map(t=>t.textContent.trim()).join("|"); /* data-ck: a fixed key for tables whose headings change with the day (Duties, Regular Driver Vans) */
     /* widths go on <col> elements (like the main table), so dragging only changes one column and stays smooth */
     let cg=null;const cols=()=>{if(!cg){cg=document.createElement("colgroup");ths.forEach(()=>cg.appendChild(document.createElement("col")));tb.insertBefore(cg,tb.firstChild)}return [...cg.children]};
     const XW=26,isX=i=>i===ths.length-1&&!ths[i].textContent.trim(); /* the last, empty column only holds the × */
@@ -6273,7 +6500,7 @@ function wireRota(){const S=$("rotaWrap");if(!S)return;const o=rotaO;const rr=()
     if(row){rdFocus="";row.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}
   S.querySelectorAll("[data-rdcustom]").forEach(b=>b.onclick=()=>{const n=b.dataset.rdcustom;rdCustomOpen=rdCustomOpen===n?"":n;render()});
   S.querySelectorAll("[data-rdcd]").forEach(b=>b.onclick=()=>{const n=b.dataset.rdcd,d=b.dataset.d,cur=new Set(DI(n).daysOff||[]);cur.has(d)?cur.delete(d):cur.add(d);
-    const arr=RDAYS.filter(x=>cur.has(x));setDI(n,"daysOff",arr);save(arr.length?`${n}: off every ${arr.join(", ")}`:`${n}: custom days off removed`);render()});
+    const arr=RDAYS.filter(x=>cur.has(x));setDI(n,"daysOff",arr);save(arr.length?`${n}: off every ${arr.join(", ")}`:`${n}: custom days off removed`);rr()});
   const qi=$("rdQ");const filt=()=>{let k=0,t=0;S.querySelectorAll("[data-rdn]").forEach(r=>{t++;const ok=(!rdQ||nameMatch(r.dataset.rdn,rdQ))&&(!rdLetter||azOf(r.dataset.rdn,rdSortM())===rdLetter);r.hidden=!ok;if(ok)k++});const c=$("rdCount");if(c)c.textContent=rdQ||rdLetter?`Showing ${k} of ${t}`:""};
   const qx=S.querySelector("[data-rdqx]");if(qi){qi.oninput=()=>{rdQ=qi.value;if(qx)qx.hidden=!rdQ;if(rdLetter){rdLetter="";S.querySelectorAll("[data-raz]").forEach(b=>b.setAttribute("aria-pressed",!b.dataset.raz))}filt()};filt()}
   /* the duty pattern picker: the booklet's patterns, an own pattern, or none */
@@ -6804,6 +7031,7 @@ function mergeDriver(from,to){db.days&&Object.values(db.days).forEach(a=>{if(!a)
   ["nonDrivers","leftRM","movedOff"].forEach(k=>{if(db[k])db[k]=db[k].filter(x=>x!==from)});if(db.movedTo&&db.movedTo[from]){if(!db.movedTo[to])db.movedTo[to]=db.movedTo[from];delete db.movedTo[from]}
   if(db.boldName&&db.boldName[from]!=null){if(db.boldName[to]==null&&from.split(" ")[db.boldName[from]]){const w=from.split(" ")[db.boldName[from]],j=to.split(" ").indexOf(w);if(j>=0)db.boldName[to]=j}delete db.boldName[from]}
   db.notDup=(db.notDup||[]).filter(k=>!k.split("|").includes(from));
+  (db.cars||[]).forEach(c=>{if(up(c.n)===from){c.n=to;delete c.o}});
   if(db.regVan&&db.regVan[from]!=null){if(db.regVan[to]==null){db.regVan[to]=db.regVan[from];["vanPerm","vanRet"].forEach(k=>{if(db[k]&&db[k][from]){db[k][to]=true}})}delete db.regVan[from]}["vanPerm","vanRet"].forEach(k=>{if(db[k])delete db[k][from]});
   db.drivers=db.drivers.filter(x=>x!==from)}
 function openDupCheck(){const d=document.createElement("div");d.className="dlgback";
@@ -7224,6 +7452,57 @@ function drvOptsFor(o,sel){const L=db.drivers.filter(n=>!isND(n)),mine=L.filter(
                       whatever van they have that day, so it does not need a regular van (Ash, 13 Oct 2026).
    Used by the hook pills on the office sheets, Fill from regular drivers, Fill from usual, the Key Cupboard tags and the
    vehicle details card. Not every driver has one: anyone who takes whatever is free is left as "No regular van". */
+/* ===== Personal Cars tab (Ash, 14 Oct 2026) =====
+   A list of drivers' own cars: driver, registration, make and model, colour, notes. db.cars = [{id,n,reg,make,colour,note}],
+   so it syncs and backs up with everything else. Edit a box in the list to change it; "Remove" needs three taps like
+   every other remove button. */
+let carQ="",carOff="",carSort="n",carAsc=true,carEdit=null;
+function carsList(){return Array.isArray(db.cars)?db.cars:(db.cars=[])}
+function carListed(c){return db.drivers.includes(up(c.n))}
+function carOffice(c){if(carListed(c))return driverOffice(up(c.n))||"";return c.o&&ROLES.includes(c.o)?c.o:""}
+function carOffOpts(sel){return `<option value=""${sel?"":" selected"}>No office</option>`+roleOptions(sel)}
+function carsSorted(){const q=up(carQ),L=carsList().filter(c=>(!carOff||(carOff==="__none"?!carOffice(c):roleOffice(carOffice(c))===carOff))&&(!q||[c.n,c.reg,c.make,c.colour,c.note,carOffice(c)].some(v=>up(v).includes(q))));
+  const key=c=>carSort==="o"?(ovName(carOffice(c))||"ZZ")+" "+up(c.n):carSort==="n"?up(c.n).split(" ").pop()+" "+up(c.n):up(c[carSort]||"");
+  L.sort((a,b)=>key(a).localeCompare(key(b),undefined,{numeric:true})*(carAsc?1:-1));return L}
+function carDupRegs(){const seen=new Map(),dup=new Set();carsList().forEach(c=>{const r=up(c.reg).replace(/\s+/g,"");if(!r)return;if(seen.has(r))dup.add(r);else seen.set(r,1)});return dup}
+function carsHTML(){
+  const L=carsSorted(),dup=carDupRegs(),all=carsList().length;
+  const th=(k,t)=>`<th data-carsort="${k}" class="${carSort===k?"on"+(carAsc?" asc":""):""}" title="Sort by ${t.toLowerCase()}">${t}</th>`;
+  return `<h2>Personal Cars</h2><p class="sub">Each driver's own car, so a car in the yard or on the road can be matched to its driver. Press Edit on a row to change it. A driver's office comes from the Drivers tab and follows it; the Office box is only for a name that isn't on the driver list.</p>
+  <div class="caradd"><div class="lbl">Add a car</div>
+    <label class="carf"><span>Driver</span><input id="carN" list="dl-allnames" placeholder="Start typing a name" autocomplete="off"></label>
+    <label class="carf"><span>Office</span><select id="carO" aria-label="Office">${carOffOpts("")}</select></label>
+    <label class="carf"><span>Reg</span><input id="carReg" placeholder="e.g. AB12 CDE" style="text-transform:uppercase"></label>
+    <label class="carf"><span>Make and model</span><input id="carMake" placeholder="e.g. Ford Focus"></label>
+    <label class="carf"><span>Colour</span><input id="carCol" placeholder="e.g. Blue"></label>
+    <label class="carf"><span>Note</span><input id="carNote" placeholder="Parking, permit, shared car…"></label>
+    <button type="button" class="vanadd" id="carAdd">Add car</button></div>
+  <datalist id="dl-allnames">${db.drivers.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
+  <div class="cartools"><input class="search" id="carSearch" placeholder="Search driver, reg, make, colour or notes" value="${esc(carQ)}" aria-label="Search cars">
+    <select id="carOffSel" aria-label="Office"><option value="">All offices</option>${OFFICES.filter(o=>o!=="W13").map(o=>`<option value="${o}"${carOff===o?" selected":""}>${ovName(o)} (incl. managers)</option>`).join("")}<option value="__none"${carOff==="__none"?" selected":""}>No office set</option></select>
+    <button type="button" class="addrow" id="carPrint">Print list</button><button type="button" class="addrow" id="carCsv">Save as CSV</button><span class="carcount">${L.length===all?all+(all===1?" car":" cars"):L.length+" of "+all+" cars"}</span></div>
+  ${all?(L.length?`${tblToolsHTML()}<div class="carwrap tablewrap"><table class="cartbl rsz" data-ck="cars"><thead><tr>${th("n","Driver")}${th("o","Office")}${th("reg","Reg")}${th("make","Make and model")}${th("colour","Colour")}${th("note","Note")}<th></th></tr></thead><tbody>${L.map(c=>{const o=carOffice(c),known=db.drivers.includes(up(c.n)),r=up(c.reg).replace(/\s+/g,"");
+    if(carEdit===c.id)return `<tr data-carid="${esc(c.id)}" class="carediting"><td class="carnm"><input data-carf="n" list="dl-allnames" value="${esc(c.n)}" aria-label="Driver" autocomplete="off"></td><td class="caro">${known?`<span title="From the Drivers tab — change it there">${o?esc(ovName(o)):"—"}</span>`:`<select data-carf="o" aria-label="Office">${carOffOpts(o)}</select>`}</td><td class="carreg"><input data-carf="reg" value="${esc(c.reg||"")}" aria-label="Reg" placeholder="Reg"></td><td><input data-carf="make" value="${esc(c.make||"")}" aria-label="Make and model" placeholder="Make and model"></td><td><input data-carf="colour" value="${esc(c.colour||"")}" aria-label="Colour" placeholder="Colour"></td><td><input data-carf="note" value="${esc(c.note||"")}" aria-label="Note" placeholder="Note"></td><td class="carx"><button type="button" class="carsave" data-carsave>Save</button> <button type="button" data-carcancel>Cancel</button></td></tr>`;
+    return `<tr data-carid="${esc(c.id)}"><td class="carnm">${esc(c.n)}${known?"":`<small>not on the driver list</small>`}</td><td class="caro">${o?esc(ovName(o)):`<span class="note">—</span>`}</td><td class="carreg"><b>${esc(c.reg||"")}</b>${r&&dup.has(r)?`<div class="cardup">same reg on another car</div>`:""}</td><td>${esc(c.make||"")}</td><td>${esc(c.colour||"")}</td><td class="carnote">${esc(c.note||"")}</td><td class="carx"><button type="button" data-caredit title="Change this car">Edit</button> <button type="button" data-carrm title="Remove this car (tap three times)">Remove</button></td></tr>`}).join("")}</tbody></table></div>`:`<div class="carnone">No cars match. Clear the search or pick another office.</div>`):`<div class="carnone">No cars on the list yet. Add the first one above.</div>`}`}
+function wireCars(m){
+  {const cn=$("carN"),co=$("carO");if(cn&&co){const sync=()=>{const n=up(cn.value),listed=db.drivers.includes(n);if(listed){const o=driverOffice(n);co.value=ROLES.includes(o)?o:""}co.disabled=listed;co.title=listed?"Taken from the Drivers tab":""};cn.addEventListener("input",sync);cn.addEventListener("change",sync)}}
+  const add=()=>{const n=up($("carN").value),o=db.drivers.includes(up($("carN").value))?"":$("carO").value,reg=$("carReg").value.trim().toUpperCase(),make=$("carMake").value.trim(),colour=$("carCol").value.trim(),note=$("carNote").value.trim();
+    if(!n){toast("Type the driver's name first");$("carN").focus();return}if(!reg&&!make){toast("Put in the reg or the make and model");$("carReg").focus();return}
+    carsList().push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),n,o,reg,make,colour,note});save(`Added ${n}'s car${reg?" "+reg:""}`);render();toast(`${n}'s car added`);requestAnimationFrame(()=>{const b=$("carN");if(b)b.focus()})};
+  $("carAdd").onclick=add;["carN","carReg","carMake","carCol","carNote"].forEach(id=>{const e=$(id);if(e)e.onkeydown=ev=>{if(ev.key==="Enter"){ev.preventDefault();add()}}});
+  const sr=$("carSearch");sr.oninput=()=>{carQ=sr.value;const keep=sr.selectionStart;render();const s2=$("carSearch");if(s2){s2.focus();try{s2.setSelectionRange(keep,keep)}catch(e){}}};
+  $("carOffSel").onchange=e=>{carOff=e.target.value;render()};
+  m.querySelectorAll("[data-carsort]").forEach(h=>h.onclick=()=>{const k=h.dataset.carsort;if(carSort===k)carAsc=!carAsc;else{carSort=k;carAsc=true}render()});
+  m.querySelectorAll("[data-caredit]").forEach(b=>b.onclick=()=>{carEdit=b.closest("tr").dataset.carid;render();const f=m.querySelector("tr.carediting input[data-carf=reg]")||document.querySelector("tr.carediting input");if(f)f.focus()});
+  m.querySelectorAll("[data-carcancel]").forEach(b=>b.onclick=()=>{carEdit=null;render()});
+  const saveRow=tr=>{const c=carsList().find(x=>x.id===tr.dataset.carid);if(!c)return;const ch=[];tr.querySelectorAll("[data-carf]").forEach(i=>{const f=i.dataset.carf;let v=i.value.trim();if(f==="reg"||f==="n")v=v.toUpperCase();if((c[f]||"")!==v){c[f]=v;ch.push(f==="n"?"driver":f==="reg"?"reg":f==="make"?"make and model":f==="o"?"office":f)}});
+    if(!c.n){toast("The car needs a driver's name");return}if(db.drivers.includes(up(c.n)))delete c.o;carEdit=null;if(ch.length)save(`Changed ${c.n}'s car: ${ch.join(", ")}`);render();toast(ch.length?"Car saved":"No changes")};
+  m.querySelectorAll("[data-carsave]").forEach(b=>b.onclick=()=>saveRow(b.closest("tr")));
+  m.querySelectorAll("tr.carediting [data-carf]").forEach(i=>i.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();saveRow(i.closest("tr"))}else if(e.key==="Escape"){carEdit=null;render()}});
+  m.querySelectorAll("[data-carrm]").forEach(b=>b.onclick=()=>{if(!armed(b))return;const id=b.closest("tr").dataset.carid,c=carsList().find(x=>x.id===id);if(!c)return;db.cars=carsList().filter(x=>x.id!==id);save(`Removed ${c.n}'s car${c.reg?" "+c.reg:""}`);render();toast(`${c.n}'s car removed`)});
+  $("carPrint").onclick=()=>{const L=carsSorted();$("print").innerHTML=`<p class="pt">Personal cars${carOff?" — "+esc(carOff==="__none"?"no office":ovName(carOff)):""}, ${esc(pretty(day))}</p><table class="vanprint"><tr><th>Driver</th><th>Office</th><th>Reg</th><th>Make and model</th><th>Colour</th><th>Note</th></tr>${L.map(c=>`<tr><td>${esc(c.n)}</td><td>${esc(ovName(carOffice(c))||"")}</td><td>${esc(c.reg||"")}</td><td>${esc(c.make||"")}</td><td>${esc(c.colour||"")}</td><td>${esc(c.note||"")}</td></tr>`).join("")}</table>`;window.print()};
+  $("carCsv").onclick=()=>{const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const t=["Driver,Office,Reg,Make and model,Colour,Note"].concat(carsSorted().map(c=>[c.n,ovName(carOffice(c))||"",c.reg,c.make,c.colour,c.note].map(q).join(","))).join("\n");
+    try{saveBlob(new Blob(["\ufeff"+t],{type:"text/csv"}),"personal-cars.csv")}catch(e){toast("Couldn't save the file on this browser")}}}
 let regVanOff=null,regVanFil="all";
 function regVanOf(n){const R=db.regVan||{},h=R[up(n)];return h!=null&&h!==""&&vanBy(h)?h:null}
 function permOf(n){return regVanOf(n)!=null&&!!(db.vanPerm||{})[up(n)]}
@@ -7272,7 +7551,7 @@ function regVanTabHTML(a){const o=regVanOff&&OFFICES.includes(regVanOff)?regVanO
   <div class="rvbar"><span class="subkind" role="group" aria-label="Which drivers to show">${[["all",`All ${ON} drivers`,`Every ${ON} driver, so you can pick a van for anyone`],["van",`With a van (${withRV.length})`,"Only the drivers who have a regular or permanent van"],["perm",`🔒 Permanent (${perms.length})`,"Only the drivers whose van is their permanent van"],["ret",`🏠 Retention (${rets.length})`,"Only the drivers who keep their van at home overnight (with or without a regular van)"]].map(([v,t,tt])=>`<button type="button" data-rvfil="${v}" aria-pressed="${regVanFil===v}" title="${esc(tt)}">${t}</button>`).join("")}</span>
   <button type="button" class="addrow" id="rvSuggest" title="For each ${esc(ON)} driver with no regular van, looks at every saved day: if one van was used on at least 3 days and on most of the days they had a van, it is put in as their regular van. You can change any of them after.">Suggest from history</button>${withRV.length||rets.length?`<button type="button" class="addrow" id="rvClear" title="Take the regular van, and the permanent and retention marks, off every ${esc(ON)} driver">Clear all ${esc(ON)}</button>`:""}</div>`;
   if(!list.length)h+=`<p class="vdmut">${regVanFil!=="all"?`Nobody on ${esc(ON)} is in this list yet. Press <b>All ${esc(ON)} drivers</b> to pick them.`:o==="W13"?"Nobody is ticked for Sunday Duty yet (Drivers tab).":`No ${esc(ON)} drivers yet. Add them on the Drivers tab.`}</p>`;
-  else{h+=`<div class="tablewrap"><table class="dutytbl rvtbl"><thead><tr><th>Driver</th><th>Van</th><th>Type</th><th>Van retention</th><th>Van today (${esc(dayShort(day))})</th><th>Driver today</th><th>Used most</th></tr></thead><tbody>`;
+  else{h+=`${tblToolsHTML()}<div class="tablewrap"><table class="dutytbl rvtbl rsz" data-ck="regvans"><thead><tr><th>Driver</th><th>Van</th><th>Type</th><th>Van retention</th><th>Van today (${esc(dayShort(day))})</th><th>Driver today</th><th>Used most</th></tr></thead><tbody>`;
   list.forEach(n=>{const rv=regVanOf(n),v=rv!=null?vanBy(rv):null,pm=permOf(n),rt=retOf(n);
     const UHL=usualHooks(n),tot=UHL.reduce((t,[,c])=>t+c,0);
     /* where the driver is today, and whether they have their van */
@@ -7337,7 +7616,7 @@ function dutiesHTML(a){const o=dutyOff&&OFFICES.includes(dutyOff)?dutyOff:(OFFIC
   let h=`<h2>Duties</h2><div class="dutysteps"><div><b>①</b> Pick each duty's <b>regular driver</b>, the one permanently on it. Leave it empty if nobody is.</div><div><b>②</b> Add your <b>substitute drivers</b> and say what they cover: any walk, or only certain duties.</div><div><b>③</b> On ${ovName(o)}, press <b>Fill from regular drivers</b>. Regular drivers go in, a free substitute covers anyone who's off, and anyone with a <b>regular van</b> (Regular Driver Vans tab) gets it in the Hook box.</div></div>
   <div class="dutyoffs" role="group" aria-label="Office">${OFFICES.map(x=>`<button type="button" data-dutyoff="${x}" aria-pressed="${x===o}" style="--oc:var(--off-${x})">${ovName(x)}</button>`).join("")}</div>
   <div class="dutybar"><span class="note">${nReg} of ${D.length} ${ovName(o)} duties have a regular driver.</span><button type="button" class="addrow" id="dutySuggest" title="For each duty with no regular driver, put in whoever did it most over the last 12 weeks (or all saved days if there are none), at least 3 times. Substitutes who move between walks are skipped. You can change any of them after.">Suggest from history</button>${nReg?`<button type="button" class="addrow" id="dutyClear" title="Take every regular driver off the ${ovName(o)} duties">Clear all ${ovName(o)}</button>`:""}<button type="button" class="addrow" id="dutyToRV" title="Which van each driver always takes, permanent vans and van retention — on the Regular Driver Vans tab">🚐 Regular Driver Vans ▸</button></div>
-  <h3 class="dutyh3">① Regular drivers for ${ovName(o)}</h3><div class="tablewrap"><table class="dutytbl"><thead><tr><th>Type</th><th>Duty</th><th>2nd duty</th><th>Regular driver</th><th>Today (${esc(dayShort(day))})</th><th>Covered by when off</th></tr></thead><tbody>`;
+  <h3 class="dutyh3">① Regular drivers for ${ovName(o)}</h3>${tblToolsHTML()}<div class="tablewrap"><table class="dutytbl rsz" data-ck="duties-reg"><thead><tr><th>Type</th><th>Duty</th><th>2nd duty</th><th>Regular driver</th><th>Today (${esc(dayShort(day))})</th><th>Covered by when off</th></tr></thead><tbody>`;
   D.forEach(w=>{const k=up(w),n=R[k]||"",off=n?availOn(n,day):"",cov=subs.filter(x=>subCovers(x,o,w)),fix=cov.filter(x=>(subInfo(x).duties||[]).includes(k)),mov=cov.filter(x=>!fix.includes(x));
     const twice=n&&used.get(n)>1?`<span class="dutywarn" title="${esc(n)} is the regular driver on more than one ${ovName(o)} duty">on ${used.get(n)} duties</span>`:"";
     const other=n?regDutiesOf(n).filter(([oo,ww])=>oo!==o).map(([oo,ww])=>oo+" "+ww):[];
@@ -7816,6 +8095,36 @@ $("importFile").onchange=e=>{if(e.target.files[0])importJSON(e.target.files[0]);
   db.oneOff=Object.assign({},db.oneOff,{rkRest:1});
   save(made?"Set W2 days-off pattern (3 weeks, 2 days moving) and Robert Kennedy: Wed, Thu off w/c 28 Sep":"Robert Kennedy: Wed, Thu off w/c 28 Sep");
   setTimeout(()=>toast(made?"Added a W2 rest-day pattern and Robert Kennedy's rest days. Check them on the Rest tab.":"Added Robert Kennedy's rest days. Check them on the Rest tab.",5000),800)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once what the W8 sheet did (done by rmPatMigrate7 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat7!==1)return;O.rmPat7=2;const I=O.rmPat7Info||{set:[],missing:[],cleared:[]};const n=I.set.length;
+  const probs=[].concat(I.missing.length?[`no W8 driver matches: ${I.missing.join(", ")}`]:[],I.cleared.length?[`not on the sheet, now not set: ${I.cleared.join(", ")}`]:[]);
+  save(`W8 on Two Saturdays off in every five weeks (2) from the sheet for 28 September (week 5): ${n} driver${n===1?"":"s"} put on their line${probs.length?" ("+probs.join("; ")+")":""}`);
+  setTimeout(()=>toast(`W8 is on Two Saturdays off in every five weeks (2); the week of 28 September is week 5. ${n} driver${n===1?"":"s"} put on their line.${probs.length?" "+probs.join("; ")+".":""} See the Rest Day tab.`,probs.length?12000:7000),900)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once what the W9 week-27 sheet did (done by rmPatMigrate6 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat6!==1)return;O.rmPat6=2;const I=O.rmPat6Info||{set:[],missing:[],noLine:[],cleared:[]};const n=I.set.length;
+  const probs=[].concat(I.missing.length?[`no W9 driver matches: ${I.missing.join(", ")}`]:[],I.noLine.length?[`no line gives those days: ${I.noLine.join(", ")}`]:[],I.cleared.length?[`not on the sheet, now not set: ${I.cleared.join(", ")}`]:[]);
+  save(`W9 moved to 4 Day Week (1) from the week-27 sheet (week of 5 October = week 1): ${n} driver${n===1?"":"s"} put on their line${probs.length?" ("+probs.join("; ")+")":""}`);
+  setTimeout(()=>toast(`W9 is now on 4 Day Week (1) (the week-27 sheet shows two-day blocks); ${n} driver${n===1?"":"s"} put on their line.${probs.length?" "+probs.join("; ")+".":""} See the Rest Day tab.`,probs.length?12000:7000),900)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once what the W12 weekly rota sheets did (done by rmPatMigrate5 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat5!==1)return;O.rmPat5=2;const I=O.rmPat5Info||{set:[],missing:[],noLine:[]};const n=I.set.length;
+  const probs=[].concat(I.missing.length?[`no W12 driver matches: ${I.missing.join(", ")}`]:[],I.noLine.length?[`no line gives those days: ${I.noLine.join(", ")}`]:[]);
+  save(`W12 rest days set from the weekly rota sheets (weeks 28 and 29): ${n} driver${n===1?"":"s"} put on their own line${probs.length?" ("+probs.join("; ")+")":""}`);
+  setTimeout(()=>toast(`W12: ${n} driver${n===1?"":"s"} put on their own line of 9 Day Fortnight (1) from the weekly rota sheets.${probs.length?" Not done — "+probs.join("; ")+".":""} See the Rest Day tab.`,probs.length?12000:7000),900)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once what the W12 sheet for 12-17 October did (done by rmPatMigrate4 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat4!==1)return;O.rmPat4=2;const I=O.rmPat4Info||{set:[],missing:[],noLine:[]};const n=I.set.length;
+  const probs=[].concat(I.missing.length?[`no W12 driver matches: ${I.missing.join(", ")}`]:[],I.noLine.length?[`no line gives those days: ${I.noLine.join(", ")}`]:[]);
+  save(`W12 rest days set from the sheet for 12-17 October (week 3 of 9 Day Fortnight (1)): ${n} driver${n===1?"":"s"} put on their line${probs.length?" ("+probs.join("; ")+")":""}`);
+  setTimeout(()=>toast(`W12 rest days set from the sheet for 12-17 October: this week is week 3 of 9 Day Fortnight (1); ${n} driver${n===1?"":"s"} put on their line.${probs.length?" Not done — "+probs.join("; ")+".":""} See the Rest Day tab.`,probs.length?12000:7000),900)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once what the W2 sheet for 5-10 October did (done by rmPatMigrate3 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat3!==1)return;O.rmPat3=2;const I=O.rmPat3Info||{set:[]};const n=I.set.length;
+  const probs=[].concat(I.missing.length?[`not on the driver list: ${I.missing.join(", ")}`]:[],I.notW2.length?[`not in W2: ${I.notW2.join(", ")}`]:[],I.noLine.length?[`no line gives those days: ${I.noLine.join(", ")}`]:[]);
+  save(`W2 rest days set from the sheet for 5-10 October: ${n} driver${n===1?"":"s"} put on their line${probs.length?" ("+probs.join("; ")+")":""}`);
+  setTimeout(()=>toast(`W2 rest days set from the sheet for 5-10 October: ${n} driver${n===1?"":"s"} put on their line of 4 Day Week (1).${probs.length?" Not done — "+probs.join("; ")+".":""} See the Rest Day tab.`,probs.length?12000:7000),900)}catch(e){console.error(e)}})();
+/* one-off (14 Oct 2026): say once that W9, W10 and W12 are on their booklet patterns (done by rmPatMigrate2 as the data loads) */
+(()=>{try{const O=db.oneOff||{};if(O.rmPat2!==1)return;O.rmPat2=2;const I=O.rmPat2Info||{},pn={W9:"4 Day Week (1)",W10:"9 Day Fortnight (1)",W12:"9 Day Fortnight (1)"};
+  const bits=Object.keys(pn).filter(o=>I[o]).map(o=>`${o} on ${pn[o]}${I[o].kept?` (${I[o].kept} kept their rest days)`:""}${I[o].reset?` (${I[o].reset} to put on a line)`:""}`);
+  if(!bits.length)return;save("Duty patterns set: "+bits.join("; "));const need=Object.keys(I).reduce((a,o)=>a+(I[o].reset||0),0);
+  setTimeout(()=>toast(`W9 is on 4 Day Week (1); W10 and W12 are on 9 Day Fortnight (1).${need?` ${need} driver${need===1?" needs":"s need"} putting on a line: Rest Day tab, pick the office, tap the line each one is on.`:" See the Rest Day tab."}`,9000),900)}catch(e){console.error(e)}})();
 /* one-off (13 Oct 2026): say once that W2 is now marked as the booklet's "4 Day Week (1)". The marking itself is done by rmPatMigrate as the data loads, so every copy of the data gets it. */
 (()=>{try{if((db.oneOff||{}).rmPat1!==1)return;db.oneOff.rmPat1=2;save("W2 marked as the booklet's 4 Day Week (1): Fri+Sat / Mon+Tue / Wed+Thu over 3 weeks. Nobody's rest days changed");
   setTimeout(()=>toast("W2 is now marked as the booklet's 4 Day Week (1). Nobody's rest days changed. See the Rest Day tab.",7000),900)}catch(e){console.error(e)}})();
@@ -7824,7 +8133,7 @@ $("importFile").onchange=e=>{if(e.target.files[0])importJSON(e.target.files[0]);
    ‹ › either side of the office name, the status pills as buttons, Shift+arrow keyboard shortcuts and a ↑ Top button.
    The phone layout is untouched: everything here is hidden on a phone. */
 function lockTabsOn(){return !(db.look&&db.look.lockTabs===false)}
-function kcToggle(){if(popOpen()){try{popWin.focus()}catch(e){}toast("The Key Cupboard is open in its own window");return}
+function kcToggle(){if(isMob()){mobBoard=!mobBoard;render();if(mobBoard)mobTop();return}if(popOpen()){try{popWin.focus()}catch(e){}toast("The Key Cupboard is open in its own window");return}
   db.look=db.look||{};db.look.boardHidden=!db.look.boardHidden;const on=!db.look.boardHidden;save(on?"Showed the Key Cupboard":"Hid the Key Cupboard");render();
   toast(on?"Key Cupboard shown":"Key Cupboard hidden. Tap the vans free pill, or 🔑 Key Cupboard on the right, to bring it back",3200)}
 /* ‹ › either side of the office name, and Shift+↑ / Shift+↓: step through the offices in tab order (Sunday Duty is left out; on a Sunday there is only Sunday Duty) */
@@ -8146,7 +8455,25 @@ const HELP=[
 const hEsc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ===== Help guide: plain-English walk-throughs, searchable, with what's new (Ash, 7 Oct 2026) ===== */
 const GUIDE=[
- {t:"What's new",nw:1,open:1,h:`<h4>14 October 2026 — Changes and Summary (build 226)</h4><ul>
+ {t:"What's new",nw:1,open:1,h:`<h4>14 October 2026 — W8 duty pattern from its sheet (build 235)</h4><ul>
+  <li><b>W8 is on Two Saturdays off in every five weeks (2)</b> (Existing Banked Units Only), worked out from the W8 sheet for the week of 28 September: every duty carries a "Duty Rest Wk" number 1–5, the week it has its whole week off, which is exactly how that page works (Duty 1 has week 1 off … DOC week 5, each with a Saturday off the week before). The week of 28 September is week 5. Each holder is on the line their number names: rest wk 1 → Duty 1 (J Rosairo, T Jacobs, A Fernandes, S Toth, M Victorio), 2 → Duty 2 (K Sealy, E Soliman, J McLeish, L Santos), 3 → Duty 3 (P Potter, G Hammerton, A Morta, K Henwood, M Marston), 4 → Duty 4 (O Cassidy, P Ellis, J Jaro, M Snee, George O'Brian), 5 → DOC (E McClooney, K Manfo, K Walton, F Shayegan, L Keightley). The reserves (Rhys Andrew, Nobal Scott, Hash Deugi, Angela, Mohammed K, Rishi Patel) have single days off that aren't on this page and were left alone — give them custom days off if they are fixed.</li></ul>
+<h4>14 October 2026 — W9 is on 4 Day Week (1) (build 234)</h4><ul>
+  <li><b>W9 moved from Two Saturdays off in every five weeks (1) to 4 Day Week (1)</b>: the W9 sheet for the week of 5 October (week 27) has everyone off in two-day blocks (Mon + Tue, Wed + Thu or Fri + Sat), which only the 4 Day Week page gives. The week of 5 October is week 1 of the W9 page, so that week Fri + Sat off = Duty 1, Mon + Tue = Duty 2, Wed + Thu = DOC, and each driver named on the sheet is on that line. Hassan Maich, Robert Kennedy and Jitendra Singh were left unset (sick or unclear on the sheet); any other W9 driver who had a place on the old page is now <i>not set</i> too, since the old place means nothing on the new page.</li></ul>
+<h4>14 October 2026 — W12 rest days from the weekly rota sheets (build 233)</h4><ul>
+  <li><b>W12 reserve and cover drivers put on their own line</b> from the weekly rota sheets for weeks 28 and 29 (5 and 12 October). The sign-in sheet used in build 232 shows each <i>duty's</i> rest days, which is wrong for anyone covering a duty; the weekly rota shows the person's own days off, and its two weeks match weeks 2 and 3 of 9 Day Fortnight (1) exactly. Q Mansha and L Shepherd → Duty 2; M Lewin and V Rajnicant → Duty 3; F Adan and H Thakkar → Duty 1; I Wilding, M Premgi, M Ennakhoui, A Khunt, C Pansheriya, Parth Patel, S Buha and Y Alistewani → DOC. The PM-shift people (A Byron, D Patel, Yash Patel, Hardik Patel, Hiren Patel, A Kothiya, C Rajoopillai) don't follow the page and were left alone — give them custom days off if they are fixed.</li></ul>
+<h4>14 October 2026 — W12 rest days from the 12–17 October sheet (build 232)</h4><ul>
+  <li><b>W12 drivers put on their line of 9 Day Fortnight (1)</b> from the sign-in sheet for 12–17 October ("Rest week 3"): the week of 12 October is now week 3 of the W12 page, and that week Wed off = Duty 1, Mon + Tue = Duty 2, Fri + Sat = Duty 3. Sheet names (initial + surname) are matched to W12 drivers by surname and first initial; anyone not matched is named in the History entry. Lapsed duties and the two crossed-out rows (Oakland, Ormiston) were left alone.</li></ul>
+<h4>14 October 2026 — the page stays put when it redraws (build 231)</h4><ul>
+  <li><b>Picking a custom day off on the Rest Day tab no longer jumps to the top of the page.</b> The same fix covers every tab: whenever a tab redraws itself after a change (a tap, a tick, a typed value), the page keeps its old height until the new content has settled and stays scrolled where you were. Switching to another tab still starts at the top.</li></ul>
+<h4>14 October 2026 — W2 rest days from the 5–10 October sheet (build 230)</h4><ul>
+  <li><b>W2 drivers put on their line of 4 Day Week (1)</b> from the printed sheet for 5–10 October: Mon + Tue off that week = DOC, Wed + Thu = Duty 1, Fri + Sat = Duty 2. Done once as the data loads, on every copy. Winston Traille, Charlean Gordon, Farad Azizi and Esrom were left as they were because the sheet doesn't give them a clear two-day block that fits the page — set them by hand on the Rest Day tab if needed. Any name on the sheet that isn't on the driver list is named in the History entry.</li></ul>
+<h4>14 October 2026 — W9, W10 and W12 duty patterns (build 229)</h4><ul>
+  <li><b>W9 is on Two Saturdays off in every five weeks (1)</b>, and <b>W10 and W12 are on 9 Day Fortnight (1)</b>. Set once as the data loads, on every copy (this browser, GitHub, backups). Drivers whose rest days already matched a line of the page kept them; anyone else shows as <i>not set</i> on the Rest Day tab until you tap the line they are on.</li></ul>
+<h4>14 October 2026 — the phone has everything (build 228)</h4><ul>
+  <li><b>Phone layout now has every feature the desktop has</b>, packed tight: every tab (All Offices, Sunday Duty, OOS, Vehicles, Plate finder, Office Vans, Drivers, Duties, Regular Driver Vans, Personal Cars, Rest Day, Walks), a <b>🔑 Key Cupboard</b> tab at the end of the tab strip (the vans free pill opens it too), the status pills, the "copy from" bar, the save warning, Bars Setting, and in the top bar Find, Changes, Summary, Undo, Redo, History, Settings, Help, Print, Save and Load. The office tabs get their actions and settings button, custom columns and the rest-days list links. Only the pop-out-window buttons stay off a phone. Cards and Sheet views are unchanged; <b>Phone layout: off</b> in Settings still gives the full desktop screen.</li></ul>
+<h4>14 October 2026 — Personal Cars (build 227)</h4><ul>
+  <li><b>Personal Cars tab</b> (after Regular Driver Vans): a list of each driver's own car — driver, office, reg, make and model, colour and notes — so a car in the yard can be matched to its driver. Add one at the top (the driver box offers names from the driver list), type straight into the list to change anything, sort by clicking a column heading, search or show one office, and <b>Print list</b> or <b>Save as CSV</b>. Remove needs three taps like every other remove button. Two cars with the same reg are flagged. It syncs and backs up with everything else.</li></ul>
+<h4>14 October 2026 — Changes and Summary (build 226)</h4><ul>
   <li><b>📣 Changes</b> in the top bar is for whoever covers the sheet when the usual person is off. It shows everything that is different about the day you are looking at compared with the last sheet before it, office by office: who is <b>off</b> and why (rest day, A/L, S/L, working in another office, now a substitute), who is <b>in</b> and on which van and duty, who has <b>changed</b> van, duty, partner or cover, every <b>substitute</b> and who they are covering, <b>gaps</b> (a duty with no driver, a driver with no van), vans newly OOS or back from OOS, change over, collections, absences recorded and anything used twice. ‹ › step through the days and <b>Tomorrow</b> jumps to tomorrow's sheet.</li>
   <li><b>📝 Handover note</b> at the top of Changes: the usual person types anything the lists can't show (who to ring, keys, what still needs doing). It saves by itself, is kept for that day, syncs to every device and shows at the bottom of the Summary too.</li>
   <li><b>📊 Summary</b> is the whole day on one page: totals at the top (walks filled, drivers, subs, sick, gaps, vans in use, free, OOS, change over, used twice), a table of every office, then each office's gaps, substitutes, sick marks, drivers not working and why, drivers borrowed from other offices, additional and 1pm rows, and the OOS, change over, collections and free vans lists.</li>
@@ -8159,6 +8486,7 @@ const GUIDE=[
 </ul><h4>13 October 2026 (afternoon)</h4><ul>
   <li><b>Royal Mail duty patterns on the Rest Day tab</b>: every office now has a <b>duty pattern</b> drop-down with all 12 pages of the Royal Mail booklet (Two Saturdays off in every five weeks 1 and 2, 9 Day Fortnight 1 to 3, 4 Day Week 1 and 2, 13 working days in 18, 17 working days in 24). Pick one and its page is drawn exactly as printed: the weeks, the Duty 1 / Duty 2 / DOC lines, yellow days off, pink Saturday routes, the DOC's cover numbers and SPARE days. A pattern the booklet prints over Group 1, 2 and 3 pages is one pattern with every group's lines, because an office needs all of them.</li>
   <li>Say which <b>week of the booklet page</b> this week is, then tap the <b>line</b> each driver is on (Duty 1, Duty 2, DOC…). Each button shows what that line has off this week, and the counts above the list show how many drivers are on each line.</li>
+  <li><b>W8 is on Two Saturdays off in every five weeks (2) (week of 28 September = week 5, build 235); W9 is on 4 Day Week (1) (week of 5 October = week 1, build 234); W10 and W12 are on 9 Day Fortnight (1)</b> (set 14 October, build 229). Where an office already had rest days set up the same way, every driver whose rest days match a line of the booklet page kept them; anyone else shows as <i>not set</i> on the Rest Day tab until you tap the line they are on. Say which week this week is if the page asks.</li>
   <li><b>W2 is already on 4 Day Week (1)</b>. It was marked as that pattern by itself: the week of 12 October is week 1 of the page, and every W2 driver was put on the line that gives exactly the rest days they had before (Fri + Sat this week = Duty 1, Mon + Tue = Duty 2, Wed + Thu = DOC). Nobody's rest days changed.</li>
   <li>Tap any day on the page to change it (it is marked <i>changed from the booklet page</i> and <b>Put the booklet page back</b> undoes it). <b>Own pattern</b> is the old way of setting the days yourself. Changing an office to another pattern keeps every driver whose rest days match a line of the new one and lists anyone who needs putting on a line again before anything changes.</li>
   <li>The booklet misprints 4 Day Week (2), Group 1, Duty 2, week 1 with Monday working (a 5 day week). That Monday is a day off here, like the other lines; a note on the page says so.</li>
@@ -8207,7 +8535,7 @@ const GUIDE=[
   <li>Next to the pill is a small <b>pencil box</b>. Click it to type something else: the pill steps aside and the box fills the whole cell. Click away and the pill comes back.</li>
   <li>The <b>i</b> button shows the van's details. The <b>×</b> removes a hook (tap it 3 times).</li></ul>`},
  {t:"Rest days and duty patterns",nw:1,h:`<ol>
-  <li>Open the <b>Rest Day</b> tab and pick the office. In the <b>duty pattern</b> drop-down choose the page of the Royal Mail booklet the office works to. All 12 pages are there: a pattern printed over Group 1, 2 and 3 pages is one choice with every group's lines, since an office needs all of them. W2 is already set to <b>4 Day Week (1)</b>.</li>
+  <li>Open the <b>Rest Day</b> tab and pick the office. In the <b>duty pattern</b> drop-down choose the page of the Royal Mail booklet the office works to. All 12 pages are there: a pattern printed over Group 1, 2 and 3 pages is one choice with every group's lines, since an office needs all of them. W2 and W9 are already set to <b>4 Day Week (1)</b>, W8 to <b>Two Saturdays off in every five weeks (2)</b>, and W10 and W12 to <b>9 Day Fortnight (1)</b>.</li>
   <li>The page is drawn as the booklet prints it: a block for each week, a row for each line (Duty 1, Duty 2, DOC…), and Mon to Sat across. Yellow <b>Off</b> is a day off, pink is a Saturday route (A, B, C…), a number on the DOC line is the duty it covers that day, and orange is a SPARE day. The booklet's bullet points sit above the page.</li>
   <li>Set <b>This week is week …</b> so the page lines up with the calendar: the drop-down says what the first line has off in each week, so match it to your office's rota sheet. Changing it moves every driver in that office along together.</li>
   <li>For each driver, tap the <b>line</b> they are on <i>this week</i> (the date picked on the calendar). Each button shows the line and what it has off that week, for example <b>Duty 2 · Mon Tue</b>. The pattern then moves them on every week after. The counts above the list show how many drivers are on each line. <b>Not on it</b> takes someone off the pattern and <b>Custom days</b> sets the same days off every week by hand instead.</li>
@@ -8242,7 +8570,8 @@ const GUIDE=[
   <li>Click a driver's name to open their details. <b>Advanced Drivers List</b> shows licence, training, leave and more for everyone, and can be saved as a CSV spreadsheet.</li>
   <li><b>Photos</b> <span class="hlnew">NEW</span>: press <b>Upload photos to assign later</b> to add a batch, then pick the driver for each photo and press <b>Assign</b>. It guesses from the file name when it can, and you can crop first. Waiting photos are shrunk to save space.</li></ul>`},
  {t:"Vans, Office Vans and OOS",h:`<ul>
-  <li><b>Vehicles</b> lists every van. Add a van, hire van or custom vehicle, search by hook, plate or model, and print the list.</li>
+  <li><b>Vehicles</b> lists every van. Add a van, hire van or custom vehicle, search by hook, plate or model, and print the list. The ↔ ↕ ⇕ buttons above the table work like the ones on W2 to W12: fit every column, make every row as short as it goes, or drag every row taller or shorter at once.</li>
+  <li>The <b>Duties</b>, <b>Regular Driver Vans</b> and <b>Personal Cars</b> tables have the same ↔ ↕ ⇕ buttons, columns you can drag by their headings (double-click a heading edge to fit it) and rows you can drag by the bottom edge of their first cell (double-click to fit). <b>Walks</b> has ↕ ⇕ for its rows.</li>
   <li><b>Office Vans</b> sets which vans each office may use and how many are allowed. The vans line at the top of each office tab shows them: a van used today is highlighted, and a small arrow shows when another office is using it.</li>
   <li><b>OOS, Change Over &amp; Collections</b> keeps four lists: out of service (with a reason), change over, reserved for collections, and reserved for something else. A change over van can still be given to an office row; it is marked (change over). <span class="hlnew">NEW</span> <b>Add a van</b> is one click, and each hook box works like the ones on the sheets: type the hook number or plate, or pick from the list that opens.</li></ul>`},
  {t:"Saving, syncing and backups",h:`<ul>
