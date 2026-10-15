@@ -104,6 +104,7 @@ header h1{margin:0;font:700 var(--h1) /1 var(--display);letter-spacing:.01em}
 .dlgerr{color:var(--clash);font-weight:600}
 .dlgbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .dlgbtns button{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--line);background:var(--field);color:var(--text);font-weight:600;cursor:pointer}
+.askdlg{max-width:460px}.askdlg h3{font-size:17px;line-height:1.3}.askdlg p{line-height:1.4}
 .dlgbtns .dlgok{background:var(--clash);color:var(--on-clash);border-color:var(--clash)}
 .histhead{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--head);color:var(--head-ink)}
 .histhead h2{margin:0;flex:1;font:700 20px var(--display);color:inherit}
@@ -4996,8 +4997,8 @@ function openVanForm(h){
     requestAnimationFrame(()=>openVanForm(h));
   };
   $("vfCancel").onclick=()=>{$("vanForm").innerHTML=""};
-  $("vf").onsubmit=e=>{e.preventDefault();try{saveVanForm()}catch(ex){console.error(ex);$("vfErr").textContent="Something went wrong saving this van: "+ex.message+". Please send me this message.";}};
-  function saveVanForm(){const err=m=>{$("vfErr").textContent=m;$("vfErr").scrollIntoView({block:"nearest"});toast(m)};
+  $("vf").onsubmit=e=>{e.preventDefault();saveVanForm().catch(ex=>{console.error(ex);$("vfErr").textContent="Something went wrong saving this van: "+ex.message+". Please send me this message.";})};
+  async function saveVanForm(){const err=m=>{$("vfErr").textContent=m;$("vfErr").scrollIntoView({block:"nearest"});toast(m)};
     const kind=$("vfKind").value;let full=up($("vfFull").value).replace(/\s+/g,"");
     if(full&&full.length<3)return err("The plate needs at least three letters, or leave it blank.");
     full=full.length>3?full.slice(0,-3)+" "+full.slice(-3):full;
@@ -5011,7 +5012,7 @@ function openVanForm(h){
       const o=db.vans.find(x=>x.h!==h&&up(vname(x))===label);if(o)return err(`${label} is already used by ${o.full||o.reg}.`);
       nh=(h!=null&&k0!=="hook")?h:Math.max(999,...db.vans.map(x=>x.h))+1;}
     const clash=full&&db.vans.find(x=>x.h!==h&&x.full&&x.full.replace(/\s/g,"")===full.replace(/\s/g,""));
-    if(clash&&!confirm(`${vname(clash)} already has plate ${full}. Save anyway?`))return;
+    if(clash&&!await ask(`${vname(clash)} already has plate ${full}. Save anyway?`))return;
     const _model=$("vfModel").value.trim();
     const _imgKey=(_model||"").trim().toLowerCase();
     const _fi=$("vfImage");
@@ -5693,8 +5694,8 @@ function wireSheetText(){const box=document.querySelector("main .sheettxt");if(!
     el.onchange=()=>{put(el);save(`${LN[el.dataset.stl]||el.dataset.stl} ${NAME[el.dataset.stk]||el.dataset.stk} changed`)}});
   box.querySelectorAll("[data-streset]").forEach(b=>b.onclick=()=>{const k=b.dataset.streset;if(db.look&&db.look.sheetTxt){delete db.look.sheetTxt[k];if(!Object.keys(db.look.sheetTxt).length)delete db.look.sheetTxt}
     applySheetText();save(`${LN[k]} text put back to normal`);render();toast(`${LN[k]} text is back to normal`)});
-  box.querySelectorAll("[data-stcopy]").forEach(b=>b.onclick=()=>{const k=b.dataset.stcopy,others=ST_LAYS.map(x=>x[0]).filter(x=>x!==k);
-    if(!confirm(`Give ${others.map(x=>LN[x]).join(" and ")} the same text settings as ${LN[k]}? This replaces theirs.`))return;
+  box.querySelectorAll("[data-stcopy]").forEach(b=>b.onclick=async()=>{const k=b.dataset.stcopy,others=ST_LAYS.map(x=>x[0]).filter(x=>x!==k);
+    if(!await ask(`Give ${others.map(x=>LN[x]).join(" and ")} the same text settings as ${LN[k]}? This replaces theirs.`))return;
     const src=JSON.parse(JSON.stringify(cur(k)));others.forEach(o=>{db.look.sheetTxt[o]=JSON.parse(JSON.stringify(src))});others.forEach(tidy);
     applySheetText();save(`${LN[k]} text settings copied to ${others.map(x=>LN[x]).join(" and ")}`);render();toast("Copied")})}
 function lookHTML(){
@@ -6000,10 +6001,10 @@ async function bkSaveSection(id){const {blob,name}=bkSectionBlob(id);const where
   toast(where.startsWith("folder:")?`Saved ${name} in "${where.slice(7)}"`:`Saved ${name} to Downloads`,4500)}
 async function bkSaveAll(){exportJSON();for(const s of BK_SECTIONS){await new Promise(r=>setTimeout(r,700));const {blob,name}=bkSectionBlob(s[0]);await saveBlob(blob,name)}
   toast("Saved the full backup and a file for each section. If only some arrived, allow multiple downloads for this site.",6000)}
-function bkLoadSection(d,id,meta){const s=bkSec(id);if(!s)return;
+async function bkLoadSection(d,id,meta){const s=bkSec(id);if(!s)return;
   const when=meta&&meta.savedAt?new Date(meta.savedAt).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}):"";
   const msg=`Replace ${s[1]} with the backup?\n\nBackup: ${bkCount(d,id)||s[1]}${when?", saved "+when:""}.\nThis browser now: ${bkCount(db,id)||s[1]}.\n\nOnly ${s[1].toLowerCase()} change (${s[2]}). Everything else stays as it is. You can undo this straight after.`;
-  if(!confirm(msg))return;
+  if(!await ask(msg))return;
   s[3].forEach(k=>{if(d[k]!==undefined)db[k]=JSON.parse(JSON.stringify(d[k]));else delete db[k]});
   if(id==="days"){try{migrateKinds(db)}catch(e){}autoMade.clear()}
   save(`Loaded ${s[1]} from a backup`);try{applyLook()}catch(e){}render();toast(`${s[1]} loaded from the backup`)}
@@ -6024,14 +6025,14 @@ function importJSON(f){const r=new FileReader();r.onload=()=>{let d;
   try{d=JSON.parse(dataText(r.result));if(!d||typeof d!=="object")throw 0;if(d._section){const sm=d._section;delete d._section;if(!bkSec(sm.id))throw 0;bkLoadSection(d,sm.id,sm);return}if(!d.days||!d.vans||!d.drivers)throw 0}catch(e){toast("That file isn't a driver allocation backup");return}
   const meta=d._backup||null;delete d._backup;
   bkPickSection(d,meta,()=>importFull(d,meta))};r.readAsText(f)}
-function importFull(d,meta){
+async function importFull(d,meta){
   const sum=x=>{const ks=Object.keys(x.days||{}).filter(k=>{try{return hasData(x.days[k])}catch(e){return false}}).sort();return {ks,n:ks.length}};
   const fmt=z=>z.n?`${z.n} day${z.n===1?"":"s"} with allocations (${pretty(z.ks[0])} to ${pretty(z.ks[z.n-1])})`:"no days with allocations";
   const A=sum(d),H=sum(db),inB=new Set(A.ks),lost=H.ks.filter(k=>!inB.has(k));
   let msg=`Load this backup?\n\nBackup: ${fmt(A)}${meta&&meta.savedAt?`, saved ${new Date(meta.savedAt).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}`:""}.\nThis browser now: ${fmt(H)}.`;
   if(lost.length)msg+=`\n\nThe backup doesn't have ${lost.length} day${lost.length===1?"":"s"} that ${lost.length===1?"is":"are"} saved here (${lost.length<=3?lost.map(dayShort).join(", "):"newest "+dayShort(lost[lost.length-1])}). Loading it removes ${lost.length===1?"that day":"them"}. Save a backup of this browser first if you need ${lost.length===1?"it":"them"}.`;
   msg+=`\n\nEverything in this browser will be replaced. You can undo this straight after.`;
-  if(!confirm(msg))return;
+  if(!await ask(msg))return;
   try{migrateKinds(d)}catch(e){}autoMade.clear();db=d;save("Loaded a backup");applyLook();render();toast("Backup loaded")}
 /* ---------- the data file: "driver-allocation - DO NOT DELETE - DO NOT MOVE SEPARATE FROM Driver Allocation.js", kept next to driver-allocation.html (older names are still read) ----------
    It holds everything (days, drivers, vans, walks, look, setups). Every browser that opens the app reads it
@@ -6367,6 +6368,16 @@ function setupColResize(){
   document.addEventListener("mouseleave",hide);
 })();
 
+/* In-app Yes/No box. Replaces the browser's await ask(): if the "Don't let this page show more pop-ups"
+   box is ticked, await ask() returns false instantly and nothing can be deleted (Ash, 15 Oct 2026). */
+function ask(msg,o){o=o||{};return new Promise(res=>{const d=document.createElement("div");d.className="dlgback askback";
+  const lines=String(msg).split("\n").filter((x,i,a)=>x.trim()||(i&&a[i-1].trim()));
+  d.innerHTML=`<div class="dlg askdlg" role="alertdialog" aria-modal="true" aria-labelledby="askT"><h3 id="askT" style="margin:0 0 8px">${esc(lines[0]||"Are you sure?")}</h3>${lines.slice(1).map(x=>`<p style="margin:6px 0">${esc(x)}</p>`).join("")}<div class="dlgbtns"><button type="button" data-no>${esc(o.no||"Cancel")}</button><button type="button" class="dlgok" data-yes>${esc(o.yes||"OK")}</button></div></div>`;
+  document.body.appendChild(d);let done=false;const fin=v=>{if(done)return;done=true;d.remove();document.removeEventListener("keydown",k);res(v)};
+  const k=e=>{if(e.key==="Escape"){e.preventDefault();fin(false)}else if(e.key==="Enter"&&d.contains(document.activeElement)){e.preventDefault();fin(document.activeElement.hasAttribute("data-no")?false:true)}};
+  document.addEventListener("keydown",k);d.onclick=e=>{if(e.target===d)fin(false)};
+  d.querySelector("[data-no]").onclick=()=>fin(false);d.querySelector("[data-yes]").onclick=()=>fin(true);
+  setTimeout(()=>{try{d.querySelector("[data-no]").focus()}catch(e){}},0)})}
 let tt;function toast(m,ms){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),ms||2200)}
 
 /* ---------- vehicle details card ---------- */
@@ -6581,7 +6592,7 @@ function openTagManager(after){const old=$("tagDlg");if(old)old.remove();const d
     const go=()=>{const i=$("tagNew"),t=addDrvTag(i.value);if(!t)return toast("Type a name for the tag first");save(`Added the driver tag ${t}`);toast(`Tag ${t} added — tick it on a driver's card or next to their name`);draw();const j=$("tagNew");if(j)j.focus()};
     $("tagNewGo").onclick=go;$("tagNew").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();go()}};
     d.querySelectorAll("[data-tren]").forEach(b=>b.onclick=()=>{const a=b.dataset.tren,nb=prompt(`New name for the tag ${a}:`,a);if(nb==null)return;if(!renameDrvTag(a,nb))return toast("That name is empty or already used by another tag");save(`Renamed the driver tag ${a} to ${nb.trim()}`);draw()});
-    d.querySelectorAll("[data-trm]").forEach(b=>b.onclick=()=>{const t=b.dataset.trm,c=tagCount(t);if(!confirm(`Remove the tag ${t}?${c?` It comes off ${c} driver${c===1?"":"s"}.`:""}`))return;removeDrvTag(t);save(`Removed the driver tag ${t}`);draw()})};
+    d.querySelectorAll("[data-trm]").forEach(b=>b.onclick=async()=>{const t=b.dataset.trm,c=tagCount(t);if(!await ask(`Remove the tag ${t}?${c?` It comes off ${c} driver${c===1?"":"s"}.`:""}`))return;removeDrvTag(t);save(`Removed the driver tag ${t}`);draw()})};
   draw()}
 /* New starter: ticked for a year. The year runs from the start date if there is one, or from the day it was ticked if there is no start date (or the start date was already over a year ago). */
 function addYear(k){const d=parse(k);d.setFullYear(d.getFullYear()+1);return iso(d)}
@@ -6872,14 +6883,14 @@ const ADVCOLS=[
  ["flags","Flags",(n)=>{const F=driverFlags(n);return [F.length,F.length?`<span class="advflags" title="${esc(F.map(f=>f.t).join("\n"))}">${F.map(f=>`<i class="fl-dot fl-${f.lvl}"></i>`).join("")}${F.length}</span>`:""]}]];
 const ADVDEF=["name","office","r","tags","age","role","licExpiry","assessExpiry","mobile","worked","last","flags"];
 function advCols(){if(db.advCols&&db.advCols.length&&!db.advColsM){db.advColsM=1;if(!db.advCols.includes("move"))db.advCols.unshift("move");try{save()}catch(e){}}if(db.advCols&&db.advCols.length&&!db.advColsM2){db.advColsM2=1;const L=db.advCols.filter(x=>x!=="move"&&x!=="office");if(db.advCols.includes("office"))L.unshift("office");L.push("move");db.advCols=L;try{save()}catch(e){}}if(db.advCols&&db.advCols.length&&!db.advColsR){db.advColsR=1;if(!db.advCols.includes("r"))db.advCols.splice(db.advCols[0]==="office"?1:0,0,"r");try{save()}catch(e){}}if(db.advCols&&db.advCols.length&&!db.advColsT){db.advColsT=1;if(!db.advCols.includes("tags")){const i=db.advCols.indexOf("r");db.advCols.splice(i>=0?i+1:1,0,"tags")}try{save()}catch(e){}} /* Tags column added once to a saved column set (Ash, 14 Oct 2026) */return (db.advCols&&db.advCols.length?db.advCols:ADVDEF).filter(id=>ADVCOLS.some(c=>c[0]===id))}
-function driverMoveAct(n,v){if(!v)return;
+async function driverMoveAct(n,v){if(!v)return;
     const clearAll=()=>{["nonDrivers","leftRM","movedOff"].forEach(j=>{db[j]=(db[j]||[]).filter(y=>y!==n)});customLists().forEach(l=>{if(db.customListMembers&&db.customListMembers[l.id])db.customListMembers[l.id]=db.customListMembers[l.id].filter(y=>y!==n)})};const only=k=>{clearAll();db[k]=[...db[k],n]};
     if(v==="nd"){only("nonDrivers");save(`Moved ${n} to Non-Drivers`);render();toast(n+" moved to Non-Drivers")}
     else if(v.startsWith("nd:")){const off=v.slice(3);only("nonDrivers");db.driverOffice=db.driverOffice||{};db.driverOffice[n]=off;save(`Moved ${n} to Non-Drivers (${ovName(off)})`);render();toast(n+" moved to Non-Drivers")}
     else if(v==="lr"){only("leftRM");save(`Moved ${n} to Left RM`);render();toast(n+" moved to Left RM")}
     else if(v==="mo"){const cur=driverOffice(n),w=prompt(`Which office has ${n} moved to?\n\nW2, W8, W9, W10, W11 or W12: they stay a driver and their office changes.\nAny other office, or leave blank: they go on the Moved office list.`,"");if(w===null)return;
       const o=moveDriverOffice(n,w);if(o){save(`${n} moved office ${cur||"none"} to ${ovName(o)}`);render();toast(`${n} is now in ${ovName(o)}`)}else{save(`Moved ${n} to Moved office`);render();toast(n+" moved to Moved office"+(w.trim()?" ("+up(w.trim())+")":""))}}
-    else if(v==="rm"){if(!confirm(`Remove ${n} completely?\n\nTo keep their history, use Non-driver, Moved office or Left RM instead.`))return;db.drivers=db.drivers.filter(y=>y!==n);if(db.driverOffice)delete db.driverOffice[n];save(`Removed ${n}`);render();toast("Driver removed")}
+    else if(v==="rm"){if(!await ask(`Remove ${n} completely?\n\nTo keep their history, use Non-driver, Moved office or Left RM instead.`))return;db.drivers=db.drivers.filter(y=>y!==n);if(db.driverOffice)delete db.driverOffice[n];save(`Removed ${n}`);render();toast("Driver removed")}
   else if(v==="back"){clearAll();save(`Moved ${n} back to drivers`);render();toast(n+" is a driver again")}else if(v&&v.startsWith("cl:")){const id=v.slice(3),cl=customLists().find(l=>l.id===id);if(!cl)return;clearAll();db.customListMembers=db.customListMembers||{};db.customListMembers[id]=[...(db.customListMembers[id]||[]),n];save(`Moved ${n} to ${cl.name}`);render();toast(`${n} moved to ${cl.name}`)}}
 function ndWarnText(n,st){st=st||driverStatus(n);if(!st)return "";const f=n.split(" ")[0];
   if(st==="Non-driver")return `${f} is on the Non-Drivers list — not a driver${driverOffice(n)?" ("+ovName(roleOffice(driverOffice(n)))+")":""}`;
@@ -6961,12 +6972,12 @@ function parseCsv(t){const R=[];let row=[],c="",q=false;t=t.replace(/^\ufeff/,""
   for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}
     else if(ch==='"')q=true;else if(ch===","){row.push(c);c=""}else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&t[i+1]==="\n")i++;row.push(c);R.push(row);row=[];c=""}else c+=ch}
   if(c||row.length){row.push(c);R.push(row)}return R.filter(r=>r.some(x=>x.trim()))}
-function importDriversCsv(text){const R=parseCsv(text);if(R.length<2)return toast("That file has no rows");
+async function importDriversCsv(text){const R=parseCsv(text);if(R.length<2)return toast("That file has no rows");
   const H=R[0].map(h=>h.trim().toLowerCase());const ni=H.indexOf("name");if(ni<0)return toast("No Name column found");
   const oi=H.indexOf("office");const map=DF.map(f=>[f,H.indexOf(f.l.toLowerCase())]).filter(x=>x[1]>=0);
   const toIso=v=>{v=v.trim();if(!v)return "";let m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(m)return v;m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/);if(m){let y=+m[3];if(y<100)y+=y>40?1900:2000;return `${y}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`}return ""};
   const fresh=R.slice(1).map(r=>up(r[ni]).replace(/\s+/g," ")).filter(n=>n&&!db.drivers.includes(n));
-  if(fresh.length&&!confirm(`${fresh.length} name${fresh.length===1?" isn't":"s aren't"} on the driver list yet${fresh.length<6?": "+fresh.join(", "):""}.\n\nAdd ${fresh.length===1?"them":"them all"} as new drivers? (Cancel to skip those rows.)`))fresh.length=0;
+  if(fresh.length&&!await ask(`${fresh.length} name${fresh.length===1?" isn't":"s aren't"} on the driver list yet${fresh.length<6?": "+fresh.join(", "):""}.\n\nAdd ${fresh.length===1?"them":"them all"} as new drivers? (Cancel to skip those rows.)`))fresh.length=0;
   let n=0;R.slice(1).forEach(r=>{const nm=up(r[ni]).replace(/\s+/g," ");if(!nm)return;
     if(!db.drivers.includes(nm)){if(!fresh.includes(nm))return;db.drivers.push(nm)}
     if(oi>=0&&r[oi]!=null&&r[oi].trim()&&ROLES.includes(r[oi].trim().toUpperCase().replace("MANAGER","Manager"))){db.driverOffice=db.driverOffice||{};db.driverOffice[nm]=r[oi].trim().toUpperCase().replace("MANAGER","Manager")}
@@ -7055,9 +7066,9 @@ function bindPhotos(){const sec=$("photoSec"),I=n=>(db.driverInfo||{})[n]||{};le
   sec.querySelectorAll("[data-phptype]").forEach(t=>{const id=t.dataset.phptype,s=sec.querySelector(`[data-phpsel="${id}"]`);
     const sync=()=>{const v=up(t.value).replace(/\s+/g," ").trim();s.value=L.includes(v)?v:""};
     t.onchange=sync;t.oninput=sync})}
-  sec.querySelectorAll("[data-phpgo]").forEach(b=>b.onclick=()=>{const id=b.dataset.phpgo,x=phPool().find(p=>p.id===id),typed=up((sec.querySelector(`[data-phptype="${id}"]`)||{}).value||"").replace(/\s+/g," ").trim(),n=typed&&db.drivers.includes(typed)?typed:sec.querySelector(`[data-phpsel="${id}"]`).value,rem=!!(sec.querySelector(`[data-phprem="${id}"]`)||{}).checked;if(!x)return;
+  sec.querySelectorAll("[data-phpgo]").forEach(b=>b.onclick=async()=>{const id=b.dataset.phpgo,x=phPool().find(p=>p.id===id),typed=up((sec.querySelector(`[data-phptype="${id}"]`)||{}).value||"").replace(/\s+/g," ").trim(),n=typed&&db.drivers.includes(typed)?typed:sec.querySelector(`[data-phpsel="${id}"]`).value,rem=!!(sec.querySelector(`[data-phprem="${id}"]`)||{}).checked;if(!x)return;
     if(typed&&!db.drivers.includes(typed)&&!n)return toast(`${typed} isn't on the driver list — pick a name from the search list, or add them on the Drivers tab first`);if(!n)return toast("Search for a driver and pick one first");
-    if(I(n).photo&&!confirm(`${n} already has a photo. Replace it with this one?`))return;
+    if(I(n).photo&&!await ask(`${n} already has a photo. Replace it with this one?`))return;
     openPhotoEditor(x.src,(u,full)=>{db.phPool=phPool().filter(p=>p.id!==id);if(!db.phPool.length)delete db.phPool;setDI(n,"photoRem",rem?true:undefined);keep(n,u,full,`Assigned a ${rem?"reminder picture":"photo"} to ${n}`)})});
   sec.querySelectorAll("input[data-phrem]").forEach(c=>c.onchange=()=>{const n=c.dataset.phrem;setDI(n,"photoRem",c.checked?true:undefined);save(c.checked?`${n}'s picture marked as a reminder, not them`:`${n}'s picture is a real photo of them`);redo()});
   sec.querySelectorAll("[data-phview]").forEach(b=>b.onclick=()=>{const n=b.dataset.phview;viewFullPhoto(I(n).photoFull||I(n).photo,n)});
@@ -7314,8 +7325,8 @@ function openDupCheck(){const d=document.createElement("div");d.className="dlgba
       (P.length?`<div class="tablewrap"><table><thead><tr><th>Check</th><th>Name</th><th>Name</th><th></th></tr></thead><tbody>${P.map((x,i)=>{const t=tier(x.v);return `<tr><td><span class="bkst ${t[0]}">${t[1]}</span></td><td><b>${esc(x.a)}</b><br>${info(x.a)}<br><button class="bkbtn" data-keep="${i}" data-w="a" style="margin-top:4px">Keep this one</button></td><td><b>${esc(x.b)}</b><br>${info(x.b)}<br><button class="bkbtn" data-keep="${i}" data-w="b" style="margin-top:4px">Keep this one</button></td><td><button class="bkbtn" data-nodup="${i}" style="border-color:var(--line)">Not the same</button></td></tr>`}).join("")}</tbody></table></div>`:"")+
       (nd?`<p class="note" style="margin-top:10px">${nd} pair${nd===1?" is":"s are"} marked "Not the same". <button class="bkbtn" data-dpreset style="border-color:var(--line)">Show them again</button></p>`:"");
     const B=d.querySelector("#dpBody");
-    B.querySelectorAll("[data-keep]").forEach(b=>{b.dataset.armverb="merge";b.onclick=()=>{const x=P[+b.dataset.keep],keep=b.dataset.w==="a"?x.a:x.b,drop=keep===x.a?x.b:x.a;
-      if(!confirm(`Merge ${drop} into ${keep}?\n\nEvery day ${drop} was on will show ${keep}, their details are combined, and ${drop} is removed from the list.`))return;
+    B.querySelectorAll("[data-keep]").forEach(b=>{b.dataset.armverb="merge";b.onclick=async()=>{const x=P[+b.dataset.keep],keep=b.dataset.w==="a"?x.a:x.b,drop=keep===x.a?x.b:x.a;
+      if(!await ask(`Merge ${drop} into ${keep}?\n\nEvery day ${drop} was on will show ${keep}, their details are combined, and ${drop} is removed from the list.`))return;
       mergeDriver(drop,keep);save(`Merged ${drop} into ${keep}`);changed=true;toast(`${drop} merged into ${keep}`);draw()}});
     B.querySelectorAll("[data-nodup]").forEach(b=>b.onclick=()=>{const x=P[+b.dataset.nodup];db.notDup=[...new Set([...(db.notDup||[]),dupKey(x.a,x.b)])];save();changed=true;draw()});
     const r=B.querySelector("[data-dpreset]");if(r)r.onclick=()=>{db.notDup=[];save();changed=true;draw()}};
@@ -7340,14 +7351,14 @@ function openShortCheck(){const d=document.createElement("div");d.className="dlg
     const B=d.querySelector("#snBody");
     B.querySelectorAll("[data-sng]").forEach(b=>b.onclick=()=>{B.querySelector(`[data-snin="${b.dataset.sng}"]`).value=b.dataset.v});
     B.querySelectorAll("[data-snin]").forEach(x=>x.onkeydown=e=>{if(e.key==="Enter")B.querySelector(`[data-snsave="${x.dataset.snin}"]`).click()});
-    B.querySelectorAll("[data-snsave]").forEach(b=>b.onclick=()=>{const old=L[+b.dataset.snsave].n,nw=up(B.querySelector(`[data-snin="${b.dataset.snsave}"]`).value).replace(/\s+/g," ").trim();
+    B.querySelectorAll("[data-snsave]").forEach(b=>b.onclick=async()=>{const old=L[+b.dataset.snsave].n,nw=up(B.querySelector(`[data-snin="${b.dataset.snsave}"]`).value).replace(/\s+/g," ").trim();
       if(!nw)return toast("Type the full name first");if(isShortName(nw))return toast("Type a first name and a surname");if(nw===old)return;
-      const had=db.drivers.includes(nw);if(had&&!confirm(`${nw} is already on the list.\n\nMerge ${old} into ${nw}? Every day ${old} was on will show ${nw}, and ${old} is removed.`))return;
+      const had=db.drivers.includes(nw);if(had&&!await ask(`${nw} is already on the list.\n\nMerge ${old} into ${nw}? Every day ${old} was on will show ${nw}, and ${old} is removed.`))return;
       if(!had){db.drivers.push(nw);db.drivers.sort((x,y)=>x.split(" ").pop().localeCompare(y.split(" ").pop()))}
       mergeDriver(old,nw);save(had?`Merged ${old} into ${nw}`:`Renamed ${old} to ${nw}`);changed=true;toast(had?`${old} merged into ${nw}`:`${old} is now ${nw}`);draw()});
     B.querySelectorAll("[data-snok]").forEach(b=>b.onclick=()=>{db.shortOk=[...new Set([...(db.shortOk||[]),L[+b.dataset.snok].n])];save();changed=true;draw()});
-    B.querySelectorAll("[data-sndel]").forEach(b=>b.onclick=()=>{const n=L[+b.dataset.sndel].n,c=S.get(n)||0;
-      if(!confirm(`Delete ${n} completely?\n\nThis removes them from the driver list${c?` and clears their name from every row they're in (used ${c} time${c===1?"":"s"})`:""}. This can't be undone with Undo.`))return;
+    B.querySelectorAll("[data-sndel]").forEach(b=>b.onclick=async()=>{const n=L[+b.dataset.sndel].n,c=S.get(n)||0;
+      if(!await ask(`Delete ${n} completely?\n\nThis removes them from the driver list${c?` and clears their name from every row they're in (used ${c} time${c===1?"":"s"})`:""}. This can't be undone with Undo.`))return;
       deleteDriverName(n);save(`Deleted driver ${n}`);changed=true;toast(`${n} deleted`);draw()});
     const r=B.querySelector("[data-snreset]");if(r)r.onclick=()=>{db.shortOk=[];save();changed=true;draw()}};
   draw()}
@@ -7426,12 +7437,12 @@ function openDriverList(el){
     fl.querySelectorAll("[data-ftag]").forEach(b=>b.onclick=()=>{const F=dlF(),k=b.dataset.ftag;const L=new Set(F.tags);L.has(k)?L.delete(k):L.add(k);F.tags=[...L];dlSave(F);draw()});
     const fr=fl.querySelector("[data-freset]");if(fr)fr.onclick=()=>{const F=dlF();F.sel={};dlSave(F);draw()};
     const sb=d.querySelector("#dlSort");sb.innerHTML=nameSortBar("data-lsort");sb.querySelectorAll("[data-lsort]").forEach(b=>b.onclick=()=>{setNameSort(b.dataset.lsort);draw();qi.focus()});
-    d.querySelectorAll("[data-name]").forEach(b=>b.onclick=()=>{const nm=b.dataset.name;const u=(uses.get(nm)||[]).filter(x=>x.path!==path);
+    d.querySelectorAll("[data-name]").forEach(b=>b.onclick=async()=>{const nm=b.dataset.name;const u=(uses.get(nm)||[]).filter(x=>x.path!==path);
       if(!u.length){put(nm);return}
       /* already on the sheet but on their rest day: offer "Working on their R/D" (Ash, 5 Oct 2026) */
       const rdOk=!absOn(nm,day)&&RDRX.test(availOn0(nm,day))&&u.every(z=>/^W\d+\.main\.\d+\.driver$/.test(z.path));
       const where=u.map(z=>esc(z.o+" "+z.lab)).join(", ");
-      if(!rdOk){if(!confirm(`${nm} is already on ${u.map(z=>z.o+" "+z.lab).join(", ")} today.\n\nPut them here as well? Both boxes will show red until one is changed.`))return;put(nm);return}
+      if(!rdOk){if(!await ask(`${nm} is already on ${u.map(z=>z.o+" "+z.lab).join(", ")} today.\n\nPut them here as well? Both boxes will show red until one is changed.`))return;put(nm);return}
       let rdw=false;
       walkDlg("Already on the sheet",`<p><b>${esc(nm)}</b> is already on ${where} today, and today is their <b>rest day</b>.</p>
         <p><b>Working on their R/D</b> marks them as working their rest day on another duty and puts them here. Their own row keeps its substitute and nothing shows red.</p>
@@ -7879,7 +7890,7 @@ function wireRegVans(m){const o=regVanOff;
     regVanOffDrivers(o).forEach(nm=>{if(regVanOf(nm)!=null)return;const L=usualHooks(nm);if(!L.length)return;const tot=L.reduce((t,[,c])=>t+c,0),[h,c]=L[0];const po=permOwnerOf(h);if(c>=3&&c>=tot*0.6&&vanBy(h)&&!(po&&po!==nm)){R[nm]=h;n++;picked.push(nm.split(" ")[0]+" → "+vname(vanBy(h)))}});
     if(!n)return toast("Nothing to suggest: nobody without a regular van has had the same van on at least 3 days and most of their days");
     db.regVan=R;save(`Suggested ${n} regular van${n===1?"":"s"} for ${ovName(o)} from history`);render();toast(`${n} regular van${n===1?"":"s"} suggested: ${picked.slice(0,6).join(", ")}${picked.length>6?"…":""}. Check them, then change any that are wrong. Undo puts it back.`,7000)};
-  const cl=$("rvClear");if(cl)cl.onclick=()=>{if(!confirm(`Take the regular van, and the permanent and retention marks, off every ${ovName(o)} driver?`))return;regVanOffDrivers(o).forEach(nm=>{regVanSet(nm,null);regVanFlag("vanRet",nm,false)});save(`Cleared the regular vans on ${ovName(o)}`);render()}}
+  const cl=$("rvClear");if(cl)cl.onclick=async()=>{if(!await ask(`Take the regular van, and the permanent and retention marks, off every ${ovName(o)} driver?`))return;regVanOffDrivers(o).forEach(nm=>{regVanSet(nm,null);regVanFlag("vanRet",nm,false)});save(`Cleared the regular vans on ${ovName(o)}`);render()}}
 function dutiesHTML(a){const o=dutyOff&&OFFICES.includes(dutyOff)?dutyOff:(OFFICES.includes(lastOff)?lastOff:OFFICES[0]);dutyOff=o;
   const D=officeDuties(o).sort((x,y)=>podRank(podOf(o,x))-podRank(podOf(o,y))||walkCmp(x,y,"num")),R=(db.dutyReg||{})[o]||{},subs=Object.keys(db.subDrv||{}).filter(n=>db.drivers.includes(n)&&!isND(n));
   const used=new Map();D.forEach(w=>{const n=R[up(w)];if(n)used.set(n,(used.get(n)||0)+1)});
@@ -7922,7 +7933,7 @@ function wireDuties(m){m.querySelectorAll("[data-dutyoff]").forEach(b=>b.onclick
     officeDuties(o).forEach(w=>{const k=up(w);if(R[k])return;const S=st.get(k);if(!S)return;const best=[...S.drv.entries()].filter(([nm,e])=>db.drivers.includes(nm)&&!isND(nm)&&!taken.has(nm)&&!(subInfo(nm)&&subInfo(nm).moves)&&e.n>=3).sort((p,q)=>q[1].n-p[1].n)[0];
       if(best){R[k]=best[0];taken.add(best[0]);n++}});
     if(!n)return toast("Nothing to suggest: no driver did these duties at least 3 times");db.dutyReg=db.dutyReg||{};db.dutyReg[o]=R;save(`Suggested ${n} regular driver${n===1?"":"s"} for ${ovName(o)} from history`);render();toast(`${n} regular driver${n===1?"":"s"} suggested. Check them, then change any that are wrong. Undo puts it back.`)};
-  const cl=$("dutyClear");if(cl)cl.onclick=()=>{if(!confirm(`Take every regular driver off the ${ovName(o)} duties?`))return;db.dutyReg=db.dutyReg||{};delete db.dutyReg[o];save(`Cleared the regular drivers on ${ovName(o)}`);render()};
+  const cl=$("dutyClear");if(cl)cl.onclick=async()=>{if(!await ask(`Take every regular driver off the ${ovName(o)} duties?`))return;db.dutyReg=db.dutyReg||{};delete db.dutyReg[o];save(`Cleared the regular drivers on ${ovName(o)}`);render()};
   const rv=$("dutyToRV");if(rv)rv.onclick=()=>{regVanOff=o;tab="RegVan";render();window.scrollTo(0,0)}}
 /* ----- substitute drivers (Drivers tab) ----- */
 let subWkView={};
@@ -7968,7 +7979,7 @@ function wireSubs(m){const S=()=>{db.subDrv=db.subDrv||{};return db.subDrv};
     if(v)D[d]=v;else delete D[d];if(Object.keys(D).length)I.days=D;else delete I.days;S()[n]=I;subWkView[n]=true;
     save(`${n} ${d}: ${v==="OFF"?"not covering":v?"does "+v:"any of their duties"}`);render()});
   m.querySelectorAll("[data-subdrop]").forEach(b=>b.onclick=()=>{const n=b.dataset.subdrop,w=b.dataset.w,I=Object.assign({},S()[n]);I.duties=(I.duties||[]).filter(x=>x!==w);if(I.days){const D=Object.assign({},I.days);Object.keys(D).forEach(k=>{if(D[k]===w)delete D[k]});if(Object.keys(D).length)I.days=D;else delete I.days}S()[n]=I;save(`${n} no longer covers ${w}`);render()});
-  m.querySelectorAll("[data-subrm]").forEach(b=>b.onclick=()=>{const n=b.dataset.subrm;if(!confirm(`${n} is no longer a substitute driver?`))return;delete S()[n];save(`${n} is no longer a substitute driver`);render()})}
+  m.querySelectorAll("[data-subrm]").forEach(b=>b.onclick=async()=>{const n=b.dataset.subrm;if(!await ask(`${n} is no longer a substitute driver?`))return;delete S()[n];save(`${n} is no longer a substitute driver`);render()})}
 /* ----- Fill from regular drivers ----- */
 function openRegFill(o){const d=document.createElement("div");d.className="dlgback";document.body.appendChild(d);
   const close=()=>{d.remove();document.removeEventListener("keydown",k1)};const k1=e=>{if(e.key==="Escape")close()};document.addEventListener("keydown",k1);d.onclick=e=>{if(e.target===d)close()};
@@ -8464,7 +8475,7 @@ function findResults(q){const Q=q.trim(),a=cur(),offs=isSunday()?["W13"]:OFFICES
     {const known=new Set();Object.keys(db.driverOffice||{}).forEach(n=>known.add(up(n)));Object.values(db.dutyReg||{}).forEach(o=>Object.values(o||{}).forEach(n=>typeof n==="string"&&known.add(up(n))));[...U.drivers.keys()].forEach(n=>known.add(up(n)));
       const miss=[...known].filter(n=>n&&!db.drivers.includes(n)&&nameMatch(n,QN));
       if(miss.length)G.push({t:"Not on the Drivers list",items:miss.slice(0,lim).map(n=>({h:`<span>${esc(n)} <span class="fwarn">⚠ not on the Drivers list</span></span>${chip(roleOffice(driverOffice(n)))}<span class="fsub"><b class="fwarntxt">This name is used on sheets or duties but is missing from the Drivers list</b> · click to add them back</span>`,
-        act:()=>{if(!confirm(`Add ${n} to the Drivers list?`))return;db.drivers.push(n);db.drivers.sort((x,y)=>x.split(" ").pop().localeCompare(y.split(" ").pop()));save(`${n} added back to the Drivers list`);gotab("Drivers",()=>{drvAdv=false;drFindQ=n;drOffF="";drLetter=""})();toast(`${n} is back on the Drivers list`)}}))})}
+        act:async()=>{if(!await ask(`Add ${n} to the Drivers list?`))return;db.drivers.push(n);db.drivers.sort((x,y)=>x.split(" ").pop().localeCompare(y.split(" ").pop()));save(`${n} added back to the Drivers list`);gotab("Drivers",()=>{drvAdv=false;drFindQ=n;drOffF="";drLetter=""})();toast(`${n} is back on the Drivers list`)}}))})}
     if(!L.length)L=db.drivers.map(n=>[n,nameFuzzy(n,QN)]).filter(x=>x[1]>=0).sort((x,y)=>x[1]-y[1]).map(x=>x[0]);
     const DR=L.map(n=>({n,u:(U.drivers.get(n)||[]).filter(w=>offs.includes(w.office)),st:driverStatus(n),av:availOn(n,day)})).sort((x,y)=>(y.u.length>0)-(x.u.length>0)||(!!x.st)-(!!y.st)||x.n.localeCompare(y.n));
     G.push({t:"Drivers",more:Math.max(0,DR.length-lim),items:DR.slice(0,lim).map(x=>{const w=x.u[0];
