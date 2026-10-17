@@ -40,10 +40,16 @@
     The office tabs read them too: the + 2nd duty picker (d2Pick) pre-picks the usual 2nd duty and offers the Partner box
     when it is a non-driver walk; Fill from regular drivers uses dutyPair as well. printWalks prints them.
 
+  HOVER DEMOS (17 Oct 2026) — DEMOS keyed "#buttonId" / "stgo:<section>" / "tab:<tab>"; art is demoSheet() (one mock office
+    sheet, the modifier class picks what animates) or demoPage() + DPG.* (mock pages). All CSS, no images. db.look.demoOff.
   SIDE RAIL (16 Oct 2026) — Bars Setting ▸ "Status strip and tabs down the left side"
   - db.look.sideRail. applyBars() moves #status and #tabs into <div id="rail"> and wraps rail + .layout in <div id="railwrap">
     (both display:contents unless html.siderail and not .mob), so every $("status") / $("tabs") lookup still works. CSS lives
     under "===== Side rail". tabArrows() and the --tabsh measurement skip the rail. Phone layout ignores the option.
+  - HIDE (17 Oct 2026): db.look.railHidden puts the rail away (body.railoff) and shows #railShow, a vertical tab on the LEFT edge,
+    the mirror of #kcShow on the right. applyRail() injects #railHead (the Hide button) as the rail's first child once.
+    db.look.kcTabPos / db.look.railTabPos = "" | "top" | "bottom" move those two edge tabs (body.kctab-* / body.railtab-*);
+    applyTabPos() sets all of those classes and is called from applyRail() and render().
 
   BOXED SECTIONS (16 Oct 2026) — Bars Setting ▸ "Sections in boxes on a darker background" (on unless db.look.boxed === false)
   - html.boxed (desktop only). renderMain wraps the heading/intro/toolbar run at the top of #main (everything before the first
@@ -1023,7 +1029,7 @@ nav#tabs .tab-spc.dropR{box-shadow:3px 0 0 var(--elec,#4a90d9)}
 .offtbox{display:inline-flex;align-items:stretch;margin-left:auto;border:1px solid var(--line);border-radius:8px;background:var(--field);overflow:hidden}
 .offtbox .offtoolsbtn{border:0;background:transparent;color:var(--text);padding:5px 12px;cursor:pointer}
 .offtbox .offtoolsbtn:hover{background:color-mix(in srgb,var(--text) 8%,transparent)}
-.offtbox .laybtn[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}table.lay2>tbody>tr>td:not(.x),table.lay2>tbody>tr>td:not(.x) :is(input,select,button:not(.nmclr):not(.vdbtn):not(.dhbtn)){font-family:var(--display)!important;font-size:calc(var(--fs) + 1px)!important}table.lay2 td.l2reg input,table.lay2>tbody>tr>td:first-child input.hook{font-weight:600!important;font-family:var(--display)!important;font-size:calc(var(--fs) + 1px)!important;letter-spacing:normal!important}table.lay2:not(.colfix):not(.measuring) td.l2reg{min-width:150px}table.lay2 td.l2t{font-weight:600;white-space:nowrap}table.lay2:not(.colfix):not(.measuring)>thead>tr>th:first-child{min-width:120px}table.lay2:not(.colfix)>tbody>tr>td:first-child{min-width:120px}table.lay2:not(.colfix):not(.measuring)>tbody>tr>td:first-child .hookcell{min-width:110px}table.lay2.colfix td.l2t{overflow:hidden;text-overflow:ellipsis}table.lay2 th{white-space:nowrap}table.lay2 td.l2dn{text-align:center;font-weight:600;white-space:nowrap}table.lay2 td.l2nu{min-width:90px;text-align:center}.nuchk{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;cursor:pointer}.nuchk input{width:20px!important;height:20px;cursor:pointer;margin:0}table.offtbl tr.nurow>td:not(.l2nu):not(.x){opacity:.45}html:not(.mob) .nmwrap.shortnm>input:not(:focus){-webkit-text-fill-color:transparent}.nmshort{display:none}html:not(.mob) .nmwrap.shortnm>input:not(:focus)+.nmshort{display:flex;align-items:center;position:absolute;box-sizing:border-box;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:0}html.offpopwin #tabs,html.offpopwin aside,html.offpopwin #mobPages,html.offpopwin #kcShow{display:none!important}html.offpopwin .layout{grid-template-columns:minmax(0,1fr)!important}.dpnu{color:var(--warn,#b45309);font-weight:700;font-size:12px}
+.offtbox .laybtn[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}table.lay2>tbody>tr>td:not(.x),table.lay2>tbody>tr>td:not(.x) :is(input,select,button:not(.nmclr):not(.vdbtn):not(.dhbtn)){font-family:var(--display)!important;font-size:calc(var(--fs) + 1px)!important}table.lay2 td.l2reg input,table.lay2>tbody>tr>td:first-child input.hook{font-weight:600!important;font-family:var(--display)!important;font-size:calc(var(--fs) + 1px)!important;letter-spacing:normal!important}table.lay2:not(.colfix):not(.measuring) td.l2reg{min-width:150px}table.lay2 td.l2t{font-weight:600;white-space:nowrap}table.lay2:not(.colfix):not(.measuring)>thead>tr>th:first-child{min-width:120px}table.lay2:not(.colfix)>tbody>tr>td:first-child{min-width:120px}table.lay2:not(.colfix):not(.measuring)>tbody>tr>td:first-child .hookcell{min-width:110px}table.lay2.colfix td.l2t{overflow:hidden;text-overflow:ellipsis}table.lay2 th{white-space:nowrap}table.lay2 td.l2dn{text-align:center;font-weight:600;white-space:nowrap}table.lay2 td.l2nu{min-width:90px;text-align:center}.nuchk{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;cursor:pointer}.nuchk input{width:20px!important;height:20px;cursor:pointer;margin:0}table.offtbl tr.nurow>td:not(.l2nu):not(.x){opacity:.45}html:not(.mob) .nmwrap.shortnm>input:not(:focus){-webkit-text-fill-color:transparent}.nmshort{display:none}html:not(.mob) .nmwrap.shortnm>input:not(:focus)+.nmshort{display:flex;align-items:center;position:absolute;box-sizing:border-box;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:0}html.offpopwin #tabs,html.offpopwin aside,html.offpopwin #mobPages,html.offpopwin #kcShow,html.offpopwin #railShow{display:none!important}html.offpopwin .layout{grid-template-columns:minmax(0,1fr)!important}.dpnu{color:var(--warn,#b45309);font-weight:700;font-size:12px}
 .offtbox #offPopBtn[aria-pressed=true]{background:var(--ink);color:var(--ink-text)}
 .hooktip .tipreg{font-weight:600;opacity:.75;letter-spacing:.03em} /* last 3 letters of the van's plate after the hook number (Ash, 14 Oct 2026) */
 .bkrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.bklab{font:700 12px var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
@@ -1085,7 +1091,7 @@ html:not(.mob) table.offtbl.colfix>tbody>tr>td>.hooktips{max-width:calc(100% - 3
 .datebox .calclr button{white-space:normal!important;height:auto!important;min-height:30px;line-height:1.2;overflow-wrap:anywhere}
 .offacts .bulkundo{background:var(--warn-bg,#fff3cd);border-color:var(--warn,#b8860b);font-weight:700}
 [data-fitall][aria-pressed=true]{background:var(--ink)!important;color:var(--ink-text)!important}
-html.setwin header,html.setwin #status,html.setwin #tabs,html.setwin #copybar,html.setwin #board,html.setwin #kcShow,html.setwin #barCtl,html.setwin .tabprint{display:none!important}html.setwin .layout{display:block}
+html.setwin header,html.setwin #status,html.setwin #tabs,html.setwin #copybar,html.setwin #board,html.setwin #kcShow,html.setwin #railShow,html.setwin #barCtl,html.setwin .tabprint{display:none!important}html.setwin .layout{display:block}
 .setpopbtn{margin:0 0 0 12px!important;vertical-align:middle;font-size:14px}
 .offacts{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 12px}.offacts .addrow{margin-top:0}.offacts #selToggle[aria-pressed=true],.offacts #mvToggle[aria-pressed=true]{background:var(--ink);color:var(--ink-text);border-color:var(--ink)}
 html.mob #main>.offacts{display:none!important}
@@ -1150,7 +1156,7 @@ table.offtbl td.al-r :is(.hookcell,.namecell,.dutycell,.nmwrap,.hooktips){justif
 .optbar button{border:1px solid var(--line);background:var(--field,#fff);color:var(--text);border-radius:6px;padding:4px 10px;font-weight:600;cursor:pointer}
 .optbar .optrcw{margin:0 0 0 auto!important}.optbar .optrcw+.optdone{margin-left:0}.optbar .optdone{margin-left:auto;background:var(--ink)!important;color:var(--ink-text)!important;border-color:var(--ink)!important}
 .optbar button:disabled{opacity:.4;cursor:default}.optsz{display:inline-flex;gap:4px;align-items:center}.optsz output{min-width:44px;text-align:center;font-weight:700}
-html.optswin header,html.optswin #status,html.optswin #tabs,html.optswin #copybar,html.optswin #board,html.optswin #kcShow,html.optswin #barCtl,html.optswin #saveWarn,html.optswin #main>:not(.offtools):not(#offPopSettingsPanel):not(:has(#offPopSettingsPanel)),html.optswin .offh2,html.optswin .mobviewbar,html.optswin #offPopSettingsPanel~*{display:none!important}html.optswin #offPopSettingsPanel{border:0;padding:0;background:transparent}
+html.optswin header,html.optswin #status,html.optswin #tabs,html.optswin #copybar,html.optswin #board,html.optswin #kcShow,html.optswin #railShow,html.optswin #barCtl,html.optswin #saveWarn,html.optswin #main>:not(.offtools):not(#offPopSettingsPanel):not(:has(#offPopSettingsPanel)),html.optswin .offh2,html.optswin .mobviewbar,html.optswin #offPopSettingsPanel~*{display:none!important}html.optswin #offPopSettingsPanel{border:0;padding:0;background:transparent}
 html.optswin .layout{display:block}html.optswin #main{padding:12px}html.optswin .offtools{margin:0}
 html.optswin #main::before{content:"What the office sheets show — changes show in the main window straight away";display:block;font-weight:700;margin:0 0 10px}
 .offtools.popped{position:fixed;z-index:9000;margin:0;max-width:min(560px,calc(100vw - 16px));max-height:70vh;overflow:auto;padding:0 12px 12px;background:var(--bg,#fff);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -1704,6 +1710,110 @@ html:not(.mob) body.kcoff .layout{grid-template-columns:minmax(0,1fr)}
 html:not(.mob) body.kcoff #board{display:none}
 html:not(.mob) body.kcoff .kcshow{display:block;position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:40;padding:12px 7px;border:1px solid var(--line);border-right:0;border-radius:var(--radius) 0 0 var(--radius);background:var(--side,var(--panel));color:var(--text);font:600 14px var(--body);cursor:pointer;box-shadow:-2px 2px 8px rgba(0,0,0,.15)}
 @media print{.kcshow{display:none!important}}
+/* where the closed Key Cupboard tab sits down the right edge: middle (default), top or bottom (Ash, 17 Oct 2026) */
+html:not(.mob) body.kcoff.kctab-top .kcshow{top:calc(var(--headh,0px) + var(--tabsh,0px) + 12px);transform:none}
+html:not(.mob) body.kcoff.kctab-bottom .kcshow{top:auto;bottom:12px;transform:none}
+
+/* hide / show the sidebar (side-rail layout only) — the same idea as the Key Cupboard: a Hide button in the sidebar,
+   and a tab down the left edge to bring it back, which can sit at the top, the middle or the bottom (Ash, 17 Oct 2026) */
+.railshow,#railHead{display:none}
+html.siderail:not(.mob) #railHead{display:flex;justify-content:flex-end;padding:6px 6px 0;box-sizing:border-box}
+html.siderail:not(.mob) body.railoff #rail{display:none!important}
+html.siderail:not(.mob) body.railoff .railshow{display:block;position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:56;padding:12px 7px;border:1px solid var(--line);border-left:0;border-radius:0 var(--radius) var(--radius) 0;background:var(--tabbg,var(--panel));color:var(--text);font:600 14px var(--body);cursor:pointer;box-shadow:2px 2px 8px rgba(0,0,0,.15)}
+html.siderail:not(.mob) body.railoff.railtab-top .railshow{top:calc(var(--headh,0px) + 12px);transform:none}
+html.siderail:not(.mob) body.railoff.railtab-bottom .railshow{top:auto;bottom:12px;transform:none}
+/* ===== Hover demos (Ash, 17 Oct 2026): a small looping picture of what a button, a Settings section or a tab does.
+   Drawn by the app with CSS — no image files, so it stays sharp at any size and adds almost nothing to this file. ===== */
+.dmopop{position:fixed;z-index:9600;width:304px;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,.28);font:13px/1.35 var(--body);pointer-events:none;animation:dmoIn .13s ease-out}
+@keyframes dmoIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.dmopop>b{display:block;margin:8px 0 2px;font:700 14px var(--display)}
+.dmopop>span{display:block;color:var(--muted,#666)}
+.dmoart{height:132px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--field,#fff);padding:7px;box-sizing:border-box}
+@media print{.dmopop{display:none!important}}
+/* --- the mock office sheet --- */
+.dsSc{position:relative;height:100%;font:11px/1.25 var(--body);color:var(--text)}
+.dsTop{display:flex;align-items:center;gap:6px;margin-bottom:5px}.dsTop b{font:800 12px var(--display)}
+.dsVanline{display:none;font-size:10px;color:var(--muted,#666);background:var(--tag,#ffe9a8);border-radius:6px;padding:1px 5px}
+.dsR{display:flex;gap:4px;align-items:center;height:26px;margin-bottom:3px}
+.dsC{position:relative;display:flex;align-items:center;gap:3px;height:22px;padding:0 5px;box-sizing:border-box;border:1px solid var(--line);border-radius:6px;background:var(--panel);white-space:nowrap;overflow:hidden}
+.dsH{width:56px;flex:0 0 56px;font-weight:700}.dsD{flex:1 1 auto;min-width:0;font-weight:600}.dsU{width:86px;flex:0 0 86px;font-size:9.5px}
+.dsI,.dsX,.dsTip,.dsCov,.dsSug,.dsDrop,.dsChip,.dsCap,.dsFill,.dsAdd,.dsDel{display:none}
+.dsI{width:12px;height:12px;border-radius:50%;border:1px solid var(--elec,#4a90d9);color:var(--elec,#4a90d9);font:700 9px/10px var(--body);align-items:center;justify-content:center;font-style:normal}
+.dsX{color:var(--clash,#c0392b);font-weight:800;font-size:12px;text-decoration:none}
+.dsTip,.dsCov{position:absolute;left:4px;bottom:-9px;font-size:9px;color:var(--muted,#666);font-style:normal;background:var(--panel);padding:0 2px}
+.dsNm{position:relative;display:inline-block;height:13px;min-width:106px;overflow:hidden}
+.dsNm b{position:absolute;left:0;top:0;white-space:nowrap}
+.dsSug em{font-style:normal;border:1px solid var(--line);border-radius:999px;padding:0 5px;margin-right:3px;background:var(--tag,#ffe9a8);font-size:10px}
+.dsDrop{border:1px solid var(--line);border-radius:5px;padding:0 6px;font-size:10px;color:var(--muted,#666);background:var(--panel)}
+.dsChip{position:absolute;left:6px;bottom:4px;font-size:10px;background:var(--tag,#ffe9a8);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
+.dsCap{position:absolute;right:2px;bottom:2px;width:70px;height:14px}
+.dsCap i{position:absolute;right:0;top:0;font-style:normal;font-size:10px;font-weight:700;color:var(--muted,#666)}
+.dsFill{color:var(--ok,#2e7d32)}
+.dsAdd{position:absolute;left:6px;bottom:3px;font-size:10px;border:1px dashed var(--line);border-radius:6px;padding:1px 6px}
+.dsDel{position:absolute;right:4px;top:3px;color:var(--clash,#c0392b);font-weight:800;text-decoration:none}
+@keyframes dsBlink{0%,44%{opacity:1;transform:none}52%,96%{opacity:0;transform:scale(.55)}100%{opacity:1;transform:none}}
+@keyframes dsCapA{0%,44%{opacity:1}52%,100%{opacity:0}}
+@keyframes dsCapB{0%,44%{opacity:0}52%,96%{opacity:1}100%{opacity:0}}
+@keyframes dsCyc{0%{opacity:0}3%,30%{opacity:1}34%,100%{opacity:0}}
+@keyframes dsCol{0%,44%{background:#bcd8f5;color:#123}52%,96%{background:var(--panel);color:var(--text)}100%{background:#bcd8f5;color:#123}}
+@keyframes dsIn{0%,12%{opacity:0;transform:translateX(-8px)}30%,86%{opacity:1;transform:none}100%{opacity:0;transform:translateX(-8px)}}
+@keyframes dsMove{0%,18%{transform:none}38%,70%{transform:translateY(-29px)}90%,100%{transform:none}}
+@keyframes dsMoveDn{0%,18%{transform:none}38%,70%{transform:translateY(29px)}90%,100%{transform:none}}
+@keyframes dsSel{0%,16%{box-shadow:none}30%,64%{box-shadow:0 0 0 2px var(--elec,#4a90d9) inset}78%,100%{box-shadow:none}}
+@keyframes dsGone{0%,64%{opacity:1}76%,94%{opacity:0}100%{opacity:1}}
+.dmo-vd .dsI:not(.dsI2),.dmo-dh .dsI2,.dmo-x .dsX,.dmo-tip .dsTip,.dmo-cov .dsCov,.dmo-vanline .dsVanline,.dmo-chip .dsChip,.dmo-rowedit .dsAdd,.dmo-rowedit .dsDel{display:inline-flex;animation:dsBlink 3.4s infinite}
+.dmo-vd .dsCap,.dmo-dh .dsCap,.dmo-x .dsCap,.dmo-tip .dsCap,.dmo-cov .dsCap,.dmo-vanline .dsCap,.dmo-wcol .dsCap,.dmo-chip .dsCap,.dmo-rowedit .dsCap{display:block}
+.dsCap i:first-child{animation:dsCapA 3.4s infinite}.dsCap i:last-child{animation:dsCapB 3.4s infinite}
+.dmo-nm .dsNm b{animation:dsCyc 4.8s infinite}.dmo-nm .dsNm b:nth-child(2){animation-delay:1.6s}.dmo-nm .dsNm b:nth-child(3){animation-delay:3.2s}
+.dsNm b:nth-child(2),.dsNm b:nth-child(3){opacity:0}
+.dmo-sug .dsSug,.dmo-sug .dsDrop{display:inline-block;animation:dsCyc 5.1s infinite}.dmo-sug .dsDrop{animation-delay:1.7s}
+.dmo-wcol .dsU{animation:dsCol 3.4s infinite}
+.dmo-fill .dsFill{display:inline;animation:dsIn 3.6s infinite}
+.dmo-move .dsR:nth-child(4){animation:dsMove 4s infinite}.dmo-move .dsR:nth-child(3){animation:dsMoveDn 4s infinite}
+.dmo-sel .dsD{animation:dsSel 4s infinite}.dmo-sel .dsNm,.dmo-sel .dsSug{animation:dsGone 4s infinite}
+/* --- the mock page, used for the tabs and the Settings sections --- */
+.dpg{height:100%;display:flex;flex-direction:column;gap:5px;font:11px/1.2 var(--body)}
+.dpgTop{display:flex;align-items:center;gap:5px;font:800 12px var(--display);border-bottom:1px solid var(--line);padding-bottom:4px}
+.dpgBody{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+@keyframes dpgIn{0%{opacity:0;transform:translateY(6px)}18%,88%{opacity:1;transform:none}100%{opacity:0;transform:translateY(6px)}}
+.dpgBody>*>*{animation:dpgIn 3.6s infinite;animation-delay:calc(var(--i,0)*.12s)}
+.dpgRows{display:flex;flex-direction:column;gap:4px}
+.dpgRows>span{display:flex;gap:4px;align-items:center;height:16px}
+.dpgRows>span>*{display:flex;align-items:center;height:15px;padding:0 4px;box-sizing:border-box;border:1px solid var(--line);border-radius:4px;background:var(--panel);font:600 9px/1 var(--body);font-style:normal;text-decoration:none;white-space:nowrap;overflow:hidden}
+.dpgRows>span>em{flex:0 0 44px}.dpgRows>span>b{flex:1 1 auto;min-width:0}.dpgRows>span>u{flex:0 0 66px;font-weight:400;color:var(--muted,#666)}
+.dpgRows.red>span>u,.dpgRows.red>span>em{background:var(--clash,#c0392b);border-color:var(--clash,#c0392b);color:#fff}
+.dpgRows.amber>span>u{background:var(--warn,#e0a800);border-color:var(--warn,#e0a800)}
+.dpgChips{display:flex;flex-wrap:wrap;gap:4px}
+.dpgChips>i{display:flex;align-items:center;height:16px;padding:0 7px;border-radius:999px;background:var(--tag,#ffe9a8);border:1px solid var(--line);font:600 9px/1 var(--body);font-style:normal;white-space:nowrap}
+.dpgKeys{display:flex;flex-wrap:wrap;gap:4px}
+.dpgKeys>i{display:flex;align-items:center;justify-content:center;width:28px;height:21px;border-radius:4px;border:1px solid var(--line);background:var(--tag,#ffe9a8);font:700 9px/1 var(--body);font-style:normal}
+.dpgKeys>i:nth-child(3n){background:var(--off-W2,#cfe3ff)}.dpgKeys>i:nth-child(5n){background:var(--clash,#c0392b)}
+.dpgGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.dpgGrid>i{height:13px;border-radius:3px;border:1px solid var(--line);background:var(--panel)}
+.dpgGrid>i.hd{border:0;background:transparent;display:flex;align-items:center;justify-content:center;font:700 8px/1 var(--body);font-style:normal;color:var(--muted,#666)}
+.dpgGrid>i:nth-child(13),.dpgGrid>i:nth-child(14),.dpgGrid>i:nth-child(19),.dpgGrid>i:nth-child(27){background:var(--tag,#ffe9a8)}
+.dpgTree{display:flex;flex-direction:column;gap:4px}
+.dpgTree>span{display:flex;align-items:center;height:15px;padding:0 5px;border:1px solid var(--line);border-radius:4px;background:var(--panel);margin-left:calc(var(--d,0)*18px);font:600 9px/1 var(--body);white-space:nowrap;overflow:hidden}.dpgTree>span:not([style*='--d:1']){background:var(--tag,#ffe9a8)}
+.dpgNotes{display:flex;gap:5px}.dpgNotes>i{flex:1 1 0;height:46px;padding:4px;box-sizing:border-box;border-radius:5px;border:1px solid var(--line);background:var(--tag,#ffe9a8);font:600 9px/1.2 var(--body);font-style:normal;overflow:hidden}
+.dpgNotes>i:nth-child(2){background:#cfe3ff}.dpgNotes>i:nth-child(3){background:#d8f0d8}
+.dpgCards{display:flex;gap:6px}.dpgCards>i{flex:1 1 0;height:50px;border-radius:6px;border:1px solid var(--line);background:linear-gradient(135deg,var(--line),var(--panel))}
+.dpgSl{display:flex;flex-direction:column;gap:7px;padding-top:4px}
+.dpgSl>span{position:relative;height:5px;border-radius:999px;background:var(--line)}
+.dpgSl>span>b{position:absolute;top:-4px;width:13px;height:13px;border-radius:50%;background:var(--ink);animation:dpgSlide 3.4s ease-in-out infinite;animation-delay:calc(var(--i,0)*.25s)}
+@keyframes dpgSlide{0%,100%{left:4%}50%{left:76%}}
+.dpgSw{display:flex;flex-wrap:wrap;gap:5px}
+.dpgSw>i{width:30px;height:24px;border-radius:5px;border:1px solid var(--line)}
+.dpgSw>i:nth-child(1){background:#2b4a7a}.dpgSw>i:nth-child(2){background:#c0392b}.dpgSw>i:nth-child(3){background:#e0a800}
+.dpgSw>i:nth-child(4){background:#2e7d32}.dpgSw>i:nth-child(5){background:#6a4a9a}.dpgSw>i:nth-child(6){background:#333}
+.dpgTxt{display:flex;align-items:baseline;gap:10px;justify-content:center;padding-top:10px}
+.dpgTxt>b{font:700 16px var(--display)}.dpgTxt>em{font:italic 22px var(--display)}.dpgTxt>u{font:600 30px var(--display)}
+.dpgCloud{position:relative;height:100%}
+.dpgCloud>i{position:absolute;border-radius:6px;font-style:normal}
+.dpgCloud>.f{left:8px;top:26px;width:34px;height:42px;border:1px solid var(--line);background:var(--panel);box-shadow:3px 3px 0 var(--line);animation:dpgFly 3.4s infinite}
+.dpgCloud>.c{right:10px;top:16px;width:72px;height:38px;border-radius:999px;background:var(--elec,#4a90d9);opacity:.85}
+.dpgCloud>.tk{right:18px;top:26px;color:#fff;font:800 13px/1 var(--body);white-space:nowrap}
+@keyframes dpgFly{0%,14%{transform:none;opacity:1}60%,100%{transform:translate(120px,-16px) scale(.5);opacity:0}}
+@media print{.railshow{display:none!important}}
 
 /* office tables: every row is exactly the same height (Settings > Row height). Nothing inside a cell can make it taller:
    the box stays at the top and any extra line (usual van, usual cover, notes) sits in the bottom strip of the cell. */
@@ -1842,7 +1952,7 @@ html.mob .pill{font-size:12px;padding:2px 8px}
 html.mob nav{padding:4px 6px 0}
 html.mob nav button{font-size:15px;padding:8px 10px}
 /* ===== Phone layout: every desktop feature, packed tight (Ash, 14 Oct 2026). Only window pop-outs stay off a phone. ===== */
-html.mob #moreBtn,html.mob #mobPages,html.mob header h1,html.mob #kcShow,html.mob .datebox .calclr,html.mob [data-popout],html.mob [data-offwin],html.mob #setTopPop{display:none!important}
+html.mob #moreBtn,html.mob #mobPages,html.mob header h1,html.mob #kcShow,html.mob #railShow,html.mob .datebox .calclr,html.mob [data-popout],html.mob [data-offwin],html.mob #setTopPop{display:none!important}
 html.mob header,html.mob header.hmore{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;padding:5px 6px!important;align-items:center}
 html.mob #ghBadge{grid-row:1;grid-column:1/3;font-size:11px;padding:3px 6px;max-width:none;overflow:hidden;text-overflow:ellipsis;justify-self:start;max-width:100%}
 html.mob header .datebox{grid-row:1;grid-column:3/7;order:0}
@@ -2588,6 +2698,7 @@ html.offpopwin #findBtn,html.setwin #findBtn,html.optswin #findBtn,html.mob .off
   <aside id="board"></aside>
 </div>
 <button type="button" id="kcShow" class="kcshow" title="Show the Key Cupboard again">🔑 Key Cupboard</button>
+<button type="button" id="railShow" class="railshow" title="Show the sidebar again">Tabs</button>
 <div id="print"></div>
 <div class="barctl" id="barCtl"><button type="button" id="barBtn" aria-expanded="false" title="Hide or shrink the 3 bars at the top">▤ Bars Setting</button><div class="barpop" id="barPop" hidden></div></div>
 <div class="toast" id="toast" role="status"></div>
@@ -2721,7 +2832,7 @@ const SPECIAL=new Set(["DPR 1","DPR 2","DPR 3","RLE","FIRMS","FIRMS 1","FIRMS 2"
 const REASONS=["OOS","FUEL","WORKSHOP","SPECIAL","BODY SHOP"];
 const KEY="driver-allocation-v1";
 const seed=JSON.parse(document.getElementById("seed").textContent);
-const BUILD="2026-10-17.294";window.DA_BUILD=BUILD;
+const BUILD="2026-10-17.297";window.DA_BUILD=BUILD;
 /* Add / remove rows and columns on the office tabs are hidden until switched on in "Fill and edit this day".
    Not saved: it is off again every time the app is opened, so the buttons are never just lying there (Ash, 16 Oct 2026) */
 let rowEdit=false;
@@ -3886,7 +3997,7 @@ function render(){if(OPTSWIN)offSetPanelOpen=true;/* Sunday: W2–W12 are hidden
   if(typeof lastRenderDay!=="undefined"&&lastRenderDay!==day)closeDayPopups();lastRenderDay=day;
   applyBars();
   pruneRestWeeks(); const a=cur(); carryAbsDay(a); U=usage(a); UH=new Map(); UC=null; UDC=null; applyMob();
-  document.body.classList.toggle("kcoff",!!(db.look&&db.look.boardHidden));
+  document.body.classList.toggle("kcoff",!!(db.look&&db.look.boardHidden));applyTabPos();
   $("date").value=day; $("dayname").textContent=pretty(day); $("calBtnTxt").textContent=isMob()?parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(/,/g,""):((lookNow().wkFmt||"long")==="none"?"":parse(day).toLocaleDateString("en-GB",{weekday:lookNow().wkFmt||"long"})+" ")+parse(day).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}); fixCalW(); if(isMob()){const cb=$("calBtn");if(cb&&cb.scrollWidth>cb.clientWidth+1)$("calBtnTxt").textContent=parse(day).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}).replace(/,/g,"")} $("todayBtn").hidden=(day===todayDay()); document.documentElement.classList.toggle("nottoday",day!==todayDay()); if(!$("calPop").hidden)drawCal();
   renderCopybar(a); renderStatus(a); refreshBackupBtn(); renderTabs(); renderMain(a); if(OFFICES.includes(tab)||tab==="ALL"){setupColResize();tblWidthFixAll([...document.querySelectorAll("#main table.offtbl.colfix")],t=>v=>t.style.setProperty("--tw",v+"px"));setupTopScroll()}
   else if(tab==="Vans"||tab==="Duties"||tab==="RegVan"||tab==="Cars"){setupColResize();try{smMark()}catch(e){}} /* give the Vehicles table the same drag-to-resize columns as W2-W12 (Ash, 6 Oct 2026), and light up ↔ when its columns are fitted (14 Oct 2026) */ renderBoard(a);
@@ -4291,14 +4402,28 @@ function applyRail(){const h=document.documentElement,on=sideRailOn();h.classLis
   const st=$("status"),nv=$("tabs"),lay=document.querySelector("body>.layout, #railwrap>.layout");if(!st||!nv||!lay)return;
   let rw=$("railwrap");if(!rw){rw=document.createElement("div");rw.id="railwrap";lay.parentNode.insertBefore(rw,lay);const r=document.createElement("div");r.id="rail";rw.appendChild(r);rw.appendChild(lay)}
   const r=$("rail");if(st.parentNode!==r){r.appendChild(st);r.appendChild(nv)}
+  if(!$("railHead")){const hd=document.createElement("div");hd.id="railHead";hd.innerHTML=`<button type="button" class="popbtn" id="railHide" title="Hide the sidebar so the page gets the full width">Hide</button>`;r.insertBefore(hd,r.firstChild)}
+  applyTabPos();
   try{const n=$("tabs");if(n&&typeof tabArrows==="function")tabArrows(n)}catch(e){}}
+/* where the two edge tabs sit when their panel is put away, and whether the sidebar is put away (Ash, 17 Oct 2026) */
+function railHiddenOn(){return sideRailOn()&&!!(db.look&&db.look.railHidden)}
+function applyTabPos(){const b=document.body,L=db.look||{};if(!b)return;
+  b.classList.toggle("railoff",railHiddenOn());
+  b.classList.toggle("kctab-top",L.kcTabPos==="top");b.classList.toggle("kctab-bottom",L.kcTabPos==="bottom");
+  b.classList.toggle("railtab-top",L.railTabPos==="top");b.classList.toggle("railtab-bottom",L.railTabPos==="bottom")}
+function railToggle(hide){db.look=db.look||{};db.look.railHidden=!!hide;save(hide?"Hid the sidebar":"Showed the sidebar");applyBars();drawBars();
+  toast(hide?"Sidebar hidden — tap Tabs on the left to bring it back":"Sidebar shown",3200)}
+document.addEventListener("click",e=>{const h=e.target.closest("#railHide,#railShow");if(!h)return;railToggle(h.id==="railHide")});
 function applyBars(){const h=document.documentElement;h.classList.remove("bh-copy","bs-copy");applyRail();{const cb=document.querySelector("#copybar");if(cb)cb.style.zoom="1.5"} /* the Copy-from bar always shows when a day is empty, so it has no Bars Setting (Ash, 10 Oct 2026) */ h.classList.toggle("lockhead",!!(db.look&&db.look.lockHead));h.classList.toggle("locktabs",lockTabsOn());BARS.forEach(([k])=>{h.classList.remove("bs-"+k);h.classList.toggle("bh-"+k,barMode(k)==="hide");const el=document.querySelector(BARSEL[k]);{const z=barSize(k)*(BARDEF[k]||100)/10000;if(el)el.style.zoom=z===1?"":String(z)}});
   const p=$("barPop");if(p&&!p.hidden)drawBars();requestAnimationFrame(barsH)}
-function drawBars(){$("barPop").innerHTML=`<div class="barph">Top bars</div>`+BARS.map(([k,l])=>`<div class="barrow"><span>${l}</span><span style="display:inline-flex;gap:8px;align-items:center"><span class="barseg"><button type="button" data-barsz="${k}" data-d="-10" title="Smaller"${barSize(k)<=40?" disabled":""}>−</button><button type="button" data-barsz="${k}" data-d="0" title="Back to default size" style="min-width:58px">${barSize(k)}%</button><button type="button" data-barsz="${k}" data-d="10" title="Bigger"${barSize(k)>=200?" disabled":""}>+</button></span><span class="barseg">${[["normal","Show"],["hide","Hide"]].map(([m,t])=>`<button type="button" data-bar="${k}" data-bm="${m}" aria-pressed="${barMode(k)===m}">${t}</button>`).join("")}</span></span></div>`).join("")+`<div class="barrow"><span></span><span style="display:inline-flex;gap:6px"><button type="button" class="addrow" style="margin:0" data-barhideall>Hide all</button><button type="button" class="addrow" style="margin:0" data-barreset>Show all normal</button></span></div><label class="barlock" title="Put the status strip and the tabs (W2, W8, W9…) down the left-hand side of the page, one under the other, like a sidebar. The page uses the rest of the width."><input type="checkbox" data-barrail${sideRailOn()?" checked":""}> Status strip and tabs down the left side (sidebar)</label>${sideRailOn()?`<div class="barrow" style="padding-left:22px"><span>Sidebar width</span><span class="barseg">${[["narrow","Narrow"],["","Normal"],["wide","Wide"]].map(([v,t])=>`<button type="button" data-railw="${v}" aria-pressed="${(db.look.railW||"")===v}">${t}</button>`).join("")}</span></div>`:""}<label class="barlock" title="Each part of the page (status strip, tabs, the heading and tools, each table and list, the Key Cupboard) sits in its own white box on a darker background, like an app."><input type="checkbox" data-barbox${boxedOn()?" checked":""}> Sections in boxes on a darker background</label><label class="barlock" title="Keep the date bar at the top of the screen when you scroll down"><input type="checkbox" data-barlock${db.look&&db.look.lockHead?" checked":""}> Lock calendar bar (follows you down the page)</label><label class="barlock" title="Keep the office tabs on screen under the top bar when you scroll down a long sheet"><input type="checkbox" data-bartabs${lockTabsOn()?" checked":""}> Lock tabs (stay on screen under the top bar)</label>`}
+function drawBars(){$("barPop").innerHTML=`<div class="barph">Top bars</div>`+BARS.map(([k,l])=>`<div class="barrow"><span>${l}</span><span style="display:inline-flex;gap:8px;align-items:center"><span class="barseg"><button type="button" data-barsz="${k}" data-d="-10" title="Smaller"${barSize(k)<=40?" disabled":""}>−</button><button type="button" data-barsz="${k}" data-d="0" title="Back to default size" style="min-width:58px">${barSize(k)}%</button><button type="button" data-barsz="${k}" data-d="10" title="Bigger"${barSize(k)>=200?" disabled":""}>+</button></span><span class="barseg">${[["normal","Show"],["hide","Hide"]].map(([m,t])=>`<button type="button" data-bar="${k}" data-bm="${m}" aria-pressed="${barMode(k)===m}">${t}</button>`).join("")}</span></span></div>`).join("")+`<div class="barrow"><span></span><span style="display:inline-flex;gap:6px"><button type="button" class="addrow" style="margin:0" data-barhideall>Hide all</button><button type="button" class="addrow" style="margin:0" data-barreset>Show all normal</button></span></div><label class="barlock" title="Put the status strip and the tabs (W2, W8, W9…) down the left-hand side of the page, one under the other, like a sidebar. The page uses the rest of the width."><input type="checkbox" data-barrail${sideRailOn()?" checked":""}> Status strip and tabs down the left side (sidebar)</label>${sideRailOn()?`<div class="barrow" style="padding-left:22px"><span>Sidebar width</span><span class="barseg">${[["narrow","Narrow"],["","Normal"],["wide","Wide"]].map(([v,t])=>`<button type="button" data-railw="${v}" aria-pressed="${(db.look.railW||"")===v}">${t}</button>`).join("")}</span></div><div class="barrow" style="padding-left:22px"><span>Sidebar</span><span class="barseg">${[["","Show"],["hide","Hide"]].map(([v,t])=>`<button type="button" data-railhide="${v}" aria-pressed="${(!!(db.look&&db.look.railHidden))===(v==="hide")}" title="${v?"Put the sidebar away. A Tabs tab down the left edge brings it back.":"Show the sidebar"}">${t}</button>`).join("")}</span></div><div class="barrow" style="padding-left:22px"><span title="Where the Tabs tab sits down the left edge while the sidebar is hidden">Tabs tab</span><span class="barseg">${[["top","Up"],["","Middle"],["bottom","Down"]].map(([v,t])=>`<button type="button" data-railtab="${v}" aria-pressed="${((db.look&&db.look.railTabPos)||"")===v}">${t}</button>`).join("")}</span></div>`:""}<div class="barrow"><span title="Where the 🔑 Key Cupboard tab sits down the right edge while the Key Cupboard is closed">🔑 Key Cupboard tab</span><span class="barseg">${[["top","Up"],["","Middle"],["bottom","Down"]].map(([v,t])=>`<button type="button" data-kctab="${v}" aria-pressed="${((db.look&&db.look.kcTabPos)||"")===v}">${t}</button>`).join("")}</span></div><label class="barlock" title="Each part of the page (status strip, tabs, the heading and tools, each table and list, the Key Cupboard) sits in its own white box on a darker background, like an app."><input type="checkbox" data-barbox${boxedOn()?" checked":""}> Sections in boxes on a darker background</label><label class="barlock" title="Keep the date bar at the top of the screen when you scroll down"><input type="checkbox" data-barlock${db.look&&db.look.lockHead?" checked":""}> Lock calendar bar (follows you down the page)</label><label class="barlock" title="Keep the office tabs on screen under the top bar when you scroll down a long sheet"><input type="checkbox" data-bartabs${lockTabsOn()?" checked":""}> Lock tabs (stay on screen under the top bar)</label>`}
 document.addEventListener("click",e=>{const c=$("barCtl");if(!c)return;
   if(e.target.closest("#barBtn")){const p=$("barPop");p.hidden=!p.hidden;$("barBtn").setAttribute("aria-expanded",!p.hidden);if(!p.hidden)drawBars();return}
   const rl=e.target.closest("[data-barrail]");if(rl){db.look=db.look||{};db.look.sideRail=rl.checked;save(rl.checked?"Status strip and tabs moved to the left side":"Status strip and tabs back across the top");applyBars();drawBars();render();requestAnimationFrame(()=>{try{topScrollAll()}catch(e){}});return}
   const bx=e.target.closest("[data-barbox]");if(bx){db.look=db.look||{};db.look.boxed=bx.checked;save(bx.checked?"Sections in boxes on a darker background":"Plain page, no boxes");applyBars();drawBars();render();requestAnimationFrame(()=>{try{topScrollAll()}catch(e){}});return}
+  const kct=e.target.closest("[data-kctab]");if(kct){db.look=db.look||{};db.look.kcTabPos=kct.dataset.kctab||"";save("Moved the Key Cupboard tab: "+(kct.dataset.kctab==="top"?"up":kct.dataset.kctab==="bottom"?"down":"middle"));applyBars();drawBars();return}
+  const rtb=e.target.closest("[data-railtab]");if(rtb){db.look=db.look||{};db.look.railTabPos=rtb.dataset.railtab||"";save("Moved the sidebar tab: "+(rtb.dataset.railtab==="top"?"up":rtb.dataset.railtab==="bottom"?"down":"middle"));applyBars();drawBars();return}
+  const rhb=e.target.closest("[data-railhide]");if(rhb){railToggle(rhb.dataset.railhide==="hide");return}
   const rwb=e.target.closest("[data-railw]");if(rwb){db.look=db.look||{};db.look.railW=rwb.dataset.railw||"";save("Sidebar width: "+(rwb.dataset.railw||"normal"));applyBars();drawBars();return}
   const lt=e.target.closest("[data-bartabs]");if(lt){db.look=db.look||{};db.look.lockTabs=lt.checked;save(lt.checked?"Locked the tabs under the top bar":"Unlocked the tabs");applyBars();return}
   const lk=e.target.closest("[data-barlock]");if(lk){db.look=db.look||{};db.look.lockHead=lk.checked;save(lk.checked?"Locked top bar":"Unlocked top bar");applyBars();return}
@@ -5123,7 +5248,7 @@ const OPT_HELP=[["Arrange buttons","Move these buttons around and add dividers, 
 function optHelpHTML(){return `<details class="opthelp"><summary>What does each option do?</summary><dl>${OPT_HELP.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join("")}</dl></details>`}
 function stSec(id,html){const x=ST_SECS.find(a=>a[0]===id);return `<details class="stsec${id==="reset"?" stdanger":""}" id="stsec-${id}" data-stsec="${id}"${stOpen.has(id)?" open":""}><summary><span class="sttitle">${x[1]}</span><span class="stdesc">${x[2]}</span></summary><div class="stbody">${html}</div></details>`}
 function stBar(){return `<div class="stbar"><label class="stfind"><span class="sr">Find a setting</span><input type="search" id="stFind" placeholder="Find a setting, for example colour, names, backup" autocomplete="off"></label>
-  <nav class="stnav" aria-label="Jump to a section"><span class="stnavlab">Jump to</span>${ST_SECS.map(x=>`<button type="button" data-stgo="${x[0]}">${x[3]}</button>`).join("")}<span class="stnavsep"></span><button type="button" data-stall="1">Open all</button><button type="button" data-stall="0">Close all</button></nav><p class="stnone" hidden>No setting matches. Try a shorter word.</p></div>`}
+  <nav class="stnav" aria-label="Jump to a section"><span class="stnavlab">Jump to</span>${ST_SECS.map(x=>`<button type="button" data-stgo="${x[0]}">${x[3]}</button>`).join("")}<span class="stnavsep"></span><button type="button" data-stall="1" title="Open every section and every list inside them">Open all</button><button type="button" data-stall="0" title="Close every section and every list inside them, including the colour groups">Close all</button><span class="stnavsep"></span><button type="button" data-demotog aria-pressed="${!demoOff()}" title="Point at a setting, a Jump to button or a tab and wait a moment: a small moving picture shows what it does. Not on a phone.">🎬 Hover demos: ${demoOff()?"off":"on"}</button></nav><p class="stnone" hidden>No setting matches. Try a shorter word.</p></div>`}
 function mobLookHTML(){
   const curPreset=(db.look&&db.look.mobPreset)||"";
   const curCardSize=(db.look&&db.look.mobCardSize)||"";
@@ -5188,7 +5313,13 @@ function wireSettingsLayout(){const m=document.querySelector("main");if(!m||!m.q
   m.querySelectorAll("[data-stgo]").forEach(b=>b.onclick=()=>{const id=b.dataset.stgo,d=m.querySelector("#stsec-"+id);if(!d)return;if(q.value){q.value="";restore()}
     stOpen.add(id);stSave();setOpen(d,true);d.scrollIntoView({block:"start",behavior:"smooth"})});
   m.querySelectorAll("[data-stall]").forEach(b=>b.onclick=()=>{const on=b.dataset.stall==="1";if(q.value){q.value="";restore()}
-    secs.forEach(d=>{const id=d.dataset.stsec;on?stOpen.add(id):stOpen.delete(id);setOpen(d,on)});stSave()})}
+    secs.forEach(d=>{const id=d.dataset.stsec;on?stOpen.add(id):stOpen.delete(id);setOpen(d,on)});
+    /* the lists INSIDE each section as well, so Close all really closes everything: the colour groups (Buttons and
+       messages, Top of the page…), "What does each option do?" and the rest. Open all leaves the pop-open pickers
+       (Show beside names) shut, because those sit over the page (Ash, 17 Oct 2026) */
+    m.querySelectorAll(".stsec details").forEach(d=>{if(d.classList.contains("lookgrp")){if(d.dataset.grp)on?stGrpOpen.add(d.dataset.grp):stGrpOpen.delete(d.dataset.grp);setOpen(d,on)}
+      else if(!(on&&d.classList.contains("nshow")))setOpen(d,on)});
+    stSave();toast(on?"Every section and list opened":"Every section and list closed")})}
 function driversHTML(){
   return `<h2>Drivers</h2><p class="sub">Add and remove drivers and set which office they belong to. Use Advanced Drivers List for full details on each driver.</p>`+dsHTML()+`<div class="onecol">`+`<section><div class="h3row"><h3>Drivers (${db.drivers.filter(n=>!isND(n)).length})</h3><button class="addrow" id="dupGo" title="Look through the whole list for the same person entered twice">Check for duplicates</button><button class="addrow" id="shortGo" title="Find drivers entered with only one name, like a first name or surname on its own">Check for missing full names</button><button class="addrow" id="advGo" title="Age, licence, training, contact, photo, leave and more for every driver">Advanced Drivers List ▸</button></div><h4 class="drsec">Add a driver or non-driver</h4><p class="drsecnote">Type the full name, pick their office — or one of the Non-driver choices — then press Add.</p><div class="addline"><input id="newDriver" placeholder="Full name" aria-label="New driver name"><select id="newDriverOffice" aria-label="Office" style="flex:0 0 130px"><option value="">Office</option>${roleOptions("")}${ndOptions()}</select><button id="addDriver">Add</button><button id="addDrivers" class="bkbtn" type="button" title="Add a list of names in one go, with a check for anyone already on the list">Add several…</button></div><h4 class="drsec drsec2">Search drivers and non-drivers</h4><p class="drsecnote">By name or office. Pick “All names” to include non-drivers, Left RM and moved office.</p><div class="addline" style="margin-top:0"><input class="search" id="findDriver" placeholder="Search name or office, e.g. W2 or W2 john (pick All names to include non-drivers)" aria-label="Search drivers by name or office" style="margin:0"><select id="driverOffFilter" aria-label="Show office" style="flex:0 0 130px"><option value="">All offices</option>${OFFICES.filter(o=>o!=="W13").map(o=>`<option value="${o}*">All ${ovName(o)}</option>`).join("")}${roleOptions("")}<option value="none">No office</option><option value="mgr">All managers</option><option value="sun">Sunday Duty</option><option disabled>──────────</option><option value="all">All names (incl. non-drivers)</option><option value="nd">Non-drivers, Left RM, moved only</option></select></div><div class="addline" style="margin:6px 0 0" id="drSortBox"></div><div id="drAZ"></div><div class="note" id="drCount"></div><div class="listbox" id="driverList"></div></section>`+`<section class="phsec" id="photoSec">${photosHTML()}</section><section class="sundlist"><h3>Sunday Duty drivers (${db.drivers.filter(n=>!isND(n)&&DI(n).sunday).length+sunExt().filter(e=>!db.drivers.includes(e.n)).length})</h3><p class="note">Sunday is optional. Ticking someone here (or ticking Sunday next to their name above) doesn't change their office. They stay on W2 to W12 and are also offered on the Sunday Duty sheet.</p>
   <div class="addline"><select id="sunAdd" aria-label="Driver to add to Sunday Duty"><option value="">Pick a driver to add…</option>${(()=>{const cands=db.drivers.filter(n=>!isND(n)&&!DI(n).sunday).sort((x,y)=>x.localeCompare(y));const offOf=n=>(driverOffice(n)||"").replace(/ Manager$/,"");const offs=[...new Set(cands.map(n=>offOf(n)))].sort((a,b)=>a.localeCompare(b));return offs.map(g=>{const gd=cands.filter(n=>offOf(n)===g);return gd.length?`<optgroup label="${g?esc(g):"No office"} drivers">${gd.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("")}</optgroup>`:""}).join("")})()}</select><button id="sunAddGo" type="button">Add</button></div>
@@ -6957,6 +7088,9 @@ function histInfo(h){
       else if(p[1]==="boltOff")add(L.boltOff?"Hid the ⚡ on electric vans":"Showed the ⚡ on electric vans");
       else if(p[1]==="keepPlaces")add("Changed Keep places");
       else if(p[1]==="toolsHidden")add(L.toolsHidden?"Hid the Key Cupboard tools":"Showed the Key Cupboard tools");
+      else if(p[1]==="railHidden")add(L.railHidden?"Hid the sidebar":"Showed the sidebar");
+      else if(p[1]==="kcTabPos")add("Moved the Key Cupboard tab");
+      else if(p[1]==="railTabPos")add("Moved the sidebar tab");
       else add("Changed the look (colours, text or lines)");return}
     add({lookDefault:"Saved your default look",lookFactory:B.lookFactory?"Saved factory settings":"Restored the original factory settings",colW:"Changed column widths",vans:"Edited the vans list",drivers:"Edited the drivers list",walks:"Edited the walks list",driverOffice:"Changed a driver's office",walkOffice:"Changed a walk's office",days:"Changed saved days",driverInfo:"Edited driver details",advCols:"Changed the advanced driver columns",boardLayout:"Moved vans on the Key Cupboard",subWait:"Changed Substitutes to place",regVan:"Changed a driver's regular van",vanPerm:"Changed a permanent van",vanRet:"Changed van retention"}[k]||"Changed settings");
   });
@@ -9569,6 +9703,103 @@ $("importFile").onchange=e=>{if(e.target.files[0])importJSON(e.target.files[0]);
    ‹ › either side of the office name, the status pills as buttons, Shift+arrow keyboard shortcuts and a ↑ Top button.
    The phone layout is untouched: everything here is hidden on a phone. */
 function lockTabsOn(){return !(db.look&&db.look.lockTabs===false)}
+/* ===== Hover demos (Ash, 17 Oct 2026) =====
+   Hovering a Settings option button, a "Jump to" section button or a tab shows a small looping picture of what it does.
+   Everything is drawn here with CSS (DEMOS -> demoSheet / demoPage), so there are no image files to keep anywhere.
+   Settings ▸ "🎬 Hover demos" turns it off (db.look.demoOff). Never on the phone layout, and never while Help is open. */
+function demoOff(){return !!(db.look&&db.look.demoOff)}
+function demoSheet(){const row=(h,n,u,i)=>`<div class="dsR" style="--i:${i}">
+  <span class="dsC dsH"><span class="dsTx">${h}</span><i class="dsI">i</i>${i===0?`<em class="dsTip">SUSAN: 34 5×</em>`:""}</span>
+  <span class="dsC dsD">${n?`<span class="dsNm"><b>${n[0]}</b><b>${n[1]}</b><b>${n[2]}</b></span><i class="dsI dsI2">i</i><u class="dsX">×</u>${i===2?`<em class="dsCov">Covered AHMED 5×</em>`:""}`:`<b class="dsFill">ALEX TURNER</b><span class="dsSug"><em>SUSAN W.</em><em>ALEX T.</em></span><span class="dsDrop">Suggested (3) ▾</span>`}<u class="dsDel">×</u></span>
+  <span class="dsC dsU">${u}</span></div>`;
+ return `<div class="dsSc"><div class="dsTop"><b>W2</b><span class="dsVanline">W2 vans: 3 · 7 · 12 · 15</span></div>
+  ${row("3. VMT",["SUSAN WILLIAMS","S. WILLIAMS","SUSAN W."],"34. KILDARE",0)}
+  ${row("7. ZHF",null,"12. NORFOLK",1)}
+  ${row("12. NXX",["MELARDO BANE","M. BANE","MELARDO B."],"30. CHEPSTOW",2)}
+  <span class="dsChip">Give SUSAN her usual van 34?</span><span class="dsAdd">+ Add row</span>
+  <span class="dsCap"><i>shown</i><i>hidden</i></span></div>`}
+const DPG={rows:(L,c="")=>`<div class="dpgRows ${c}">${(typeof L==="number"?Array.from({length:L},()=>["","",""]):L).map((r,i)=>`<span style="--i:${i}"><em>${esc(r[0])}</em><b>${esc(r[1])}</b><u>${esc(r[2])}</u></span>`).join("")}</div>`,
+  chips:L=>`<div class="dpgChips">${L.map((t,i)=>`<i style="--i:${i}">${esc(t)}</i>`).join("")}</div>`,
+  keys:n=>`<div class="dpgKeys">${Array.from({length:n},(_,i)=>`<i style="--i:${i}">${i+1}</i>`).join("")}</div>`,
+  grid:()=>`<div class="dpgGrid">${["M","T","W","T","F","S","S"].map((d,i)=>`<i class="hd" style="--i:${i}">${d}</i>`).join("")}${Array.from({length:14},(_,i)=>`<i style="--i:${i+7}"></i>`).join("")}</div>`,
+  tree:L=>`<div class="dpgTree">${L.map(([d,t],i)=>`<span style="--i:${i};--d:${d}">${esc(t)}</span>`).join("")}</div>`,
+  notes:()=>`<div class="dpgNotes">${["Vans back Fri","Ring W9","Keys to Ash"].map((t,i)=>`<i style="--i:${i}">${esc(t)}</i>`).join("")}</div>`,
+  cards:()=>`<div class="dpgCards">${[0,1].map(i=>`<i style="--i:${i}"></i>`).join("")}</div>`,
+  sliders:()=>`<div class="dpgSl">${[0,1,2].map(i=>`<span style="--i:${i}"><b></b></span>`).join("")}</div>`,
+  swatch:()=>`<div class="dpgSw">${[0,1,2,3,4,5].map(i=>`<i style="--i:${i}"></i>`).join("")}</div>`,
+  text:()=>`<div class="dpgTxt"><b style="--i:0">Aa</b><em style="--i:1">Aa</em><u style="--i:2">Aa</u></div>`,
+  cloud:()=>`<div class="dpgCloud"><i class="f" style="--i:0"></i><i class="c" style="--i:1"></i><i class="tk" style="--i:2">✓ Synced</i></div>`};
+const DPG_SHEET=[["3. VMT","SUSAN WILLIAMS","34. KILDARE"],["7. ZHF","ALEX TURNER","12. NORFOLK"],["12. NXX","MELARDO BANE","30. CHEPSTOW"],["15. XMW","NOEL SKYERS","24. QUEENSWAY"],["17. NOU","JACK MAGUIRE","28. KGS"]];
+function demoPage(t,body){return `<div class="dpg"><div class="dpgTop"><b>${esc(t)}</b></div><div class="dpgBody">${body}</div></div>`}
+/* key -> [title, one line, art]. art: "sheet dmo-xxx", or a function that draws a mock page. */
+const DEMOS={
+ "#vdToggle":["Van details button (i)","The small i next to each hook. It opens that van's details.","sheet dmo-vd"],
+ "#dhToggle":["Driver history button (i)","The small i next to each driver. It shows the vans they have used.","sheet dmo-dh"],
+ "#hookTipToggle":["Hook suggestions box","The line under the hook with the driver's usual van, e.g. SUSAN: 34 5×. Tap it to use that van.","sheet dmo-tip"],
+ "#vanLineToggle":["Office vans line","The office's own van list across the top of the sheet.","sheet dmo-vanline"],
+ "#shortNmToggle":["Name style","Names in full, as S. WILLIAMS, as SUSAN W., or by their alias.","sheet dmo-nm"],
+ "#clrXToggle":["Clear (×) button","The × that clears a name. Always, only when the mouse is over the row, or never.","sheet dmo-x"],
+ "#drvSugToggle":["Suggested drivers","What an empty driver box offers: buttons, a drop-down list, or nothing.","sheet dmo-sug"],
+ "#subSugToggle":["Suggested substitutes","What an empty substitute box offers: buttons, a drop-down list, or nothing.","sheet dmo-sug"],
+ "#subInfoToggle":["“Covered” note","The line under a substitute, e.g. Covered AHMED 5×.","sheet dmo-cov"],
+ "#subVanToggle":["Substitute's own van","Also suggests the van the substitute uses most, under the hook.","sheet dmo-tip"],
+ "#wcolToggle":["Walk colours","The walk colours (Blue, Yellow, White, Pink) in the Duty and Partner boxes.","sheet dmo-wcol"],
+ "#rvAskToggle":["Regular van suggestion","When you put a driver in, it offers the van they normally take.","sheet dmo-chip"],
+ "#carryNewToggle":["New days copy yesterday","A brand new date starts with yesterday's hooks and drivers, or starts empty.","sheet dmo-fill"],
+ "#fillReg":["Fill from regular drivers","Puts each duty's regular driver into the empty boxes, with a substitute for anyone off.","sheet dmo-fill"],
+ "#fillUsual":["Fill from usual","Fills the empty hook and driver boxes with whoever normally does each duty.","sheet dmo-fill"],
+ "#impPrev":["Import from a previous day","Copies the hooks, drivers and substitutes from a day you pick.","sheet dmo-fill"],
+ "#selToggle":["Select to clear","Highlight hooks, drivers or substitutes, then clear them all at once.","sheet dmo-sel"],
+ "#mvToggle":["Move rows / columns / drivers","Move a row up or down, a column left or right, or drag a driver to another row.","sheet dmo-move"],
+ "#rowEditToggle":["Add / remove rows and columns","Shows the + Add row, + Add column and × remove buttons.","sheet dmo-rowedit"],
+ "stgo:sheets":["What the office sheets show","Every button, name style, suggestion and size on the W2 to W12 sheets.",()=>demoPage("Sheets",DPG.rows(DPG_SHEET.slice(0,4)))],
+ "stgo:text":["Sheet text","Size, boldness, italic and font — Layout 1, Layout 2 and V2 each on their own.",()=>demoPage("Sheet text",DPG.text())],
+ "stgo:colours":["Colours and themes","Pick a theme, then change any colour, line or effect.",()=>demoPage("Colours",DPG.swatch())],
+ "stgo:vans":["Vans","Update the van list from your spreadsheets.",()=>demoPage("Vans",DPG.rows([["3","KS17 VMT","Expert"],["7","KM67 ZHF","Expert"],["12","KP67 NXX","Expert"],["15","KM75 XMW","e-Expert"]]))],
+ "stgo:backups":["Backups and sync","Where your data is kept, saving a copy, and syncing between devices.",()=>demoPage("Backups",DPG.cloud())],
+ "stgo:customlists":["Driver lists","Your own move lists, such as CSP, Maternity or Secondment.",()=>demoPage("Driver lists",DPG.chips(["CSP","Maternity","Secondment","Long term sick","Training","Loan to W9"]))],
+ "stgo:reset":["Start again","Deletes everything and begins again. Save a backup first.",()=>demoPage("Start again",DPG.rows([["3. VMT","",""],["7. ZHF","",""],["12. NXX","",""]],"red"))],
+ "tab:ALL":["All Offices","Every office on one page, one after the other.",()=>demoPage("All Offices",DPG.rows([["W2","SUSAN WILLIAMS","34. KILDARE"],["W8","ALEX TURNER","12. NORFOLK"],["W9","MELARDO BANE","30. CHEPSTOW"],["W10","NOEL SKYERS","24. QUEENSWAY"]]))],
+ "tab:W13":["Sunday Duty","The Sunday sheet, with its own vans and duties.",()=>demoPage("Sunday Duty",DPG.rows(DPG_SHEET.slice(0,4)))],
+ "tab:OOS":["OOS, Change Over & Collections","Vans that are off the road, being changed over, or kept back.",()=>demoPage("OOS",DPG.rows([["12","KP67 NXX","OOS"],["17","KP75 NOU","Change over"],["22","KN75 SZV","Collections"],["28","BG25 UGF","Reserved"]],"red"))],
+ "tab:Vans":["Vehicles","Every van: hook, plate, model and details.",()=>demoPage("Vehicles",DPG.rows([["3","KS17 VMT","Expert"],["7","KM67 ZHF","Expert"],["12","KP67 NXX","Expert"],["15","KM75 XMW","e-Expert"]]))],
+ "tab:Plates":["Plate finder","Type part of a plate to find the van and where it is today.",()=>demoPage("NXZ",DPG.rows([["10","KP67 NXZ","W2 · row 9"],["24","LL75 NXZ","W9 · row 3"],["31","KM19 NXZ","free"]],"amber"))],
+ "tab:OffVans":["Office Vans","Which vans belong to each office, and how many collections can take.",()=>demoPage("Office Vans",DPG.keys(12))],
+ "tab:Drivers":["Drivers","Everyone on the books, their details and which office they are in.",()=>demoPage("Drivers",DPG.chips(["SUSAN W.","ALEX T.","JOHN L.","KATY M.","NOEL S.","HUGO C.","JACK M.","MARTYNA G."]))],
+ "tab:Duties":["Duties","Each duty, its walk, its regular driver and how they hold it.",()=>demoPage("Duties",DPG.rows([["Duty 1","34. KILDARE","SUSAN W."],["Duty 2","12. NORFOLK","ALEX T."],["Duty 3","30. CHEPSTOW","MELARDO B."],["Duty 4","24. QUEENSWAY","NOEL S."]]))],
+ "tab:RegVan":["Regular Driver Vans","Who normally takes which van, permanent vans and van retention.",()=>demoPage("Regular vans",DPG.rows([["SUSAN W.","3. VMT","🚐"],["ALEX T.","7. ZHF","🔒"],["NOEL S.","15. XMW","🏠"],["JACK M.","17. NOU","🚐"]]))],
+ "tab:Cars":["Personal Cars","Drivers' own cars, with photos.",()=>demoPage("Personal Cars",DPG.cards())],
+ "tab:Note":["Note","Your notebook: coloured notes you can pin.",()=>demoPage("Note",DPG.notes())],
+ "tab:Rest":["Rest Day","Who is off, worked out from each office's rest-day pattern.",()=>demoPage("Rest Day",DPG.grid())],
+ "tab:Walks":["Walks","Every walk, which duty takes it, and the streets on it.",()=>demoPage("Walks",DPG.tree([[0,"W2"],[1,"34. KILDARE"],[1,"22. PORCHESTER"],[0,"W8"],[1,"12. NORFOLK"],[1,"15. BATHURST"]]))],
+ "tab:Settings":["Settings","Everything about how the app looks and works.",()=>demoPage("Settings",DPG.sliders())]};
+OFFICES.filter(o=>o!=="W13").forEach(o=>{DEMOS["tab:"+o]=[o+" sheet","The "+o+" allocation sheet: hooks, drivers, substitutes, duties and partners.",()=>demoPage(o,DPG.rows(DPG_SHEET.slice(0,4)))]});
+function demoKey(el){if(el.id&&DEMOS["#"+el.id])return "#"+el.id;
+  const g=el.closest("[data-stgo]");if(g&&DEMOS["stgo:"+g.dataset.stgo])return "stgo:"+g.dataset.stgo;
+  const t=el.closest("nav#tabs button[data-tab]");if(t&&DEMOS["tab:"+t.dataset.tab])return "tab:"+t.dataset.tab;
+  return null}
+(()=>{let timer=0,cur=null,pop=null;
+  const drop=()=>{clearTimeout(timer);if(pop){pop.remove();pop=null}
+    if(cur){if(cur.dataset.dmoT!=null){cur.title=cur.dataset.dmoT;delete cur.dataset.dmoT}cur=null}};
+  const show=(el,k)=>{const d=DEMOS[k];if(!d||!el.isConnected)return;
+    const art=typeof d[2]==="function"?d[2]():demoSheet(),cls=typeof d[2]==="function"?"":" "+d[2].split(" ").slice(1).join(" ");
+    pop=document.createElement("div");pop.className="dmopop";pop.innerHTML=`<div class="dmoart${cls}">${art}</div><b>${esc(d[0])}</b><span>${esc(d[1])}</span>`;
+    document.body.appendChild(pop);
+    if(el.title){el.dataset.dmoT=el.title;el.title=""}
+    const r=el.getBoundingClientRect(),w=pop.offsetWidth,h=pop.offsetHeight,W=innerWidth,H=innerHeight;
+    let x=r.right+10;if(x+w>W-8)x=r.left-10-w;if(x<8)x=Math.max(8,Math.min(W-w-8,r.left));
+    let y=r.top-8;if(y+h>H-8)y=H-h-8;if(y<8)y=8;
+    pop.style.left=Math.round(x)+"px";pop.style.top=Math.round(y)+"px"};
+  document.addEventListener("mouseover",e=>{if(demoOff()||isMob()||document.getElementById("helpOv"))return;
+    const el=e.target.closest&&e.target.closest("button");if(!el){if(cur&&!cur.contains(e.target))drop();return}
+    if(el===cur)return;const k=demoKey(el);if(!k){drop();return}
+    drop();cur=el;timer=setTimeout(()=>show(el,k),k.indexOf("tab:")===0?700:320)});
+  document.addEventListener("mouseout",e=>{if(!cur)return;if(e.relatedTarget&&cur.contains(e.relatedTarget))return;drop()});
+  document.addEventListener("click",drop,true);document.addEventListener("mousedown",drop,true);document.addEventListener("dragstart",drop,true);addEventListener("scroll",()=>{if(pop)drop()},true);addEventListener("resize",drop);
+  document.addEventListener("keydown",drop)})();
+document.addEventListener("click",e=>{const b=e.target.closest("[data-demotog]");if(!b)return;
+  db.look=db.look||{};db.look.demoOff=!demoOff();save(db.look.demoOff?"Turned hover demos off":"Turned hover demos on");render();
+  toast(db.look.demoOff?"Hover demos off":"Hover demos on — point at a setting or a tab and wait a moment",3000)});
 function kcToggle(){if(isMob()){mobBoard=!mobBoard;render();if(mobBoard)mobTop();return}if(popOpen()){try{popWin.focus()}catch(e){}toast("The Key Cupboard is open in its own window");return}
   db.look=db.look||{};db.look.boardHidden=!db.look.boardHidden;const on=!db.look.boardHidden;save(on?"Showed the Key Cupboard":"Hid the Key Cupboard");render();
   toast(on?"Key Cupboard shown":"Key Cupboard hidden. Tap the vans free pill, or 🔑 Key Cupboard on the right, to bring it back",3200)}
@@ -9669,6 +9900,7 @@ function findResults(q){const Q=q.trim(),a=cur(),offs=isSunday()?["W13"]:OFFICES
   pages.push({t:"Settings",k:"settings options look colours theme sheet text backups sync",act:gotab("Settings"),cur:tab==="Settings"});
   pages.push({t:"Advanced Drivers List",k:"advanced drivers list details licence training",act:gotab("Drivers",()=>{drvAdv=true})});
   pages.push({t:(db.look&&db.look.boardHidden)?"Show the Key Cupboard":"Hide the Key Cupboard",k:"key cupboard board show hide",act:kcToggle});
+  if(sideRailOn())pages.push({t:railHiddenOn()?"Show the sidebar":"Hide the sidebar",k:"sidebar rail tabs status show hide",act:()=>railToggle(!railHiddenOn())});
   pages.push({t:lookNow().offOn!==false?"Office colours: on (click to turn off)":"Office colours: off (click to turn on)",k:"office colours colors tab stripe key cupboard",act:()=>{db.look=db.look||{};db.look.offOn=lookNow().offOn===false;db.look.preset="custom";applyLook();save();render();toast(db.look.offOn?"Office colours on":"Office colours off")}});
   pages.push({t:"History (every change)",k:"history undo redo changes",act:openHist});
   pages.push({t:"Print sheet",k:"print",act:printSheet});
@@ -9821,7 +10053,9 @@ const HELP=[
  ["#tabs","Tabs","Switch between the offices (W2 to W12), All Offices, Sunday Duty, OOS, Vehicles, Plate finder, Office Vans, Drivers, Duties, Regular Driver Vans, Personal Cars, Note, Rest Day and Walks. Drag a tab to move it. Bars Setting can put them down the left side."],
  ["#board","Key cupboard","Every van at a glance. Click a van to jump to the row it's on."],
  ["#kcHide","Hide Key Cupboard","Hides the Key Cupboard so the office tables get the full width."],
- ["#kcShow","Show Key Cupboard","Brings the Key Cupboard back."],
+ ["#kcShow","Show Key Cupboard","Brings the Key Cupboard back. Bars Setting ▸ 🔑 Key Cupboard tab moves this tab up, to the middle or down."],
+ ["#railHide","Hide sidebar","Puts the sidebar away so the page gets the full width. A Tabs tab down the left edge brings it back."],
+ ["#railShow","Show sidebar","Brings the sidebar (status strip and tabs) back. Bars Setting ▸ Tabs tab moves this tab up, to the middle or down."],
  ["#plateSearch","Search plate","Type part of a number plate, e.g. NXZ, to light up the matching vans."],
  ["[data-toolshide]","Key Cupboard tools","Show or hide the search and arrange tools in the Key Cupboard."],
  ["#copyPrev","Copy from an earlier day","Shown on an empty day. Copies vans, drivers, walks and the OOS and change over lists from the last day that has data. You can change anything after."],
@@ -9984,7 +10218,12 @@ const HELP=[
  ["#noteSearch","Search notes","Finds notes by any word in the title or the text. The drop-down next to it shows only pinned notes, or only one colour.",1],
  ["#notePrint","Print notes","Prints the notes that are showing, with the date each was last changed.",1],
  ["#noteB","Spell check","Spelling is checked as you write (English, UK). Right-click a word with a red underline, or long-press on the phone, for suggestions.",1],
+ ["[data-stall]","Open all / Close all","Opens or closes every section in Settings — and the lists inside them, such as the colour groups (Buttons and messages, Top of the page).",1],
+ ["[data-demotog]","Hover demos","Point at a setting, a Jump to button or a tab and wait a moment: a small moving picture shows what it does. Press to turn the pictures off.",1],
  ["[data-barrail]","Sidebar","Puts the status strip and the tabs down the left side, one word under another, like an app. Pick Narrow, Normal or Wide underneath.",1],
+ ["[data-railhide]","Sidebar: show or hide","Hide puts the sidebar away; a Tabs tab down the left edge brings it back. The Hide button at the top of the sidebar does the same.",1],
+ ["[data-railtab]","Tabs tab","Where the Tabs tab sits down the left edge while the sidebar is hidden: Up, Middle or Down.",1],
+ ["[data-kctab]","🔑 Key Cupboard tab","Where the 🔑 Key Cupboard tab sits down the right edge while the Key Cupboard is closed: Up, Middle or Down.",1],
  ["[data-barbox]","Boxes","Each part of the page sits in its own white box on a darker background. Untick for the old flat look.",1],
  [".optarr","Arrange buttons","Move these buttons around, add dividers and new lines, and make buttons bigger or smaller. The toolbar that opens has ✓ Done arranging and Reset dragged column widths at the right.",1],
  [".setopts .optctl>.addrow[aria-pressed]","On / off dot","Green dot: that thing is on or shown. Grey dot: off or hidden. The words say what it is set to now.",1],
@@ -9993,7 +10232,17 @@ const HELP=[
 const hEsc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ===== Help guide: plain-English walk-throughs, searchable, with what's new (Ash, 7 Oct 2026) ===== */
 const GUIDE=[
- {t:"What's new",nw:1,open:1,h:`<h4>17 October 2026 — W12 from the 16 October sign-in sheet, and how a duty is held (build 294)</h4><ul>
+ {t:"What's new",nw:1,open:1,h:`<h4>17 October 2026 — Close all really closes everything (build 297)</h4><ul>
+  <li><b>Close all</b> in Settings now also closes the lists inside each section — the colour groups (<b>Buttons and messages</b>, <b>Top of the page</b> and the rest), <b>What does each option do?</b> and so on. Before, it only closed the six big sections and left the groups inside them open.</li>
+  <li><b>Open all</b> opens them all the same way. It leaves <b>Show beside names</b> shut, because that one sits over the page.</li></ul>
+<h4>17 October 2026 — a moving picture of what each setting does (build 296)</h4><ul>
+  <li><b>Point at something in Settings and wait a moment</b> — a small card appears with a little looping picture of what that setting actually does: the (i) buttons blinking on and off, names changing style, suggestions turning from buttons into a drop-down, rows being moved, and so on.</li>
+  <li>The same happens on the <b>Jump to</b> buttons in Settings, and on the <b>tabs</b> (W2 to W12, Drivers, Duties, Walks, Rest Day…) — each one shows a little picture of what that page is.</li>
+  <li>The pictures are drawn by the app itself, so they are sharp at any size and the file does not get any bigger. Turn them off with <b>🎬 Hover demos</b> next to Open all / Close all at the top of Settings. They never show on a phone, and never while the Help pointers are open.</li></ul>
+<h4>17 October 2026 — the edge tabs move, and the sidebar can be put away (build 295)</h4><ul>
+  <li><b>The 🔑 Key Cupboard tab can sit higher or lower.</b> When the Key Cupboard is closed, the tab down the right edge used to be stuck in the middle of the screen. <b>Bars Setting ▸ 🔑 Key Cupboard tab</b> now has <b>Up</b>, <b>Middle</b> and <b>Down</b>.</li>
+  <li><b>The sidebar has a Hide button too.</b> With the status strip and tabs down the left side, there is a <b>Hide</b> button at the top of the sidebar, exactly like the Key Cupboard's. The page then gets the full width and a <b>Tabs</b> tab down the left edge brings it back — <b>Bars Setting ▸ Tabs tab</b> puts that tab <b>Up</b>, <b>Middle</b> or <b>Down</b>, and <b>Bars Setting ▸ Sidebar</b> has Show / Hide as well. Find (Ctrl+K) can hide and show it too.</li></ul>
+<h4>17 October 2026 — W12 from the 16 October sign-in sheet, and how a duty is held (build 294)</h4><ul>
   <li><b>W12 rest days</b> are set from your sign-in sheet for Friday 16 October (Week 29, Rest week 3): the week of 12 October is week 3 of <b>9 Day Fortnight (1)</b>, so Wed off = Duty 1, Mon + Tue = Duty 2, Fri + Sat = Duty 3, Thu = DOC. It is newer than the 12 October sheets, so it replaces what they set. See it again any time: <b>Rest Day ▸ W12 ▸ 📋 See what the sign-in sheet set</b>.</li>
   <li><b>Every W12 duty is linked to its employee</b> on the Duties tab, exactly as the sheet pairs Duty Name with Name of employee.</li>
   <li><b>New: how they hold the duty.</b> Next to the regular driver on the Duties tab there is now a box saying <b>Permanent</b>, <b>Cover</b> or <b>Temp cover</b>. Everything else works the same — Fill from regular drivers still puts them in — it just records whether the duty is their own, or they are standing in. Cover is shown in amber and Temp cover in red, and both show in <b>Show rest of Duties</b> on the office sheet. The links from the sheet all start as <b>Permanent</b>.</li>
